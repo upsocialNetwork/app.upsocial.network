@@ -1,0 +1,287 @@
+.login-wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	padding: 0 45px;
+	max-width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+	min-height: 600px;
+}
+.login-part {
+	flex: 0 0 100%;
+    transition: .3s;
+    opacity: 1;
+}
+.registration-part {
+	opacity: 0;
+	display: none;
+	transition: .3s;
+    flex: 0 0 100%;
+}
+.registration-title {
+	margin-bottom: 70px;
+    position: relative;
+}
+.registration-title h6 {
+	font-size: 20px;
+	line-height: 24px;
+	margin-bottom: 0;
+}
+
+.close-registraion-screen {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+  .close-registraion-screen:hover svg path {
+      transition: .3s;
+  }
+  .close-registraion-screen:hover svg path {
+    stroke: var(--primary-color);
+  }
+  .registration-part .login-left h5 {
+	font-family: proximaNovaRegular;
+	font-size: 18px;
+	margin-bottom: 70px;
+	line-height: 1.5;
+}
+.registration-part .login-left p {
+	font-size: 15px;
+}
+.access-bottom-part {
+	margin-top: auto;
+	border-top: 2px solid var(--gray-ea);
+	height: 80px;
+	display: flex;
+	align-items: center;
+	flex: 0 0 80px;
+}
+  .policy-link {
+    color: var(--gray-7a);
+    font-size: 14px;
+  }
+  .theme-color {
+    color: var(--primary-color);
+  }
+  .link {
+    text-decoration: none;
+    font-size: 13px;
+    transition: .3s;
+  }
+  .policy-link .link {
+    font-family: Arial;
+  }
+  .login-g-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1.3fr;
+	grid-column-gap: 95px;
+}
+.login-left.flex {
+	display: flex;
+	align-items: center;
+}
+.access-top-part {
+	min-height: calc(100vh - 112px);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 30px;
+}
+.login-left h1 {
+    font-size: 40px;
+    line-height: 49px;
+    margin: 0;
+  }
+  .opacity-one-times {
+    color: var(--gray-c4);
+  }
+  .login-left h6 {
+    font-size: 20px;
+    color: var(--secondary-color);
+    line-height: 24px;
+    margin-bottom: 11px;
+  }
+  .opacity-two-times {
+	color: var(--gray-c4-point-4);
+}
+.ask-user {
+	font-size: 16px;
+	color: var(--secondary-color);
+	line-height: 19px;
+}
+  .ask-user a {
+    text-decoration: none;
+    font-family: proximaNovaBold;
+    transition: .3s;
+  }
+  .ask-user a:hover {
+    color: var(--secondary-color);
+  }
+  
+.input-wrapper label {
+    font-size: 16px;
+    line-height: 19px;
+    margin-bottom: 13px;
+    display: block;
+  }
+  .input-wrapper {
+	margin-bottom: 30px;
+}
+  .btn.forgot-password,
+  .btn.register {
+    padding: 12px 34px;
+    font-family: proximaNovaBold;
+  }
+  .btn.login {
+    font-family: proximaNovabold;
+    padding: 12px 34px;
+  }
+  .policy-link a:hover {
+    text-decoration: underline;
+  }
+  .theme-color:hover {
+    color: var(--secondary-color);
+  }
+
+
+ /* Css For Dark Mode */
+ .dark_mode .login-left h1,
+ .dark_mode .login-left h6,
+ .dark_mode .ask-user,
+ .dark_mode .policy-link,
+ .dark_mode .input-wrapper label,
+ .dark_mode .registration-title h6,
+ .dark_mode .registration-part .login-left h5 {
+   color: var(--white);
+ }
+ .dark_mode .form-control {
+   background-color: #27262C;
+   border-color: transparent;
+   color: var(--white);
+ }
+ 
+ .dark_mode .login-left h1.opacity-one-times {
+	color: var(--gray-c4);
+}
+.dark_mode .login-left h1.opacity-two-times {
+	color: var(--gray-c4-point-4);
+}
+
+.dark_mode .theme-color:hover {
+  color: var(--white);
+}
+
+
+
+
+
+
+
+  /* Responsive Query  */
+  @media screen and (max-width: 991px) {
+    .login-g-wrapper {
+        display: block;
+    }
+    .opacity-one-times, .opacity-two-times {
+        display: none;
+    }
+    .login-left {
+        margin-bottom: 34px;
+    }
+    .login-wrapper {
+        max-width: 540px;
+        padding: 0 20px;
+    }
+    .btn.with-border.forgot {
+        margin-right: 0;
+    }
+    .twin-btn {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 15px;
+    }
+    .login-wrapper {
+        height: auto;
+        min-height: auto;
+    }
+    .registration-part {
+        padding-top: 40px;
+    }
+    .registration-title {
+        margin-bottom: 30px;
+    }
+    .registration-part .login-left h5 {
+        margin-bottom: 16px;
+    }
+    .registration-part br {
+        display: none;
+    }
+    .form-control {
+        height: 50px;
+    }
+
+
+
+  }
+
+
+  @media screen and (max-width: 767px) {
+    .login-left h1 {
+        font-size: 26px;
+        line-height: 30px;
+        margin: 0;
+    }
+    .login-left h6 {
+        font-size: 16px;
+        line-height: 20px;
+        margin-bottom: 10px;
+    }
+    .login-left {
+        margin-bottom: 24px;
+    }
+    
+    .access-bottom-part {
+        height: 70px;
+        flex: 0 0 70px;
+    }
+    .access-top-part {
+        min-height: calc(100vh - 105px);
+        margin-bottom: 30px;
+    }
+    .login-wrapper .btn {
+      font-size: 15px !important;
+      padding: 12px 20px !important;
+    }
+    .form-control {
+        height: 48px;
+        border-radius: 10px;
+    }
+    .input-wrapper {
+        margin-bottom: 25px;
+    }
+    .ask-user {
+        font-size: 15px;
+    }
+    .ask-user a {
+        font-size: 15px;
+    }
+    .registration-part {
+        padding-top: 34px;
+    }
+    .registration-title {
+        margin-bottom: 24px;
+    }
+    .registration-part .login-left h5 {
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+
+
+
+
+  }

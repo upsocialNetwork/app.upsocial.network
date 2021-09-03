@@ -1,0 +1,174 @@
+
+/* Base Css Start  */
+* {margin: 0;padding: 0;box-sizing: border-box;}
+@font-face {
+    font-family: proximaNovaRegular;
+    src: url(../fonts/FontsFree-Net-proxima_nova_reg-webfont.ttf);
+}
+@font-face {
+    font-family: proximaNovaThin;
+    src: url(../fonts/FontsFree-Net-Proxima-Nova-Thin.otf);
+}
+@font-face {
+    font-family: proximaNovaBold;
+    src: url(../fonts/FontsFree-Net-Proxima-Nova-Bold.otf);
+}
+@font-face {
+    font-family: proximaNovaExtraBold;
+    src: url(../fonts/FontsFree-Net-Proxima-Nova-Xbold.otf);
+}
+:root {
+    /* Background Color  */
+  --header-bg: linear-gradient(90deg, rgba(255, 75, 43, 0.8) 0.57%, rgba(255, 65, 109, 0.8) 100%);
+  --header-scroll-bg: linear-gradient(90deg, rgba(255, 75, 43, 0.8) 0.57%, rgba(255, 65, 109, 1) 100%)
+  --body-bg: #fff;
+  --btn-bg: linear-gradient(90deg, #FF4A2B -33.91%, #FF416D 74.26%);
+  /* All Shadows */
+  --shadow-point-two: 0px 0px 30px rgba(156, 157, 169, 0.2);
+  --shadow-point-three: 0px 0px 30px rgba(156, 157, 169, 0.3);
+  --shadow-inset-one: inset 0px 0px 3px rgba(0, 0, 0, 0.15);
+  --primary-color: #FF416C;
+  --secondary-color: #293B4A;
+  --black: #000000;
+  --black-17: #171717;
+  --white: #FFFFFF;
+  --white-f7:#F7F9FF;
+  --gray-c4:#C4C4C4;
+  --gray-c4-point-4:rgba(196, 196, 196, 0.44);;
+  --gray-7a:#7A7A7A;
+  --gray-f6:#F6F9FF;
+  --gray-ea:#EAF0F4;
+}
+
+/* All Common Button Css Here */
+.gradient-bg-one {
+    background: var(--btn-bg);
+}
+.radius-30 {
+    border-radius: 30px;
+}
+.btn.gradient-bg-one {
+    color: var(--white);
+}
+.tranparent-bg {
+    background: transparent;
+}
+.bg-white {
+    background: var(--white);
+}
+.border-primary {
+    border-color: var(--primary-color);
+}
+.btn.border-primary {
+    color: var(--primary-color);
+}
+.btn.border-primary:hover {
+    background:var(--primary-color) !important;
+    color: var(--white);
+}
+.dark_mode {
+    --body-bg: #08060B;
+}
+/* Custom Fonts Linking  */
+body {
+    font-family: proximaNovaRegular;
+    font-weight: normal;
+    font-style: normal;
+    background-color: var(--body-bg);
+}
+.form-control:focus {
+    box-shadow: none;
+    outline: none;
+}
+.fix {
+    overflow: hidden;
+}
+
+p {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	margin-bottom: 15px;
+    color: var(--black);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: proximaNovabold;
+    margin-top: 0px;
+    color: var(--secondary-color);
+}
+
+h2 {
+    font-size: 36px;
+}
+
+h3 {
+    font-size: 28px;
+}
+
+h4 {
+    font-size: 22px;
+}
+
+h5 {
+    font-size: 18px;
+}
+
+h6 {
+    font-size: 16px;
+}
+
+a {
+    font-size: 16px;
+}
+
+.img {
+    max-width: 100%;
+    -webkit-transition: all 0.3s ease-out 0s;
+    transition: all 0.3s ease-out 0s;
+}
+
+a:focus,
+input:focus,
+textarea:focus,
+button:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+a:focus,
+a:hover {
+    text-decoration: none;
+}
+span,
+a {
+    display: inline-block;
+}
+
+ul,
+ol {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+.form-control {
+	background-color: var(--white-f7);
+	height: 54px;
+	border: 1px solid var(--gray-f6);
+	border-radius: 12px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+.form-control:focus {
+    box-shadow: none;
+    border-color: var(--primary-color);
+}
+.sidebar-creation-wrap .btn {
+      font-family: proximaNovaBold;
+  }
+/* Base Css End */
