@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import PostAttributes from './PostAttributes'
+import PostAttributes from './PostAttributes';
+import PostComments from './PostComments';
 
 const LinkPost = (props) => {
 
@@ -43,6 +44,7 @@ const LinkPost = (props) => {
                             </a><span>{element && element.linkDetails && element.linkDetails ? element.linkDetails.description : ''}</span></h6>
                     </div>
                     <PostAttributes {...props} />
+                    <PostComments {...props} />
                 </div>
             </div>
         </div> 
