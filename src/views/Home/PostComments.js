@@ -1,6 +1,4 @@
-import React, { useEffect } from 'react';
-import { Splide, SplideSlide } from '@splidejs/react-splide';
-import '@splidejs/splide/dist/css/themes/splide-default.min.css';
+import React from 'react';
 
 
 const commentData = [
@@ -83,6 +81,10 @@ const PostComments = (props) => {
     let element = props.postData;
     let commentCount = element.commentCount;
 
+    const navigate = (event) => {
+        event.preventDefault()
+    }
+
     return (
         <div className="all-comments-wrapper max-520">
             <div className="comments-crud-wrap">
@@ -107,10 +109,10 @@ const PostComments = (props) => {
                                 return (
                                     <li key={index}>
                                         <div className="elementory-avater-wrap single-comment">
-                                            <a href="#" className="elemetory-avater"><img
+                                            <a href="/" onClick={(event)=>navigate(event)} className="elemetory-avater"><img
                                                     src="img/gp-1.jpg" alt="" /></a>
                                             <div className="comment-part">
-                                                <h6><strong>Posted by</strong><a href="#">{commentElement.postedBy}</a><span>{commentElement.createDate}</span></h6>
+                                                <h6><strong>Posted by</strong><a href="/" onClick={(event)=>navigate(event)}>{commentElement.postedBy}</a><span>{commentElement.createDate}</span></h6>
                                                 <div className="comment-text">
                                                     <p>{commentElement.comment}</p>
                                                 </div>
@@ -136,10 +138,10 @@ const PostComments = (props) => {
                                                         return (
                                                             <li>
                                                                 <div className="elementory-avater-wrap single-comment">
-                                                                    <a href="#" className="elemetory-avater"><img
+                                                                    <a href="/" onClick={(event)=>navigate(event)} className="elemetory-avater"><img
                                                                             src="img/gp-1.jpg" alt="" /></a>
                                                                     <div className="comment-part">
-                                                                        <h6><strong>Posted by</strong><a href="#">{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
+                                                                        <h6><strong>Posted by</strong><a href="/" onClick={(event)=>navigate(event)}>{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
                                                                         <div className="comment-text">
                                                                             <p>{replyElement.comment}</p>
                                                                         </div>
@@ -166,10 +168,10 @@ const PostComments = (props) => {
                                                                                         return (
                                                                                             <li>
                                                                                                 <div className="elementory-avater-wrap single-comment">
-                                                                                                    <a href="#" className="elemetory-avater"><img
+                                                                                                    <a href="/" onClick={(event)=>navigate(event)} className="elemetory-avater"><img
                                                                                                             src="img/gp-1.jpg" alt="" /></a>
                                                                                                     <div className="comment-part">
-                                                                                                        <h6><strong>Posted by</strong><a href="#">{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
+                                                                                                        <h6><strong>Posted by</strong><a href="/" onClick={(event)=>navigate(event)}>{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
                                                                                                         <div className="comment-text">
                                                                                                             <p>{replyElement.comment}</p>
                                                                                                         </div>

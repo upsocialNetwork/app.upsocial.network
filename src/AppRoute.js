@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { BrowserRouter as Router, Route, useHistory, Switch, Redirect } from "react-router-dom";
-import { setHttpClientConfig, SetSassion } from './utils/common';
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { setHttpClientConfig } from './utils/common';
 
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './views/Layout'
@@ -10,18 +10,8 @@ import Message from './components/Message'
 import Loader from './components/Loader'
 
 
-const NotFound = () => {
-    let history = useHistory();
-
-    useEffect(()=>{
-      history.push('/');
-    })
-
-    return null;
-}
 
 const AppRoute = () => {
-    let history = useHistory();
     let [pageLoading, setPageLoading] = useState(false);
 
     useEffect(()=>{
@@ -42,8 +32,7 @@ const AppRoute = () => {
                 <Route>
                   <Switch>
                     <Suspense fallback={<div> </div>}>                 
-                      <Route exact path="/" component={Home}></Route>               
-                      {/* <Route path='*' exact={true} component={NotFound} /> */}
+                      <Route exact path="/" component={Home}></Route>             
                     </Suspense>
                   </Switch>
                 </Route>

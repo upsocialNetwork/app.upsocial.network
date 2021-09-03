@@ -3,6 +3,10 @@ import React from 'react';
 
 const Header = (props) => {
 
+    const navigate = (event) => {
+        event.preventDefault()
+    }
+
     return (
         <>
             <div className="overlay d-xl-none"></div>
@@ -23,7 +27,7 @@ const Header = (props) => {
                 <div className="container-fluid gx-4">
                     <div className="row align-items-center">
                         <div className="col-xl-4 col-4">
-                            <a href="#" className="site_logo"><img className="img-fluid" src="img/logo.png" alt="" /></a>
+                            <a href="/" onClick={(event)=>navigate(event)} className="site_logo"><img className="img-fluid" src="img/logo.png" alt="" /></a>
                         </div>
                         <div className="col-xl-4 d-none d-xl-block">
                             <form action="#" className="search-form-master">
@@ -37,13 +41,13 @@ const Header = (props) => {
                         </div>
                         <div className="col-xl-4 col-8">
                             <ul className="crud-master d-flex align-items-center justify-content-end">
-                                <li className="d-xl-none"><a href="#" className="mobile-toggle-bar icon-border"><i
+                                <li className="d-xl-none"><a href="/" onClick={(event)=>navigate(event)} className="mobile-toggle-bar icon-border"><i
                                     className="fal fa-bars"></i></a></li>
-                                <li className="d-xl-none ms-3"><a href="#" type="button" data-bs-toggle="collapse"
+                                <li className="d-xl-none ms-3"><a href="/" onClick={(event)=>navigate(event)} type="button" data-bs-toggle="collapse"
                                     data-bs-target="#mobile-search" className="mobile-header-search icon-border"><i
                                         className="fal fa-search"></i></a>
                                 </li>
-                                <li className="ms-3"><a href="#" id="notificationDropdown" data-bs-toggle="dropdown"
+                                <li className="ms-3"><a href="/" onClick={(event)=>navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
                                     aria-expanded="false" className="notification new-state"><img src="img/bell.svg"
                                         alt="" /></a>
                                     <ul className="dropdown-menu setting-dropdown notification-d w-340"
@@ -65,7 +69,7 @@ const Header = (props) => {
                                                         <img className="transparent-bell" src="img/bell-2.svg" alt="" />
                                                     </div>
                                                     <div className="single-not-content">
-                                                        <h5><a href="#" className="single-notification-title">Start r/ jeytumbhi1234
+                                                        <h5><a href="/" onClick={(event)=>navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
                                                             off
                                                             right!. 23 hrs</a>
                                                             <div className="dropdown">
@@ -75,10 +79,10 @@ const Header = (props) => {
                                                                     <img src="img/three-dot-small.svg" alt="" />
                                                                 </button>
                                                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a className="dropdown-item" href="#">Another action</a>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Action</a></li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Another action</a>
                                                                     </li>
-                                                                    <li><a className="dropdown-item" href="#">Something else
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Something else
                                                                         here</a></li>
                                                                 </ul>
                                                             </div>
@@ -95,7 +99,7 @@ const Header = (props) => {
                                                         <img className="transparent-bell" src="img/bell-2.svg" alt="" />
                                                     </div>
                                                     <div className="single-not-content">
-                                                        <h5><a href="#" className="single-notification-title">Start r/ jeytumbhi1234
+                                                        <h5><a href="/" onClick={(event)=>navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
                                                             off
                                                             right!. 23 hrs</a>
                                                             <div className="dropdown">
@@ -105,10 +109,10 @@ const Header = (props) => {
                                                                     <img src="img/three-dot-small.svg" alt="" />
                                                                 </button>
                                                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a className="dropdown-item" href="#">Another action</a>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Action</a></li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Another action</a>
                                                                     </li>
-                                                                    <li><a className="dropdown-item" href="#">Something else
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Something else
                                                                         here</a></li>
                                                                 </ul>
                                                             </div>
@@ -126,7 +130,7 @@ const Header = (props) => {
                                                         <img className="transparent-bell" src="img/bell-2.svg" alt="" />
                                                     </div>
                                                     <div className="single-not-content">
-                                                        <h5><a href="#" className="single-notification-title">Start r/ jeytumbhi1234
+                                                        <h5><a href="/" onClick={(event)=>navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
                                                             off
                                                             right!. 23 hrs</a>
                                                             <div className="dropdown">
@@ -136,10 +140,10 @@ const Header = (props) => {
                                                                     <img src="img/three-dot-small.svg" alt="" />
                                                                 </button>
                                                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                    <li><a className="dropdown-item" href="#">Action</a></li>
-                                                                    <li><a className="dropdown-item" href="#">Another action</a>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Action</a></li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Another action</a>
                                                                     </li>
-                                                                    <li><a className="dropdown-item" href="#">Something else
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Something else
                                                                         here</a></li>
                                                                 </ul>
                                                             </div>
@@ -152,14 +156,14 @@ const Header = (props) => {
                                                 {/*<!-- ./single-notification -->*/}
 
                                                 <div className="text-center see-all-btn-wrapper">
-                                                    <a href="#" className="see-all">See All</a>
+                                                    <a href="/" onClick={(event)=>navigate(event)} className="see-all">See All</a>
                                                 </div>
                                             </div>
                                         </li>
                                     </ul>
                                 </li>
                                 <li className="ms-3">
-                                    <a href="#" id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false" className="messages new-state">
+                                    <a href="/" onClick={(event)=>navigate(event)} id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false" className="messages new-state">
                                         <img src="img/message.svg"alt="" />
                                     </a>
                                     <ul className="dropdown-menu setting-dropdown w-340" aria-labelledby="messageDropdown">
@@ -182,7 +186,7 @@ const Header = (props) => {
                                                             aria-describedby="Search in Upsocial" />
                                                     </div>
                                                     <div className="messages-result">
-                                                        <a href="#" className="s-message">
+                                                        <a href="/" onClick={(event)=>navigate(event)} className="s-message">
                                                             <div className="single-group single-message">
                                                                 <div className="gp-icon"><img src="img/gp-1.jpg" alt="" />
                                                                 </div>
@@ -231,7 +235,7 @@ const Header = (props) => {
                                                             </div>
                                                         </div> {/*<!-- ./single-message -->*/}
                                                         <div className="text-center see-all-btn-wrapper">
-                                                            <a href="#" className="see-all">See All</a>
+                                                            <a href="/" onClick={(event)=>navigate(event)} className="see-all">See All</a>
                                                         </div>
                                                     </div> {/*<!-- ./messages-result -->*/}
                                                 </div> {/*<!-- ./all-messages -->*/}
@@ -241,13 +245,13 @@ const Header = (props) => {
                                     </ul>
                                 </li>
                                 <li className="ms-3 dropdown">
-                                    <a href="#" id="settingDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                    <a href="/" onClick={(event)=>navigate(event)} id="settingDropdown" data-bs-toggle="dropdown" aria-expanded="false"
                                         className="user-settings"><img src="img/down-arrow-round.svg" alt=""/>
                                     </a>
 
                                     <ul className="dropdown-menu setting-dropdown" aria-labelledby="settingDropdown">
                                         <li>
-                                            <a href="#" className="d-block in-hd">
+                                            <a href="/" onClick={(event)=>navigate(event)} className="d-block in-hd">
                                                 <div className="user">
                                                     <div className="avater">
                                                         <img className="img-fluid" src="img/user.png" alt=""/>
@@ -257,11 +261,11 @@ const Header = (props) => {
                                             </a>
 
                                             <ul className="side-menu setting-menu">
-                                                <li><a href="#"><span className="m-icon"><img src="img/i-1.svg" alt=""/></span>Switch account</a></li>
-                                                <li><a href="#"><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
-                                                <li><a href="#"><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
-                                                <li><a href="#" id="changeDisplayMode"><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
-                                                <li><a href="#"><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
+                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt=""/></span>Switch account</a></li>
+                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
+                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
+                                                <li><a href="/" onClick={(event)=>navigate(event)} id="changeDisplayMode"><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
+                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
                                             </ul>
                                         </li>
                                     </ul>

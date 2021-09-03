@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import CreatePostForm from './CreatePostForm';
 import PostList from './PostList';

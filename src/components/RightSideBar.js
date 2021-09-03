@@ -3,6 +3,9 @@ import React from 'react';
 
 const RightSideBar = (props) => {
 
+    const navigate = (event) => {
+        event.preventDefault()
+    }
     return (
         <div className="right-sidebar-wrapper position-fixed d-none d-lg-block">
             <div className="sidebar-inner scroll-bar">
@@ -14,40 +17,40 @@ const RightSideBar = (props) => {
                                 <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="#" className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
                                 </div>
                             </div> 
                             <div className="single-group">
                                 <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="#" className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
                                 </div>
                             </div> 
                             <div className="single-group">
                                 <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="#" className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
                                 </div>
                             </div> 
                             <div className="single-group">
                                 <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="#" className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
                                 </div>
                             </div> 
                             <div className="single-group">
                                 <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="#" className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
                                 </div>
                             </div> 
 
                             <div className="more-and-less-btn">
-                                <a href="#" className="show-more">Show more</a>
+                                <a href="/" onClick={(event)=>navigate(event)} className="show-more">Show more</a>
                             </div>
                         </div>
                     </div> 
@@ -66,7 +69,7 @@ const RightSideBar = (props) => {
                             </div>
 
                             <div className="text-end p-20">
-                                <a href="#" className="btn border border-primary shop-now">Shop now</a>
+                                <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary shop-now">Shop now</a>
                             </div>
                         </div>
                     </div>

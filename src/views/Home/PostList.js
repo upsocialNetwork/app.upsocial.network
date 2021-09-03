@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ImagePost from './ImagePost';
 import SponseredPost from './SponseredPost';
 import LinkPost from './LinkPost';

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Splide, SplideSlide } from '@splidejs/react-splide';
 import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 
@@ -6,6 +6,10 @@ import '@splidejs/splide/dist/css/themes/splide-default.min.css';
 const SponseredPost = (props) => {
 
     let element = props.postData;
+
+    const navigate = (event) => {
+        event.preventDefault()
+    }
 
     return (
         <div className="cmn-card mb-4">
@@ -47,7 +51,7 @@ const SponseredPost = (props) => {
                                             </div>
                                             <div className="d-flex align-items-center justify-content-between p-20">
                                                 <p>{mediaElement.title}</p>
-                                                <a href="#" className="btn border border-primary shop-now f-bold">Shop now</a>
+                                                <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary shop-now f-bold">Shop now</a>
                                             </div>
                                         </div>
                                     </SplideSlide>
