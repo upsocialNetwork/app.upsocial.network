@@ -3,7 +3,7 @@ import {createReducer} from 'redux-act';
 import { routerReducer } from 'react-router-redux';
 
 import {requestLoaderVisibility, requestSuccessMessage, requestErrorMessage, requestAuthSession} from './utils/common';
-
+import login from './views/Login/reducer';
 
 
 
@@ -75,7 +75,8 @@ const reducers = combineReducers({
 		routing: routerReducer,
     messageObj,
     loader,
-		authSession
+		authSession,
+    login
 });
 
 

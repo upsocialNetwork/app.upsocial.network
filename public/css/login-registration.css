@@ -14,8 +14,7 @@
     opacity: 1;
 }
 .registration-part {
-	opacity: 0;
-	display: none;
+	opacity: 1;
 	transition: .3s;
     flex: 0 0 100%;
 }

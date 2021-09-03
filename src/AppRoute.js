@@ -5,9 +5,20 @@ import { setHttpClientConfig } from './utils/common';
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './views/Layout'
 import Home from './views/Home';
+import Login from './views/Login';
 
 import Message from './components/Message'
 import Loader from './components/Loader'
+
+
+const AuthorizeRoute = () => {
+
+  return (
+    <Layout>         
+      <Route exact path="/" component={Home} ></Route>
+    </Layout>
+  )
+}
 
 
 
@@ -26,13 +37,13 @@ const AppRoute = () => {
         <ErrorBoundary>
             <Message />
             <Loader />
-            <Layout>
             {pageLoading ?
               <Switch>
                 <Route>
                   <Switch>
-                    <Suspense fallback={<div> </div>}>                 
-                      <Route exact path="/" component={Home}></Route>             
+                    <Suspense fallback={<div>Loding...</div>}>        
+                      <Route exact path="/login" component={Login}></Route>
+                      <Route path="/" component={AuthorizeRoute}></Route>
                     </Suspense>
                   </Switch>
                 </Route>
@@ -41,7 +52,7 @@ const AppRoute = () => {
               :
               null
             }
-            </Layout>
+            
         </ErrorBoundary>
       </Router>
     );

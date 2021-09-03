@@ -13,11 +13,6 @@ if(document.querySelectorAll('body form') !== null) {
 
 
 let DOMElements = {
-    registrationId: 'register',
-    registerContentId:'register-content',
-    closeRegisterId: 'close-registration',
-    loginId:'login',
-    loginContentId:'login-content',
     body: 'body',
     lightModeId: 'light-mode',
     darkModeId: 'dark-mode',
@@ -30,48 +25,10 @@ let DOMElements = {
     actionTypeOneClass: 'action-type-one'
 }
 
-registration();
 colorModeChange();
 actionBtn();
 
-const closeRegisterScreen = (regContent, logContent)=>{
-    regContent.style.display = 'none';
-    regContent.style.opacity = '0';
-    logContent.style.display = 'block';
-    logContent.style.transition = '.3s';
 
-    setTimeout(()=>{
-        logContent.style.opacity = '1'
-    }, 300)
-}
-
-function registration (){
-    if(document.getElementById(`${DOMElements.registrationId}`) !== null) {
-        let register = document.getElementById(`${DOMElements.registrationId}`);
-        let registerContent = document.getElementById(`${DOMElements.registerContentId}`);
-        let closeRegister = document.getElementById(`${DOMElements.closeRegisterId}`);
-        let login = document.getElementById(`${DOMElements.loginId}`);
-        let loginContent = document.getElementById(`${DOMElements.loginContentId}`);
-        register.addEventListener('click', event=>{
-            event.preventDefault();
-            loginContent.style.display = 'none';
-            loginContent.style.opacity = '0';
-            registerContent.style.display = 'block';
-            setTimeout(()=>{
-                registerContent.style.opacity = '1'
-            }, 300)
-        })
-
-        closeRegister.addEventListener('click', event=>{
-            event.preventDefault();
-            closeRegisterScreen(registerContent, loginContent)
-        });
-        login.addEventListener('click', event=>{
-            event.preventDefault();
-            closeRegisterScreen(registerContent, loginContent)
-        });
-    }
-}
 
 function colorModeChange (){
     const pageBody = document.querySelector(DOMElements.body);

@@ -17,6 +17,7 @@
     "react-scripts": "4.0.3",
     "redux-act": "^1.8.0",
     "redux-thunk": "^2.3.0",
+    "simple-react-validator": "^1.6.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
