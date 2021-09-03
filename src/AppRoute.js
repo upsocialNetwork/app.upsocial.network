@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from "react-router-dom";
 import { setHttpClientConfig } from './utils/common';
+import Session from './utils/session';
 
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './views/Layout'
@@ -22,15 +23,15 @@ const AuthorizeRoute = () => {
 
 
 
-const AppRoute = () => {
+const AppRoute = (props) => {
+    const history = useHistory();
     let [pageLoading, setPageLoading] = useState(false);
-
     useEffect(()=>{
       setHttpClientConfig().then(function(){
         setPageLoading(true)
       });
+      
     })
-
 
     return (
       <Router>
@@ -41,9 +42,9 @@ const AppRoute = () => {
               <Switch>
                 <Route>
                   <Switch>
-                    <Suspense fallback={<div>Loding...</div>}>        
-                      <Route exact path="/login" component={Login}></Route>
-                      <Route path="/" component={AuthorizeRoute}></Route>
+                    <Suspense fallback={<div>Loding...</div>}>                      
+                        <Route exact path="/" component={AuthorizeRoute}></Route>
+                        <Route exact path="/login" component={Login}></Route>                      
                     </Suspense>
                   </Switch>
                 </Route>

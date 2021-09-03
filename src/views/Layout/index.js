@@ -11,7 +11,6 @@ import session from '../../utils/session';
 
 
 const Layout = (props) => {
-  console.log('props',props)
     const history = useHistory();
 
     const signOut = () => {

@@ -80,10 +80,10 @@ const PostList = () => {
             {postData && postData.length > 0 &&
                 postData.map((element, index) => {
                     switch(element.type) {
-                        case "IMAGE_POST":   return <ImagePost postData={element} />;
-                        case "SPONSERED_POST": return <SponseredPost postData={element} />;
-                        case "LINK_POST":  return <LinkPost postData={element} />;                
-                        default: return <ImagePost postData={element} />;
+                        case "IMAGE_POST":   return <ImagePost key={index} postData={element} />;
+                        case "SPONSERED_POST": return <SponseredPost key={index} postData={element} />;
+                        case "LINK_POST":  return <LinkPost key={index} postData={element} />;                
+                        default: return <ImagePost key={index} postData={element} />;
                       }
                 })
             }

@@ -136,7 +136,7 @@ const PostComments = (props) => {
                                                 {
                                                     commentElement.reply.map((replyElement, key)=>{
                                                         return (
-                                                            <li>
+                                                            <li key={key}>
                                                                 <div className="elementory-avater-wrap single-comment">
                                                                     <a href="/" onClick={(event)=>navigate(event)} className="elemetory-avater"><img
                                                                             src="img/gp-1.jpg" alt="" /></a>
@@ -166,7 +166,7 @@ const PostComments = (props) => {
                                                                                 {
                                                                                     replyElement.reply.map((replyElement, key)=>{
                                                                                         return (
-                                                                                            <li>
+                                                                                            <li key={key}>
                                                                                                 <div className="elementory-avater-wrap single-comment">
                                                                                                     <a href="/" onClick={(event)=>navigate(event)} className="elemetory-avater"><img
                                                                                                             src="img/gp-1.jpg" alt="" /></a>
