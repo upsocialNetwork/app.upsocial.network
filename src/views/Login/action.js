@@ -5,11 +5,14 @@ import httpClient from '../../services/http';
 export const requestLoginData = createAction();
 export const responseLoginData = createAction();
 
+export const requestSignupData = createAction();
+export const responseSignupData = createAction();
+
 export function credentialLogin(params){
   return (dispatch) => {
     if(params){
         dispatch(requestLoginData([]));
-        httpClient.call("api/login", params, {method: 'POST'}).then(function(response){
+        httpClient.call("v0/login", params, {method: 'POST'}).then(function(response){
             dispatch(responseLoginData(response));
         }, function(error){
             dispatch(responseLoginData(error));
@@ -25,15 +28,15 @@ export function credentialLogin(params){
 export function credentialSignup(params){
   return (dispatch) => {
     if(params){
-        dispatch(requestLoginData([]));
-        httpClient.call("api/signup", params, {method: 'POST'}).then(function(response){
-            dispatch(responseLoginData(response));
+        dispatch(requestSignupData([]));
+        httpClient.call("v0/registration", params, {method: 'POST'}).then(function(response){
+            dispatch(responseSignupData(response));
         }, function(error){
-            dispatch(responseLoginData(error));
+            dispatch(responseSignupData(error));
         });
 
     }else {
-        dispatch(responseLoginData({"error": "Invalid username/password"}));
+        dispatch(responseSignupData({"error": "Invalid username/password"}));
     }
   }
 }

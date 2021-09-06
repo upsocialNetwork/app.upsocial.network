@@ -14,18 +14,14 @@ const Layout = (props) => {
     const history = useHistory();
 
     const signOut = () => {
-
-
       if(session.getSessionData()){
         SuccessToast("Logged out successfully.");
         session.deleteSessionData();
-
         setTimeout(()=>{
           SetSassion();
           navigate('/login');
         }, 500);
       }
-
     }
 
     const navigate = (path) => {

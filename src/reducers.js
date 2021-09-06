@@ -9,15 +9,13 @@ import login from './views/Login/reducer';
 
 /***************************Start Reducer for loader *************/
 const defaultLoaderState = {
-	visiblity: false,
-	processBarPercent: 0
+	visiblity: false
 };
 
 const loader = createReducer({
   [requestLoaderVisibility]: (state, params) => {
 			return {
-				visiblity: params.isVisible,
-				processBarPercent: params.processBarPercent
+				visiblity: params.isVisible
 			};
 	}
 }, defaultLoaderState);

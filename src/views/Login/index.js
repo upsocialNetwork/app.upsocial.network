@@ -4,10 +4,20 @@ import { credentialLogin, credentialSignup} from './action';
 
 
 const mapStateToProps = (state) => {
-	return {
-		data: state.login.data,
+
+	let stateData = {
 		requestProcess: state.login.requestProcess
-	};
+	}
+
+	if(state.login.loginData){
+		stateData["loginData"] = state.login.loginData
+	}
+
+	if(state.login.signupData){
+		stateData["signupData"] = state.login.signupData
+	}
+
+	return stateData;
 };
 
 const mapDispatchToProps = (dispatch) => {

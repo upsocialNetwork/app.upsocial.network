@@ -1,9 +1,37 @@
-
-
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 
 const Loader = (props) => {
 
-    return null
+    if(!props.visible){
+        return false;
+    }
+    return (
+        <div id="overlay">
+            <div className="lds-ripple">
+            <div></div>
+            <div></div>
+            </div>
+        </div>
+    )
 }
 
-export default Loader;
+
+const mapStateToProps = (state) => {
+
+	return {
+		visiblity: state.loader.visiblity
+	}
+
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+	};
+};
+
+
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps
+)(Loader);

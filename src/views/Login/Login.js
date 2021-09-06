@@ -1,80 +1,84 @@
-import React, { useRef, useState } from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion, cleanString } from '../../utils/common';
-import session from '../../utils/session';
+import React, { useEffect, useRef, useState } from 'react';
+import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+import Session from '../../utils/session';
 import SimpleReactValidator from 'simple-react-validator';
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
 
+const Login = (props) => {
+    
+    const history = useHistory();
     const validatorLogin = useRef(new SimpleReactValidator());
     const validator = useRef(new SimpleReactValidator());
 
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
-    let [signupName, setSignupName] = useState('')
+    let [isLoginSubmit, setIsLoginSubmit] = useState(false)
+    let [signupFirstName, setSignupFirstName] = useState('')
+    let [signupLastName, setSignupLastName] = useState('')
+    let [signupUserName, setSignupUserName] = useState('')
     let [signupEmail, setSignupEmail] = useState('')
     let [signupPassword, setSignupPassword] = useState('')
-    let [cpassword, setCpassword] = useState('')
-    let [rememberme, setRememberme] = useState('')
+    let [isSignupSubmit, setIsSignupSubmit] = useState(false)
     let [isLogin, setIsLogin] = useState(true)
 
+    const navigate = (event) => {
+        event.preventDefault()
+    }
+
+    useEffect(()=>{
+        Loader(props.requestProcess);
+        if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
+            let authData = props.loginData;
+            Session.setSessionData(authData.result.data);
+            SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
+            SetSassion(authData.result.data);
+            setIsLoginSubmit(false);
+            history.push('/')
+        } else if(isLoginSubmit && props.loginData) {
+            setIsLoginSubmit(false);
+            ErrorToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
+        }
+
+        if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
+            SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+            setIsSignupSubmit(false);
+            setIsLogin(true);
+        } else if(isSignupSubmit && props.signupData) {
+            setIsSignupSubmit(false);
+            ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+        }
+    }, [props.loginData, props.signupData])
+
+    useEffect(()=>{
+        let isLoggedIn = Session.isLoggedIn();
+        if(isLoggedIn){
+            history.push('/')
+        }
+    })
     
 
-    // componentWillReceiveProps(nextProps){
-    //   Loader(nextProps.requestProcess);
-    //   if (nextProps.data && nextProps.data.status) {
-    //       if (nextProps.data.status === 200) {
-    //         let authData = nextProps.data.data;
-    //         session.setSessionData(authData);
-    //         SuccessToast(nextProps.data.message);
-    //         SetSassion();
-    //         if(this.props.fromHeader){
-    //           this.props.successResponse(nextProps.data);
-    //         }else{
-    //           this.props.router.push('dashboard');
-    //         }
-    //       } else {
-    //           ErrorToast(nextProps.data.message);
-    //       }
-    //     }
-    // }
-
-    // componentWillMount(){
-    //   if(session.getSessionData() && this.props.router){
-    //     this.props.router.push('dashboard');
-    //   }
-    // }
-
-    const handleChange = (event) => {
-      let name = event.target.name;
-      let value = cleanString(event.target.value);
-       this.setState({
-         [name]: value,
-       });
-
-     };
-
     const doLogin = (event) => {
-
         event.preventDefault();
-        if (this.validatorLogin.allValid()) {
-          this.props._doLogin(this.state);
-        } else {
-          this.validatorLogin.showMessages();
-          this.forceUpdate();
-        }
-     }
-
-    const userSignup = (event) => {
-        event.preventDefault();
-        if (this.validator.allValid()) {
-          this.props._doSignup(this.state);
-        } else {
-          this.validator.showMessages();
-          this.forceUpdate();
+        if (validatorLogin.current.allValid()) {
+            setIsLoginSubmit(true);
+            props._doLogin({email, password});
         }
     }
 
-    console.log('isLogin', isLogin)
+    const userSignup = (event) => {
+        event.preventDefault();
+        if (validator.current.allValid()) {
+            setIsSignupSubmit(true);
+            props._doSignup({
+                userName: signupUserName,
+                firstName: signupFirstName,
+                lastName: signupLastName,
+                email: signupEmail,
+                password: signupPassword
+            });
+        }
+    }
 
     return (
           <div className="login-wrapper">
@@ -108,27 +112,50 @@ const Login = () => {
                         </div>
                         <div className="login-right">
                             <div className="input-wrapper">
+                                <label htmlFor="">First Name</label>
+                                <input type="text" name="firstName" className="form-control"
+                                    onChange={(event)=>{setSignupFirstName(event.target.value)}}
+                                    onBlur={()=>validator.current.showMessageFor('firstName')} />
+                                {validator.current.message('firstName', signupFirstName, 'required')}
+                            </div>
+                            <div className="input-wrapper">
+                                <label htmlFor="">Last Name</label>
+                                <input type="text" name="lastName" className="form-control" 
+                                    onChange={(event)=>{setSignupLastName(event.target.value)}}
+                                    onBlur={()=>validator.current.showMessageFor('lastName')}/>
+                                {validator.current.message('lastName', signupLastName, 'required')}
+                            </div>
+                            <div className="input-wrapper">
                                 <label htmlFor="">Username</label>
-                                <input type="text" className="form-control" />
+                                <input type="text" name="userName" className="form-control"
+                                    onChange={(event)=>{setSignupUserName(event.target.value)}}
+                                    onBlur={()=>validator.current.showMessageFor('userName')} />
+                                {validator.current.message('userName', signupUserName, 'required')}
                             </div>
 
                             <div className="input-wrapper">
                                 <label htmlFor="">Email</label>
-                                <input type="email" className="form-control" />
+                                <input type="email" name="email" className="form-control" 
+                                    onChange={(event)=>{setSignupEmail(event.target.value)}}
+                                    onBlur={()=>validator.current.showMessageFor('email')}/>
+                                {validator.current.message('email', signupEmail, 'required|email')}
                             </div>
                             <div className="input-wrapper">
                                 <label htmlFor="">Password</label>
-                                <input type="password" className="form-control" />
+                                <input type="password" name="password" className="form-control"
+                                    onChange={(event)=>{setSignupPassword(event.target.value)}}
+                                    onBlur={()=>validator.current.showMessageFor('password')} />
+                                {validator.current.message('password', signupPassword, 'required')}
                             </div>
                         </div>
                         <div className="login-left flex">
-                            <div className="ask-user">Already have an Account ? <a href="#" className="theme-color" onClick={()=>{setIsLogin(true)}}>Login
+                            <div className="ask-user">Already have an Account ? <a href="/" className="theme-color" onClick={(event)=>{event.preventDefault(); setIsLogin(true)}}>Login
                                     Now</a>
                             </div>
                         </div>
                         <div className="login-right">
                             <div className="text-center">
-                                <button type="submit" className="btn gradient-bg-one radius-30 register">Register Now</button>
+                                <button type="submit" onClick={(event)=>{userSignup(event)}} className="btn gradient-bg-one radius-30 register">Register Now</button>
                             </div>
                         </div>
                     </form>
@@ -144,25 +171,31 @@ const Login = () => {
                         </div>
                         <div className="login-right">
                             <div className="input-wrapper">
-                                <label htmlFor="">Username</label>
-                                <input type="text" className="form-control" />
+                                <label htmlFor="">Email</label>
+                                <input type="text" name="email" className="form-control" 
+                                    onChange={(event)=>{setEmail(event.target.value)}}
+                                    onBlur={()=>validatorLogin.current.showMessageFor('email')} />
+                                {validatorLogin.current.message('email', email, 'required|email')}
                             </div>
 
                             <div className="input-wrapper">
-                                <label htmlFor="">Email</label>
-                                <input type="text" className="form-control" />
+                                <label htmlFor="">Password</label>
+                                <input type="password" name="password" className="form-control" 
+                                    onChange={(event)=>{setPassword(event.target.value)}} 
+                                    onBlur={()=>validatorLogin.current.showMessageFor('password')} />
+                                {validatorLogin.current.message('password', password, 'required')}
                             </div>
                         </div>
                         <div className="login-left flex">
-                            <div className="ask-user">Dont have an Account ? <a href="#" className="theme-color" onClick={()=>{setIsLogin(false) }}>Register Now</a>
+                            <div className="ask-user">Dont have an Account ? <a href="/" className="theme-color" onClick={(event)=>{ event.preventDefault(); setIsLogin(false) }}>Register Now</a>
                             </div>
                         </div>
                         <div className="login-right">
                             <div className="twin-btn d-flex align-items-center justify-content-between">
-                                <a href="#"
+                                <a href="/" onClick={(event)=>navigate(event)}
                                     className="btn bg-transparent border border-primary radius-30 forgot-password">Forget
                                     Password</a>
-                                <button type="submit" className="btn gradient-bg-one radius-30 login">Login Now</button>
+                                <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event)=>{doLogin(event)}}>Login Now</button>
                             </div>
                         </div>
                     </form>
@@ -170,8 +203,8 @@ const Login = () => {
                 }
             </div>
             <div className="access-bottom-part">
-                <div className="policy-link">By signing up, you agree to our <a href="#" className="link theme-color">Terms</a> and
-                    that you have read our <a href="#" className="link theme-color">Privacy Policy</a> and <a href="#"
+                <div className="policy-link">By signing up, you agree to our <a href="/" onClick={(event)=>navigate(event)} className="link theme-color">Terms</a> and
+                    that you have read our <a href="/" onClick={(event)=>navigate(event)} className="link theme-color">Privacy Policy</a> and <a href="/" onClick={(event)=>navigate(event)}
                         className="link theme-color">Content Policy</a>.</div>
             </div>
         </div>

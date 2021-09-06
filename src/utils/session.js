@@ -23,7 +23,7 @@ let Session = (function() {
 
   let isLoggedIn = function(){
       let session = getSessionData();
-      return (session && session.ssoToken) ? true : false;
+      return (session && session.authToken) ? true : false;
   }
 
   let setSessionData = function(sessionData, key) {

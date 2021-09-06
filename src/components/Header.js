@@ -7,6 +7,11 @@ const Header = (props) => {
         event.preventDefault()
     }
 
+    const logout = (event) => {
+        event.preventDefault();
+        props._signOut()
+    }
+
     return (
         <>
             <div className="overlay d-xl-none"></div>
@@ -265,7 +270,7 @@ const Header = (props) => {
                                                 <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
                                                 <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
                                                 <li><a href="/" onClick={(event)=>navigate(event)} id="changeDisplayMode"><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
-                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
+                                                <li><a href="/" onClick={(event)=>logout(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
                                             </ul>
                                         </li>
                                     </ul>

@@ -23,10 +23,9 @@ export function ErrorToast(message){
   }, 3000)
 }
 
-export function Loader(isVisible, processBarPercent){
+export function Loader(isVisible){
   let param = {
-      isVisible: isVisible,
-      processBarPercent: processBarPercent
+      isVisible: isVisible
   }
   store.dispatch(requestLoaderVisibility(param))
 }
@@ -37,12 +36,17 @@ export function SetSassion(){
 }
 
 
-export function setHttpClientConfig(){
+export function setHttpClientConfig(){  
   return new Promise(function(resolve, reject){
+      let userData = session.getSessionData();
       let headers = {};
       headers['Accept'] = "application/json";
       headers['Content-Type'] = 'application/json;charset=utf-8';
       headers['X-API-KEY'] = config.API_KEY
+      if(userData && userData.authToken){
+        headers['AUTHTOKEN'] = userData.authToken
+      }
+
       httpClient.setConfig({
           API_URL: config.API_URL,
           HEADERS: headers
