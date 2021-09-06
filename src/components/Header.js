@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {colorModeToggle} from './../utils/common';
 
 const Header = (props) => {
 
@@ -269,7 +269,7 @@ const Header = (props) => {
                                                 <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt=""/></span>Switch account</a></li>
                                                 <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
                                                 <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
-                                                <li><a href="/" onClick={(event)=>navigate(event)} id="changeDisplayMode"><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
+                                                <li><a href="/" onClick={(event)=>{event.preventDefault(); colorModeToggle()}}><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
                                                 <li><a href="/" onClick={(event)=>logout(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
                                             </ul>
                                         </li>

@@ -69,3 +69,31 @@ export function cleanString(stringVal){
           .replace(/</g, '&lt;')
           .replace(/>/g, '&gt;');
 }
+
+export function applyDarkMode(){
+    let bodyElement = document.querySelector('body');
+    let darkBtn = document.querySelector('#dark-mode');
+    let lightBtn = document.querySelector('#light-mode');
+    bodyElement.classList.add('dark_mode');
+    darkBtn.classList.add('active');
+    lightBtn.classList.remove('active');    
+}
+
+export function applyLightMode(){
+  let bodyElement = document.querySelector('body');
+  let darkBtn = document.querySelector('#dark-mode');
+  let lightBtn = document.querySelector('#light-mode');
+  bodyElement.classList.remove('dark_mode');
+  darkBtn.classList.remove('active');
+  lightBtn.classList.add('active');    
+}
+
+export function colorModeToggle(){
+  let bodyElement = document.querySelector('body');
+  let className = bodyElement.classList && bodyElement.classList.value ? bodyElement.classList.value : null;
+  if(className == 'dark_mode'){
+      applyLightMode()
+  }else{
+      applyDarkMode()
+  }
+}

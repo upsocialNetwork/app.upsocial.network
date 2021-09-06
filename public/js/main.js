@@ -13,10 +13,7 @@ if(document.querySelectorAll('body form') !== null) {
 
 
 let DOMElements = {
-    body: 'body',
-    lightModeId: 'light-mode',
-    darkModeId: 'dark-mode',
-    colorModeToggleId: 'changeDisplayMode',
+    body: 'body',    
     menu: '.mobile-toggle-bar',
     sidebar: '.left-sidebar-wrapper',
     overlay: '.overlay',
@@ -25,47 +22,9 @@ let DOMElements = {
     actionTypeOneClass: 'action-type-one'
 }
 
-colorModeChange();
 actionBtn();
 
 
-
-function colorModeChange (){
-    const pageBody = document.querySelector(DOMElements.body);
-    const lightBtn = document.querySelector(`#${DOMElements.lightModeId}`);
-    const darkBtn = document.querySelector(`#${DOMElements.darkModeId}`);
-    const colorModeToggle = document.querySelector(`#${DOMElements.colorModeToggleId}`);
-    if( lightBtn !== null || darkBtn !== null) {
-        lightBtn.addEventListener('click', event=>{
-            event.preventDefault();
-            pageBody.classList.remove('dark_mode');
-            lightBtn.classList.add('active');
-            darkBtn.classList.remove('active');
-        })
-        darkBtn.addEventListener('click', event=>{
-            event.preventDefault();
-            pageBody.classList.add('dark_mode');
-            darkBtn.classList.add('active');
-            lightBtn.classList.remove('active');
-        })
-    }
-
-
-    if(colorModeToggle !== null) {
-        colorModeToggle.addEventListener('click', event=>{
-            event.preventDefault();
-            pageBody.classList.toggle('dark_mode');
-            if(lightBtn.classList.contains('active')) {
-                darkBtn.classList.add('active');
-                lightBtn.classList.remove('active');
-            } else {
-                lightBtn.classList.add('active');
-                darkBtn.classList.remove('active'); 
-            } 
-        })
-    }
-    
-}
 
 // Script for Custom Scrollbar
 let scrollbars = document.querySelectorAll('.scroll-bar');
