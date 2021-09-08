@@ -28,7 +28,7 @@ const CreatePostForm = () => {
                             <label className="upload upload-photo"><input type="file" />
                                 <img src="img/c-2.svg" alt="" />
                             </label></button></li>
-                    <li><button><img src="img/c-3.svg" alt="" /></button></li>
+                    <li hidden><button><img src="img/c-3.svg" alt="" /></button></li>
                 </ul>
             </div>
         </div>

@@ -52,7 +52,8 @@ const Header = (props) => {
                                     data-bs-target="#mobile-search" className="mobile-header-search icon-border"><i
                                         className="fal fa-search"></i></a>
                                 </li>
-                                <li className="ms-3"><a href="/" onClick={(event)=>navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
+                                {/* hide notification block */}
+                                <li className="ms-3" hidden><a href="/" onClick={(event)=>navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
                                     aria-expanded="false" className="notification new-state"><img src="img/bell.svg"
                                         alt="" /></a>
                                     <ul className="dropdown-menu setting-dropdown notification-d w-340"
@@ -167,7 +168,8 @@ const Header = (props) => {
                                         </li>
                                     </ul>
                                 </li>
-                                <li className="ms-3">
+                                {/* hide message block */}
+                                <li className="ms-3" hidden>
                                     <a href="/" onClick={(event)=>navigate(event)} id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false" className="messages new-state">
                                         <img src="img/message.svg"alt="" />
                                     </a>
@@ -265,10 +267,11 @@ const Header = (props) => {
                                                 </div>
                                             </a>
 
+
                                             <ul className="side-menu setting-menu">
-                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt=""/></span>Switch account</a></li>
+                                                <li hidden><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt=""/></span>Switch account</a></li>
                                                 <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
-                                                <li><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
+                                                <li hidden><a href="/" onClick={(event)=>navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
                                                 <li><a href="/" onClick={(event)=>{event.preventDefault(); colorModeToggle()}}><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
                                                 <li><a href="/" onClick={(event)=>logout(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
                                             </ul>

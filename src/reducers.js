@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux';
 
 import {requestLoaderVisibility, requestSuccessMessage, requestErrorMessage, requestAuthSession} from './utils/common';
 import login from './views/Login/reducer';
+import post from './views/Home/reducer';
 
 
 
@@ -74,7 +75,8 @@ const reducers = combineReducers({
     messageObj,
     loader,
 		authSession,
-    login
+    login,
+    post
 });
 
 

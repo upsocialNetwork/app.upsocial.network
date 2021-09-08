@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ImagePost from './ImagePost';
 import SponseredPost from './SponseredPost';
 import LinkPost from './LinkPost';
 
-const postData = [
+/* const postData = [
     {
         id: 1,
         title: "/Genshin_Impact: Genshin Impact Official",
@@ -16,7 +16,7 @@ const postData = [
         favorite: true,
         type: 'IMAGE_POST',
         commentCount: 50
-    } ,
+    },
     {
         id: 2,
         title: "/Genshin_Impact: Genshin Impact Official",
@@ -58,7 +58,7 @@ const postData = [
         agoTime: '8 Hrs ago',
         description: 'My school memories commented long back never unserstood why it took so long while walking on the shore in hot sand and cold water striking just above me',
         image: 'img/post-2.jpg',
-        linkDetails:{
+        linkDetails: {
             domain: 'youtube.com',
             title: 'Sri Aurobindo: A New Dawn| Official Trailer| Stuido xyz',
             description: 'Presenting the official trailer of sri Aurbindo A new dawn an animation film'
@@ -70,21 +70,41 @@ const postData = [
         commentCount: 50
     },
 ]
+ */
 
-const PostList = () => {
 
-    
+
+
+
+
+const PostList = (props) => {
+
+    let { pt, setPostData } = useState([]);
+
+
+    pt = props.postlist;
+    let postData = [];
+    console.log(props.postlist);
+    if (pt != null) {
+        postData = pt.result.data;
+        console.log(pt.result.message);
+        console.log(pt.result.data);
+    }
+
+
+
+
 
     return (
         <div className="tb-content-wrapper">
             {postData && postData.length > 0 &&
                 postData.map((element, index) => {
-                    switch(element.type) {
-                        case "IMAGE_POST":   return <ImagePost key={index} postData={element} />;
+                    switch (element.postType) {
+                        case "image": return <ImagePost key={index} postData={element} />;
                         case "SPONSERED_POST": return <SponseredPost key={index} postData={element} />;
-                        case "LINK_POST":  return <LinkPost key={index} postData={element} />;                
+                        case "LINK_POST": return <LinkPost key={index} postData={element} />;
                         default: return <ImagePost key={index} postData={element} />;
-                      }
+                    }
                 })
             }
         </div>

@@ -59,6 +59,7 @@ const AuthorizeRoute = () => {
             <Switch>
               <Suspense fallback={<div>Loding...</div>}>
                 <Route path="/login" component={Login} ></Route>
+                
               </Suspense>
             </Switch>
           </Route>

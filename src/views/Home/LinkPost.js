@@ -19,7 +19,7 @@ const LinkPost = (props) => {
                             </span></h6>
                     </div>
 
-                    <div className="post-header-right">
+                    <div className="post-header-right" hidden>
                         <div className="post-time">{element.agoTime}</div>
                         <div className="dropdown">
                             <button className="post-dropdown" type="button" id="dropdownMenuButton1"
@@ -47,7 +47,7 @@ const LinkPost = (props) => {
                             </a><span>{element && element.linkDetails && element.linkDetails ? element.linkDetails.description : ''}</span></h6>
                     </div>
                     <PostAttributes {...props} />
-                    <PostComments {...props} />
+                    {/* <PostComments {...props} /> */}
                 </div>
             </div>
         </div> 
