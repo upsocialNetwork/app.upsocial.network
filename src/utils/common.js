@@ -32,6 +32,7 @@ export function Loader(isVisible){
 
 export function SetSassion(){
   let userData = session.getSessionData();
+  setHttpClientConfig()
   store.dispatch(requestAuthSession(userData));
 }
 
