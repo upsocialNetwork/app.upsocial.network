@@ -14,7 +14,8 @@
     opacity: 1;
 }
 .registration-part {
-	opacity: 1;
+	opacity: 0;
+	display: none;
 	transition: .3s;
     flex: 0 0 100%;
 }
@@ -41,20 +42,21 @@
       transition: .3s;
   }
   .close-registraion-screen:hover svg path {
-    stroke: var(--primary-color);
+    stroke: var(--primary);
   }
   .registration-part .login-left h5 {
-	font-family: proximaNovaRegular;
-	font-size: 18px;
-	margin-bottom: 70px;
-	line-height: 1.5;
-}
+    font-family: proximaNovaRegular;
+    font-size: 18px;
+    margin-bottom: 70px;
+    line-height: 1.5;
+    color: var(--black-294a);
+  }
 .registration-part .login-left p {
 	font-size: 15px;
 }
 .access-bottom-part {
 	margin-top: auto;
-	border-top: 2px solid var(--gray-ea);
+	border-top: 2px solid var(--gray-eaf4);
 	height: 80px;
 	display: flex;
 	align-items: center;
@@ -65,7 +67,7 @@
     font-size: 14px;
   }
   .theme-color {
-    color: var(--primary-color);
+    color: var(--primary);
   }
   .link {
     text-decoration: none;
@@ -92,25 +94,26 @@
 	margin-bottom: 30px;
 }
 .login-left h1 {
-    font-size: 40px;
-    line-height: 49px;
-    margin: 0;
-  }
-  .opacity-one-times {
-    color: var(--gray-c4);
+	font-size: 40px;
+	line-height: 49px;
+	margin: 0;
+	color: var(--black-294a);
+}
+.login-left .opacity-one-times {
+    color: var(--gray-c4c4);
   }
   .login-left h6 {
     font-size: 20px;
-    color: var(--secondary-color);
+    color: var(--black-294a);
     line-height: 24px;
     margin-bottom: 11px;
   }
-  .opacity-two-times {
+  .login-left .opacity-two-times {
 	color: var(--gray-c4-point-4);
 }
 .ask-user {
 	font-size: 16px;
-	color: var(--secondary-color);
+	color: var(--black-294a);
 	line-height: 19px;
 }
   .ask-user a {
@@ -119,7 +122,7 @@
     transition: .3s;
   }
   .ask-user a:hover {
-    color: var(--secondary-color);
+    color: var(--black-294a);
   }
   
 .input-wrapper label {
@@ -131,23 +134,33 @@
   .input-wrapper {
 	margin-bottom: 30px;
 }
-  .btn.forgot-password,
-  .btn.register {
-    padding: 12px 34px;
-    font-family: proximaNovaBold;
-  }
-  .btn.login {
-    font-family: proximaNovabold;
-    padding: 12px 34px;
-  }
+.login-g-wrapper .btn.forgot-password, .login-g-wrapper .btn.register,
+.login-g-wrapper .login {
+	padding: 16px 34px;
+	font-family: proximaNovaBold;
+  font-size: 18px;
+  text-decoration: none;
+}
   .policy-link a:hover {
     text-decoration: underline;
   }
   .theme-color:hover {
-    color: var(--secondary-color);
+    color: var(--black-294a);
   }
-
-
+  .login-g-wrapper .form-control {
+    background: var(--gray-f6ff);
+    height: 50px;
+    border-color: var(--gray-f6ff);
+    color: var(--black);
+    font-size: 15px;
+  }
+  .login-g-wrapper .input-wrapper label {
+    color: var(--black-294a);
+    font-size: 16px;
+  }
+  .login-g-wrapper .register {
+    min-width: 198px;
+  }
  /* Css For Dark Mode */
  .dark_mode .login-left h1,
  .dark_mode .login-left h6,
@@ -279,7 +292,9 @@
         margin-bottom: 12px;
         font-size: 16px;
     }
-
+    .login-g-wrapper .form-control {
+      height: 40px;
+    }
 
 
 

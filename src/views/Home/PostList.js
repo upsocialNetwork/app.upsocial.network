@@ -79,17 +79,7 @@ import LinkPost from './LinkPost';
 
 const PostList = (props) => {
 
-    let { pt, setPostData } = useState([]);
-
-
-    pt = props.postlist;
-    let postData = [];
-    console.log(props.postlist);
-    if (pt != null) {
-        postData = pt.result.data;
-        console.log(pt.result.message);
-        console.log(pt.result.data);
-    }
+    let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
 
 
 

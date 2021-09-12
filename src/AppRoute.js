@@ -6,6 +6,7 @@ import Session from './utils/session';
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './views/Layout'
 import Home from './views/Home';
+import Search from './views/Search';
 import Login from './views/Login';
 
 import Message from './components/Message'
@@ -21,10 +22,11 @@ const AuthorizeRoute = () => {
     if(state.authSession.userData && history.location.pathname === '/login'){
       setIsLoggedIn(true)
       history.push('/')
-    }else if((!state.authSession || !state.authSession.userData) && history.location.pathname !== '/login'){
-      setIsLoggedIn(false)
-      history.push('/login')
     }
+    // else if((!state.authSession || !state.authSession.userData) && history.location.pathname !== '/login'){
+    //   setIsLoggedIn(false)
+    //   //history.push('/login')
+    // }
   })
 
   useEffect(()=>{
@@ -34,8 +36,7 @@ const AuthorizeRoute = () => {
       history.push('/login')
     }
     SetSassion();
-  }, [isLoggedIn, history])
-
+  })
 
     if(isLoggedIn){
       return (
@@ -45,6 +46,7 @@ const AuthorizeRoute = () => {
               <Switch>
                 <Suspense fallback={<div>Loding...</div>}>
                   <Route exact path="/" component={Home} ></Route>
+                  <Route exact path="/search-result" component={Search}></Route>
                 </Suspense>
               </Switch>
             </Route>
