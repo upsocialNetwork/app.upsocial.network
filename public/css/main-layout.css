@@ -990,6 +990,15 @@ textarea { overflow: auto; }
 	border-radius: 16px;
 	transition: 0.3s;
   }
+  .text-editor-wrapper {
+	border: .5px solid var(--gray-c4c4);
+	border-radius: 5px;
+}
+.text-editor-wrapper .ql-toolbar {
+	border-bottom: .5px solid var(--gray-c4c4);
+	background: var(--gray-f6ff);
+	border-radius: 5px 5px 0 0;
+}
 /* main-content css end */
 
 

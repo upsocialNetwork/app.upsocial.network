@@ -1,10 +1,16 @@
 import React from 'react';
 import {colorModeToggle} from './../utils/common';
+import { useHistory } from "react-router-dom";
 
 const Header = (props) => {
-
+    const history = useHistory();
     const navigate = (event) => {
         event.preventDefault()
+    }
+
+    const navigateToProfile = (event) => {
+        event.preventDefault();
+        history.push('/edit-profile')
     }
 
     const logout = (event) => {
@@ -258,7 +264,7 @@ const Header = (props) => {
 
                                     <ul className="dropdown-menu setting-dropdown" aria-labelledby="settingDropdown">
                                         <li>
-                                            <a href="/" onClick={(event)=>navigate(event)} className="d-block in-hd">
+                                            <a href="/" onClick={(event)=>navigateToProfile(event)} className="d-block in-hd">
                                                 <div className="user">
                                                     <div className="avater">
                                                         <img className="img-fluid" src="img/user.png" alt=""/>

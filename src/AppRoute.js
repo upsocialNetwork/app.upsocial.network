@@ -7,6 +7,7 @@ import ErrorBoundary from './ErrorBoundary';
 import Layout from './views/Layout'
 import Home from './views/Home';
 import Search from './views/Search';
+import EditProfile from './views/EditProfile';
 import Login from './views/Login';
 
 import Message from './components/Message'
@@ -47,6 +48,7 @@ const AuthorizeRoute = () => {
                 <Suspense fallback={<div>Loding...</div>}>
                   <Route exact path="/" component={Home} ></Route>
                   <Route exact path="/search-result" component={Search}></Route>
+                  <Route exact path="/edit-profile" component={EditProfile}></Route>
                 </Suspense>
               </Switch>
             </Route>
