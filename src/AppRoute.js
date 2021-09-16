@@ -13,6 +13,7 @@ import Login from './views/Login';
 import Message from './components/Message'
 import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
+import ForgetPassword from './views/ForgetPassword/ForgetPassword';
 
 
 const AuthorizeRoute = () => {
@@ -20,7 +21,10 @@ const AuthorizeRoute = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
-    if(state.authSession.userData && history.location.pathname === '/login'){
+
+   
+
+    if (state.authSession.userData && history.location.pathname === '/login') {
       setIsLoggedIn(true)
       history.push('/')
     }
@@ -30,67 +34,70 @@ const AuthorizeRoute = () => {
     // }
   })
 
-  useEffect(()=>{
+  useEffect(() => {
     let isLoggedIn = Session.isLoggedIn();
     setIsLoggedIn(isLoggedIn)
-    if(!isLoggedIn){
+
+    
+    if (!isLoggedIn) {
       history.push('/login')
     }
     SetSassion();
   })
 
-    if(isLoggedIn){
-      return (
-        <Layout>
-          <Switch>
-            <Route>
-              <Switch>
-                <Suspense fallback={<div>Loding...</div>}>
-                  <Route exact path="/" component={Home} ></Route>
-                  <Route exact path="/search-result" component={Search}></Route>
-                  <Route exact path="/edit-profile" component={EditProfile}></Route>
-                </Suspense>
-              </Switch>
-            </Route>
-            <Redirect from="*" to="/" />
-          </Switch>
-        </Layout>
-      )
-    }
+  if (isLoggedIn) {
     return (
+      <Layout>
         <Switch>
           <Route>
             <Switch>
               <Suspense fallback={<div>Loding...</div>}>
-                <Route path="/login" component={Login} ></Route>
-                
+                <Route exact path="/" component={Home} ></Route>
+                <Route exact path="/search-result" component={Search}></Route>
+                <Route exact path="/edit-profile" component={EditProfile}></Route>
               </Suspense>
             </Switch>
           </Route>
-          <Redirect from="*" to="/login" />
+          <Redirect from="*" to="/" />
         </Switch>
+      </Layout>
     )
-  
+  }
+  return (
+    <Switch>
+      <Route>
+        <Switch>
+          <Suspense fallback={<div>Loding...</div>}>
+            <Route path="/login" component={Login} ></Route>
+            <Route path="/forget-password" component={ForgetPassword} ></Route>
+
+          </Suspense>
+        </Switch>
+      </Route>
+      <Redirect from="*" to="/login" />
+    </Switch>
+  )
+
 }
 
 
 
-const AppRoute = (props) => {    
-    useEffect(()=>{
-      setHttpClientConfig().then(function(){
-      });
-    })
-    
+const AppRoute = (props) => {
+  useEffect(() => {
+    setHttpClientConfig().then(function () {
+    });
+  })
 
-    return (
-      <Router>
-        <ErrorBoundary>
-            <Message {...props} />
-            <Loader {...props}/>
-            <AuthorizeRoute />            
-        </ErrorBoundary>
-      </Router>
-    );
+
+  return (
+    <Router basename={'/Upsocial-React'}>
+      <ErrorBoundary>
+        <Message {...props} />
+        <Loader {...props} />
+        <AuthorizeRoute />
+      </ErrorBoundary>
+    </Router>
+  );
 }
 
 export default AppRoute;

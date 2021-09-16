@@ -3,7 +3,7 @@ import ImagePost from './ImagePost';
 import SponseredPost from './SponseredPost';
 import LinkPost from './LinkPost';
 
-/* const postData = [
+ const postData = [
     {
         id: 1,
         title: "/Genshin_Impact: Genshin Impact Official",
@@ -70,7 +70,7 @@ import LinkPost from './LinkPost';
         commentCount: 50
     },
 ]
- */
+ 
 
 
 
@@ -79,14 +79,14 @@ import LinkPost from './LinkPost';
 
 const PostList = (props) => {
 
-    let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
+   // let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
 
 
 
 
 
     return (
-        <div className="tb-content-wrapper">
+        <div className="tb-content-wrapper ">
             {postData && postData.length > 0 &&
                 postData.map((element, index) => {
                     switch (element.postType) {

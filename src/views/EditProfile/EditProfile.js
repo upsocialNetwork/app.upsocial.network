@@ -71,7 +71,7 @@ const EditProfile = (props) => {
                         </div>
                     </div>
 
-                    <div className="edit-associate-blk-wrapper">
+                   {/*  <div className="edit-associate-blk-wrapper">
                         <h5 className="associate-blk-title">Profile Category:</h5>
                         <div className="customize-cmn-wrapper">
                             <div className="switch-para-wrap">
@@ -85,8 +85,8 @@ const EditProfile = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="edit-associate-blk-wrapper">
+                    </div> */}
+                    {/* <div className="edit-associate-blk-wrapper">
                         <h5 className="associate-blk-title">Advance:</h5>
                         <div className="customize-cmn-wrapper">
                             <div className="switch-para-wrap">
@@ -118,8 +118,8 @@ const EditProfile = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="edit-associate-blk-wrapper">
+                    </div> */}
+                    {/* <div className="edit-associate-blk-wrapper">
                         <h5 className="associate-blk-title">Profile Moderation</h5>
                         <div className="customize-cmn-wrapper">
                             <div className="switch-para-wrap">
@@ -128,7 +128,7 @@ const EditProfile = (props) => {
                                         page</a></p>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div className="save-change-rw text-end">
                         <a href="#" className="btn primary-bg proxima-bold effect-one">Save Changes</a>

@@ -16,7 +16,7 @@ const ImagePost = (props) => {
 
 
     return (
-        <div className="cmn-card mb-4">
+        <div className="cmn-card shadow-gray-point-3  mb-4">
             <div className="post-wrapper post-type-one">
                 <div className="post-header">
                     <div className="elementory-avater-wrap">
@@ -46,7 +46,7 @@ const ImagePost = (props) => {
                     </div>
                     {element.data &&
                         <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                            <img src={"https://ipfs.io/ipfs/"+element.data} alt="" />
+                            <img src={element.data} alt="" />
                         </a>
                     }
                     <PostAttributes {...props} />

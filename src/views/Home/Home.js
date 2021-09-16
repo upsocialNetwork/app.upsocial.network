@@ -12,7 +12,7 @@ const Home = (props) => {
 
 
     useEffect(() => {
-        props._getUserTimelinePost();
+       // props._getUserTimelinePost();
     }, [])
 
     let pt = props.postData;
@@ -40,7 +40,7 @@ const Home = (props) => {
                         role="tab" aria-controls="contact" aria-selected="true">All</button>
                 </li>
             </ul>
-            <div className="tab-content mb-4" id="myTabContent">
+            <div className="tab-content  mb-4" id="myTabContent">
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <PostList type={'POPULAR'} postlist={pt} />
                 </div>

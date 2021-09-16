@@ -12,7 +12,7 @@ const SponseredPost = (props) => {
     }
 
     return (
-        <div className="cmn-card mb-4">
+        <div className="cmn-card  shadow-gray-point-3 mb-4">
             <div className="elementory-chunk">
                 <div className="elementory-brand">
                     <div className="elementory-avater-wrap">

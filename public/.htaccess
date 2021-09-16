@@ -1,4 +1,12 @@
-Options -MultiViews
-    RewriteEngine On
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^ index.html [QSA,L]
+#Options -MultiViews
+    #RewriteEngine On
+    #RewriteCond %{REQUEST_FILENAME} !-f
+    #ewriteRule ^ index.html [QSA,L]
+    <IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /Upsocial-React/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule . /Upsocial-React/index.html [L]
+</IfModule>
