@@ -2,7 +2,7 @@
   "name": "upsocial-mvp-react",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/Upsocial-React",
+  "homepage": "/",
   "dependencies": {
     "@splidejs/react-splide": "^0.4.4",
     "@testing-library/jest-dom": "^5.11.4",

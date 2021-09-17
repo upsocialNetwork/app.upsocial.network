@@ -8,6 +8,9 @@ import Layout from './views/Layout'
 import Home from './views/Home';
 import Search from './views/Search';
 import EditProfile from './views/EditProfile';
+import Community from './views/Community';
+import CreateGroupJoin from './views/CreateGroupJoin';
+import CreatePost from './views/CreatePost';
 import Login from './views/Login';
 
 import Message from './components/Message'
@@ -55,6 +58,9 @@ const AuthorizeRoute = () => {
                 <Route exact path="/" component={Home} ></Route>
                 <Route exact path="/search-result" component={Search}></Route>
                 <Route exact path="/edit-profile" component={EditProfile}></Route>
+                <Route exact path="/create-community" component={Community}></Route>
+                <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
+                <Route exact path="/create-post" component={CreatePost}></Route>
               </Suspense>
             </Switch>
           </Route>
