@@ -11,6 +11,7 @@ import EditProfile from './views/EditProfile';
 import Community from './views/Community';
 import CreateGroupJoin from './views/CreateGroupJoin';
 import CreatePost from './views/CreatePost';
+import ModTools from './views/ModTools';
 import Login from './views/Login';
 
 import Message from './components/Message'
@@ -61,6 +62,7 @@ const AuthorizeRoute = () => {
                 <Route exact path="/create-community" component={Community}></Route>
                 <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
                 <Route exact path="/create-post" component={CreatePost}></Route>
+                <Route exact path="/mod-tools" component={ModTools}></Route>
               </Suspense>
             </Switch>
           </Route>
