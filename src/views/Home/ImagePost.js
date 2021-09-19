@@ -6,9 +6,6 @@ const ImagePost = (props) => {
 
     let element = props.postData;
 
-    console.log("image component");
-    console.log(element);
-
     const navigate = (event) => {
         event.preventDefault()
     }

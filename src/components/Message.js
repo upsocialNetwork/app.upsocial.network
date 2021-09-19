@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import ReactSnackBar from "react-js-snackbar";
 
@@ -8,7 +8,7 @@ const Message = (props) => {
 
   
     let {message, type} = props.messageObj;
-    if(typeof message == 'object'){
+    if(typeof message === 'object'){
         message = JSON.stringify(message)
     }
     return (

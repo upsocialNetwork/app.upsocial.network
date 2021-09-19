@@ -92,7 +92,7 @@ export function applyLightMode(){
 export function colorModeToggle(){
   let bodyElement = document.querySelector('body');
   let className = bodyElement.classList && bodyElement.classList.value ? bodyElement.classList.value : null;
-  if(className == 'dark_mode'){
+  if(className === 'dark_mode'){
       applyLightMode()
   }else{
       applyDarkMode()

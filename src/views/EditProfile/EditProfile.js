@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Loader } from '../../utils/common';
-import Session from '../../utils/session';
-import SimpleReactValidator from 'simple-react-validator';
-import { useHistory } from "react-router-dom";
+import React from 'react';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css'; 
 
 const EditProfile = (props) => {
     
+    const navigate = (event) => {
+        event.preventDefault()
+    }
 
     return (
         <main className="main-content mx-auto">
@@ -131,7 +130,7 @@ const EditProfile = (props) => {
                     </div> */}
 
                     <div className="save-change-rw text-end">
-                        <a href="#" className="btn primary-bg proxima-bold effect-one">Save Changes</a>
+                        <a href="/" onClick={(event)=>navigate(event)} className="btn primary-bg proxima-bold effect-one">Save Changes</a>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 
 
@@ -6,7 +6,9 @@ import React, { useEffect } from 'react';
 const Community = (props) => {
 
 
-
+    const navigate = (event) => {
+        event.preventDefault();
+    }
 
 
     return (
@@ -64,7 +66,7 @@ const Community = (props) => {
 
                         <div className="cmn-rw in-create-post-filed justify-content-end">
                             <div className="twin-btn d-flex align-items-center justify-content-end">
-                                <a href="#" className="btn style-2 transparent-bg proxima-bold">Cancel</a>
+                                <a href="/" onClick={(event)=>navigate(event)} className="btn style-2 transparent-bg proxima-bold">Cancel</a>
                                 <button type="submit" className="btn primary-bg ms-3 proxima-bold">Create Group</button>
                             </div>
                         </div>
