@@ -25,14 +25,14 @@ const AuthorizeRoute = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
-    if (state.authSession.userData && history.location.pathname === '/login') {
+    if (state.authSession.userData && ['/login', 'forget-password'].indexOf(history.location.pathname) !== -1) {
       setIsLoggedIn(true)
       history.push('/')
     }
-    // else if((!state.authSession || !state.authSession.userData) && history.location.pathname !== '/login'){
-    //   setIsLoggedIn(false)
-    //   //history.push('/login')
-    // }
+    else if((!state.authSession || !state.authSession.userData) && ['/login', 'forget-password'].indexOf(history.location.pathname) === -1){
+      setIsLoggedIn(false)
+      history.push('/login')
+    }
   })
 
   useEffect(() => {
@@ -45,7 +45,7 @@ const AuthorizeRoute = () => {
     }
     SetSassion();
   })
-
+  
   if (isLoggedIn) {
     return (
       <Layout>
@@ -95,7 +95,7 @@ const AppRoute = (props) => {
 
 
   return (
-    <Router basename={'/Upsocial-React'}>
+    <Router basename={'/'}>
       <ErrorBoundary>
         <Message {...props} />
         <Loader {...props} />
