@@ -13,14 +13,14 @@ export function SuccessToast(message){
   store.dispatch(requestSuccessMessage(message));
   setTimeout(()=>{
     store.dispatch(requestSuccessMessage(''));
-  }, 3000)
+  }, 5000)
 }
 
 export function ErrorToast(message){
   store.dispatch(requestErrorMessage(message));
   setTimeout(()=>{
     store.dispatch(requestErrorMessage(''));
-  }, 3000)
+  }, 5000)
 }
 
 export function Loader(isVisible){

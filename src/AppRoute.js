@@ -25,9 +25,6 @@ const AuthorizeRoute = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
-
-   
-
     if (state.authSession.userData && history.location.pathname === '/login') {
       setIsLoggedIn(true)
       history.push('/')

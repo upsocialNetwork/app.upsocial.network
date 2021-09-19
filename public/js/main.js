@@ -113,16 +113,16 @@ function colorModeChange (){
 }
 
 // Script for Custom Scrollbar
-let scrollbars = document.querySelectorAll('.scroll-bar');
-scrollbars.forEach(each=>{
-    new MiniBar(each,
-        {
-            barType: "default",
-            minBarSize: 10,
-            hideBars: false
-        }
-    )
-})
+// let scrollbars = document.querySelectorAll('.scroll-bar');
+// scrollbars.forEach(each=>{
+//     new MiniBar(each,
+//         {
+//             barType: "default",
+//             minBarSize: 10,
+//             hideBars: false
+//         }
+//     )
+// })
 
 // Code For Main Menu
 if(document.querySelector(DOMElements.menu) !== null) {

@@ -1,11 +1,23 @@
-import React from 'react';
-
+import React, {useEffect} from 'react';
+import {MiniBar} from 'minibarjs';
 
 const RightSideBar = (props) => {
 
     const navigate = (event) => {
         event.preventDefault()
     }
+    const scrollbars = document.querySelectorAll('.scroll-bar');
+    scrollbars.forEach(each=>{
+        new MiniBar(each,
+            {
+                barType: "default",
+                minBarSize: 10,
+                hideBars: false
+            }
+        )
+    })
+
+
     return (
         <div className="right-sidebar-wrapper position-fixed d-none d-lg-block">
             <div className="sidebar-inner scroll-bar">

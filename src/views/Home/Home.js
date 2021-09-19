@@ -5,18 +5,16 @@ import PostList from './PostList';
 
 
 
-
 const Home = (props) => {
 
 
 
 
     useEffect(() => {
-       // props._getUserTimelinePost();
+       props._getUserTimelinePost();
     }, [])
 
     let pt = props.postData;
-    console.log(pt);
 
 
 
