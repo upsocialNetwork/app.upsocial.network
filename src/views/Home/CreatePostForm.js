@@ -6,14 +6,14 @@ const CreatePostForm = () => {
     
 
     return (
-        <div className="cmn-card mb-4">
+        <div className="cmn-card shadow-gray-point-2 mb-4">
             <div className="create-post">
                 <div className="one-auto-g-wrap">
                     <div className="one-icon">
                         <img src="img/gp-1.jpg" alt="" />
                     </div>
                     <div className="input-wrapper">
-                        <input className="form-control ht-50 design-2" type="text" placeholder="Create Post" />
+                        <input className="form-control bg-gray-f6ff shadow-gray-inset-15" type="text" placeholder="Create Post" />
                     </div>
                 </div>
 

@@ -262,7 +262,7 @@ const Header = (props) => {
                                         className="user-settings"><img src="img/down-arrow-round.svg" alt=""/>
                                     </a>
 
-                                    <ul className="dropdown-menu  setting-dropdown" aria-labelledby="settingDropdown">
+                                    <ul className="dropdown-menu shadow-gray-point-3 setting-dropdown" aria-labelledby="settingDropdown">
                                         <li>
                                             <a href="/" onClick={(event)=>navigateToProfile(event)} className="d-block in-hd">
                                                 <div className="user">

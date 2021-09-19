@@ -22,7 +22,7 @@ const RightSideBar = (props) => {
         <div className="right-sidebar-wrapper position-fixed d-none d-lg-block">
             <div className="sidebar-inner scroll-bar">
                 <div className="shadow-gurd">
-                    <div className="cmn-card mb-4">
+                    <div className="cmn-card shadow-gray-point-2 mb-4">
                         <div className="groups-wrapper">
                             <h4 className="cmn-card-title">Suggestions for you</h4>
                             <div className="single-group">
@@ -67,7 +67,7 @@ const RightSideBar = (props) => {
                         </div>
                     </div> 
 
-                    <div className="cmn-card">
+                    <div className="cmn-card shadow-gray-point-2">
                         <div className="elementory-chunk">
                             <div className="elementory-brand">
                                 <div className="elementory-avater-wrap">
