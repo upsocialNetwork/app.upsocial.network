@@ -4,15 +4,12 @@ import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import AppRoute from './AppRoute';
-import SnackbarProvider from 'react-simple-snackbar'
 
 
 ReactDOM.render(
-  <SnackbarProvider>
-    <Provider store={store}>
-      <AppRoute />
-    </Provider>
-  </SnackbarProvider>,
+  <Provider store={store}>
+    <AppRoute />
+  </Provider>,
   document.getElementById('root')
 );
 // If you want to start measuring performance in your app, pass a function

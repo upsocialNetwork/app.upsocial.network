@@ -22,31 +22,34 @@ import ForgetPassword from './views/ForgetPassword/ForgetPassword';
 
 const AuthorizeRoute = () => {
   const history = useHistory();
+  const [isLoaded, setIsLoaded] = useState(false);
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
     if (state.authSession.userData && ['/login', 'forget-password'].indexOf(history.location.pathname) !== -1) {
-      setIsLoggedIn(true)
-      history.push('/')
+      //setIsLoggedIn(true)
+      //history.push('/')
     }
     else if((!state.authSession || !state.authSession.userData) && ['/login', 'forget-password'].indexOf(history.location.pathname) === -1){
-      setIsLoggedIn(false)
-      history.push('/login')
+      //setIsLoggedIn(false)
+      //history.push('/login')
     }
+    
   })
 
   useEffect(() => {
-    let isLoggedIn = Session.isLoggedIn();
-    setIsLoggedIn(isLoggedIn)
+    // let isLoggedIn = Session.isLoggedIn();
+    // setIsLoggedIn(isLoggedIn)
 
     
-    if (!isLoggedIn) {
-      history.push('/login')
-    }
+    // if (!isLoggedIn) {
+    //   history.push('/login')
+    // }
     SetSassion();
+    setIsLoaded(true)    
   })
   
-  if (isLoggedIn) {
+  if (['/login', 'forget-password'].indexOf(history.location.pathname) === -1 && isLoaded) {
     return (
       <Layout>
         <Switch>
