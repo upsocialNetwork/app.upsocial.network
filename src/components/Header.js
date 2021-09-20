@@ -26,8 +26,10 @@ const Header = (props) => {
         props._signOut()
     }
 
-    
-    
+    const home = (event) => {
+        event.preventDefault();
+        history.push('/');
+    }
 
     return (
         <>
@@ -49,7 +51,7 @@ const Header = (props) => {
                 <div className="container-fluid gx-4">
                     <div className="row align-items-center">
                         <div className="col-xl-4 col-4">
-                            <a href="/" onClick={(event)=>navigate(event)} className="site_logo"><img className="img-fluid" src="img/logo.png" alt="" /></a>
+                            <a href="/" onClick={(event) => home(event)} className="site_logo"><img className="img-fluid" src="img/logo.png" alt="" /></a>
                         </div>
                         <div className="col-xl-4 d-none d-xl-block">
                             <form action="#" className="search-form-master">
@@ -92,32 +94,61 @@ const Header = (props) => {
                                                         <div className="notification-thumb">
                                                             <img className="thumb" src="img/gp-1.jpg" alt="" />
 
-                                                            <img className="transparent-bell" src="img/bell-2.svg" alt="" />
-                                                        </div>
-                                                        <div className="single-not-content">
-                                                            <h5><a href="/" onClick={(event)=>navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
-                                                                off
-                                                                right!. 23 hrs</a>
-                                                                <div className="dropdown">
-                                                                    <button className="post-dropdown" type="button"
-                                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        <img src="img/three-dot-small.svg" alt="" />
-                                                                    </button>
-                                                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Action</a></li>
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Another action</a>
-                                                                        </li>
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Something else
-                                                                            here</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </h5>
-                                                            <p>
-                                                                Communitities that have posts for people to interact with see more
-                                                                action so try adding five posts today</p>
-                                                        </div>
-                                                    </div> {/*<!-- ./single-notification -->*/}
+                                                        <img className="transparent-bell" src="img/bell-2.svg" alt="" /></div>
+                                                    </div>
+                                                    <div className="single-not-content">
+                                                        <h5><a href="/" onClick={(event) => navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
+                                                            off
+                                                            right!. 23 hrs</a>
+                                                            <div className="dropdown">
+                                                                <button className="post-dropdown" type="button"
+                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                    aria-expanded="false">
+                                                                    <img src="img/three-dot-small.svg" alt="" />
+                                                                </button>
+                                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a>
+                                                                    </li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else
+                                                                        here</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </h5>
+                                                        <p>
+                                                            Communitities that have posts for people to interact with see more
+                                                            action so try adding five posts today</p>
+                                                    </div>
+                                                </div> 
+                                                <div className="single-notification">
+                                                    <div className="notification-thumb">
+                                                        <img className="thumb" src="img/gp-1.jpg" alt="" />
+
+                                                        <img className="transparent-bell" src="img/bell-2.svg" alt="" />
+                                                    </div>
+                                                    <div className="single-not-content">
+                                                        <h5><a href="/" onClick={(event) => navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
+                                                            off
+                                                            right!. 23 hrs</a>
+                                                            <div className="dropdown">
+                                                                <button className="post-dropdown" type="button"
+                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
+                                                                    aria-expanded="false">
+                                                                    <img src="img/three-dot-small.svg" alt="" />
+                                                                </button>
+                                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a>
+                                                                    </li>
+                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else
+                                                                        here</a></li>
+                                                                </ul>
+                                                            </div>
+                                                        </h5>
+                                                        <p>
+                                                            Communitities that have posts for people to interact with see more
+                                                            action so try adding five posts today</p>
+                                                    </div>
                                                     <div className="single-notification">
                                                         <div className="notification-thumb">
                                                             <img className="thumb" src="img/gp-1.jpg" alt="" />
@@ -148,38 +179,6 @@ const Header = (props) => {
                                                                 action so try adding five posts today</p>
                                                         </div>
                                                     </div>
-                                                    {/*<!-- ./single-notification -->*/}
-                                                    <div className="single-notification">
-                                                        <div className="notification-thumb">
-                                                            <img className="thumb" src="img/gp-1.jpg" alt="" />
-
-                                                            <img className="transparent-bell" src="img/bell-2.svg" alt="" />
-                                                        </div>
-                                                        <div className="single-not-content">
-                                                            <h5><a href="/" onClick={(event)=>navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
-                                                                off
-                                                                right!. 23 hrs</a>
-                                                                <div className="dropdown">
-                                                                    <button className="post-dropdown" type="button"
-                                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        <img src="img/three-dot-small.svg" alt="" />
-                                                                    </button>
-                                                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Action</a></li>
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Another action</a>
-                                                                        </li>
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event)=>navigate(event)}>Something else
-                                                                            here</a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </h5>
-                                                            <p>
-                                                                Communitities that have posts for people to interact with see more
-                                                                action so try adding five posts today</p>
-                                                        </div>
-                                                    </div>
-                                                    {/*<!-- ./single-notification -->*/}
 
                                                     <div className="text-center see-all-btn-wrapper">
                                                         <a href="/" onClick={(event)=>navigate(event)} className="see-all">See All</a>
@@ -188,7 +187,6 @@ const Header = (props) => {
                                             </li>
                                         </ul>
                                     </li>
-                                    {/* hide message block */}
                                     <li className="ms-3" hidden>
                                         <a href="/" onClick={(event)=>navigate(event)} id="messageDropdown" data-bs-toggle="dropdown" aria-expanded="false" className="messages new-state">
                                             <img src="img/message.svg"alt="" />

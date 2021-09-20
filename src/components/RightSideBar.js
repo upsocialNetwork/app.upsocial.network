@@ -1,13 +1,15 @@
-import React, {useEffect} from 'react';
-import {MiniBar} from 'minibarjs';
+import React, { useEffect } from 'react';
+import { MiniBar } from 'minibarjs';
+import { useHistory } from 'react-router-dom';
 
 const RightSideBar = (props) => {
+    const history = useHistory();
 
     const navigate = (event) => {
         event.preventDefault()
     }
     const scrollbars = document.querySelectorAll('.scroll-bar');
-    scrollbars.forEach(each=>{
+    scrollbars.forEach(each => {
         new MiniBar(each,
             {
                 barType: "default",
@@ -16,6 +18,12 @@ const RightSideBar = (props) => {
             }
         )
     })
+
+    const getGroupDetaills = (event) => {
+        event.preventDefault();
+        history.push('/create-group-join');
+
+    }
 
 
     return (
@@ -26,46 +34,46 @@ const RightSideBar = (props) => {
                         <div className="groups-wrapper">
                             <h4 className="cmn-card-title">Suggestions for you</h4>
                             <div className="single-group">
-                                <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
+                                <div className="gp-icon"><img src="img/gp-1.jpg" alt="" /></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event) => getGroupDetaills(event)} className="btn border border-primary follow">View</a>
                                 </div>
-                            </div> 
+                            </div>
                             <div className="single-group">
-                                <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
+                                <div className="gp-icon"><img src="img/gp-1.jpg" alt="" /></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event) => getGroupDetaills(event)} className="btn border border-primary follow">View</a>
                                 </div>
-                            </div> 
+                            </div>
                             <div className="single-group">
-                                <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
+                                <div className="gp-icon"><img src="img/gp-1.jpg" alt="" /></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event) => getGroupDetaills(event)} className="btn border border-primary follow">View</a>
                                 </div>
-                            </div> 
+                            </div>
                             <div className="single-group">
-                                <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
+                                <div className="gp-icon"><img src="img/gp-1.jpg" alt="" /></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event) => getGroupDetaills(event)} className="btn border border-primary follow">View</a>
                                 </div>
-                            </div> 
+                            </div>
                             <div className="single-group">
-                                <div className="gp-icon"><img src="img/gp-1.jpg" alt=""/></div>
+                                <div className="gp-icon"><img src="img/gp-1.jpg" alt="" /></div>
                                 <div className="gp-text">Abi_00056</div>
                                 <div className="gp-button">
-                                    <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary follow">Follow</a>
+                                    <a href="/" onClick={(event) => getGroupDetaills(event)} className="btn border border-primary follow">View</a>
                                 </div>
-                            </div> 
+                            </div>
 
                             <div className="more-and-less-btn">
-                                <a href="/" onClick={(event)=>navigate(event)} className="show-more">Show more</a>
+                                <a href="/" onClick={(event) => getGroupDetaills(event)} className="show-more">Show more</a>
                             </div>
                         </div>
-                    </div> 
+                    </div>
 
                     <div className="cmn-card shadow-gray-point-2">
                         <div className="elementory-chunk">
@@ -81,7 +89,7 @@ const RightSideBar = (props) => {
                             </div>
 
                             <div className="text-end p-20">
-                                <a href="/" onClick={(event)=>navigate(event)} className="btn border border-primary shop-now">Shop now</a>
+                                <a href="/" onClick={(event) => navigate(event)} className="btn border border-primary shop-now">Shop now</a>
                             </div>
                         </div>
                     </div>

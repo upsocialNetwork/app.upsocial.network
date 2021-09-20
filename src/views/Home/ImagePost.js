@@ -10,6 +10,8 @@ const ImagePost = (props) => {
         event.preventDefault()
     }
 
+    /* console.log(element);
+ */
 
 
     return (
@@ -17,9 +19,13 @@ const ImagePost = (props) => {
             <div className="post-wrapper post-type-one">
                 <div className="post-header">
                     <div className="elementory-avater-wrap">
-                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> <img src="img/gp-1.jpg" alt="" /></a>
-                        <h6><a href="/" onClick={(event) => navigate(event)}>{element.title}</a><span>Posted by  {element.title}
-                        </span></h6>
+                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.userAvatar != null ? <img src={"https://ipfs.io/ipfs/" + element.userAvatar} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
+                        <h6>
+                            <a href="/" onClick={(event) => navigate(event)} >
+                                {element.postName}
+                            </a> <span>Posted by  {element.userName}
+                            </span>
+                        </h6>
                     </div>
 
                     <div className="post-header-right" hidden>
@@ -41,11 +47,71 @@ const ImagePost = (props) => {
                     <div className="post-content max-520">
                         <p>{element.title}</p>
                     </div>
-                    {element.data &&
+                    {/* {element.data &&
                         <a href="/" onClick={(event) => navigate(event)} className="post-img">
                             <img src={element.data} alt="" />
                         </a>
-                    }
+                    } */}
+
+                    {(() => {
+
+
+
+                        switch (element.postType) {
+
+                            case 'image':
+
+                                return (
+
+                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
+                                        <img src={"https://ipfs.io/ipfs/" + element.postData} alt="" />
+                                    </a>
+
+                                )
+
+                            case 'video':
+
+                                return (
+
+                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
+                                        <video controls width="100%" height="auto">
+                                            <source src={"https://ipfs.io/ipfs/" + element.postData} type="audio/mpeg" />
+                                        </video>
+                                    </a>
+
+                                )
+
+                            case 'audio':
+
+                                return (
+
+                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
+                                        <audio controls>
+                                            <source src={"https://ipfs.io/ipfs/" + element.postData} type="audio/mpeg" />
+                                        </audio>
+
+
+
+                                    </a>
+
+                                )
+
+
+                            default:
+
+                                return (
+
+                                    <div className="post-content max-520">
+                                        <p>{element.postData}</p>
+                                    </div>
+
+                                )
+
+                        }
+
+
+
+                    })()}
                     <PostAttributes {...props} />
                     {/*  <PostComments {...props} /> */}
                 </div>

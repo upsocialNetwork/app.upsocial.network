@@ -22,6 +22,7 @@
     "react-router-dom": "^5.2.1",
     "react-router-redux": "^4.0.8",
     "react-scripts": "4.0.3",
+    "react-simple-snackbar": "^1.1.11",
     "redux-act": "^1.8.0",
     "redux-thunk": "^2.3.0",
     "simple-react-validator": "^1.6.1",
