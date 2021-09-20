@@ -70,7 +70,7 @@ import LinkPost from './LinkPost';
 //         commentCount: 50
 //     },
 // ]
- 
+
 
 
 
@@ -79,7 +79,7 @@ import LinkPost from './LinkPost';
 
 const PostList = (props) => {
 
-   let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
+    let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
 
 
 
@@ -91,8 +91,8 @@ const PostList = (props) => {
                 postData.map((element, index) => {
                     switch (element.postType) {
                         case "image": return <ImagePost key={index} postData={element} />;
-                        case "SPONSERED_POST": return <SponseredPost key={index} postData={element} />;
-                        case "LINK_POST": return <LinkPost key={index} postData={element} />;
+                        case "video": return <ImagePost key={index} postData={element} />;
+                        case "text": return <ImagePost key={index} postData={element} />;
                         default: return <ImagePost key={index} postData={element} />;
                     }
                 })
