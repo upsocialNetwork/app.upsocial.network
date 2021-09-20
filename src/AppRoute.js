@@ -29,7 +29,7 @@ const AuthorizeRoute = () => {
       setIsLoggedIn(true)
       history.push('/')
     }
-    else if((!state.authSession || !state.authSession.userData) && ['/login', 'forget-password'].indexOf(history.location.pathname) === -1){
+    else if ((!state.authSession || !state.authSession.userData) && ['/login', 'forget-password'].indexOf(history.location.pathname) === -1) {
       setIsLoggedIn(false)
       history.push('/login')
     }
@@ -39,13 +39,13 @@ const AuthorizeRoute = () => {
     let isLoggedIn = Session.isLoggedIn();
     setIsLoggedIn(isLoggedIn)
 
-    
+
     if (!isLoggedIn) {
       history.push('/login')
     }
     SetSassion();
   })
-  
+
   if (isLoggedIn) {
     return (
       <Layout>
