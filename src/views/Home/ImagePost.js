@@ -10,6 +10,8 @@ const ImagePost = (props) => {
         event.preventDefault()
     }
 
+    /* console.log(element);
+ */
 
 
     return (
@@ -17,9 +19,13 @@ const ImagePost = (props) => {
             <div className="post-wrapper post-type-one">
                 <div className="post-header">
                     <div className="elementory-avater-wrap">
-                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.userAvatar != null ? <img src={"https://ipfs.io/ipfs/" + element.userAvatar} alt="" /> : <img src="img/gp-1.png" alt="" />}</a>
-                        <h6><a href="/" onClick={(event) => navigate(event)}>{element.title}</a><span>Posted by  {element.title}
-                        </span></h6>
+                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.userAvatar != null ? <img src={"https://ipfs.io/ipfs/" + element.userAvatar} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
+                        <h6>
+                            <a href="/" onClick={(event) => navigate(event)} >
+                                {element.postName}
+                            </a> <span>Posted by  {element.userName}
+                            </span>
+                        </h6>
                     </div>
 
                     <div className="post-header-right" hidden>
