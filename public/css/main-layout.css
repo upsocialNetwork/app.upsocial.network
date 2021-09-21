@@ -51,7 +51,7 @@ textarea { overflow: auto; }
 	border-radius: 30px;
 }
 .search-form-master .form-control {
-	background: var(--gray-f6ff);
+	background: var(--gray-f6ff) !important;
 	border: 0;
 	height: 45px;
 }

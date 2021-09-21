@@ -234,7 +234,7 @@ ol {
     background: var(--primary-gradient-bg);
 }
 .bg-gray-f6ff {
-	background-color: var(--gray-f6ff);
+	background-color: var(--gray-f6ff) !important;
 }
 .btn.primary-bg {
     color: var(--white);
