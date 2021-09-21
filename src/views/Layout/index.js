@@ -19,7 +19,7 @@ const Layout = (props) => {
         session.deleteSessionData();
         setTimeout(()=>{
           SetSassion();
-          navigate('/login');
+          navigate('/auth/login');
         }, 500);
       }
     }
@@ -28,7 +28,7 @@ const Layout = (props) => {
       history.push(path)
     }
 
-
+    
     return (
         <section>
             <Header {...props} _signOut={()=>{signOut()}}/>

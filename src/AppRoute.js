@@ -19,6 +19,25 @@ import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 import ForgetPassword from './views/ForgetPassword/ForgetPassword';
 
+const FullLayout = (props) => {
+    const history = useHistory();
+    if(history.location.pathname.indexOf('auth') == -1 && history.location.pathname.indexOf('user') == -1){
+      return <Layout leftSide={true} rightSide={true}>{props.children}</Layout>
+    }
+    return null
+}
+
+const HFLayout = (props) => {
+  const history = useHistory();
+  if(history.location.pathname.indexOf('user') !== -1){
+    return <Layout leftSide={false} rightSide={false}>{props.children}</Layout>
+  }
+  return null
+}
+
+const LoginLayout = (props) => {
+  return <>{props.children}</>
+}
 
 const AuthorizeRoute = () => {
   const history = useHistory();
@@ -26,11 +45,11 @@ const AuthorizeRoute = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
-    if (state.authSession.userData && ['/login', 'forget-password'].indexOf(history.location.pathname) !== -1) {
+    if (state.authSession.userData && ['/auth/login', '/auth/forget-password'].indexOf(history.location.pathname) !== -1) {
       //setIsLoggedIn(true)
       //history.push('/')
     }
-    else if((!state.authSession || !state.authSession.userData) && ['/login', 'forget-password'].indexOf(history.location.pathname) === -1){
+    else if((!state.authSession || !state.authSession.userData) && ['/auth/login', '/auth/forget-password'].indexOf(history.location.pathname) === -1){
       //setIsLoggedIn(false)
       //history.push('/login')
     }
@@ -45,46 +64,54 @@ const AuthorizeRoute = () => {
     // if (!isLoggedIn) {
     //   history.push('/login')
     // }
+    
     SetSassion();
     setIsLoaded(true)    
   })
   
-  if (['/login', 'forget-password'].indexOf(history.location.pathname) === -1 && isLoaded) {
     return (
-      <Layout>
-        <Switch>
-          <Route>
-            <Switch>
-              <Suspense fallback={<div>Loding...</div>}>
-                <Route exact path="/" component={Home} ></Route>
-                <Route exact path="/search-result" component={Search}></Route>
-                <Route exact path="/edit-profile" component={EditProfile}></Route>
-                <Route exact path="/create-community" component={Community}></Route>
-                <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
-                <Route exact path="/create-post" component={CreatePost}></Route>
-                <Route exact path="/mod-tools" component={ModTools}></Route>
-              </Suspense>
-            </Switch>
-          </Route>
-          <Redirect from="*" to="/" />
-        </Switch>
-      </Layout>
+      <Switch>
+        <Route>
+          <Switch>
+            <Suspense fallback={<div>Loding...</div>}>
+              <Route path="/auth" children={()=>{
+                  return (
+                    <LoginLayout>
+                      <Route path="/auth/login" component={Login} ></Route>
+                      <Route path="/auth/forget-password" component={ForgetPassword} ></Route>
+                    </LoginLayout>
+                  )
+                }}>
+              </Route>
+              
+              <Route path="/user" children={()=>{
+                  return(
+                    <HFLayout>
+                      <Route path="/user/edit-profile" component={EditProfile}></Route>
+                    </HFLayout>
+                  )
+                }}>
+              </Route>
+              <Route path="/" children={()=>{
+                  return(
+                    <FullLayout>
+                      <Route exact path="/" component={Home}></Route>
+                      <Route exact path="/search-result" component={Search}></Route>                    
+                      <Route exact path="/create-community" component={Community}></Route>
+                      <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
+                      <Route exact path="/create-post" component={CreatePost}></Route>
+                      <Route exact path="/mod-tools" component={ModTools}></Route>
+                    </FullLayout>
+                  )
+                }}>
+              </Route>
+              
+            </Suspense>
+          </Switch>
+        </Route>        
+        <Redirect from="*" to="/" />
+      </Switch>
     )
-  }
-  return (
-    <Switch>
-      <Route>
-        <Switch>
-          <Suspense fallback={<div>Loding...</div>}>
-            <Route path="/login" component={Login} ></Route>
-            <Route path="/forget-password" component={ForgetPassword} ></Route>
-
-          </Suspense>
-        </Switch>
-      </Route>
-      <Redirect from="*" to="/login" />
-    </Switch>
-  )
 
 }
 

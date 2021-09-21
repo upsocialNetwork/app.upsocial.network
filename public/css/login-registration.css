@@ -171,7 +171,7 @@
  .dark_mode .registration-part .login-left h5 {
    color: var(--white);
  }
- .dark_mode .form-control {
+ .login-g-wrapper.dark_mode .form-control {
    background-color: #27262C;
    border-color: transparent;
    color: var(--white);

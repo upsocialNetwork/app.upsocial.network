@@ -38,19 +38,19 @@ const Community = (props) => {
 
                         <div className="post-type-selection">
                             <h4>Group type</h4>
-                            <label className="radioBox"><img src="img/t-1.svg" alt="" />
+                            <label htmlFor="public" className="radioBox"><img src="img/t-1.svg" alt="" />
                                 <p>Public <span>Anyone can view, post, and comment to this group</span></p>
-                                <input type="radio" name="radio" />
+                                <input type="radio" name="radio" id="public" />
                                 <span className="checkmark"></span>
                             </label>
-                            <label className="radioBox"><img src="img/t-2.svg" alt="" />
+                            <label htmlFor="restricted" className="radioBox"><img src="img/t-2.svg" alt="" />
                                 <p>Restricted <span>Anyone can view this group, but only approved users can post</span></p>
-                                <input type="radio" name="radio" checked />
+                                <input type="radio" name="radio" id="restricted" />
                                 <span className="checkmark"></span>
                             </label>
-                            <label className="radioBox"><img src="img/t-3.svg" alt="" />
-                                <p>Private <span>Anyone can view, post, and comment to this group</span></p>
-                                <input type="radio" name="radio" />
+                            <label htmlFor="private" className="radioBox"><img src="img/t-3.svg" alt="" />
+                                <p>private <span>Anyone can view, post, and comment to this group</span></p>
+                                <input type="radio" name="radio" id="private" />
                                 <span className="checkmark"></span>
                             </label>
                         </div>

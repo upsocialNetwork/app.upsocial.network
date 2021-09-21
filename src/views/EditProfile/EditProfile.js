@@ -70,21 +70,6 @@ const EditProfile = (props) => {
                         </div>
                     </div>
 
-                   {/*  <div className="edit-associate-blk-wrapper">
-                        <h5 className="associate-blk-title">Profile Category:</h5>
-                        <div className="customize-cmn-wrapper">
-                            <div className="switch-para-wrap">
-                                <h6>NSFW</h6>
-                                <p>This content is NSFW (may contain nudity, pornography, profanity or inappropriate for
-                                    those unde 18)</p>
-
-                                <div className="toggle-switch size-2 position-absolute">
-                                    <input type="checkbox" id="switch-1" />
-                                    <label htmlFor="switch-1"></label>
-                                </div>
-                            </div>
-                        </div>
-                    </div> */}
                     {/* <div className="edit-associate-blk-wrapper">
                         <h5 className="associate-blk-title">Advance:</h5>
                         <div className="customize-cmn-wrapper">

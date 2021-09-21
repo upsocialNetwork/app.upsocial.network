@@ -276,7 +276,7 @@ const Header = (props) => {
 
                                         <ul className="dropdown-menu shadow-gray-point-3 setting-dropdown" aria-labelledby="settingDropdown">
                                             <li>
-                                                <a href="/" onClick={(event)=>navigate(event, 'edit-profile')} className="d-block in-hd">
+                                                <a href="/" onClick={(event)=>navigate(event, '/user/edit-profile')} className="d-block in-hd">
                                                     <div className="user">
                                                         <div className="avater">
                                                             <img className="img-fluid" src="img/user.png" alt=""/>
@@ -298,7 +298,7 @@ const Header = (props) => {
                                     </li>
                                 </ul>
                                 :
-                                <button type="button" onClick={(event)=>{navigate(event, '/login')}} className="btn gradient-bg-one radius-30 register">Login Now</button>
+                                <button type="button" onClick={(event)=>{navigate(event, '/auth/login')}} className="btn gradient-bg-one radius-30 register">Login Now</button>
                             }
                         </div>
                     </div>

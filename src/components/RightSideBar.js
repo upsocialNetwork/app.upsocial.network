@@ -24,7 +24,8 @@ const RightSideBar = (props) => {
         history.push('/create-group-join');
 
     }
-
+    const rightSide = props.rightSide ? props.rightSide : false;
+    if(!rightSide) return null;
 
     return (
         <div className="right-sidebar-wrapper position-fixed d-none d-lg-block">

@@ -20,10 +20,13 @@ const LeftSideBar = (props) => {
         event.preventDefault();
         history.push('/search-result');
     }
+    const leftSide = props.leftSide ? props.leftSide : false;
+    
     return (
         <div className="left-sidebar-wrapper position-fixed">
             <div className="sidebar-inner scroll-bar">
                 <div className="shadow-gurd flex">
+                {leftSide && 
                     <div className="top-zone mb-4">
                         <ul className="side-menu">
                             <li><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><svg width="30" height="32" viewBox="0 0 30 32" fill="none"
@@ -89,8 +92,8 @@ const LeftSideBar = (props) => {
                         <div className="sidebar-creation-wrap">
                             <a href="/" onClick={(event) => createGroup(event)} className="btn gradient-bg-one radius-30">Create Group</a>
                         </div>
-                    </div> {/*<!-- ./top-zone -->*/}
-
+                    </div> 
+                }
 
                     <div className="bottom-zone mt-auto">
                         <div className="user-profile">
