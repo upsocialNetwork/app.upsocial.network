@@ -19,6 +19,8 @@ import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 import ForgetPassword from './views/ForgetPassword/ForgetPassword';
 import GroupSearch from './views/GroupSearch';
+import TopCommunitySearch from './views/TopCommunitySearch';
+import CreateGroupPost from './views/CreateGroupPost';
 
 const FullLayout = (props) => {
   const history = useHistory();
@@ -104,8 +106,9 @@ const AuthorizeRoute = () => {
                   <Route exact path="/create-community" component={Community}></Route>
                   <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
-                  <Route exact path="/create-group-post" component={CreatePost}></Route>
+                  <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
                   <Route exact path="/mod-tools" component={ModTools}></Route>
+                  <Route exact path="/top-groups" component={TopCommunitySearch}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
               )

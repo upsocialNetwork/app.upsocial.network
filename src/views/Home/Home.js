@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import Session from '../../utils/session';
 
 import CreatePostForm from './CreatePostForm';
 import PostList from './PostList';
@@ -7,10 +8,21 @@ import PostList from './PostList';
 
 const Home = (props) => {
     useEffect(() => {
-        props._getUserTimelinePost();
+
+        let isLogin = Session.isLoggedIn;
+        if (isLogin) {
+            props._getTimlinePost();
+        }
+        else {
+            props._getPopularPost();
+        }
+
+
+
     }, [])
 
     let pt = props.postData;
+    //console.log(pt);
 
 
 

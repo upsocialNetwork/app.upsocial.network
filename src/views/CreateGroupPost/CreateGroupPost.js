@@ -6,12 +6,14 @@ import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
+import { useLocation } from "react-router-dom";
 const CreateGroupPost = (props) => {
     const history = useHistory();
+    const location = useLocation();
 
 
     useEffect(() => {
-
+        setGroupId(location.state.detail);
         let userData = Session.isLoggedIn();
         if (!userData) {
 
@@ -20,7 +22,7 @@ const CreateGroupPost = (props) => {
 
     }, []);
 
-
+    let [groupId, setGroupId] = useState();
     let [title, setTitle] = useState();
     let [isAdult, setAdult] = useState(true);
     let [data, setData] = useState();
@@ -39,13 +41,13 @@ const CreateGroupPost = (props) => {
         let formData = {};
         if (isText) {
 
-            setDataType(".txt");
-            setPostType("text");
+           
             formData = {
-                "postType": postType,
+                "groupId": groupId,
+                "postType": "text",
                 "title": title,
                 "data": data,
-                "dataType": dataType,
+                "dataType": ".txt",
                 "adultContent": isAdult
 
             };
@@ -54,6 +56,7 @@ const CreateGroupPost = (props) => {
         else {
 
             formData = {
+                "groupId": groupId,
                 "postType": postType,
                 "title": title,
                 "data": data,
@@ -66,9 +69,15 @@ const CreateGroupPost = (props) => {
 
         console.log(formData);
 
-        httpClient.call('upload-timeline-post', formData, { method: 'POST' }).then(function (response) {
-            console.log(response);
+        httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
+           // console.log(response);
             SuccessToast(response.result.message);
+            /* history.push({
+                pathname: '/create-group-join',
+                search: '?id=' + groupId + '',
+                state: { detail: groupId }
+            }); */
+
         }, function (error) {
             ErrorToast(error.result.message);
         })
@@ -122,7 +131,7 @@ const CreateGroupPost = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
-                    <h3 className="tertiary-title position-relative">Create Post</h3>
+                    <h3 className="tertiary-title position-relative">Create Group Post</h3>
                     {/*  <div className="post-writter d-flex justify-content-between" >
                         <div className="user">
                             <div className="avater">

@@ -15,13 +15,3 @@ export function getPopularGroupList() {
     }
 }
 
-export function getUserGroupList() {
-    return (dispatch) => {
-        dispatch(requestGroupListData([]));
-        httpClient.call('get-groups-list/1', null, { method: 'GET' }).then(function (response) {
-            dispatch(responseGroupListData(response));
-        }, function (error) {
-            dispatch(responseGroupListData(error));
-        });
-    }
-}

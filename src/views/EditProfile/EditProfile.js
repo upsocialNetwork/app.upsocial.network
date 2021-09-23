@@ -53,7 +53,7 @@ const EditProfile = (props) => {
         const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d)
         const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
         const date = `${ye}-${mo}-${da}`;
-        console.log(date);
+      //  console.log(date);
 
         let formData = {
             "userName": userName,
@@ -65,13 +65,13 @@ const EditProfile = (props) => {
             "dateOfBirth": date
         }
 
-        console.log(formData);
+        //console.log(formData);
         //return null;
 
         httpClient.call('profile-update', formData, { method: 'POST' }).then(function (response) {
 
             if (response.success == true) {
-                console.log(response);
+               // console.log(response);
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);
             }

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import ImagePost from './ImagePost';
-import SponseredPost from './SponseredPost';
-import LinkPost from './LinkPost';
-
 
 
 
@@ -12,12 +9,16 @@ import LinkPost from './LinkPost';
 
 const PostList = (props) => {
 
-     let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
+    let postData = props.postlist ? props.postlist : [];
 
+
+
+    /*  let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
+     */ //console.log(postData);
     const navigate = (event) => {
         event.preventDefault()
     }
-   
+
 
 
     return (
@@ -37,9 +38,10 @@ const PostList = (props) => {
                         </div>
                         <div className="post-content-wrapper">
                             <div className="post-content max-520">
-                                <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
-                                <button type="button" className="btn gradient-bg-one radius-30 register align-center">Browse Popular Posts</button>
-
+                                <div className="no-post-design">
+                                    <img src="img/q-1.svg" alt="" />
+                                    <p>No posts yet</p>
+                                </div>
                             </div>
                         </div>
                     </div>

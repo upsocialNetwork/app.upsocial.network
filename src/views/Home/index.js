@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 
 import Home from './Home';
-import { getPopularGroupList, getUserTimelinePosts } from './action';
+import { getTimelinePosts, getPopularPosts } from './action';
 
 
 const mapStateToProps = (state) => {
@@ -22,8 +22,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		_getUserTimelinePost: () => {
-			dispatch(getUserTimelinePosts());
+		_getPopularPost: () => {
+			dispatch(getPopularPosts());
+		},
+
+		_getTimlinePost: () => {
+			dispatch(getTimelinePosts());
 		},
 
 

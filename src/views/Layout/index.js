@@ -8,6 +8,7 @@ import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../RightSideBar';
 import Footer from '../../components/Footer';
 import session from '../../utils/session';
+import httpClient from '../../services/http';
 
 
 const Layout = (props) => {
@@ -15,6 +16,12 @@ const Layout = (props) => {
 
   const signOut = () => {
     if (session.getSessionData()) {
+      httpClient.call("logout", null, { method: 'GET' }).then(function (response) {
+
+      }, function (error) {
+        console.log(error);
+      });
+
       SuccessToast("Logged out successfully.");
       session.deleteSessionData();
       setTimeout(() => {

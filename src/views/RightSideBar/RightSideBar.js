@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import { MiniBar } from 'minibarjs';
 import { useHistory } from 'react-router-dom';
+import Session from '../../utils/session';
 
 const RightSideBar = (props) => {
 
     useEffect(() => {
+
         props._getPopularGroups();
+
+
 
     }, [])
 
@@ -79,13 +83,13 @@ const GroupList = (props) => {
     const history = useHistory();
     const searchGroup = (event) => {
         event.preventDefault();
-        history.push('/user/my-groups');
+        history.push('/top-groups');
     }
 
     return (
 
         <div className="groups-wrapper">
-            <h4 className="cmn-card-title">Suggestions for you</h4>
+            <h4 className="cmn-card-title">Top Groups</h4>
             {postData && postData.length > 0 &&
                 postData.map((element, index) => {
                     switch (element.type) {

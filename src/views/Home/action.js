@@ -7,7 +7,7 @@ export const responsePostListData = createAction();
 
 
 
-export function getUserTimelinePosts() {
+export function getPopularPosts() {
     return (dispatch) => {
 
         dispatch(requestPostListData([]));
@@ -20,4 +20,21 @@ export function getUserTimelinePosts() {
 
     }
 }
+
+
+export function getTimelinePosts() {
+    return (dispatch) => {
+
+        dispatch(requestPostListData([]));
+        httpClient.call("get-timeline-posts/1", null, { method: 'GET' }).then(function (response) {
+            dispatch(responsePostListData(response));
+        }, function (error) {
+            dispatch(responsePostListData(error));
+        });
+
+
+    }
+}
+
+
 

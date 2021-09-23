@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 
-import CreatePost from './CreatePost';
-
+import CreateGroupPost from './CreateGroupPost';
 const mapStateToProps = (state) => {
 	return {};
 };

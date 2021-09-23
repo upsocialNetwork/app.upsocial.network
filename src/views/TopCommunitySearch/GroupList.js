@@ -1,27 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import Session from '../../utils/session';
 
 
 const GroupList = (props) => {
     const history = useHistory();
+
     let groupListDat = props.groupsList && props.groupsList.result && props.groupsList.result.data ? props.groupsList.result.data : [];
 
 
-    console.log(props.groupsList);
+    //console.log(props.groupsList);
 
     const groupDetails = (event, id) => {
-        event.preventDefault();
-        history.push({
-            pathname: '/create-group-join',
-            search: '?id=' + id + '',
-            state: { detail: id }
-        });
+        const isLogin = Session.isLoggedIn();
+        if (isLogin) {
+            event.preventDefault();
+            console.log("group details", id);
+            history.push({
+                pathname: '/create-group-join',
+                search: '?id=' + id + '',
+                state: { detail: id }
+            });
+        }
+        else {
+            history.push("/auth/login");
+        }
+
 
     }
 
     const navigate = (event) => {
         event.preventDefault();
     }
+
 
 
     return (
@@ -64,14 +75,14 @@ const GroupList = (props) => {
                                                 {element.avatar ? <img src={"https://ipfs.io/ipfs/" + element.avatar} alt="" /> : <img src="img/gp-1.jpg" alt="" />}
 
                                             </a>
-                                            <h6><a href="#"
-                                             onClick={(event) => { groupDetails(event,element.id)}} 
+                                            <h6><a href="#" 
+                                            onClick={(event) => { groupDetails(event,element.id)}} 
                                             >{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
                                         </div>
                                         {/* <div className="one-line-relevent-description">
                                             <p>{element.description}</p>
                                         </div> */}
-                                        <a href="#" onClick={(event) => { navigate(event) }}  className="btn primary-bg proxima-bold join">
+                                        <a href="#" onClick={(event) => { navigate(event)}}   className="btn primary-bg proxima-bold join">
                                             {element.joined ? <>Leave</> : <>Join</>}
                                         </a>
                                     </div>

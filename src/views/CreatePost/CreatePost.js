@@ -44,18 +44,14 @@ const CreatePost = (props) => {
         event.preventDefault();
         let formData = {};
         if (isText) {
-
-            setDataType(".txt");
-            setPostType("text");
             formData = {
-                "postType": postType,
+                "postType": "text",
                 "title": title,
                 "data": data,
-                "dataType": dataType,
+                "dataType": ".txt",
                 "adultContent": isAdult
 
             };
-
         }
         else {
 
@@ -71,10 +67,15 @@ const CreatePost = (props) => {
         }
 
         //console.log(formData);
-
         httpClient.call('upload-timeline-post', formData, { method: 'POST' }).then(function (response) {
-            console.log(response);
-            SuccessToast(response.result.message);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                history.push("/");
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+
         }, function (error) {
             ErrorToast(error.result.message);
         })
