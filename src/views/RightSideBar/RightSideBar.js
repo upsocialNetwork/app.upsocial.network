@@ -108,9 +108,21 @@ const GroupRecord = (props) => {
 
     const history = useHistory();
     let element = props.postData;
+
     //console.log(element);
     const navigate = (event) => {
         event.preventDefault();
+    }
+
+
+    const groupDetails = (event, id) => {
+        event.preventDefault();
+        history.push({
+            pathname: '/create-group-join',
+            search: '?id=' + id + '',
+            state: { detail: id }
+        });
+
     }
 
 
@@ -119,11 +131,22 @@ const GroupRecord = (props) => {
     return (
         <div className="single-group">
 
-            <div className="gp-icon"> {element.avatar ? <img src={"https://ipfs.io/ipfs/" + element.avatar} alt="" /> : <img src="img/dol-1.png" alt="" />}   </div>
-            <div className="gp-text">{element.name}</div>
-            <div className="gp-button">
-                <a href="#" onClick={(event) => { navigate(event) }} className="btn border border-primary follow">View</a>
+            <div className="gp-icon">
+                <a href="#" onClick={(event) => { groupDetails(event, element.id) }} >
+                    {element.avatar ? <img src={"https://ipfs.io/ipfs/" + element.avatar} alt="" /> : <img src="img/dol-1.png" alt="" />}
+                </a>
             </div>
+            <a href="#" onClick={(event) => { groupDetails(event, element.id) }} style={{ textDecoration: 'none' }} >
+                <div className="gp-text">
+
+                    {element.name}
+
+                </div>
+            </a>
+            <div className="gp-button">
+                <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn border border-primary follow">View</a>
+            </div>
+
 
         </div>
     )

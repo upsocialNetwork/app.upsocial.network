@@ -1,10 +1,34 @@
 import React, { useEffect } from 'react';
-
-
+import { useLocation } from "react-router-dom";
+import httpClient from '../../services/http';
+import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 
 
 const CreateGroupJoin = (props) => {
+    const location = useLocation();
 
+    useEffect(() => {
+        //console.log(location.pathname); // result: '/secondpage'
+        //console.log(location.search); // result: '?query=abc'
+        //  console.log(location.state.detail); // result: 'some_value'
+        getGroupDetails(location.state.detail);
+    }, []);
+
+    const getGroupDetails = (groupid) => {
+        console.log('groupid', groupid);
+
+        httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
+
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
 
 
 
