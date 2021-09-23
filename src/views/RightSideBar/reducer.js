@@ -1,30 +1,29 @@
 import { createReducer } from 'redux-act';
-import { requestPostListData, responsePostListData } from './action';
+import { requestGroupListData, responseGroupListData } from './action';
 
 const defaultState = {
     requestProcess: false,
-    postData: null,
     groupData: null
 };
 
 
 const reducer = createReducer({
 
-    [requestPostListData]: (state) => {
+    [requestGroupListData]: (state) => {
         return {
             requestProcess: true,
-            postData: null
+            groupData: null
         };
     },
-
-    [responsePostListData]: (state, params) => {
+    [responseGroupListData]: (state, param) => {
         return {
             requestProcess: false,
-            postData: params
-        };
+            groupData: param
+        }
     }
 
 
 }, defaultState);
 
 export default reducer;
+

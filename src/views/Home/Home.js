@@ -6,12 +6,8 @@ import PostList from './PostList';
 
 
 const Home = (props) => {
-
-
-
-
     useEffect(() => {
-       props._getUserTimelinePost();
+        props._getUserTimelinePost();
     }, [])
 
     let pt = props.postData;
@@ -27,29 +23,28 @@ const Home = (props) => {
             <ul className="nav nav-tabs" id="myTab" role="tablist">
                 <li className="nav-item" role="presentation">
                     <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                        role="tab" aria-controls="home" aria-selected="false">Popular</button>
+                        role="tab" aria-controls="home" aria-selected="false">Latest</button>
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Recommended</button>
+                        role="tab" aria-controls="profile" aria-selected="false">Most Liked</button>
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="true">All</button>
+                        role="tab" aria-controls="contact" aria-selected="true">Most Commented</button>
                 </li>
             </ul>
             <div className="tab-content  mb-4" id="myTabContent">
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <PostList type={'POPULAR'} postlist={pt} />
+                    <PostList type={'Latest'} postlist={pt} />
                 </div>
                 <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <PostList type={'RECOMMENDED'} postlist={pt} />
+                    <PostList type={'Most Liked'} postlist={pt} />
                 </div>
                 <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <PostList type={'ALL'} postlist={pt} />
+                    <PostList type={'Most Commented'} postlist={pt} />
                 </div>
             </div>
-
         </main>
     );
 }

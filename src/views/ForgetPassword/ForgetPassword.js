@@ -3,16 +3,29 @@ import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common
 import Session from '../../utils/session';
 import SimpleReactValidator from 'simple-react-validator';
 import { useHistory } from "react-router-dom";
+import httpClient from '../../services/http';
+
 
 
 const ForgetPassword = (props) => {
 
-    const history = useHistory();
+    let [email, setEmail] = useState();
 
-    const login = (event) => {
+
+    const doForgetPassword = (event) => {
+        Loader(true);
+
         event.preventDefault();
-        history.push('/login');
+        let formData = {
+            email: email
+        }
+        httpClient.call("forget-password", formData, { method: 'POST' }).then(function (response) {
+            SuccessToast(response.result.message);
+        }, function (error) {
+            ErrorToast(error.result.message);
+        })
     }
+
 
 
 
@@ -31,11 +44,17 @@ const ForgetPassword = (props) => {
                         <div className="login-right">
                             <div className="input-wrapper">
                                 <label htmlFor="">Email</label>
-                                <input type="text" name="email" className="form-control"
+                                <input type="email" name="email" className="form-control"
+
+                                    onChange={(event) => { setEmail(event.target.value) }}
                                 />
 
                             </div>
-                            <button type="submit" onClick={(event) => { login(event) }} className="btn gradient-bg-one radius-30 login" >Forget Password</button>
+                            <button type="submit" className="btn gradient-bg-one radius-30 login"
+                                onClick={(event) => { doForgetPassword(event) }}
+
+                                disabled={!email}
+                            >Forget Password</button>
 
                             {/* <div className="input-wrapper">
                                 <label htmlFor="">Password</label>

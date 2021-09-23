@@ -82,7 +82,7 @@ const Login = (props) => {
 
     const forgetPassword = (event) => {
         event.preventDefault();
-        history.push('/forget-password');
+        history.push('/auth/forget-password');
     }
 
     return (
@@ -161,6 +161,7 @@ const Login = (props) => {
                             <div className="login-right">
                                 <div className="text-center">
                                     <button type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
+
                                 </div>
                             </div>
                         </form>
@@ -194,6 +195,7 @@ const Login = (props) => {
                             <div className="login-left flex">
                                 <div className="ask-user">Dont have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
                                 </div>
+
                             </div>
                             <div className="login-right">
                                 <div className="twin-btn d-flex align-items-center justify-content-between">

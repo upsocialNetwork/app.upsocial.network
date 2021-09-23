@@ -13,24 +13,25 @@ import CreateGroupJoin from './views/CreateGroupJoin';
 import CreatePost from './views/CreatePost';
 import ModTools from './views/ModTools';
 import Login from './views/Login';
-
+import RightSideBar from './views/RightSideBar';
 import Message from './components/Message'
 import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 import ForgetPassword from './views/ForgetPassword/ForgetPassword';
+import GroupSearch from './views/GroupSearch';
 
 const FullLayout = (props) => {
-    const history = useHistory();
-    if(history.location.pathname.indexOf('auth') == -1 && history.location.pathname.indexOf('user') == -1){
-      return <Layout leftSide={true} rightSide={true}>{props.children}</Layout>
-    }
-    return null
+  const history = useHistory();
+  if (history.location.pathname.indexOf('auth') == -1 && history.location.pathname.indexOf('user') == -1) {
+    return <Layout leftSide={true} rightSide={true}>{props.children}</Layout>
+  }
+  return null
 }
 
 const HFLayout = (props) => {
   const history = useHistory();
-  if(history.location.pathname.indexOf('user') !== -1){
-    return <Layout leftSide={false} rightSide={false}>{props.children}</Layout>
+  if (history.location.pathname.indexOf('user') !== -1) {
+    return <Layout leftSide={true} rightSide={false}>{props.children}</Layout>
   }
   return null
 }
@@ -49,69 +50,75 @@ const AuthorizeRoute = () => {
       //setIsLoggedIn(true)
       //history.push('/')
     }
-    else if((!state.authSession || !state.authSession.userData) && ['/auth/login', '/auth/forget-password'].indexOf(history.location.pathname) === -1){
+    else if ((!state.authSession || !state.authSession.userData) && ['/auth/login', '/auth/forget-password'].indexOf(history.location.pathname) === -1) {
       //setIsLoggedIn(false)
       //history.push('/login')
     }
-    
+
   })
 
   useEffect(() => {
     // let isLoggedIn = Session.isLoggedIn();
     // setIsLoggedIn(isLoggedIn)
 
-    
+
     // if (!isLoggedIn) {
     //   history.push('/login')
     // }
-    
+
     SetSassion();
-    setIsLoaded(true)    
+    setIsLoaded(true)
   })
-  
-    return (
-      <Switch>
-        <Route>
-          <Switch>
-            <Suspense fallback={<div>Loding...</div>}>
-              <Route path="/auth" children={()=>{
-                  return (
-                    <LoginLayout>
-                      <Route path="/auth/login" component={Login} ></Route>
-                      <Route path="/auth/forget-password" component={ForgetPassword} ></Route>
-                    </LoginLayout>
-                  )
-                }}>
-              </Route>
-              
-              <Route path="/user" children={()=>{
-                  return(
-                    <HFLayout>
-                      <Route path="/user/edit-profile" component={EditProfile}></Route>
-                    </HFLayout>
-                  )
-                }}>
-              </Route>
-              <Route path="/" children={()=>{
-                  return(
-                    <FullLayout>
-                      <Route exact path="/" component={Home}></Route>
-                      <Route exact path="/search-result" component={Search}></Route>                    
-                      <Route exact path="/create-community" component={Community}></Route>
-                      <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
-                      <Route exact path="/create-post" component={CreatePost}></Route>
-                      <Route exact path="/mod-tools" component={ModTools}></Route>
-                    </FullLayout>
-                  )
-                }}>
-              </Route>
-              
-            </Suspense>
-          </Switch>
-        </Route>        
-        <Redirect from="*" to="/" />
-      </Switch>
-    )
+
+  return (
+    <Switch>
+      <Route>
+        <Switch>
+          <Suspense fallback={<div>Loding...</div>}>
+            <Route path="/auth" children={() => {
+              return (
+                <LoginLayout>
+                  <Route path="/auth/login" component={Login} ></Route>
+                  <Route path="/auth/forget-password" component={ForgetPassword} ></Route>
+                </LoginLayout>
+              )
+            }}>
+            </Route>
+
+            <Route path="/user" children={() => {
+              return (
+                <HFLayout>
+                  <Route path="/user/edit-profile" component={EditProfile}></Route>
+                  <Route exact path="/user/my-groups" component={GroupSearch}></Route>
+                </HFLayout>
+              )
+            }}>
+            </Route>
+            <Route path="/" children={() => {
+              return (
+
+
+                <FullLayout>
+                  <Route exact path="/" component={Home}></Route>
+                  <Route exact path="/search-result" component={Search}></Route>
+                  <Route exact path="/create-community" component={Community}></Route>
+                  <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
+                  <Route exact path="/create-post" component={CreatePost}></Route>
+                  <Route exact path="/create-group-post" component={CreatePost}></Route>
+                  <Route exact path="/mod-tools" component={ModTools}></Route>
+                  {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
+                </FullLayout>
+              )
+            }}>
+            </Route>
+
+
+          </Suspense>
+        </Switch>
+      </Route>
+      <Redirect from="*" to="/" />
+    </Switch>
+  )
 
 }
 

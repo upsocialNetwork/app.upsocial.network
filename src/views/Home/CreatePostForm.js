@@ -30,13 +30,13 @@ const CreatePostForm = () => {
 
                 <ul className="p-curd-right plc-2 max-520 justify-content-end">
                     <li><button>
-                        <label className="upload upload-photo"><input type="file" />
+                        <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event) }} />
                             <img src="img/c-1.svg" alt="" />
                         </label>
                     </button>
                     </li>
                     <li><button>
-                        <label className="upload upload-photo"><input type="file" />
+                        <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event) }} />
                             <img src="img/c-2.svg" alt="" />
                         </label></button></li>
                     <li hidden><button><img src="img/c-3.svg" alt="" /></button></li>

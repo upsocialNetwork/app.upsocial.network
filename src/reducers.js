@@ -1,82 +1,86 @@
-import {combineReducers} from 'redux';
-import {createReducer} from 'redux-act';
+import { combineReducers } from 'redux';
+import { createReducer } from 'redux-act';
 import { routerReducer } from 'react-router-redux';
 
-import {requestLoaderVisibility, requestSuccessMessage, requestErrorMessage, requestAuthSession} from './utils/common';
+import { requestLoaderVisibility, requestSuccessMessage, requestErrorMessage, requestAuthSession } from './utils/common';
 import login from './views/Login/reducer';
 import post from './views/Home/reducer';
+import rightSideBar from './views/RightSideBar/reducer';
+import editProfile from './views/EditProfile/reducer';
 
 
 
 /***************************Start Reducer for loader *************/
 const defaultLoaderState = {
-	visiblity: false
+  visiblity: false
 };
 
 const loader = createReducer({
   [requestLoaderVisibility]: (state, params) => {
-			return {
-				visiblity: params.isVisible
-			};
-	}
+    return {
+      visiblity: params.isVisible
+    };
+  }
 }, defaultLoaderState);
 /***************************End Reducer for loader *************/
 
 /***************************Start Reducer for Message *************/
 const defaultMessageState = {
-	message: '',
+  message: '',
   type: ''
 };
 
 const messageObj = createReducer({
   [requestSuccessMessage]: (state, params) => {
-      if(params){
-        return {
-          message: params,
-          type: 'success'
-        };
-      }
-			return {
-        message: '',
-        type: ''
-			};
-	},
+    if (params) {
+      return {
+        message: params,
+        type: 'success'
+      };
+    }
+    return {
+      message: '',
+      type: ''
+    };
+  },
   [requestErrorMessage]: (state, params) => {
-      if(params){
-        return {
-          message: params,
-          type: 'error'
-        };
-      }
-			return {
-        message: '',
-        type: ''
-			};
-	}
+    if (params) {
+      return {
+        message: params,
+        type: 'error'
+      };
+    }
+    return {
+      message: '',
+      type: ''
+    };
+  }
 }, defaultMessageState);
 /***************************End Reducer for Message *************/
 /***************************Start Reducer for Message *************/
 const defaultAuthSession = {
-	userData: false
+  userData: false
 };
 
 const authSession = createReducer({
   [requestAuthSession]: (state, params) => {
-      return {
-        userData: params
-      };
-	}
+    return {
+      userData: params
+    };
+  }
 }, defaultAuthSession);
 /***************************End Reducer for Message *************/
 
 
 const reducers = combineReducers({
-		routing: routerReducer,
-    messageObj,
-    loader,
-		authSession,
-    login,
-    post
+  routing: routerReducer,
+  messageObj,
+  loader,
+  authSession,
+  login,
+  post,
+  rightSideBar,
+  editProfile
 });
 
 

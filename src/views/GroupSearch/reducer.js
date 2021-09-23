@@ -3,8 +3,7 @@ import { requestPostListData, responsePostListData } from './action';
 
 const defaultState = {
     requestProcess: false,
-    postData: null,
-    groupData: null
+    postData: null
 };
 
 

@@ -6,13 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
-
-
-
-
-
-
-const CreatePost = (props) => {
+const CreateGroupPost = (props) => {
     const history = useHistory();
 
 
@@ -70,7 +64,7 @@ const CreatePost = (props) => {
 
         }
 
-        //console.log(formData);
+        console.log(formData);
 
         httpClient.call('upload-timeline-post', formData, { method: 'POST' }).then(function (response) {
             console.log(response);
@@ -291,4 +285,4 @@ const CreatePost = (props) => {
     );
 }
 
-export default CreatePost;
+export default CreateGroupPost;
