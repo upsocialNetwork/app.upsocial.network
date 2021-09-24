@@ -122,6 +122,7 @@ const GroupRecord = (props) => {
 
 
     const groupDetails = (event, id) => {
+        console.log(id);
         event.preventDefault();
         history.push({
             pathname: '/group/details',

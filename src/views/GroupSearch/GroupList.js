@@ -7,7 +7,7 @@ const GroupList = (props) => {
     let groupListDat = props.groupsList && props.groupsList.result && props.groupsList.result.data ? props.groupsList.result.data : [];
 
 
-    console.log(props.groupsList);
+    //console.log(props.groupsList);
 
     const groupDetails = (event, id) => {
         event.preventDefault();
@@ -66,7 +66,7 @@ const GroupList = (props) => {
                                             </a>
                                             <h6><a href="#"
                                              onClick={(event) => { groupDetails(event,element.id)}} 
-                                            >{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
+                                            >/r{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
                                         </div>
                                         {/* <div className="one-line-relevent-description">
                                             <p>{element.description}</p>

@@ -16,17 +16,17 @@ const CreateGroupJoin = (props) => {
 
     useEffect(() => {
         getGroupDetails(location.state.detail);
-    }, []);
+    });
 
 
 
     const getGroupDetails = (groupid) => {
-        //console.log('groupid', groupid);
+       // console.log('groupid', groupid);
 
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
                 setDetails(response)
-                SuccessToast(response.result.message);
+                //SuccessToast(response.result.message);
             }
             else {
                 ErrorToast(response.result.message);
