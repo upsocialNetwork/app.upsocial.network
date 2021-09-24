@@ -33,11 +33,13 @@ const RightSideBar = (props) => {
         )
     })
 
-    const getGroupDetaills = (event) => {
+    /* const getGroupDetaills = (event) => {
         event.preventDefault();
         history.push('/create-group-join');
 
-    }
+    } */
+
+    
 
 
     const rightSide = props.rightSide ? props.rightSide : false;
@@ -83,7 +85,7 @@ const GroupList = (props) => {
     const history = useHistory();
     const searchGroup = (event) => {
         event.preventDefault();
-        history.push('/top-groups');
+        history.push('/group/top-groups');
     }
 
     return (
@@ -122,7 +124,7 @@ const GroupRecord = (props) => {
     const groupDetails = (event, id) => {
         event.preventDefault();
         history.push({
-            pathname: '/create-group-join',
+            pathname: '/group/details',
             search: '?id=' + id + '',
             state: { detail: id }
         });

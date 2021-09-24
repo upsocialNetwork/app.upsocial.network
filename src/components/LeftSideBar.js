@@ -17,7 +17,7 @@ const LeftSideBar = (props) => {
     const createGroup = (event) => {
         event.preventDefault();
 
-        history.push('/create-community');
+        history.push('/create-group');
     }
 
     const searchGroup = (event) => {

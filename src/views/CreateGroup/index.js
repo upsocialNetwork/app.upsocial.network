@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import CreateGroupJoin from './CreateGroupJoin';
+import CreateGroup from './CreateGroup';
 
 const mapStateToProps = (state) => {
 	return {};
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(CreateGroupJoin);
+)(CreateGroup);

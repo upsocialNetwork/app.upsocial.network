@@ -7,7 +7,7 @@ import login from './views/Login/reducer';
 import post from './views/Home/reducer';
 import rightSideBar from './views/RightSideBar/reducer';
 import editProfile from './views/EditProfile/reducer';
-import topCommunitySearch from './views/TopCommunitySearch/reducer';
+import topCommunitySearch from './views/TopGroupSearch/reducer';
 import groupPost from './views/CreateGroupPost/reducer';
 
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 
-import Community from './Community';
+import GroupDetails from './GroupDetails';
 
 const mapStateToProps = (state) => {
 	return {};
@@ -15,4 +15,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
 	mapStateToProps,
 	mapDispatchToProps
-)(Community);
+)(GroupDetails);

@@ -8,8 +8,8 @@ import Layout from './views/Layout'
 import Home from './views/Home';
 import Search from './views/Search';
 import EditProfile from './views/EditProfile';
-import Community from './views/Community';
-import CreateGroupJoin from './views/CreateGroupJoin';
+import Community from './views/CreateGroup';
+import CreateGroupJoin from './views/GroupDetails';
 import CreatePost from './views/CreatePost';
 import ModTools from './views/ModTools';
 import Login from './views/Login';
@@ -19,8 +19,10 @@ import Loader from './components/Loader'
 import { useSelector } from 'react-redux'
 import ForgetPassword from './views/ForgetPassword/ForgetPassword';
 import GroupSearch from './views/GroupSearch';
-import TopCommunitySearch from './views/TopCommunitySearch';
+import TopCommunitySearch from './views/TopGroupSearch';
 import CreateGroupPost from './views/CreateGroupPost';
+import GroupDetails from './views/GroupDetails';
+import TopGroupSearch from './views/TopGroupSearch';
 
 const FullLayout = (props) => {
   const history = useHistory();
@@ -103,12 +105,12 @@ const AuthorizeRoute = () => {
                 <FullLayout>
                   <Route exact path="/" component={Home}></Route>
                   <Route exact path="/search-result" component={Search}></Route>
-                  <Route exact path="/create-community" component={Community}></Route>
-                  <Route exact path="/create-group-join" component={CreateGroupJoin}></Route>
+                  <Route exact path="/create-group" component={Community}></Route>
+                  <Route exact path="/group/details" component={GroupDetails}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
                   <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
                   <Route exact path="/mod-tools" component={ModTools}></Route>
-                  <Route exact path="/top-groups" component={TopCommunitySearch}></Route>
+                  <Route exact path="/group/top-groups" component={TopGroupSearch}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
               )

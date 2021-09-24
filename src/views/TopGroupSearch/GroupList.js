@@ -17,7 +17,7 @@ const GroupList = (props) => {
             event.preventDefault();
             console.log("group details", id);
             history.push({
-                pathname: '/create-group-join',
+                pathname: '/group/details',
                 search: '?id=' + id + '',
                 state: { detail: id }
             });
@@ -77,7 +77,7 @@ const GroupList = (props) => {
                                             </a>
                                             <h6><a href="#" 
                                             onClick={(event) => { groupDetails(event,element.id)}} 
-                                            >{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
+                                            >r/{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
                                         </div>
                                         {/* <div className="one-line-relevent-description">
                                             <p>{element.description}</p>

@@ -12,7 +12,7 @@ const GroupList = (props) => {
     const groupDetails = (event, id) => {
         event.preventDefault();
         history.push({
-            pathname: '/create-group-join',
+            pathname: '/group/details',
             search: '?id=' + id + '',
             state: { detail: id }
         });

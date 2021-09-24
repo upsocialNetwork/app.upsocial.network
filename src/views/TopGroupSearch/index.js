@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { getPopularGroupList } from './action';
-import TopCommunitySearch from './TopCommunitySearch';
+import TopGroupSearch from './TopGroupSearch';
 
 
 const mapStateToProps = (state) => {
@@ -28,4 +28,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(TopCommunitySearch);
+)(TopGroupSearch);
