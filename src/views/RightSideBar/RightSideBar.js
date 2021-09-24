@@ -39,7 +39,7 @@ const RightSideBar = (props) => {
 
     } */
 
-    
+
 
 
     const rightSide = props.rightSide ? props.rightSide : false;
@@ -122,13 +122,19 @@ const GroupRecord = (props) => {
 
 
     const groupDetails = (event, id) => {
-        console.log(id);
+        //console.log(id);
         event.preventDefault();
-        history.push({
-            pathname: '/group/details',
-            search: '?id=' + id + '',
-            state: { detail: id }
-        });
+        let isLogin = Session.isLoggedIn();
+        // console.log("login status", isLogin);
+        if (isLogin == false) {
+            history.push("/auth/login");
+        } else {
+            history.push({
+                pathname: '/group/details',
+                search: '?id=' + id + '',
+                state: { detail: id }
+            });
+        }
 
     }
 

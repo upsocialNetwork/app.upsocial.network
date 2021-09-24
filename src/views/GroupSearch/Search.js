@@ -31,13 +31,11 @@ const Search = (props) => {
             if (response.success == false) {
                 ErrorToast(response.result.message);
             }
-
         }, function (error) {
             console.log(error);
-
         })
     }
-
+  
 
 
 
@@ -60,7 +58,7 @@ const Search = (props) => {
                 </li>
             </ul>
             <div className="tab-content mb-4" id="myTabContent">
-                <GroupList  groupsList={groupList}/>
+                <GroupList groupsList={groupList} />
             </div>
         </main>
     );

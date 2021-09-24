@@ -23,6 +23,8 @@ import TopCommunitySearch from './views/TopGroupSearch';
 import CreateGroupPost from './views/CreateGroupPost';
 import GroupDetails from './views/GroupDetails';
 import TopGroupSearch from './views/TopGroupSearch';
+import ChangePassword from './views/ChangePassword/ChangePassword';
+import EditPost from './views/EditPost/EditPost';
 
 const FullLayout = (props) => {
   const history = useHistory();
@@ -93,6 +95,7 @@ const AuthorizeRoute = () => {
               return (
                 <HFLayout>
                   <Route path="/user/edit-profile" component={EditProfile}></Route>
+                  <Route path="/user/change-password" component={ChangePassword}></Route>
                   <Route exact path="/user/my-groups" component={GroupSearch}></Route>
                 </HFLayout>
               )
@@ -108,19 +111,24 @@ const AuthorizeRoute = () => {
                   <Route exact path="/create-group" component={Community}></Route>
                   <Route exact path="/group/details" component={GroupDetails}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
+                  <Route exact path="/edit-post" component={EditPost}></Route>
                   <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
                   <Route exact path="/mod-tools" component={ModTools}></Route>
                   <Route exact path="/group/top-groups" component={TopGroupSearch}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
+
               )
             }}>
             </Route>
 
 
+
+
           </Suspense>
         </Switch>
       </Route>
+
       <Redirect from="*" to="/" />
     </Switch>
   )

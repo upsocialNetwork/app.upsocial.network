@@ -46,6 +46,11 @@ const Header = (props) => {
         history.push('/');
     }
 
+    const changePassword = (event) => {
+        event.preventDefault();
+        history.push("/user/change-password");
+    }
+
     const checkMetamask = () => {
         if (typeof window.ethereum !== 'undefined') {
             console.log('MetaMask is installed!');
@@ -330,9 +335,9 @@ const Header = (props) => {
                                                 <a href="/" onClick={(event) => navigate(event, '/user/edit-profile')} className="d-block in-hd">
                                                     <div className="user">
                                                         <div className="avater">
-                          {/*                                   <img className="img-fluid" src="img/user.png" alt="" />
+                                                            {/*                                   <img className="img-fluid" src="img/user.png" alt="" />
  */}
-                                                            { userDetails.profileImage ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + userDetails.profileImage} alt="" id="profile-image"
+                                                            {userDetails.profileImage ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + userDetails.profileImage} alt="" id="profile-image"
 
                                                             /> : <img className="img-fluid" src="img/user.png" alt="" />}
                                                         </div>
@@ -343,7 +348,7 @@ const Header = (props) => {
 
                                                 <ul className="side-menu setting-menu">
                                                     <li hidden><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt="" /></span>Switch account</a></li>
-                                                    <li><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
+                                                    <li><a href="/" onClick={(event) => changePassword(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
                                                     <li hidden><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
                                                     <li><a href="/" onClick={(event) => { event.preventDefault(); colorModeToggle() }}><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
                                                     <li><a href="/" onClick={(event) => logout(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>

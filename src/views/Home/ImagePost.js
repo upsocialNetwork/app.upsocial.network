@@ -1,16 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PostAttributes from './PostAttributes';
 import PostComments from './PostComments';
-
+import ReactQuill from 'react-quill'; // ES6
+import 'react-quill/dist/quill.snow.css';
+import Session from '../../utils/session';
+import { useHistory } from 'react-router-dom';
 const ImagePost = (props) => {
 
+    const history = useHistory();
     let element = props.postData;
+    let [userData, setUserData] = useState();
+
+
+    useEffect(() => {
+        let user = Session.getSessionData();
+        if (user == null) {
+
+        }
+        else {
+            // console.log(user);
+            setUserData(user);
+        }
+
+    }, []);
 
     const navigate = (event) => {
         event.preventDefault()
     }
 
-   // console.log(element);
+    const editPost = (event, postid) => {
+        event.preventDefault();
+        //console.log(postid);
+        history.push({
+            pathname: '/edit-post',
+            search: '?id=' + postid + '',
+            state: { postid: postid }
+        });
+
+    }
+
+    // console.log(element);
 
 
 
@@ -28,20 +57,28 @@ const ImagePost = (props) => {
                         </h6>
                     </div>
 
-                    <div className="post-header-right" hidden>
-                        <div className="post-time">{/* {element.agoTime} */}</div>
-                        <div className="dropdown">
-                            <button className="post-dropdown" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img/three-dot.svg" alt="" />
-                            </button>
-                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
-                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
-                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li>
-                            </ul>
+
+                    {userData && userData.id == element.userId ?
+                        <div className="post-header-right" >
+                            <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="dropdown">
+                                <button className="post-dropdown" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="img/three-dot.svg" alt="" />
+                                </button>
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a className="dropdown-item" href="/" onClick={(event) => editPost(event, element.postId)}>Edit</a></li>
+                                    {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
+                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                        :
+
+                        null
+                    }
+
+
                 </div>
                 <div className="post-content-wrapper">
                     <div className="post-content max-520">
@@ -102,7 +139,9 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520">
-                                        <p>{element.postData}</p>
+                                        <ReactQuill readOnly={true}
+                                            theme={"bubble"} value={element.postData} />
+
                                     </div>
 
                                 )

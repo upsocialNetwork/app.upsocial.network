@@ -8,7 +8,7 @@ import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common
 import Session from '../../utils/session';
 const EditProfile = (props) => {
     const history = useHistory();
-    const [value, onChange] = useState(new Date());
+    const [value, setDate] = useState(new Date());
 
     const [userName, setUserName] = useState('');
     const [firstName, setFirstName] = useState('');
@@ -25,12 +25,13 @@ const EditProfile = (props) => {
 
             // props._getProfile();
             const user = Session.getSessionData();
-            //  console.log(user);
+            console.log(user);
             setUserName(user.userName);
             setFirstName(user.firstName);
             setLastName(user.lastName);
             setAbout(user.about);
             setImage(user.profileImage);
+            //setDate("03/05/1998");
             if (user.country !== null) {
                 setCountry(user.country);
                 document.getElementById("country-name").value = user.country;
@@ -61,8 +62,8 @@ const EditProfile = (props) => {
             "lastName": lastName,
             "about": about,
             "profileImage": image,
-            "country": country,
-            "dateOfBirth": date
+            "country": country
+           // "dateOfBirth": date
         }
 
         //console.log(formData);
@@ -206,15 +207,15 @@ const EditProfile = (props) => {
                                     />
                                 </div>
                             </div>
-                            <div className="customize-pf-g-wrap">
+                            {/* <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
                                     <p>Date Of Birth:</p>
                                 </div>
                                 <div className="pf-lr-part">
 
-                                    <DatePicker onChange={onChange}
+                                    <DatePicker onChange={(event)=>{setDate()}}
                                         value={value} />   </div>
-                            </div>
+                            </div> */}
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
                                     <p>Country:</p>

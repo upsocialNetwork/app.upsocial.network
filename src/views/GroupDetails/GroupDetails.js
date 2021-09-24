@@ -21,10 +21,11 @@ const CreateGroupJoin = (props) => {
 
 
     const getGroupDetails = (groupid) => {
-       // console.log('groupid', groupid);
+        // console.log('groupid', groupid);
 
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
+               // console.log(response);
                 setDetails(response)
                 //SuccessToast(response.result.message);
             }
@@ -40,16 +41,40 @@ const CreateGroupJoin = (props) => {
         event.preventDefault();
     }
 
-    const joinGroup = (event, groupId) => {
-
+    const joinOrLeaveGroup = (event, groupid, type) => {
         event.preventDefault();
-        let login = Session.isLoggedIn();
-        if (login) {
-            console.log("joining group");
+        if (type == true) {
+            //leaving group
+            httpClient.call("leave-group/" + groupid, null, { method: 'GET' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            });
+
         }
         else {
-            history.push("/auth/login");
+            //group
+            //leaving group
+            let formData = {
+                "id": groupid
+            }
+            httpClient.call("join-group" + groupid, formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
 
+            }, function (error) {
+                console.log(error);
+            });
         }
 
     }
@@ -61,6 +86,11 @@ const CreateGroupJoin = (props) => {
             search: '?id=' + id + '',
             state: { detail: id }
         });
+    }
+
+    const modTools=(event)=>{
+        event.preventDefault();
+        history.push("/mod-tools");
     }
 
     let result = details && details.result && details.result.data ? details.result.data : [];
@@ -82,16 +112,21 @@ const CreateGroupJoin = (props) => {
 
 
                             </div>
-                            <h5><a href="#" onClick={(event) => { joinGroup(event, result.id) }} className="d-inline-block">{result && result.name} <span
-                                className="position-absolute status joined">Joined</span></a> <span
-                                    className="sub">r/{result && result.name}</span>
+                            <h5><a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block">{result && result.name} <span
+                                className="position-absolute status joined">
+
+                                {result && result.joined ? <>Leaved</> : <>Join</>}
+
+
+                            </span></a> <span
+                                className="sub">r/{result && result.name}</span>
 
 
                             </h5>
                         </div>
 
                         <div className="mod-tools">
-                            <a href="#" onClick={(event) => { navigate(event) }}><svg width="17" height="20" viewBox="0 0 17 20" fill="none"
+                            <a href="#" onClick={(event) => { modTools(event) }}><svg width="17" height="20" viewBox="0 0 17 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M1.00158 4.81213C3.8003 4.76371 6.16572 3.8344 8.19728 2C10.2217 3.8171 12.5966 4.77523 15.4095 4.80291C15.4238 5.0312 15.4451 5.23182 15.4462 5.43244C15.4486 6.90595 15.4534 8.37831 15.4462 9.85183C15.4285 13.8965 12.4842 17.7671 8.50982 18.9616C8.32277 19.0181 8.08481 19.01 7.89775 18.9523C3.84647 17.691 1.01105 13.9092 1.00158 9.76766C0.998027 8.1431 1.00158 6.51855 1.00158 4.81213Z"

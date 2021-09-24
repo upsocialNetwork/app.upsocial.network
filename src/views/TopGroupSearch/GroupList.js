@@ -12,27 +12,28 @@ const GroupList = (props) => {
     //console.log(props.groupsList);
 
     const groupDetails = (event, id) => {
-        const isLogin = Session.isLoggedIn();
-        if (isLogin) {
-            event.preventDefault();
-            console.log("group details", id);
+        event.preventDefault();
+
+        let isLogin = Session.isLoggedIn();
+        if (isLogin == false) {
+            history.push("/auth/login");
+        } else {
             history.push({
                 pathname: '/group/details',
                 search: '?id=' + id + '',
                 state: { detail: id }
             });
         }
-        else {
-            history.push("/auth/login");
-        }
-
-
     }
 
     const navigate = (event) => {
         event.preventDefault();
     }
 
+
+    const joinGroup = (event) => {
+
+    }
 
 
     return (
@@ -70,19 +71,19 @@ const GroupList = (props) => {
                                     <div className="single-group-or-users" key={element.id}>
                                         <div className="elementory-avater-wrap">
                                             <a href="#" className="elemetory-avater"
-                                             onClick={(event) => { groupDetails(event,element.id)}} 
+                                                onClick={(event) => { groupDetails(event, element.id) }}
                                             >
                                                 {element.avatar ? <img src={"https://ipfs.io/ipfs/" + element.avatar} alt="" /> : <img src="img/gp-1.jpg" alt="" />}
 
                                             </a>
-                                            <h6><a href="#" 
-                                            onClick={(event) => { groupDetails(event,element.id)}} 
+                                            <h6><a href="#"
+                                                onClick={(event) => { groupDetails(event, element.id) }}
                                             >r/{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
                                         </div>
                                         {/* <div className="one-line-relevent-description">
                                             <p>{element.description}</p>
                                         </div> */}
-                                        <a href="#" onClick={(event) => { navigate(event)}}   className="btn primary-bg proxima-bold join">
+                                        <a href="#" onClick={(event) => { navigate(event) }} className="btn primary-bg proxima-bold join">
                                             {element.joined ? <>Leave</> : <>Join</>}
                                         </a>
                                     </div>

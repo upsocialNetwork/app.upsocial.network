@@ -2,8 +2,9 @@
 import axios from 'axios';
 
 let defaultConfig = {
-    API_URL: "http://68.183.245.212:8080/Upsocial/ipfsservice/api/v0/",
-    HEADERS: {
+   // API_URL: "http://68.183.245.212:8080/Upsocial/ipfsservice/api/v0/",
+   API_URL: "http://localhost:8433/Upsocial/ipfsservice/api/v0/", 
+   HEADERS: {
         "Content-Type": "application/json; charset=utf-8",
     }
 };

@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 
 
 
-const CreatePost = (props) => {
+const EditPost = (props) => {
     const history = useHistory();
     const location = useLocation();
 
@@ -23,31 +23,73 @@ const CreatePost = (props) => {
 
             history.push('/auth/login');
         }
-
-
-
-
+        //console.log(location);
+        const id = location.state.postid;
+        //console.log("post id", id);
+        getpostDetails(id);
     }, []);
 
-
-    let [title, setTitle] = useState();
+    let [id, setId] = useState(null);
+    let [title, setTitle] = useState(null);
     let [isAdult, setAdult] = useState(true);
-    let [data, setData] = useState();
+    let [data, setData] = useState(null);
+    let [postdata, setPostData] = useState(null);
     let [isText, setText] = useState(false);
-    let [selectedFile, setSelectedFile] = useState();
-    let [dataType, setDataType] = useState();
-    let [postType, setPostType] = useState();
+    let [selectedFile, setSelectedFile] = useState(null);
+    let [dataType, setDataType] = useState(null);
+    let [postType, setPostType] = useState(null);
 
 
+    const navigate = (event) => {
+        event.preventDefault();
+    }
 
-    /* let pt = props.postData;
-    console.log(pt); */
+
+    const getpostDetails = (id) => {
+        httpClient.call("get-post-details/" + id, null, { method: 'GET' }).then(function (response) {
+            if (response.success) {
+                console.log(response);
+                SuccessToast(response.result.message);
+
+                let res = response.result.data;
+                setTitle(res.postName);
+                setId(res.postId);
+
+                // console.log(res.postData);
+                if (res.postType == "text") {
+                    document.getElementById("text-tab").click();
+                    setText(true);
+                    setPostType("text");
+                    setDataType(".txt");
+                    setData(res.postData);
+
+                }
+                else {
+                    document.getElementById("link-tab").click();
+                    setText(false);
+                    setPostType(res.postType);
+                    setDataType(res.postDataType);
+                    setPostData(res.postData);
+                }
+                setAdult(res.adultContent)
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+            //  console.log(response);
+        }, function (error) {
+            console.log(error);
+        });
+    }
+
+
 
     const savePost = (event) => {
         event.preventDefault();
         let formData = {};
         if (isText) {
             formData = {
+                "id": id,
                 "postType": "text",
                 "title": title,
                 "data": data,
@@ -59,9 +101,10 @@ const CreatePost = (props) => {
         else {
 
             formData = {
+                "id": id,
                 "postType": postType,
                 "title": title,
-                "data": data,
+                "data": postdata,
                 "dataType": dataType,
                 "adultContent": isAdult
 
@@ -69,11 +112,13 @@ const CreatePost = (props) => {
 
         }
 
-        //console.log(formData);
-        httpClient.call('upload-timeline-post', formData, { method: 'POST' }).then(function (response) {
+        // console.log(formData);
+
+        httpClient.call('update-timeline-post', formData, { method: 'POST' }).then(function (response) {
             if (response.success) {
+                //console.log(response);
                 SuccessToast(response.result.message);
-                history.push("/");
+                //history.push("/");
             }
             else {
                 ErrorToast(response.result.message);
@@ -93,7 +138,7 @@ const CreatePost = (props) => {
         reader.onloadend = function () {
             var b64 = reader.result.replace(
                 /^data:.+;base64,/, '');
-            setData(b64);
+            setPostData(b64);
             console.log("file converted successfully");
         };
         reader.readAsDataURL(data);
@@ -132,7 +177,7 @@ const CreatePost = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
-                    <h3 className="tertiary-title position-relative">Create Post</h3>
+                    <h3 className="tertiary-title position-relative">Edit Post</h3>
                     {/*  <div className="post-writter d-flex justify-content-between" >
                         <div className="user">
                             <div className="avater">
@@ -172,11 +217,12 @@ const CreatePost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-
+                                                    value={title}
                                                     onChange={(event) => { setTitle(event.target.value) }}
 
                                                 />
                                             </div>
+
                                             <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
@@ -194,13 +240,14 @@ const CreatePost = (props) => {
                                             </div>
 
                                         </div><br />
-                                        <div className="text-content-wrap">
+                                        {/* <div className="text-content-wrap">
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
-                                                <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
+                                                <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} 
+                                                    value={isAdult}  id="checkbox" />
                                                 <span className="checkmark"></span>
                                             </label>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                 </div>
@@ -210,24 +257,25 @@ const CreatePost = (props) => {
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
                                                     onChange={(event) => { setTitle(event.target.value) }}
+                                                    value={title}
                                                 />
                                             </div>
                                             <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
-                                                    <ReactQuill onChange={(value) => { setData(value) }} />
+                                                    <ReactQuill onChange={(value) => { setData(value) }} value={data} />
                                                 </div>
                                             </div>
 
 
                                         </div><br />
-                                        <div className="text-content-wrap">
+                                        {/*  <div className="text-content-wrap">
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
-                                                <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
+                                                <input type="checkbox" name="checkbox" id="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
                                                 <span className="checkmark"></span>
                                             </label>
-                                        </div>
+                                        </div> */}
 
                                     </div>
                                 </div>
@@ -257,10 +305,9 @@ const CreatePost = (props) => {
 
                             <div className="twin-btn d-flex align-items-center justify-content-between">
 
-                                <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title &&
-                                    data)}
+                                <button type="submit" className="btn primary-bg ms-3 proxima-bold"
                                     onClick={(event) => { savePost(event) }}
-                                >Post Now</button>
+                                >Update Post</button>
                             </div>
                         </div>
                     </div>
@@ -295,4 +342,4 @@ const CreatePost = (props) => {
     );
 }
 
-export default CreatePost;
+export default EditPost;

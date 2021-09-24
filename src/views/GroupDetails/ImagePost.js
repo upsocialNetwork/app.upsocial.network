@@ -1,7 +1,8 @@
 import React from 'react';
 import PostAttributes from './PostAttributes';
 import PostComments from './PostComments';
-
+import ReactQuill from 'react-quill'; // ES6
+import 'react-quill/dist/quill.snow.css';
 const ImagePost = (props) => {
 
     let element = props.postData;
@@ -102,7 +103,9 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520">
-                                        <p>{element.postData}</p>
+                                       <ReactQuill readOnly={true}
+                                            theme={"bubble"} value={element.postData} />
+
                                     </div>
 
                                 )

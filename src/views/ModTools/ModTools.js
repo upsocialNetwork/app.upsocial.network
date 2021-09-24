@@ -18,18 +18,18 @@ const ModTools = (props) => {
                         <div class="user type-3">
                             <div class="avater position-relative">
                                 <img class="img-fluid" src="img/user.png" alt="" />
-                                <label class="position-absolute upload type-2">
+                                {/* <label class="position-absolute upload type-2">
                                     <input type="file" name="" id="" />
                                     <img src="img/folder.svg" alt="" />
-                                </label>
+                                </label> */}
                             </div>
                             <h5><a href="#" class="d-inline-block">heyderbeutiful <span
-                                        class="position-absolute status joined">Joined</span></a> <span
+                                        class="position-absolute status joined">Edit</span></a> <span
                                     class="sub">r/heyderbeautiful</span>
                             </h5>
                         </div>
 
-                        <div class="mod-tools">
+                        {/* <div class="mod-tools">
                             <a class="active" href="mod-tools.html"><svg width="17" height="20" viewBox="0 0 17 20"
                                     fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -37,22 +37,22 @@ const ModTools = (props) => {
                                         stroke="black" stroke-width="1.5" stroke-miterlimit="10" />
                                 </svg>
                                 Mod Tools</a>
-                        </div>
+                        </div> */}
                     </div>
 
-                    <div class="hide-group">
+                    {/* <div class="hide-group">
                         <p>HIde Group</p>
                         <div class="toggle-switch">
                             <input type="checkbox" id="toggleAll" />
                             <label for="toggleAll"></label>
                         </div>
-                    </div>
+                    </div> */}
 
                     <div class="accordion" id="accordionExample">
                         <div class="accordion-item">
                             <button class="accordion-btn" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                Edit permissions
+                                Moderators
                             </button>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
                                 data-bs-parent="#accordionExample">

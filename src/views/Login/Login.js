@@ -85,6 +85,11 @@ const Login = (props) => {
         history.push('/auth/forget-password');
     }
 
+    const home = (event) => {
+        event.preventDefault();
+        history.push('/');
+    }
+
     return (
         <div className="login-wrapper">
             <div className="access-top-part">
@@ -194,9 +199,16 @@ const Login = (props) => {
                             </div>
                             <div className="login-left flex">
                                 <div className="ask-user">Dont have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
+                                    <br/><br/>
+                                   Visit Upsocial ? 
+                                    <a href="/" className="theme-color" onClick={(event) => {home(event) }}>Home</a>
+
                                 </div>
 
+
+
                             </div>
+
                             <div className="login-right">
                                 <div className="twin-btn d-flex align-items-center justify-content-between">
                                     <a href="/" onClick={(event) => forgetPassword(event)}
