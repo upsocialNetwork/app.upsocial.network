@@ -9,16 +9,15 @@ import PostList from './PostList';
 const Home = (props) => {
     useEffect(() => {
 
-        let isLogin = Session.isLoggedIn;
-        if (isLogin) {
+        const isLogin = Session.getSessionData();
+        if (isLogin !== null) {
+            console.log("login block calling");
             props._getTimlinePost();
         }
         else {
+            console.log("not login block calling");
             props._getPopularPost();
         }
-
-
-
     }, [])
 
     let pt = props.postData;
