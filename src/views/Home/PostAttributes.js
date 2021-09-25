@@ -1,17 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 const PostAttributes = (props) => {
 
     let element = props.postData;
+    let [isLike, setIsLike] = useState(false);
+    let [isDisLike, setIsDisLike] = useState(false);
+
+    const toggleLike = () => {
+        setIsLike(!isLike);
+        setIsDisLike(false)
+    }
+    const toggleDisLike = () => {
+        setIsLike(false);
+        setIsDisLike(!isDisLike)
+    }
+
+    let likeClass = isLike ? 'active' : null;
+    let disLikeClass = isDisLike ? 'active' : null;
 
     return (
         <>
 
             <div className="post-crud-wrap max-520 d-flex justify-content-between">
                 <ul className="p-curd-left likeUnlike-wrap">
-                    <li><button className="action-type-one"><span className="like"><i
+                    <li><button className={"action-type-one "+likeClass} onClick={()=>{toggleLike()}}><span className="like"><i
                         className="fal fa-arrow-alt-up"></i></span>2200</button></li>
-                    <li><button className="action-type-one"><span className="unlike"><i
+                    <li><button className={"action-type-one "+disLikeClass} onClick={()=>{toggleDisLike()}}><span className="unlike"><i
                         className="fal fa-arrow-alt-down"></i></span>2200</button></li>
                 </ul>
                 <ul className="p-curd-right">
