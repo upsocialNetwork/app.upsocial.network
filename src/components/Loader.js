@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 
 const Loader = (props) => {
 
-    if(!props.visible){
+    if(!props.visiblity){
         return false;
     }
+    
     return (
         <div id="overlay">
             <div className="lds-ripple">
@@ -18,11 +19,9 @@ const Loader = (props) => {
 
 
 const mapStateToProps = (state) => {
-
 	return {
 		visiblity: state.loader.visiblity
 	}
-
 };
 
 const mapDispatchToProps = (dispatch) => {

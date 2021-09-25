@@ -12,13 +12,10 @@ import LinkPost from './LinkPost';
 
 const PostList = (props) => {
 
-     let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
-
+     let postData = props.postlist ? props.postlist : [];
     const navigate = (event) => {
         event.preventDefault()
     }
-   
-
 
     return (
 

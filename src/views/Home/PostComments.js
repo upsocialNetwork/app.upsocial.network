@@ -1,85 +1,187 @@
 import React from 'react';
+import _ from 'underscore';
 
+// const commentData = [
+//     {
+//         id: 1,
+//         postedBy: 'Aparna Ghone',
+//         createDate: 'Aug 13, 2021 5.05 PM',
+//         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//         reply: [
+//             {
+//                 id: 99,
+//                 postedBy: 'Aparna Ghone',
+//                 createDate: 'Aug 13, 2021 5.05 PM',
+//                 comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                 reply: [
+//                     {
+//                         id: 51,
+//                         postedBy: 'Aparna Ghone',
+//                         createDate: 'Aug 13, 2021 5.05 PM',
+//                         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                     },
+//                     {
+//                         id: 52,
+//                         postedBy: 'Aparna Ghone',
+//                         createDate: 'Aug 13, 2021 5.05 PM',
+//                         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                     }
+//                 ]
+//             }
+//         ]
+//     },
+//     {
+//         id: 2,
+//         postedBy: 'Aparna Ghone',
+//         createDate: 'Aug 13, 2021 5.05 PM',
+//         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//         reply: [
+//             {
+//                 id: 98,
+//                 postedBy: 'Aparna Ghone',
+//                 createDate: 'Aug 13, 2021 5.05 PM',
+//                 comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                 reply: [
+//                     {
+//                         id: 53,
+//                         postedBy: 'Aparna Ghone',
+//                         createDate: 'Aug 13, 2021 5.05 PM',
+//                         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                     }
+//                 ]
+//             }
+//         ]
+//     },
+//     {
+//         id: 3,
+//         postedBy: 'Aparna Ghone',
+//         createDate: 'Aug 13, 2021 5.05 PM',
+//         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//         reply: [
+//             {
+//                 id: 97,
+//                 postedBy: 'Aparna Ghone',
+//                 createDate: 'Aug 13, 2021 5.05 PM',
+//                 comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                 reply: [
+//                     {
+//                         id: 54,
+//                         postedBy: 'Aparna Ghone',
+//                         createDate: 'Aug 13, 2021 5.05 PM',
+//                         comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
+//                     }
+//                 ]
+//             }
+//         ]
+//     }
+// ]
 
-const commentData = [
+var commentData = [
     {
-        id: 1,
-        postedBy: 'Aparna Ghone',
-        createDate: 'Aug 13, 2021 5.05 PM',
-        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-        reply: [
-            {
-                id: 99,
-                postedBy: 'Aparna Ghone',
-                createDate: 'Aug 13, 2021 5.05 PM',
-                comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                reply: [
-                    {
-                        id: 51,
-                        postedBy: 'Aparna Ghone',
-                        createDate: 'Aug 13, 2021 5.05 PM',
-                        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                    },
-                    {
-                        id: 52,
-                        postedBy: 'Aparna Ghone',
-                        createDate: 'Aug 13, 2021 5.05 PM',
-                        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                    }
-                ]
-            }
-        ]
+        "commentId": 8,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 2,
+        "childIds": [],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
     },
     {
-        id: 2,
-        postedBy: 'Aparna Ghone',
-        createDate: 'Aug 13, 2021 5.05 PM',
-        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-        reply: [
-            {
-                id: 98,
-                postedBy: 'Aparna Ghone',
-                createDate: 'Aug 13, 2021 5.05 PM',
-                comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                reply: [
-                    {
-                        id: 53,
-                        postedBy: 'Aparna Ghone',
-                        createDate: 'Aug 13, 2021 5.05 PM',
-                        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                    }
-                ]
-            }
-        ]
+        "commentId": 7,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 2,
+        "childIds": [],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
     },
     {
-        id: 3,
-        postedBy: 'Aparna Ghone',
-        createDate: 'Aug 13, 2021 5.05 PM',
-        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-        reply: [
-            {
-                id: 97,
-                postedBy: 'Aparna Ghone',
-                createDate: 'Aug 13, 2021 5.05 PM',
-                comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                reply: [
-                    {
-                        id: 54,
-                        postedBy: 'Aparna Ghone',
-                        createDate: 'Aug 13, 2021 5.05 PM',
-                        comment: 'Ex sunt mollit elit dolor eiusmod quis ullamco sit ea incididunt. Lorem qui nostrud excepteur ipsum consectetur.',
-                    }
-                ]
-            }
-        ]
+        "commentId": 6,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 2,
+        "childIds": [],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
+    },
+    {
+        "commentId": 5,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 2,
+        "childIds": [],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
+    },
+    {
+        "commentId": 4,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 2,
+        "childIds": [],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
+    },
+    {
+        "commentId": 3,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 1,
+        "childIds": [],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
+    },
+    {
+        "commentId": 2,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 0,
+        "childIds": [
+            4,
+            5,
+            6,
+            7,
+            8
+        ],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
+    },
+    {
+        "commentId": 1,
+        "comment": "hello",
+        "userId": 1,
+        "userName": "KD",
+        "parentId": 0,
+        "childIds": [
+            3
+        ],
+        "postedBy": 'Aparna Ghone',
+        "createDate": 'Aug 13, 2021 5.05 PM',
     }
 ]
+
+
 
 const PostComments = (props) => {
 
     let element = props.postData;
     let commentCount = element.commentCount;
+
+    // commentData.map( element => {
+    //     if(element.childIds && element.childIds.length > 0){
+    //         element.childIds.map(childElement=>{
+    //             let index = _.findIndex(commentData, {commentId: childElement.commentId});
+    //             console.log('index', index)
+    //         })
+    //     }
+    // })
 
     const navigate = (event) => {
         event.preventDefault()
@@ -134,10 +236,12 @@ const PostComments = (props) => {
                                                 </form>
                                             </div>
                                         </div>
-                                        {commentElement.reply && commentElement.reply.length > 0 &&
+                                        {commentElement.childIds && commentElement.childIds.length > 0 &&
                                             <ul className="nested-comment">
                                                 {
-                                                    commentElement.reply.map((replyElement, key) => {
+                                                    commentElement.childIds.map((childElement, key) => {
+                                                        let index = _.findIndex(commentData, {commentId: childElement});
+                                                        let replyElement = commentData[index];
                                                         return (
                                                             <li key={key}>
                                                                 <div className="elementory-avater-wrap single-comment">
@@ -164,7 +268,7 @@ const PostComments = (props) => {
                                                                         </form>
                                                                     </div>
                                                                 </div>
-                                                                {replyElement.reply && replyElement.reply.length > 0 &&
+                                                                {/* {replyElement.reply && replyElement.reply.length > 0 &&
                                                                     <ul className="nested-comment">
                                                                         {
                                                                             replyElement.reply.map((replyElement, key) => {
@@ -186,7 +290,7 @@ const PostComments = (props) => {
                                                                         }
                                                                     </ul>
 
-                                                                }
+                                                                } */}
                                                             </li>
                                                         )
                                                     })

@@ -47,7 +47,6 @@ export function setHttpClientConfig(){
       if(userData && userData.authToken){
         headers['AUTHTOKEN'] = userData.authToken
       }
-
       httpClient.setConfig({
           API_URL: config.API_URL,
           HEADERS: headers

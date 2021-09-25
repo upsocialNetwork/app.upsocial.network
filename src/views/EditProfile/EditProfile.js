@@ -9,7 +9,6 @@ import Session from '../../utils/session';
 const EditProfile = (props) => {
     const history = useHistory();
     const [value, setDate] = useState(new Date());
-
     const [userName, setUserName] = useState('');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -22,7 +21,6 @@ const EditProfile = (props) => {
             history.push('/auth/login');
         }
         else {
-
             // props._getProfile();
             const user = Session.getSessionData();
             console.log(user);
@@ -34,9 +32,7 @@ const EditProfile = (props) => {
             //setDate("03/05/1998");
             if (user.country !== null) {
                 setCountry(user.country);
-                document.getElementById("country-name").value = user.country;
             }
-
         }
     }, []);
 
@@ -221,7 +217,7 @@ const EditProfile = (props) => {
                                     <p>Country:</p>
                                 </div>
                                 <div className="pf-lr-part">
-                                    <select id="country-name" className="form-select select2" aria-label="Default select example" onChange={(event) => { setCountry(event.target.value) }}>
+                                    <select value={country} className="form-select select2" aria-label="Default select example" onChange={(event) => { setCountry(event.target.value) }}>
                                         <option defaultValue>Open this select menu</option>
                                         <option value="India">India</option>
                                         <option value="El Salvador">El Salvador</option>

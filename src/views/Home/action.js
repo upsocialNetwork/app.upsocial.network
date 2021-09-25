@@ -7,12 +7,13 @@ export const responsePostListData = createAction();
 
 
 
-export function getPopularPosts() {
+export function getPopularPosts(page) {
     return (dispatch) => {
 
         dispatch(requestPostListData([]));
-        httpClient.call("get-popular-posts/1", null, { method: 'GET' }).then(function (response) {
-            dispatch(responsePostListData(response));
+        httpClient.call(`get-popular-posts/${page}`, null, { method: 'GET' }).then(function (response) {
+            let responseData = response && response.result && response.result.data ? response.result.data : []
+            dispatch(responsePostListData(responseData));
         }, function (error) {
             dispatch(responsePostListData(error));
         });
@@ -22,12 +23,13 @@ export function getPopularPosts() {
 }
 
 
-export function getTimelinePosts() {
+export function getTimelinePosts(page) {
     return (dispatch) => {
 
         dispatch(requestPostListData([]));
-        httpClient.call("get-timeline-posts/1", null, { method: 'GET' }).then(function (response) {
-            dispatch(responsePostListData(response));
+        httpClient.call(`get-timeline-posts/${page}`, null, { method: 'GET' }).then(function (response) {
+            let responseData = response && response.result && response.result.data ? response.result.data : []
+            dispatch(responsePostListData(responseData));
         }, function (error) {
             dispatch(responsePostListData(error));
         });

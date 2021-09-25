@@ -1,29 +1,44 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Session from '../../utils/session';
-
+import {Loader} from '../../utils/common';
 import CreatePostForm from './CreatePostForm';
 import PostList from './PostList';
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 
 const Home = (props) => {
-    useEffect(() => {
 
+
+    const gePopularPost = (page) => {
+        props._getPopularPost(page);
+    }
+    const geTimeLinePost = (page) => {
+        props._getTimlinePost(page);
+    }
+
+    useEffect(() => {
         let isLogin = Session.getSessionData();
         if (isLogin == null) {
-            console.log("not login block calling");
-            props._getPopularPost();
-        }
-        else {
-            console.log("login block calling");
-            props._getTimlinePost();
-
-        }
+            gePopularPost(1)
+        }else {
+            geTimeLinePost(1)
+        }        
     }, [])
 
-    let pt = props.postData;
-    //console.log(pt);
 
+    let pt = props.postData;
+    Loader(props.requestProcess);
+
+    const loadFunc = (page) =>     {
+        if(page > 5) return false
+         let isLogin = Session.getSessionData();
+        if (isLogin == null) {
+            gePopularPost(page)
+        }else {
+            geTimeLinePost(page)
+        }
+    }
 
 
 
@@ -48,7 +63,15 @@ const Home = (props) => {
             </ul>
             <div className="tab-content  mb-4" id="myTabContent">
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <InfiniteScroll
+                    pageStart={1}
+                    loadMore={loadFunc}
+                    hasMore={props.hasMore}
+                    loader={<div className="loader" key={0}>Loading ...</div>}
+                >
                     <PostList type={'Latest'} postlist={pt} />
+                </InfiniteScroll>
+                    
                 </div>
                 <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <PostList type={'Most Liked'} postlist={pt} />

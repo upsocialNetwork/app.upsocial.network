@@ -138,12 +138,14 @@ const AuthorizeRoute = () => {
 
 
 const AppRoute = (props) => {
+  const [pageLoad, setPageLoad] = useState(false);
   useEffect(() => {
     setHttpClientConfig().then(function () {
+      setPageLoad(true)
     });
   })
 
-
+  if(!pageLoad) return <div>Loading...</div>
   return (
     <Router basename={'/'}>
       <ErrorBoundary>
