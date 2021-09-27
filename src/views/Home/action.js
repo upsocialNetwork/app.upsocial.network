@@ -13,9 +13,9 @@ export function getPopularPosts(page) {
         dispatch(requestPostListData([]));
         httpClient.call(`get-popular-posts/${page}`, null, { method: 'GET' }).then(function (response) {
             let responseData = response && response.result && response.result.data ? response.result.data : []
-            dispatch(responsePostListData(responseData));
+            dispatch(responsePostListData({data: responseData, error: null}));
         }, function (error) {
-            dispatch(responsePostListData(error));
+            dispatch(responsePostListData({data: [], error}));
         });
 
 
@@ -29,9 +29,9 @@ export function getTimelinePosts(page) {
         dispatch(requestPostListData([]));
         httpClient.call(`get-timeline-posts/${page}`, null, { method: 'GET' }).then(function (response) {
             let responseData = response && response.result && response.result.data ? response.result.data : []
-            dispatch(responsePostListData(responseData));
+            dispatch(responsePostListData({data: responseData, error: null}));
         }, function (error) {
-            dispatch(responsePostListData(error));
+            dispatch(responsePostListData({data: [], error}));
         });
 
 

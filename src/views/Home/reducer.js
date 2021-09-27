@@ -4,7 +4,8 @@ import { requestPostListData, responsePostListData } from './action';
 const defaultState = {
     requestProcess: false,
     postData: [],
-    groupData: null
+    groupData: null,
+    error: null
 };
 
 
@@ -18,11 +19,13 @@ const reducer = createReducer({
     },
 
     [responsePostListData]: (state, params) => {
+        let responseParams = params && params.data ? params.data : [];
         return {
             ...state,
             requestProcess: false,
-            postData: [...state.postData, ...params],
-            hasMore: params.length == 10 ? true : false
+            postData: [...state.postData, ...responseParams],
+            hasMore: params && !params.error && responseParams.length == 10 ? true : false,
+            error: params && params.error ? params.error: 'Something went wrong'
         };
     }
 
