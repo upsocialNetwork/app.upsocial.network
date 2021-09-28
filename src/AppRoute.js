@@ -26,12 +26,13 @@ import GroupDetails from './views/GroupDetails';
 import TopGroupSearch from './views/TopGroupSearch';
 import ChangePassword from './views/ChangePassword/ChangePassword';
 import EditPost from './views/EditPost/EditPost';
+import PostDetails from './views/PostDetails/PostDetails';
 
 const FullLayout = (props) => {
   const history = useHistory();
-  if (history.location.pathname.indexOf('auth') == -1 && 
-      history.location.pathname.indexOf('user') == -1 && 
-      history.location.pathname.indexOf('mod-tools') == -1) {
+  if (history.location.pathname.indexOf('auth') == -1 &&
+    history.location.pathname.indexOf('user') == -1 &&
+    history.location.pathname.indexOf('mod-tools') == -1) {
     return <Layout leftSide={true} rightSide={true}>{props.children}</Layout>
   }
   return null
@@ -45,7 +46,7 @@ const HFLayout = (props) => {
   return null
 }
 
-const ModToollLayout = (props) => {  
+const ModToollLayout = (props) => {
   const history = useHistory();
   if (history.location.pathname.indexOf('mod-tools') !== -1) {
     return <ModToolLayout leftSide={true} rightSide={false}>{props.children}</ModToolLayout>
@@ -131,15 +132,16 @@ const AuthorizeRoute = () => {
                   <Route exact path="/edit-post" component={EditPost}></Route>
                   <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
                   <Route exact path="/group/top-groups" component={TopGroupSearch}></Route>
+                  <Route exact path="/post-details" component={PostDetails}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
 
               )
             }}>
             </Route>
-            
 
-            
+
+
 
 
 
@@ -164,7 +166,7 @@ const AppRoute = (props) => {
     });
   })
 
-  if(!pageLoad) return <div>Loading...</div>
+  if (!pageLoad) return <div>Loading...</div>
   return (
     <Router basename={'/'}>
       <ErrorBoundary>

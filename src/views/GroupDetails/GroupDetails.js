@@ -16,7 +16,7 @@ const CreateGroupJoin = (props) => {
 
     useEffect(() => {
         getGroupDetails(location.state.detail);
-    });
+    },[]);
 
 
 
@@ -27,7 +27,7 @@ const CreateGroupJoin = (props) => {
             if (response.success) {
                // console.log(response);
                 setDetails(response)
-                //SuccessToast(response.result.message);
+                //SuccessToast(response.    result.message);
             }
             else {
                 ErrorToast(response.result.message);
@@ -114,6 +114,9 @@ const CreateGroupJoin = (props) => {
                             </div>
                             <h5><a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block">{result && result.name} <span
                                 className="position-absolute status joined">
+
+
+
 
                                 {result && result.joined ? <>Leaved</> : <>Join</>}
 

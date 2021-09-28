@@ -28,9 +28,23 @@ const ImagePost = (props) => {
         event.preventDefault()
     }
 
+
+    const pageDetails = (event) => {
+        event.preventDefault();
+        console.log("calling page redirect");
+        console.log(element);
+        const id = element.postId;
+        event.preventDefault();
+        history.push({
+            pathname: '/post-details',
+            search: '?id=' + id + '',
+            state: { detail: id }
+        });
+    }
+
     const editPost = (event, postid) => {
         event.preventDefault();
-        //console.log(postid);
+        console.log(postid);
         history.push({
             pathname: '/edit-post',
             search: '?id=' + postid + '',
@@ -50,7 +64,7 @@ const ImagePost = (props) => {
                     <div className="elementory-avater-wrap">
                         <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.userAvatar != null ? <img src={"https://ipfs.io/ipfs/" + element.userAvatar} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
                         <h6>
-                            <a href="/" onClick={(event) => navigate(event)} >
+                            <a href="/" onClick={(event) => { pageDetails(event) }} >
                                 {element.postName}
                             </a> <span>Posted by  {element.userName}
                             </span>
@@ -82,7 +96,7 @@ const ImagePost = (props) => {
                 </div>
                 <div className="post-content-wrapper">
                     <div className="post-content max-520">
-                        <p>{element.title}</p>
+                        <p >{element.title}</p>
                     </div>
                     {/* {element.data &&
                         <a href="/" onClick={(event) => navigate(event)} className="post-img">
