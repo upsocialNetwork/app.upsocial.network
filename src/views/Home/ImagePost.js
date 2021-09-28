@@ -152,7 +152,7 @@ const ImagePost = (props) => {
 
                     })()}
                     <PostAttributes {...props} />
-                    {/*  <PostComments {...props} /> */}
+                    <PostComments {...props} />
                 </div>
             </div>
         </div>

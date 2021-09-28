@@ -79,7 +79,7 @@ import _ from 'underscore';
 var commentData = [
     {
         "commentId": 8,
-        "comment": "hello",
+        "comment": "mai",
         "userId": 1,
         "userName": "KD",
         "parentId": 2,
@@ -89,7 +89,7 @@ var commentData = [
     },
     {
         "commentId": 7,
-        "comment": "hello",
+        "comment": "grand mother",
         "userId": 1,
         "userName": "KD",
         "parentId": 2,
@@ -99,7 +99,7 @@ var commentData = [
     },
     {
         "commentId": 6,
-        "comment": "hello",
+        "comment": "grand father",
         "userId": 1,
         "userName": "KD",
         "parentId": 2,
@@ -109,7 +109,7 @@ var commentData = [
     },
     {
         "commentId": 5,
-        "comment": "hello",
+        "comment": "trunks",
         "userId": 1,
         "userName": "KD",
         "parentId": 2,
@@ -119,7 +119,7 @@ var commentData = [
     },
     {
         "commentId": 4,
-        "comment": "hello",
+        "comment": "Bullama",
         "userId": 1,
         "userName": "KD",
         "parentId": 2,
@@ -129,7 +129,7 @@ var commentData = [
     },
     {
         "commentId": 3,
-        "comment": "hello",
+        "comment": "Gohan",
         "userId": 1,
         "userName": "KD",
         "parentId": 1,
@@ -139,7 +139,7 @@ var commentData = [
     },
     {
         "commentId": 2,
-        "comment": "hello",
+        "comment": "Vegita",
         "userId": 1,
         "userName": "KD",
         "parentId": 0,
@@ -155,7 +155,7 @@ var commentData = [
     },
     {
         "commentId": 1,
-        "comment": "hello",
+        "comment": "Goku",
         "userId": 1,
         "userName": "KD",
         "parentId": 0,
@@ -174,14 +174,14 @@ const PostComments = (props) => {
     let element = props.postData;
     let commentCount = element.commentCount;
 
-    // commentData.map( element => {
-    //     if(element.childIds && element.childIds.length > 0){
-    //         element.childIds.map(childElement=>{
-    //             let index = _.findIndex(commentData, {commentId: childElement.commentId});
-    //             console.log('index', index)
-    //         })
-    //     }
-    // })
+  /*   commentData.map(element => {
+        if (element.childIds && element.childIds.length > 0) {
+            element.childIds.map(childElement => {
+                let index = _.findIndex(commentData, { commentId: childElement.commentId });
+                console.log('index', index)
+            })
+        }
+    }) */
 
     const navigate = (event) => {
         event.preventDefault()
@@ -240,7 +240,7 @@ const PostComments = (props) => {
                                             <ul className="nested-comment">
                                                 {
                                                     commentElement.childIds.map((childElement, key) => {
-                                                        let index = _.findIndex(commentData, {commentId: childElement});
+                                                        let index = _.findIndex(commentData, { commentId: childElement });
                                                         let replyElement = commentData[index];
                                                         return (
                                                             <li key={key}>
