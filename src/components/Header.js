@@ -29,6 +29,19 @@ const Header = (props) => {
 
     }, [])
 
+    const mobileMenuToggle = (event) => {
+        event.preventDefault();
+        document.querySelector('.left-sidebar-wrapper').classList.toggle('appear');
+        document.querySelector('.overlay').classList.toggle('appear');
+    }
+
+    const overLayToggle = (event) => {
+        document.querySelector('.overlay').addEventListener('click', function(){
+            document.querySelector('.left-sidebar-wrapper').classList.toggle('appear');
+            document.querySelector('.overlay').classList.toggle('appear');
+        })
+    }
+
     const navigate = (event, path) => {
         event.preventDefault()
         if (path) {
@@ -89,7 +102,7 @@ const Header = (props) => {
 
     return (
         <>
-            <div className="overlay d-xl-none"></div>
+            <div onClick={()=>{overLayToggle()}} className="overlay d-xl-none"></div>
             <form action="#" className="mobile-search collapse" id="mobile-search">
                 <div className="all-messages m-search">
                     <button className="back-normal" type="button" data-bs-toggle="collapse" data-bs-target="#mobile-search"><i
@@ -123,7 +136,7 @@ const Header = (props) => {
                             {isLoggedIn ?
                                 <ul className="crud-master d-flex align-items-center justify-content-end">
 
-                                    <li className="d-xl-none"><a href="/" onClick={(event) => navigate(event)} className="mobile-toggle-bar icon-border"><i
+                                    <li className="d-xl-none"><a href="/" onClick={(event) =>  mobileMenuToggle(event)} className="mobile-toggle-bar icon-border"><i
                                         className="fal fa-bars"></i></a></li>
                                     <li className="d-xl-none ms-3"><a href="/" onClick={(event) => navigate(event)} type="button" data-bs-toggle="collapse"
                                         data-bs-target="#mobile-search" className="mobile-header-search icon-border"><i
