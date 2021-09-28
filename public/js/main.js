@@ -125,18 +125,18 @@ function colorModeChange (){
 // })
 
 // Code For Main Menu
-if(document.querySelector(DOMElements.menu) !== null) {
-    document.querySelector(DOMElements.menu).addEventListener('click', event=>{
-        event.preventDefault();
-        document.querySelector(DOMElements.sidebar).classList.toggle('appear');
-        document.querySelector(DOMElements.overlay).classList.toggle('appear');
-    })
+// if(document.querySelector(DOMElements.menu) !== null) {
+//     document.querySelector(DOMElements.menu).addEventListener('click', event=>{
+//         event.preventDefault();
+//         document.querySelector(DOMElements.sidebar).classList.toggle('appear');
+//         document.querySelector(DOMElements.overlay).classList.toggle('appear');
+//     })
 
-    document.querySelector(DOMElements.overlay).addEventListener('click', function(){
-        document.querySelector(DOMElements.sidebar).classList.toggle('appear');
-        document.querySelector(DOMElements.overlay).classList.toggle('appear');
-    })
-}
+//     document.querySelector(DOMElements.overlay).addEventListener('click', function(){
+//         document.querySelector(DOMElements.sidebar).classList.toggle('appear');
+//         document.querySelector(DOMElements.overlay).classList.toggle('appear');
+//     })
+// }
 
 
 function actionBtn (){

@@ -5,6 +5,7 @@ import Session from './utils/session';
 
 import ErrorBoundary from './ErrorBoundary';
 import Layout from './views/Layout'
+import ModToolLayout from './views/Layout/ModToolLayout';
 import Home from './views/Home';
 import Search from './views/Search';
 import EditProfile from './views/EditProfile';
@@ -28,7 +29,9 @@ import EditPost from './views/EditPost/EditPost';
 
 const FullLayout = (props) => {
   const history = useHistory();
-  if (history.location.pathname.indexOf('auth') == -1 && history.location.pathname.indexOf('user') == -1) {
+  if (history.location.pathname.indexOf('auth') == -1 && 
+      history.location.pathname.indexOf('user') == -1 && 
+      history.location.pathname.indexOf('mod-tools') == -1) {
     return <Layout leftSide={true} rightSide={true}>{props.children}</Layout>
   }
   return null
@@ -38,6 +41,14 @@ const HFLayout = (props) => {
   const history = useHistory();
   if (history.location.pathname.indexOf('user') !== -1) {
     return <Layout leftSide={true} rightSide={false}>{props.children}</Layout>
+  }
+  return null
+}
+
+const ModToollLayout = (props) => {  
+  const history = useHistory();
+  if (history.location.pathname.indexOf('mod-tools') !== -1) {
+    return <ModToolLayout leftSide={true} rightSide={false}>{props.children}</ModToolLayout>
   }
   return null
 }
@@ -101,10 +112,16 @@ const AuthorizeRoute = () => {
               )
             }}>
             </Route>
+            <Route path="/mod-tools" children={() => {
+              return (
+                <ModToollLayout>
+                  <Route exact path="/mod-tools" component={ModTools}></Route>
+                </ModToollLayout>
+              )
+            }}>
+            </Route>
             <Route path="/" children={() => {
               return (
-
-
                 <FullLayout>
                   <Route exact path="/" component={Home}></Route>
                   <Route exact path="/search-result" component={Search}></Route>
@@ -113,7 +130,6 @@ const AuthorizeRoute = () => {
                   <Route exact path="/create-post" component={CreatePost}></Route>
                   <Route exact path="/edit-post" component={EditPost}></Route>
                   <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
-                  <Route exact path="/mod-tools" component={ModTools}></Route>
                   <Route exact path="/group/top-groups" component={TopGroupSearch}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
@@ -121,6 +137,9 @@ const AuthorizeRoute = () => {
               )
             }}>
             </Route>
+            
+
+            
 
 
 
