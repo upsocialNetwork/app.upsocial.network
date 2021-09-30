@@ -31,15 +31,19 @@ const ImagePost = (props) => {
 
     const pageDetails = (event) => {
         event.preventDefault();
-        console.log("calling page redirect");
-        /* console.log(element);
-        const id = element.postId;
-        event.preventDefault();
-        history.push({
-            pathname: '/post-details',
-            search: '?id=' + id + '',
-            state: { detail: id }
-        }); */
+        const id = element.id;
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+        }
+        else {
+            history.push({
+                pathname: '/post-details',
+                search: '?id=' + id + '',
+                state: { detail: id }
+            });
+        }
     }
 
     const editPost = (event, postid) => {
