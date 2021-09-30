@@ -15,9 +15,9 @@ const ImagePost = (props) => {
     useEffect(() => {
         let user = Session.getSessionData();
         if (user == null) {
-
         }
         else {
+            // console.log("Session");
             // console.log(user);
             setUserData(user);
         }
@@ -32,14 +32,14 @@ const ImagePost = (props) => {
     const pageDetails = (event) => {
         event.preventDefault();
         console.log("calling page redirect");
-        console.log(element);
+        /* console.log(element);
         const id = element.postId;
         event.preventDefault();
         history.push({
             pathname: '/post-details',
             search: '?id=' + id + '',
             state: { detail: id }
-        });
+        }); */
     }
 
     const editPost = (event, postid) => {
@@ -62,17 +62,17 @@ const ImagePost = (props) => {
             <div className="post-wrapper post-type-one">
                 <div className="post-header">
                     <div className="elementory-avater-wrap">
-                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.userAvatar != null ? <img src={"https://ipfs.io/ipfs/" + element.userAvatar} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
+                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
                         <h6>
                             <a href="/" onClick={(event) => { pageDetails(event) }} >
-                                {element.postName}
-                            </a> <span>Posted by  {element.userName}
+                                {element.name}
+                            </a> <span>Posted by  {element.postedBy.userName}
                             </span>
                         </h6>
                     </div>
 
 
-                    {userData && userData.id == element.userId ?
+                    {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
                             <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
@@ -88,16 +88,15 @@ const ImagePost = (props) => {
                             </div>
                         </div>
                         :
-
                         null
                     }
 
 
                 </div>
                 <div className="post-content-wrapper">
-                    <div className="post-content max-520">
-                        <p >{element.title}</p>
-                    </div>
+                    {/* <div className="post-content max-520">
+                        <p >{element.name}</p>
+                    </div> */}
                     {/* {element.data &&
                         <a href="/" onClick={(event) => navigate(event)} className="post-img">
                             <img src={element.data} alt="" />
@@ -108,37 +107,37 @@ const ImagePost = (props) => {
 
 
 
-                        switch (element.postType) {
+                        switch (element.type) {
 
-                            case 'image':
+                            case 'Image':
 
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <img src={"https://ipfs.io/ipfs/" + element.postData} alt="" />
+                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" />
                                     </a>
 
                                 )
 
-                            case 'video':
+                            case 'Video':
 
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
                                         <video controls width="100%" height="auto">
-                                            <source src={"https://ipfs.io/ipfs/" + element.postData} type="audio/mpeg" />
+                                            <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
                                         </video>
                                     </a>
 
                                 )
 
-                            case 'audio':
+                            case 'Audio':
 
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
                                         <audio controls>
-                                            <source src={"https://ipfs.io/ipfs/" + element.postData} type="audio/mpeg" />
+                                            <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
                                         </audio>
 
 
@@ -154,7 +153,7 @@ const ImagePost = (props) => {
 
                                     <div className="post-content max-520">
                                         <ReactQuill readOnly={true}
-                                            theme={"bubble"} value={element.postData} />
+                                            theme={"bubble"} value={element.data} />
 
                                     </div>
 
@@ -166,7 +165,7 @@ const ImagePost = (props) => {
 
                     })()}
                     <PostAttributes {...props} />
-                    <PostComments {...props} />
+                    {/* <PostComments {...props} /> */}
                 </div>
             </div>
         </div>

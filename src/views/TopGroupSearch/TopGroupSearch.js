@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import Session from '../../utils/session';
 import GroupList from './GroupList';
-import { useHistory } from 'react-router-dom';
-import { convertCompilerOptionsFromJson } from 'typescript';
+//import { useHistory } from 'react-router-dom';
 import httpClient from '../../services/http';
-import { useSelector } from 'react-redux';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+
+import { ErrorToast } from '../../utils/common';
 
 
 const TopCommunitySearch = (props) => {
-    const history = useHistory();
+    // const history = useHistory();
     let [groupList, setGroupList] = useState();
 
     useEffect(() => {
@@ -20,9 +18,9 @@ const TopCommunitySearch = (props) => {
 
     const getGroupList = () => {
 
-        httpClient.call("get-top-groups/1", null, { method: 'GET' }).then(function (response) {
+        httpClient.call("get-popular-group/1", null, { method: 'GET' }).then(function (response) {
             setGroupList(response);
-            if (response.success == false) {
+            if (response.success === false) {
                 ErrorToast(response.result.message);
             }
         }, function (error) {

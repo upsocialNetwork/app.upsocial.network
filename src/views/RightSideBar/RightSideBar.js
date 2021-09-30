@@ -14,7 +14,7 @@ const RightSideBar = (props) => {
     }, [])
 
     let gl = props.groupData;
-    //console.log(gl);
+   // console.log(gl);
 
 
     const history = useHistory();
@@ -150,10 +150,8 @@ const GroupRecord = (props) => {
                 </a>
             </div>
             <a href="#" onClick={(event) => { groupDetails(event, element.id) }} style={{ textDecoration: 'none' }} >
-                <div className="gp-text">
-
+                <div className="gp-text text-justify">
                     {element.name}
-
                 </div>
             </a>
             <div className="gp-button">

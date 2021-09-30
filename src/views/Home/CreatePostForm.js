@@ -18,7 +18,7 @@ const CreatePostForm = () => {
             <div className="create-post">
                 <div className="one-auto-g-wrap">
                     <div className="one-icon">
-                        <img src="img/gp-1.jpg" alt="" />
+                        <img src="img/fav.ico" alt="" />
                     </div>
                     <div className="input-wrapper">
                         <input className="form-control bg-gray-f6ff shadow-gray-inset-15" type="text" placeholder="Create Post"

@@ -9,7 +9,7 @@ const GroupList = (props) => {
     let groupListDat = props.groupsList && props.groupsList.result && props.groupsList.result.data ? props.groupsList.result.data : [];
 
 
-    //console.log(props.groupsList);
+   // console.log(props.groupsList);
 
     const groupDetails = (event, id) => {
         event.preventDefault();
@@ -42,7 +42,7 @@ const GroupList = (props) => {
                 <div className="cmn-card shadow-gray-point-2">
 
                     <div className="sorting-row">
-                        {/*  <div className="sort">
+                        {/* <div className="sort">
                             <p>Sort by </p>
                             <select name="sort-engage" id="sort-engage" className="selection type-2">
                                 <option value="relevance">Relevance</option>
@@ -52,7 +52,7 @@ const GroupList = (props) => {
                                 <option value="comment">Comment</option>
                             </select>
                         </div> */}
-                        {/* <div className="sort">
+                        <div className="sort">
                             <p>Sort by </p>
                             <select name="sort-time" id="sort-time" className="selection type-2">
                                 <option value="All time">All time</option>
@@ -62,7 +62,7 @@ const GroupList = (props) => {
                                 <option value="Past Month">Past Month</option>
                                 <option value="Past Year">Past Year</option>
                             </select>
-                        </div> */}
+                        </div>
                     </div>
                     <div className="group-and-users-list">
                         {groupListDat && groupListDat.length > 0 &&
@@ -70,17 +70,18 @@ const GroupList = (props) => {
                                 return (
                                     <div className="single-group-or-users" key={element.id}>
                                         <div className="elementory-avater-wrap">
+
                                             <a href="#" className="elemetory-avater"
                                                 onClick={(event) => { groupDetails(event, element.id) }}
                                             >
-                                                {element.avatar ? <img src={"https://ipfs.io/ipfs/" + element.avatar} alt="" /> : <img src="img/gp-1.jpg" alt="" />}
+                                                {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
 
                                             </a>
                                             <h6><a href="#"
                                                 onClick={(event) => { groupDetails(event, element.id) }}
-                                            >r/{element.name}</a>{/* <span>{element.members} Members</span> */}</h6>
+                                            >{element.name}</a> <span>{element.members.length} Members</span> </h6>
                                         </div>
-                                        {/* <div className="one-line-relevent-description">
+                                       {/*  <div className="one-line-relevent-description">
                                             <p>{element.description}</p>
                                         </div> */}
                                         <a href="#" onClick={(event) => { navigate(event) }} className="btn primary-bg proxima-bold join">

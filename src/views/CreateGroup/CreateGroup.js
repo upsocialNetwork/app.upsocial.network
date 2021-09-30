@@ -30,15 +30,23 @@ const Community = (props) => {
         let formData = {
             "name": name,
             "description": about,
-            "groupType": type,
-            "adultContent": isAdult,
-            "avtar": image
+            "type": type,
+            "nsfw": isAdult,
+            "image": image
         }
+
+        console.log(formData);
         httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
-            console.log(response);
-            SuccessToast(response.result.message);
+            if (response.success == true) {
+                SuccessToast(response.result.message);
+                console.log(response);
+                history.push('/user/my-groups');
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
         }, function (error) {
-            ErrorToast(error.result.message);
+            console.log(error);
         })
     }
 
@@ -92,26 +100,38 @@ const Community = (props) => {
                         </div>
 
                         <div className="user-name-change-input">
-                            <input type="text" className="form-control" placeholder="/r"
+                            <input type="text" className="form-control" placeholder=""
 
                                 onChange={(event) => { setName(event.target.value) }}
 
                             />
                         </div>
+                        <div className="user-name">
+                            <h5>Group Avtar </h5>
 
-                        <div className="post-type-selection">
+                        </div>
+
+                        <div className="user-name-change-input">
+                            <input className="form-control" type="file" name="file" accept="image/*"
+
+                                onChange={(event) => { convertFile(event.target.files[0]) }}
+                            />
+                        </div>
+
+
+                        {/* <div className="post-type-selection">
                             <h4>Group Avtar</h4>
                             <div className="drag-and-drop-div">
                                 <img src="img/drag-and-drop.png" alt="" />
-                                <label htmlFor="drag" className="drag-and-drop">
-                                    <input type="file" name="file" id="drag" accept="image/*"
+                                <label htmlFor="drag" className="drag-and-drop"> 
+                            <input class="form-control" type="file" name="file" accept="image/*"
 
-                                        onChange={(event) => { convertFile(event.target.files[0]) }}
-                                    />
-                                    Choose File
-                                </label>
-                            </div>
-                        </div>
+                                onChange={(event) => { convertFile(event.target.files[0]) }}
+                            />
+                            Choose File 
+                             </label>
+                            </div> 
+                        </div>*/}
 
                         <div className="post-type-selection">
                             <h4>Group type</h4>

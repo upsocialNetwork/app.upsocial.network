@@ -144,7 +144,7 @@ const EditProfile = (props) => {
                                             <img className="avater-image img-fluid" src={"https://ipfs.io/ipfs/" + image} alt="" id="profile-image"
 
                                             /> :
-                                            <img className="avater-image img-fluid" src="img/user.png" alt="" id="profile-image"
+                                            <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profile-image"
 
                                             />}
                                         {/* <img className="avater-image img-fluid" src="img/user.png" alt="" id="profile-image" 

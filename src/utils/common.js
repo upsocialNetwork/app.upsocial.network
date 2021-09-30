@@ -42,7 +42,7 @@ export function setHttpClientConfig(){
       let userData = session.getSessionData();
       let headers = {};
       headers['Accept'] = "application/json";
-      headers['Content-Type'] = 'application/json;charset=utf-8';
+      headers['Content-Type'] = "application/json;charset=utf-8";
       headers['X-API-KEY'] = config.API_KEY
       if(userData && userData.authToken){
         headers['AUTHTOKEN'] = userData.authToken

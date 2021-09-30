@@ -3,7 +3,7 @@ import { colorModeToggle } from './../utils/common';
 import { useHistory } from "react-router-dom";
 import { useSelector } from 'react-redux'
 import Session from './../utils/session';
-import Web3 from 'web3';
+import { Loader, ErrorToast, SuccessToast, SetSassion } from './../utils/common';
 
 
 const Header = (props) => {
@@ -13,11 +13,17 @@ const Header = (props) => {
     let [walletAddress, setWalletAddress] = useState('');
     const [userDetails, setUserDetails] = useState('');
 
-
     useEffect(() => {
-        checkMetamask();
+
+        const walletAdd = sessionStorage.getItem("walletno");
+        if (walletAdd === null || walletAdd === undefined) {
+            setWalletAddress(null);
+        }
+        else {
+            setWalletAddress(walletAdd);
+        }
+
         console.log("-------------------------");
-        // console.log(walletAddress);
         let loginState = Session.isLoggedIn()
         setIsLoggedIn(loginState)
 
@@ -36,7 +42,7 @@ const Header = (props) => {
     }
 
     const overLayToggle = (event) => {
-        document.querySelector('.overlay').addEventListener('click', function(){
+        document.querySelector('.overlay').addEventListener('click', function () {
             document.querySelector('.left-sidebar-wrapper').classList.toggle('appear');
             document.querySelector('.overlay').classList.toggle('appear');
         })
@@ -64,52 +70,111 @@ const Header = (props) => {
         history.push("/user/change-password");
     }
 
-    const checkMetamask = () => {
+    const login = (event) => {
+        event.preventDefault();
+        history.push("/auth/login");
+    }
+
+    const connectMetamask = () => {
+
         if (typeof window.ethereum !== 'undefined') {
             console.log('MetaMask is installed!');
             setMatamask(true);
-            //getAccount();
-
+            //  SuccessToast("MetaMask is installed!");
+            getAccount();
         }
         else {
+            ErrorToast("MetaMask is not installed!");
             console.log('MetaMask is not installed!');
             setMatamask(false);
         }
     }
 
-    const connectWallet = (event) => {
-        event.preventDefault();
-        console.log("calling to connect wallet");
-        var Web3 = require('web3');
-        var web3 = new Web3(Web3.givenProvider || 'HTTP://127.0.0.1:7545');
-        web3.eth.getAccounts(console.log);
-        //getAccount();
-    }
-
-    /* async function getAccount() {
+    async function getAccount() {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
         if (account == null) {
+            setWalletAddress(null);
             console.log("NO wallet");
         }
         else {
+            sessionStorage.setItem("walletno", account);
             setWalletAddress(account);
             console.log("Wallet No", account);
 
         }
-    } */
+    }
+
+    /*  const connectWallet = (event) => {
+         event.preventDefault();
+         console.log("calling to connect wallet");
+         var Web3 = require('web3');
+         var web3 = new Web3(Web3.givenProvider || 'HTTP://127.0.0.1:7545');
+         web3.eth.getAccounts(console.log);
+         //getAccount();
+     } */
+
+
 
 
     return (
         <>
-            <div onClick={()=>{overLayToggle()}} className="overlay d-xl-none"></div>
+            <div className="container">
+                <div className="modal" id="myModal">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+
+
+                            <div className="modal-header">
+                                <h4 className="modal-title">Connect to a Wallet</h4>
+                                <button type="button" className="btn btn-danger close" data-dismiss="modal">&times;</button>
+                            </div>
+
+
+                            <div className="modal-body">
+                                <ul className="list-group list-group-flush">
+                                    {walletAddress === null ?
+                                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                                            <a href="#" onClick={(event) => connectMetamask(event)}
+
+                                                style={{ textDecoration: 'none', color: 'black' }}
+                                            >Connect to Metamask Wallet</a> <span className="badge badge-light-success">Connected</span>
+                                            <img src="img/download.png" width="40" />
+                                        </li>
+                                        :
+
+                                        <li className="list-group-item d-flex justify-content-between align-items-center">
+
+                                            <a href="#" onClick={(event) => navigate(event)}
+
+                                                style={{ textDecoration: 'none', color: 'black' }}
+                                            >Wallet No<br />{walletAddress}</a> <span className="badge badge-light-success">Connected</span>
+
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+
+
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div onClick={() => { overLayToggle() }} className="overlay d-xl-none"></div>
             <form action="#" className="mobile-search collapse" id="mobile-search">
                 <div className="all-messages m-search">
                     <button className="back-normal" type="button" data-bs-toggle="collapse" data-bs-target="#mobile-search"><i
                         className="far fa-long-arrow-left"></i></button>
                     <div className="input-group">
                         <span className="input-group-text" id="basic-addon1">
-                            <img src="assets/img/search.svg" alt="" />
+                            <img src="img/search.svg" alt="" />
                         </span>
                         <input type="text" className="form-control ht-50" placeholder="Search..." aria-label="Search Messages"
                             aria-describedby="Search..." />
@@ -117,6 +182,7 @@ const Header = (props) => {
                 </div>
             </form>
             <header className="header-area position-sticky top-0 d-flex align-items-center">
+
                 <div className="container-fluid gx-4">
                     <div className="row align-items-center">
                         <div className="col-xl-4 col-4">
@@ -132,11 +198,27 @@ const Header = (props) => {
                                 </div>
                             </form>
                         </div>
+
+
+
                         <div className="col-xl-4 col-8">
-                            {isLoggedIn ?
+
+                            {!isLoggedIn ?
+
+                                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        Connect Wallet
+                                    </button>
+                                    &nbsp;
+                                    <button type="button" className="btn btn-primary" onClick={(event) => login(event)} >
+                                        Login
+                                    </button>
+                                </div>
+                                :
+
                                 <ul className="crud-master d-flex align-items-center justify-content-end">
 
-                                    <li className="d-xl-none"><a href="/" onClick={(event) =>  mobileMenuToggle(event)} className="mobile-toggle-bar icon-border"><i
+                                    <li className="d-xl-none"><a href="/" onClick={(event) => mobileMenuToggle(event)} className="mobile-toggle-bar icon-border"><i
                                         className="fal fa-bars"></i></a></li>
                                     <li className="d-xl-none ms-3"><a href="/" onClick={(event) => navigate(event)} type="button" data-bs-toggle="collapse"
                                         data-bs-target="#mobile-search" className="mobile-header-search icon-border"><i
@@ -338,6 +420,14 @@ const Header = (props) => {
                                             </li>
                                         </ul>
                                     </li>
+                                    <li className="ms-3 ">
+                                        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                            Connect Wallet
+                                        </button>
+                                    </li>
+
+
+
                                     <li className="ms-3 dropdown">
                                         <a href="/" onClick={(event) => navigate(event)} id="settingDropdown" data-bs-toggle="dropdown" aria-expanded="false"
                                             className="user-settings"><img src="img/down-arrow-round.svg" alt="" />
@@ -348,11 +438,10 @@ const Header = (props) => {
                                                 <a href="/" onClick={(event) => navigate(event, '/user/edit-profile')} className="d-block in-hd">
                                                     <div className="user">
                                                         <div className="avater">
-                                                            {/*                                   <img className="img-fluid" src="img/user.png" alt="" />
- */}
+
                                                             {userDetails.profileImage ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + userDetails.profileImage} alt="" id="profile-image"
 
-                                                            /> : <img className="img-fluid" src="img/user.png" alt="" />}
+                                                            /> : <img className="img-fluid" src="img/dol-1.png" alt="" />}
                                                         </div>
                                                         <h5>{userDetails.userName} <span className="amount">See your profile</span></h5>
                                                     </div>
@@ -369,28 +458,11 @@ const Header = (props) => {
                                             </li>
                                         </ul>
                                     </li>
+
+
                                 </ul>
-                                :
-                                <div>
-
-                                    {walletAddress ? <button type="button" onClick={(event) => { navigate(event, '/auth/login') }} className="btn gradient-bg-one radius-30 register">{walletAddress}</button>
-                                        :
-                                        <>
-
-                                            {isMetamask ? <button type="button" onClick={(event) => { connectWallet(event) }} className="btn gradient-bg-one radius-30 register">Connect Wallet</button>
-                                                : <button type="button" onClick={(event) => { navigate(event, '/auth/login') }} className="btn gradient-bg-one radius-30 register">Install Metamask</button>
-                                            }
-                                        </>
-                                    }
-
-
-                                    &nbsp;&nbsp;<button type="button" onClick={(event) => { navigate(event, '/auth/login') }} className="btn gradient-bg-one radius-30 register">Login Now</button>
-
-
-
-                                </div>
-
                             }
+
                         </div>
                     </div>
                 </div>

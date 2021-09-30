@@ -30,6 +30,7 @@ const Login = (props) => {
         Loader(props.requestProcess);
         if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
             let authData = props.loginData;
+            console.log(authData);
             Session.setSessionData(authData.result.data);
             SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
             SetSassion(authData.result.data);

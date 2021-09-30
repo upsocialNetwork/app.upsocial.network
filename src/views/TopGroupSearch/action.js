@@ -7,7 +7,7 @@ export const responseGroupListData = createAction();
 export function getPopularGroupList() {
     return (dispatch) => {
         dispatch(requestGroupListData([]));
-        httpClient.call('get-top-groups/1', null, { method: 'GET' }).then(function (response) {
+        httpClient.call('get-popular-group/1', null, { method: 'GET' }).then(function (response) {
             dispatch(responseGroupListData(response));
         }, function (error) {
             dispatch(responseGroupListData(error));

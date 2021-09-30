@@ -12,7 +12,7 @@ export function credentialLogin(params){
   return (dispatch) => {
     if(params){
         dispatch(requestLoginData([]));
-        httpClient.call("login", params, {method: 'POST'}).then(function(response){
+        httpClient.call("signin", params, {method: 'POST'}).then(function(response){
             dispatch(responseLoginData(response));
         }, function(error){
             dispatch(responseLoginData(error));
@@ -29,7 +29,7 @@ export function credentialSignup(params){
   return (dispatch) => {
     if(params){
         dispatch(requestSignupData([]));
-        httpClient.call("registration", params, {method: 'POST'}).then(function(response){
+        httpClient.call("signup", params, {method: 'POST'}).then(function(response){
             dispatch(responseSignupData(response));
         }, function(error){
             dispatch(responseSignupData(error));
