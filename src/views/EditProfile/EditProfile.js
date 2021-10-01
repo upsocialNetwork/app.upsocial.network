@@ -28,7 +28,7 @@ const EditProfile = (props) => {
             setFirstName(user.firstName);
             setLastName(user.lastName);
             setAbout(user.about);
-            setImage(user.profileImage);
+            setImage(user.image);
             //setDate("03/05/1998");
             if (user.country !== null) {
                 setCountry(user.country);
@@ -50,25 +50,24 @@ const EditProfile = (props) => {
         const mo = new Intl.DateTimeFormat('en', { month: '2-digit' }).format(d)
         const da = new Intl.DateTimeFormat('en', { day: '2-digit' }).format(d)
         const date = `${ye}-${mo}-${da}`;
-      //  console.log(date);
+        //  console.log(date);
 
         let formData = {
             "userName": userName,
             "firstName": firstName,
             "lastName": lastName,
             "about": about,
-            "profileImage": image,
+            "image": image,
             "country": country
-           // "dateOfBirth": date
+            // "dateOfBirth": date
         }
 
         //console.log(formData);
         //return null;
 
-        httpClient.call('profile-update', formData, { method: 'POST' }).then(function (response) {
-
+        httpClient.call('profile-update', formData, { method: 'PUT' }).then(function (response) {
             if (response.success == true) {
-               // console.log(response);
+               // console.log(response.result.data);
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);
             }
@@ -76,8 +75,6 @@ const EditProfile = (props) => {
                 console.log(response);
                 ErrorToast(response.result.message);
             }
-
-
         }, function (error) {
             console.log(error);
         })
@@ -103,19 +100,19 @@ const EditProfile = (props) => {
         if (typeof (file) != "undefined") {
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 10) {
-                ErrorToast('Please select file size less than 10 MB');
+            if (size > 2) {
+                ErrorToast('Please select file size less than 2 MB');
                 return null;
             }
             if (postType == "image") {
                 convertFileToBase64(file);
             } else {
-                ErrorToast('Please select file size less than 10 MB');
+                ErrorToast('Please select file size less than 2 MB');
                 return null;
             }
         }
         else {
-            ErrorToast('Please select file size less than 10 MB');
+            ErrorToast('Please select file size less than 2 MB');
             return null;
         }
 
@@ -161,6 +158,8 @@ const EditProfile = (props) => {
                                         <label className="upload type-2">
                                             <input type="file" name="" id=""
                                                 onChange={(event) => { convertFile(event.target.files[0]) }}
+
+                                                accept="image/*"
                                             />
                                             <img src="img/plus-5.svg" alt="" />
                                         </label>
@@ -168,7 +167,7 @@ const EditProfile = (props) => {
                                     </div>
 
                                     <div className="restiction">
-                                        <p>Image should be less than 10 MB</p>
+                                        <p>Image should be less than 2 MB</p>
                                     </div>
                                 </div>
                             </div>

@@ -32,7 +32,7 @@ const LeftSideBar = (props) => {
         if (userData) {
             // props._getProfile();
             const user = Session.getSessionData();
-            setImage(user.profileImage);
+            setImage(user.image);
             setUserName(user.userName);
 
         }

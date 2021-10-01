@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import _ from 'underscore';
 
 // const commentData = [
@@ -171,17 +171,13 @@ var commentData = [
 
 const PostComments = (props) => {
 
-    let element = props.postData;
-   // let commentCount = element.commentCount;
 
-    /*   commentData.map(element => {
-          if (element.childIds && element.childIds.length > 0) {
-              element.childIds.map(childElement => {
-                  let index = _.findIndex(commentData, { commentId: childElement.commentId });
-                  console.log('index', index)
-              })
-          }
-      }) */
+
+    let element = props.postData;
+
+
+    useEffect(() => {
+    }, [])
 
     const navigate = (event) => {
         event.preventDefault()
@@ -190,7 +186,7 @@ const PostComments = (props) => {
     return (
         <div className="all-comments-wrapper max-520">
             <div className="comments-crud-wrap">
-              {/*  <h1>{commentCount} Comments </h1> */}
+                {/*  <h1>{commentCount} Comments </h1> */}
 
                 {/*  <h1>{commentCount} Comments <span className="page-counter">Page 1 of 5</span></h1>
  */}
@@ -220,7 +216,7 @@ const PostComments = (props) => {
                                             <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
                                                 src="img/dol-1.png" alt="" /></a>
                                             <div className="comment-part">
-                                                <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{commentElement.postedBy}</a><span>{commentElement.createDate}</span></h6>
+                                                <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{commentElement.postedBy}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
                                                 <div className="comment-text">
                                                     <p>{commentElement.comment}</p>
                                                 </div>
@@ -251,7 +247,7 @@ const PostComments = (props) => {
                                                                     <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
                                                                         src="img/dol-1.png" alt="" /></a>
                                                                     <div className="comment-part">
-                                                                        <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
+                                                                        <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{replyElement.postedBy}</a>{/* <span>{replyElement.createDate}</span> */}</h6>
                                                                         <div className="comment-text">
                                                                             <p>{replyElement.comment}</p>
                                                                         </div>

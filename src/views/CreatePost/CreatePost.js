@@ -11,22 +11,15 @@ import { useLocation } from "react-router-dom";
 
 
 
-
 const CreatePost = (props) => {
     const history = useHistory();
     const location = useLocation();
 
     useEffect(() => {
-
         let userData = Session.isLoggedIn();
         if (!userData) {
-
             history.push('/auth/login');
         }
-
-
-
-
     }, []);
 
 
@@ -48,32 +41,33 @@ const CreatePost = (props) => {
         let formData = {};
         if (isText) {
             formData = {
-                "postType": "text",
-                "title": title,
+                "type": "text",
+                "name": title,
                 "data": data,
                 "dataType": ".txt",
-                "adultContent": isAdult
+                "nsfw": isAdult
 
             };
         }
         else {
 
             formData = {
-                "postType": postType,
-                "title": title,
+                "type": postType,
+                "name": title,
                 "data": data,
                 "dataType": dataType,
-                "adultContent": isAdult
-
+                "nsfw": isAdult
             };
 
         }
 
-        //console.log(formData);
-        httpClient.call('upload-timeline-post', formData, { method: 'POST' }).then(function (response) {
+        // console.log(formData);
+
+        // return null;
+        httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
             if (response.success) {
                 SuccessToast(response.result.message);
-                history.push("/");
+                // history.push("/");
             }
             else {
                 ErrorToast(response.result.message);
@@ -82,18 +76,47 @@ const CreatePost = (props) => {
         }, function (error) {
             ErrorToast(error.result.message);
         })
-
-
-
     }
 
 
     const convertFileToBase64 = (data) => {
         const reader = new FileReader();
         reader.onloadend = function () {
-            var b64 = reader.result.replace(
-                /^data:.+;base64,/, '');
+            var b64 = reader.result.replace(/^data:.+;base64,/, '');
             setData(b64);
+            let postType = data.type.substring(0, 5);
+            if (postType === "image") {
+                //set value
+                document.getElementById("image-prev").src = reader.result;
+                document.getElementById('image-prev').style.display = 'inline';
+                //reset value
+                document.getElementById('video-prev').style.display = 'none';
+                document.getElementById('audio-prev').style.display = 'none';
+                document.getElementById("video-prev").value = "";
+                document.getElementById("audio-prev").value = "";
+            } else if (postType === "video") {
+                //set value
+                document.getElementById("video-prev").src = reader.result;
+                document.getElementById('video-prev').style.display = 'inline';
+                //reset value
+                document.getElementById('image-prev').style.display = 'none';
+                document.getElementById('audio-prev').style.display = 'none';
+                document.getElementById("image-prev").value = "";
+                document.getElementById("audio-prev").value = "";
+            } else {
+
+                //set value
+                document.getElementById("audio-prev").src = reader.result;
+                document.getElementById('audio-prev').style.display = 'inline';
+
+                //reset value
+                document.getElementById('video-prev').style.display = 'none';
+                document.getElementById('image-prev').style.display = 'none';
+                document.getElementById("video-prev").value = "";
+                document.getElementById("image-prev").value = "";
+            }
+
+
             console.log("file converted successfully");
         };
         reader.readAsDataURL(data);
@@ -108,17 +131,21 @@ const CreatePost = (props) => {
                 ErrorToast('Please select file size less than 10 MB');
                 return null;
             }
+            convertFileToBase64(file);
             if (postType == "image") {
+                // console.log(postType);
                 setDataType(".jpg");
                 setPostType("image");
             } else if (postType == "video") {
+                ///  console.log(postType);
                 setDataType(".mp4");
                 setPostType("video");
             } else {
+                // console.log(postType);
                 setDataType(".mp3");
                 setPostType("audio");
             }
-            convertFileToBase64(file);
+
         }
         else {
             ErrorToast('Please select file size less than 10 MB');
@@ -177,13 +204,46 @@ const CreatePost = (props) => {
 
                                                 />
                                             </div>
+
+
                                             <div className="text-editor-wrapper">
+                                                <div className="input-wrapper type-2">
+                                                    <label htmlFor="">Attach File</label>
+                                                    <div className="user-name-change-input">
+                                                        <input className="form-control" type="file" name="file"
+
+                                                            onChange={(event) => { convertFile(event.target.files[0]) }}
+                                                        />
+                                                    </div>
+                                                </div>
+
+
+                                                <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
+                                                    style={{ display: 'none' }}
+
+                                                />
+                                                <video controls width="100%" height="300px" id="video-prev" style={{ display: 'none' }} >
+                                                    <source src="" type="audio/mpeg" />
+                                                </video>
+                                                <audio controls id="audio-prev" width="100%" height="300px" style={{ display: 'none' }}>
+                                                    <source src="" type="audio/mpeg" />
+                                                </audio>
+
+                                            </div>
+
+
+
+
+
+
+
+                                            {/*  <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
                                                     <div className="drag-and-drop-div">
                                                         <img src="img/drag-and-drop.png" alt="" />
                                                         <label htmlFor="drag" className="drag-and-drop">
-                                                            <input type="file" name="file" id="drag" /* onChange={changeHandler} */
+                                                            <input type="file" name="file" id="drag"
 
                                                                 onChange={(event) => { convertFile(event.target.files[0]) }}
                                                             />
@@ -191,9 +251,11 @@ const CreatePost = (props) => {
                                                         </label>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> */}
 
-                                        </div><br />
+                                        </div>
+
+                                        <br />
                                         <div className="text-content-wrap">
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>

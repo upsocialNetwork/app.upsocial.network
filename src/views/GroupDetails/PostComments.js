@@ -90,8 +90,7 @@ const PostComments = (props) => {
             <div className="comments-crud-wrap">
                 <h1>{commentCount} Comments </h1>
 
-                {/*  <h1>{commentCount} Comments <span className="page-counter">Page 1 of 5</span></h1>
- */}
+
 
                 <div className="nav nav-tabs comment-new-old-switch" role="tablist" hidden>
                     <button id="newestComment-tab" data-bs-toggle="tab"

@@ -12,37 +12,42 @@ const CreateGroupJoin = (props) => {
     const history = useHistory();
 
     const location = useLocation();
-    const [details, setDetails] = useState('');
+    const [details, setDetails] = useState();
 
     useEffect(() => {
-        getGroupDetails(location.state.detail);
-    },[]);
+        if (location.state === null || location.state === undefined) {
+            history.push("/auth/login");
+        } else {
+            getGroupDetails(location.state.detail);
+        }
+    }, []);
 
-
-
-    const getGroupDetails = (groupid) => {
-        // console.log('groupid', groupid);
-
-        httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
-            if (response.success) {
-               // console.log(response);
-                setDetails(response)
-                //SuccessToast(response.    result.message);
-            }
-            else {
-                ErrorToast(response.result.message);
-            }
-        }, function (error) {
-            console.log(error);
-        })
-    }
-
-    const navigate = (event) => {
+    const createPost = (event, id) => {
         event.preventDefault();
+        history.push({
+            pathname: '/create-group-post',
+            search: '?id=' + id + '',
+            state: { detail: id }
+        });
     }
+
+    const modTools = (event) => {
+        event.preventDefault();
+        let dt = details && details.result && details.result.data ? details.result.data : [];
+        history.push({
+            pathname: '/mod-tools',
+            search: '?id=' + dt.id + '',
+            state: { detail: dt }
+        });
+    }
+
+
+
+
 
     const joinOrLeaveGroup = (event, groupid, type) => {
         event.preventDefault();
+        return null;
         if (type == true) {
             //leaving group
             httpClient.call("leave-group/" + groupid, null, { method: 'GET' }).then(function (response) {
@@ -79,22 +84,39 @@ const CreateGroupJoin = (props) => {
 
     }
 
-    const createPost = (event, id) => {
+    const navigate = (event) => {
         event.preventDefault();
-        history.push({
-            pathname: '/create-group-post',
-            search: '?id=' + id + '',
-            state: { detail: id }
-        });
     }
 
-    const modTools=(event)=>{
-        event.preventDefault();
-        history.push("/mod-tools");
+    const getGroupDetails = (groupid) => {
+        // console.log('groupid', groupid);
+
+        httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
+            if (response.success) {
+                setDetails(response)
+                let result = response && response.result && response.result.data ? response.result.data : [];
+                let user = Session.getSessionData();
+                if (user !== null) {
+                    console.log(user.id);
+                    modToolsEnable(user, result);
+                }
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
     }
 
     let result = details && details.result && details.result.data ? details.result.data : [];
     let pt = result.posts ? result.posts : [];
+    const modToolsEnable = (user, result) => {
+        if (user.id === result.owner.id) {
+            document.getElementById('mod-tools').style.display = 'inline';
+        }
+    }
+
 
 
     return (
@@ -107,8 +129,8 @@ const CreateGroupJoin = (props) => {
                         <div className="user type-3">
                             <div className="avater position-relative">
 
-                                {result && result.avatar ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + result.avatar} alt="" /> :
-                                    <img className="img-fluid" src="img/folder.svg" alt="" />}
+                                {result && result.image ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + result.image} alt="" /> :
+                                    <img className="img-fluid" src="img/dol-1.png" alt="" />}
 
 
                             </div>
@@ -121,14 +143,14 @@ const CreateGroupJoin = (props) => {
                                 {result && result.joined ? <>Leaved</> : <>Join</>}
 
 
-                            </span></a> <span
-                                className="sub">r/{result && result.name}</span>
+                            </span></a> {/* <span
+                                className="sub">u/{result && result.owner.userName}</span> */}
 
 
                             </h5>
                         </div>
 
-                        <div className="mod-tools">
+                        <div className="mod-tools" id="mod-tools" style={{ display: 'none' }}>
                             <a href="#" onClick={(event) => { modTools(event) }}><svg width="17" height="20" viewBox="0 0 17 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -137,6 +159,7 @@ const CreateGroupJoin = (props) => {
                             </svg>
                                 Mod Tools</a>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -146,7 +169,8 @@ const CreateGroupJoin = (props) => {
 
                     <div className="one-auto-g-wrap">
                         <div className="one-icon">
-                            <img src="img/gp-1.jpg" alt="" />
+                            <img src="img/fav.ico" alt="" />
+
                         </div>
                         <div className="input-wrapper">
                             <input className="form-control bg-gray-f6ff shadow-gray-inset-15" type="text"
@@ -165,7 +189,7 @@ const CreateGroupJoin = (props) => {
                             <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
                                 <img src="img/c-2.svg" alt="" />
                             </label></button></li>
-                        <li><button><img src="img/c-3.svg" alt="" /></button></li>
+                        {/*   <li><button><img src="img/c-3.svg" alt="" /></button></li> */}
                     </ul>
                 </div>
             </div>

@@ -5,6 +5,7 @@ import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import Session from '../../utils/session';
 import { useHistory } from 'react-router-dom';
+import HoverVideoPlayer from 'react-hover-video-player';
 const ImagePost = (props) => {
 
     const history = useHistory();
@@ -56,6 +57,8 @@ const ImagePost = (props) => {
         });
 
     }
+
+
 
     // console.log(element);
 
@@ -111,36 +114,77 @@ const ImagePost = (props) => {
 
 
 
-                        switch (element.type) {
+                        switch (element.type.toUpperCase()) {
 
-                            case 'Image':
+                            case 'IMAGE':
 
                                 return (
 
-                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" />
+                                    <a href="/" onClick={(event) => navigate(event)} className="post-img" >
+                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" width="100%" height="300px" />
                                     </a>
 
                                 )
 
-                            case 'Video':
+                            case 'VIDEO':
 
                                 return (
 
-                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <video controls width="100%" height="auto">
-                                            <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
-                                        </video>
-                                    </a>
+                                    /*  <a href="/" onClick={(event) => navigate(event)} className="post-img">
+                                         <video controls width="100%" height="300px"
+ 
+                                         >
+                                             <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
+                                         </video>
+                                     </a> */
+
+                                    <HoverVideoPlayer
+                                        videoSrc={"https://ipfs.io/ipfs/" + element.data}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%'
+                                        }}
+                                        controls
+                                       /*  restartOnPaused
+                                        volume={0.5}
+                                        muted={false} */
+                                        /*  hoverOverlay={
+                                             <div className="hover-overlay">
+                                               <h1>Video Title</h1>
+                                               <p>
+                                                 Here is a short description of the video.
+                                                 You can still see the video playing underneath this overlay.
+                                                 <a href="/video-page">Click here to read more</a>
+                                               </p>
+                                             </div>
+                                           } */
+                                        /* pausedOverlay={
+                                            <img
+                                                src={"https://ipfs.io/ipfs/" + element.data}
+                                                alt=""
+                                                style={{
+                                                    // Make the image expand to cover the video's dimensions
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+                                        } */
+                                        loadingOverlay={
+                                            <div className="loading-overlay">
+                                                <div className="loading-spinner" />
+                                            </div>
+                                        }
+                                    />
 
                                 )
 
-                            case 'Audio':
+                            case 'AUDIO':
 
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <audio controls>
+                                        <audio controls width="100%" height="300px" >
                                             <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
                                         </audio>
 

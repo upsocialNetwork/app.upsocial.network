@@ -40,59 +40,87 @@ const CreateGroupPost = (props) => {
         event.preventDefault();
         let formData = {};
         if (isText) {
-
-           
             formData = {
-                "groupId": groupId,
-                "postType": "text",
-                "title": title,
+                "group": {
+                    "id": groupId
+                },
+                "type": "text",
+                "name": title,
                 "data": data,
                 "dataType": ".txt",
-                "adultContent": isAdult
+                "nsfw": isAdult
 
             };
-
         }
         else {
-
             formData = {
-                "groupId": groupId,
-                "postType": postType,
-                "title": title,
+                "group": {
+                    "id": groupId
+                },
+                "type": postType,
+                "name": title,
                 "data": data,
                 "dataType": dataType,
-                "adultContent": isAdult
-
+                "nsfw": isAdult
             };
 
         }
 
-        console.log(formData);
+        // console.log(formData);
 
-        httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
-           // console.log(response);
-            SuccessToast(response.result.message);
-            /* history.push({
-                pathname: '/create-group-join',
-                search: '?id=' + groupId + '',
-                state: { detail: groupId }
-            }); */
+        // return null;
+        httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+                // history.push("/");
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
 
         }, function (error) {
             ErrorToast(error.result.message);
         })
-
-
-
     }
-
 
     const convertFileToBase64 = (data) => {
         const reader = new FileReader();
         reader.onloadend = function () {
-            var b64 = reader.result.replace(
-                /^data:.+;base64,/, '');
+            var b64 = reader.result.replace(/^data:.+;base64,/, '');
             setData(b64);
+            let postType = data.type.substring(0, 5);
+            if (postType === "image") {
+                //set value
+                document.getElementById("image-prev").src = reader.result;
+                document.getElementById('image-prev').style.display = 'inline';
+                //reset value
+                document.getElementById('video-prev').style.display = 'none';
+                document.getElementById('audio-prev').style.display = 'none';
+                document.getElementById("video-prev").value = "";
+                document.getElementById("audio-prev").value = "";
+            } else if (postType === "video") {
+                //set value
+                document.getElementById("video-prev").src = reader.result;
+                document.getElementById('video-prev').style.display = 'inline';
+                //reset value
+                document.getElementById('image-prev').style.display = 'none';
+                document.getElementById('audio-prev').style.display = 'none';
+                document.getElementById("image-prev").value = "";
+                document.getElementById("audio-prev").value = "";
+            } else {
+
+                //set value
+                document.getElementById("audio-prev").src = reader.result;
+                document.getElementById('audio-prev').style.display = 'inline';
+
+                //reset value
+                document.getElementById('video-prev').style.display = 'none';
+                document.getElementById('image-prev').style.display = 'none';
+                document.getElementById("video-prev").value = "";
+                document.getElementById("image-prev").value = "";
+            }
+
+
             console.log("file converted successfully");
         };
         reader.readAsDataURL(data);
@@ -107,17 +135,21 @@ const CreateGroupPost = (props) => {
                 ErrorToast('Please select file size less than 10 MB');
                 return null;
             }
+            convertFileToBase64(file);
             if (postType == "image") {
+                // console.log(postType);
                 setDataType(".jpg");
                 setPostType("image");
             } else if (postType == "video") {
+                ///  console.log(postType);
                 setDataType(".mp4");
                 setPostType("video");
             } else {
+                // console.log(postType);
                 setDataType(".mp3");
                 setPostType("audio");
             }
-            convertFileToBase64(file);
+
         }
         else {
             ErrorToast('Please select file size less than 10 MB');
@@ -127,24 +159,29 @@ const CreateGroupPost = (props) => {
     }
 
 
+
+
+
+
+
     return (
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
                     <h3 className="tertiary-title position-relative">Create Group Post</h3>
                     {/*  <div className="post-writter d-flex justify-content-between" >
-                        <div className="user">
-                            <div className="avater">
-                                <img className="img-fluid" src="img/user.png" alt="" />
-                            </div>
-                            <h5><a href="#" className="d-inline-block">u/GalaGames</a>
-                            </h5>
+                    <div className="user">
+                        <div className="avater">
+                            <img className="img-fluid" src="img/user.png" alt="" />
                         </div>
-                        <button type="button" className="tooltip-btn" data-bs-toggle="tooltip" data-bs-html="true"
-                            title="<p>Lorem ipsum dolor sit amet sojeljfla aofdifelfoa dlfjdfowef.</p>">
-                            <img src="img/info-icon.svg" alt="" />
-                        </button>
-                    </div> */}
+                        <h5><a href="#" className="d-inline-block">u/GalaGames</a>
+                        </h5>
+                    </div>
+                    <button type="button" className="tooltip-btn" data-bs-toggle="tooltip" data-bs-html="true"
+                        title="<p>Lorem ipsum dolor sit amet sojeljfla aofdifelfoa dlfjdfowef.</p>">
+                        <img src="img/info-icon.svg" alt="" />
+                    </button>
+                </div> */}
 
                     <div className="post-contents">
                         <ul className="nav nav-tabs types" id="createPost" role="tablist">
@@ -176,23 +213,58 @@ const CreateGroupPost = (props) => {
 
                                                 />
                                             </div>
+
+
                                             <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
-                                                    <div className="drag-and-drop-div">
-                                                        <img src="img/drag-and-drop.png" alt="" />
-                                                        <label htmlFor="drag" className="drag-and-drop">
-                                                            <input type="file" name="file" id="drag" /* onChange={changeHandler} */
+                                                    <div className="user-name-change-input">
+                                                        <input className="form-control" type="file" name="file"
 
-                                                                onChange={(event) => { convertFile(event.target.files[0]) }}
-                                                            />
-                                                            Choose File
-                                                        </label>
+                                                            onChange={(event) => { convertFile(event.target.files[0]) }}
+                                                        />
                                                     </div>
                                                 </div>
+
+
+                                                <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
+                                                    style={{ display: 'none' }}
+
+                                                />
+                                                <video controls width="100%" height="300px" id="video-prev" style={{ display: 'none' }} >
+                                                    <source src="" type="audio/mpeg" />
+                                                </video>
+                                                <audio controls id="audio-prev" width="100%" height="300px" style={{ display: 'none' }}>
+                                                    <source src="" type="audio/mpeg" />
+                                                </audio>
+
                                             </div>
 
-                                        </div><br />
+
+
+
+
+
+
+                                            {/*  <div className="text-editor-wrapper">
+                                            <div className="input-wrapper type-2">
+                                                <label htmlFor="">Attach File</label>
+                                                <div className="drag-and-drop-div">
+                                                    <img src="img/drag-and-drop.png" alt="" />
+                                                    <label htmlFor="drag" className="drag-and-drop">
+                                                        <input type="file" name="file" id="drag"
+
+                                                            onChange={(event) => { convertFile(event.target.files[0]) }}
+                                                        />
+                                                        Choose File
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div> */}
+
+                                        </div>
+
+                                        <br />
                                         <div className="text-content-wrap">
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
@@ -232,26 +304,26 @@ const CreateGroupPost = (props) => {
                                 </div>
                             </div>
                             {/* <div className="tg-g-right">
-                                <div className="input-wrapper type-2">
-                                    <label htmlFor="">Attach File</label>
-                                    <div className="drag-and-drop-div">
-                                        <img src="img/drag-and-drop.png" alt="" />
-                                        <label htmlFor="drag" className="drag-and-drop">
-                                            <input type="file" name="" id="drag" />
-                                            Choose File
-                                        </label>
-                                    </div>
+                            <div className="input-wrapper type-2">
+                                <label htmlFor="">Attach File</label>
+                                <div className="drag-and-drop-div">
+                                    <img src="img/drag-and-drop.png" alt="" />
+                                    <label htmlFor="drag" className="drag-and-drop">
+                                        <input type="file" name="" id="drag" />
+                                        Choose File
+                                    </label>
                                 </div>
-                            </div> */}
+                            </div>
+                        </div> */}
                         </div>
 
                         <div className="cmn-rw in-create-post-filed">
                             <label htmlFor="check-1" className="check-box">
                                 {/* <input id="check-1" type="checkbox" />
-                                <div className="checkbox"><img src="img/checkbox.png" alt="" />
-                                    <img className="check-ok" src="img/check-ok.png" alt="" />
-                                </div>
-                                <p>Send replies to my inbox</p> */}
+                            <div className="checkbox"><img src="img/checkbox.png" alt="" />
+                                <img className="check-ok" src="img/check-ok.png" alt="" />
+                            </div>
+                            <p>Send replies to my inbox</p> */}
                             </label>
 
                             <div className="twin-btn d-flex align-items-center justify-content-between">
@@ -266,30 +338,30 @@ const CreateGroupPost = (props) => {
                 </form>
             </div>
             {/*  <ul className="nav nav-tabs" id="myTab" role="tablist" >
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                        role="tab" aria-controls="home" aria-selected="false">Popular</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Recommended</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-linFk" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="true">All</button>
-                </li>
-            </ul> */}
+            <li className="nav-item" role="presentation">
+                <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="false">Popular</button>
+            </li>
+            <li className="nav-item" role="presentation">
+                <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Recommended</button>
+            </li>
+            <li className="nav-item" role="presentation">
+                <button className="nav-linFk" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="true">All</button>
+            </li>
+        </ul> */}
             {/* <div className="tab-content  mb-4" id="myTabContent" >
-                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <PostList type={'POPULAR'} postlist={pt} />
-                </div>
-                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <PostList type={'RECOMMENDED'} postlist={pt} />
-                </div>
-                <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <PostList type={'ALL'} postlist={pt} />
-                </div>
-            </div> */}
+            <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <PostList type={'POPULAR'} postlist={pt} />
+            </div>
+            <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <PostList type={'RECOMMENDED'} postlist={pt} />
+            </div>
+            <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <PostList type={'ALL'} postlist={pt} />
+            </div>
+        </div> */}
         </main>
     );
 }

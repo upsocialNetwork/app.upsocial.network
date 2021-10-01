@@ -41,18 +41,7 @@ const PostAttributes = (props) => {
                     <li><button><img src="img/badge.svg" alt="" /></button></li>
                 </ul>
             </div>
-            {/* <div className="post-crud-wrap max-520 d-flex justify-content-between">
-                <ul className="p-curd-left">
-                    <li><button className="action-type-one"><span className="like"><i className="fal fa-arrow-alt-up"></i></span> {element.totalLikes}</button></li>
-                    <li><button className="action-type-one"><span className="unlike"><i className="fal fa-arrow-alt-down"></i></span> {element.totalDislikes} </button></li>
-                </ul>
-                <ul className="p-curd-right">
-                    <li><button data-bs-toggle="collapse" data-bs-target={"#comment-" + element.postId}><img src="img/sms.svg" alt="" />{element.totalComments}</button></li>
-                    <li><button><img src="img/star.svg" alt="" /></button></li>
-                    <li><button><img src="img/share.png" alt="" /></button></li>
-                    <li hidden><button><img src="img/badge.svg" alt="" /></button></li>
-                </ul>
-            </div> */}
+            
 
             <form className="post-coment-form max-520 collapse" id={"comment-" +
                 [(element != null ? element.id : 0)]

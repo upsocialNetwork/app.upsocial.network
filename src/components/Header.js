@@ -439,7 +439,7 @@ const Header = (props) => {
                                                     <div className="user">
                                                         <div className="avater">
 
-                                                            {userDetails.profileImage ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + userDetails.profileImage} alt="" id="profile-image"
+                                                            {userDetails.image ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + userDetails.image} alt="" id="profile-image"
 
                                                             /> : <img className="img-fluid" src="img/dol-1.png" alt="" />}
                                                         </div>

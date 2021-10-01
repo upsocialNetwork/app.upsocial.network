@@ -17,7 +17,6 @@ const Layout = (props) => {
   const signOut = () => {
     if (session.getSessionData()) {
       httpClient.call("logout", null, { method: 'GET' }).then(function (response) {
-
       }, function (error) {
         console.log(error);
       });

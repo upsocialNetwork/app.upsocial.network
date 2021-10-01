@@ -30,7 +30,7 @@ const Login = (props) => {
         Loader(props.requestProcess);
         if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
             let authData = props.loginData;
-            console.log(authData);
+            //  console.log(authData);
             Session.setSessionData(authData.result.data);
             SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
             SetSassion(authData.result.data);
@@ -200,9 +200,9 @@ const Login = (props) => {
                             </div>
                             <div className="login-left flex">
                                 <div className="ask-user">Dont have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
-                                    <br/><br/>
-                                   Visit Upsocial ? 
-                                    <a href="/" className="theme-color" onClick={(event) => {home(event) }}>Home</a>
+                                    <br /><br />
+                                    Visit Upsocial ?
+                                    <a href="/" className="theme-color" onClick={(event) => { home(event) }}>Home</a>
 
                                 </div>
 

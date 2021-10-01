@@ -1,13 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PostList from './../Home/PostList';
-
-
+import { useHistory } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const ModTools = (props) => {
 
+    const location = useLocation();
+    let [data, setData] = useState('');
 
-    let pt = props.postData;
-    console.log(pt);
+
+    useEffect(() => {
+        setData(location.state.detail);
+
+    }, []);
+
+    const navigate = (event) => {
+        event.preventDefault();
+    }
+
+
+    //console.log(data);
 
 
     return (
@@ -17,15 +29,19 @@ const ModTools = (props) => {
                     <div className="joined-flex-wrapper">
                         <div className="user type-3">
                             <div className="avater position-relative">
-                                <img className="img-fluid" src="img/user.png" alt="" />
+
+                                {data !== null ?
+                                    <img className="img-fluid" src={"https://ipfs.io/ipfs/" + data.image} alt="" /> : <img className="img-fluid" src="img/dol-1.png" alt="" />}
+
+
                                 {/* <label className="position-absolute upload type-2">
                                     <input type="file" name="" id="" />
                                     <img src="img/folder.svg" alt="" />
                                 </label> */}
                             </div>
-                            <h5><a href="#" className="d-inline-block">heyderbeutiful <span
-                                        className="position-absolute status joined">Edit</span></a> <span
-                                    className="sub">r/heyderbeautiful</span>
+                            <h5><a href="#" onClick={(event) => { navigate(event) }} className="d-inline-block">{data !== null ? data.name : null} <span
+                                className="position-absolute status joined">Edit</span></a> {/* <span
+                                    className="sub">r/heyderbeautiful</span> */}
                             </h5>
                         </div>
 

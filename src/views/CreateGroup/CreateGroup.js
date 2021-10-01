@@ -26,6 +26,7 @@ const Community = (props) => {
         event.preventDefault();
     }
     const createGroup = (event) => {
+
         event.preventDefault();
         let formData = {
             "name": name,
@@ -34,8 +35,7 @@ const Community = (props) => {
             "nsfw": isAdult,
             "image": image
         }
-
-        console.log(formData);
+        // console.log(formData);
         httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 SuccessToast(response.result.message);
@@ -48,6 +48,7 @@ const Community = (props) => {
         }, function (error) {
             console.log(error);
         })
+
     }
 
     const convertFileToBase64 = (data) => {
@@ -55,6 +56,7 @@ const Community = (props) => {
         reader.onloadend = function () {
             var b64 = reader.result.replace(
                 /^data:.+;base64,/, '');
+            document.getElementById("profile-image").src = reader.result;
             setImage(b64);
             console.log("file converted successfully");
         };
@@ -65,19 +67,19 @@ const Community = (props) => {
         if (typeof (file) != "undefined") {
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 10) {
-                ErrorToast('Please select file size less than 10 MB');
+            if (size > 2) {
+                ErrorToast('Please select file size less than 2 MB');
                 return null;
             }
             if (postType == "image") {
                 convertFileToBase64(file);
             } else {
-                ErrorToast('Please select file size less than 10 MB');
+                ErrorToast('Please select file size less than 2 MB');
                 return null;
             }
         }
         else {
-            ErrorToast('Please select file size less than 10 MB');
+            ErrorToast('Please select file size less than 2 MB');
             return null;
         }
 
@@ -106,16 +108,33 @@ const Community = (props) => {
 
                             />
                         </div>
-                        <div className="user-name">
-                            <h5>Group Avtar </h5>
+                        <div className="customize-pf-g-wrap">
+                            <div className="pf-lf-part">
+                                <h5>Group Avtar </h5>
+                            </div>
+                            <div className="pf-lr-part grid">
+                                <div className="profile-avater size-big position-relative">
 
-                        </div>
+                                    <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profile-image"
 
-                        <div className="user-name-change-input">
-                            <input className="form-control" type="file" name="file" accept="image/*"
+                                    />
 
-                                onChange={(event) => { convertFile(event.target.files[0]) }}
-                            />
+                                </div>
+
+                                <div className="upload-banner-img">
+                                    <label className="upload type-2">
+                                        <input type="file" name="" id="" accept="image/jpg, image/jpeg"
+                                            onChange={(event) => { convertFile(event.target.files[0]) }}
+                                        />
+                                        <img src="img/plus-5.svg" alt="" />
+                                    </label>
+                                    <p>Drag and Drop or Upload Banner Image </p>
+                                </div>
+
+                                <div className="restiction">
+                                    <p>Image should be less than 2 MB</p>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -135,7 +154,7 @@ const Community = (props) => {
 
                         <div className="post-type-selection">
                             <h4>Group type</h4>
-                            <select className="form-select select2" aria-label="Default select example" onChange={(event) => { setType(event.target.value) }}>
+                            <select className="form-control select2" onChange={(event) => { setType(event.target.value) }}>
                                 <option defaultValue>Open this select menu</option>
                                 <option value="Public" >Public ( Anyone can view, post, and comment to this group )</option>
                                 <option value="Restricted">Restricted ( Anyone can view this group, but only approved users can post)</option>
@@ -143,9 +162,9 @@ const Community = (props) => {
                             </select>
                         </div>
                         <div className="post-type-selection">
-                            <h4>Adult content</h4>
+                            <h4>NSFW</h4>
                             <label className="radioBox checkBox">
-                                <p><span className="nsfw">NSFW</span> 18+ year old Group</p>
+                                <p>{/* <span className="nsfw">NSFW</span> */} 18+ year old Group</p>
                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
                                 <span className="checkmark"></span>
                             </label>
@@ -167,7 +186,7 @@ const Community = (props) => {
                                 {/* <a href="#" className="btn style-2 transparent-bg proxima-bold">Cancel</a> */}
                                 <button type="submit" onClick={(event) => { createGroup(event) }} className="btn primary-bg ms-3 proxima-bold"
 
-                                    disabled={!(name && type)}
+                                    disabled={!(name && type && image)}
                                 >Create Group</button>
                             </div>
                         </div>

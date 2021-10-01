@@ -14,7 +14,7 @@ const RightSideBar = (props) => {
     }, [])
 
     let gl = props.groupData;
-   // console.log(gl);
+    // console.log(gl);
 
 
     const history = useHistory();
@@ -146,7 +146,7 @@ const GroupRecord = (props) => {
 
             <div className="gp-icon">
                 <a href="#" onClick={(event) => { groupDetails(event, element.id) }} >
-                    {element.avatar ? <img src={"https://ipfs.io/ipfs/" + element.avatar} alt="" /> : <img src="img/dol-1.png" alt="" />}
+                    {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
                 </a>
             </div>
             <a href="#" onClick={(event) => { groupDetails(event, element.id) }} style={{ textDecoration: 'none' }} >
@@ -154,8 +154,8 @@ const GroupRecord = (props) => {
                     {element.name}
                 </div>
             </a>
-            <div className="gp-button">
-                <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn border border-primary follow">View</a>
+            <div className="gp-button ">
+                <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn border border-primary follow float-right">View</a>
             </div>
 
 

@@ -19,8 +19,6 @@ const ChangePassword = (props) => {
         }
     }, []);
 
-
-
     const navigate = (event) => {
         event.preventDefault()
     }
@@ -31,14 +29,14 @@ const ChangePassword = (props) => {
             "oldPassword": oldPassword,
             "newPassword": newPassword
         }
-        httpClient.call('change-password', formData, { method: 'POST' }).then(function (response) {
+        httpClient.call('change-password', formData, { method: 'PUT' }).then(function (response) {
             if (response.success == true) {
-                console.log(response);
+                //console.log(response);
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);
             }
             else {
-                console.log(response);
+                //console.log(response);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
@@ -129,7 +127,23 @@ const ChangePassword = (props) => {
                     </div> */}
 
                     <div className="save-change-rw text-end">
-                        <a href="/" onClick={(event) => changePassword(event)} className="btn primary-bg proxima-bold effect-one">Save Changes</a>
+                        {/* <a href="/" onClick={(event) => changePassword(event)} className="btn primary-bg proxima-bold effect-one"
+
+                            disabled={!(oldPassword &&
+                                newPassword)}
+
+                        >Save Changes</a> */}
+
+                        <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(oldPassword &&
+                            newPassword)}
+                            onClick={(event) => { changePassword(event) }}
+                        >Save Changes</button>
+
+
+
+
+
+
                     </div>
                 </div>
             </div>
