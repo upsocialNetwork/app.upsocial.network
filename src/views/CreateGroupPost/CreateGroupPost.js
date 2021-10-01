@@ -69,7 +69,7 @@ const CreateGroupPost = (props) => {
         // console.log(formData);
 
         // return null;
-        httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
+        httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
             if (response.success) {
                 SuccessToast(response.result.message);
                 // history.push("/");

@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PostAttributes from './PostAttributes';
 import PostComments from './PostComments';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
+import { useHistory } from 'react-router-dom';
+import HoverVideoPlayer from 'react-hover-video-player';
+import Session from '../../utils/session';
 const ImagePost = (props) => {
+    const history = useHistory();
 
     let element = props.postData;
+    let [userData, setUserData] = useState();
+
+
+    useEffect(() => {
+        let user = Session.getSessionData();
+        if (user == null) {
+        }
+        else {
+            // console.log("Session");
+            // console.log(user);
+            setUserData(user);
+        }
+
+    }, []);
 
     const navigate = (event) => {
         event.preventDefault()
     }
 
-   // console.log(element);
+    const editPost = (event, postid) => {
+        event.preventDefault();
+        console.log(postid);
+        history.push({
+            pathname: '/edit-post',
+            search: '?id=' + postid + '',
+            state: { postid: postid }
+        });
+
+    }
+
 
 
 
@@ -20,75 +48,123 @@ const ImagePost = (props) => {
             <div className="post-wrapper post-type-one">
                 <div className="post-header">
                     <div className="elementory-avater-wrap">
-                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.userAvatar != null ? <img src={"https://ipfs.io/ipfs/" + element.userAvatar} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
+                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
                         <h6>
-                            <a href="/" onClick={(event) => navigate(event)} >
-                                {element.postName}
-                            </a> <span>Posted by  {element.userName}
+                            <a href="/" onClick={(event) => { navigate(event) }} >
+                                {element.name}
+                            </a> <span>Posted by  {element.postedBy.userName}
                             </span>
                         </h6>
                     </div>
 
-                    <div className="post-header-right" hidden>
-                        <div className="post-time">{/* {element.agoTime} */}</div>
-                        <div className="dropdown">
-                            <button className="post-dropdown" type="button" id="dropdownMenuButton1"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="img/three-dot.svg" alt="" />
-                            </button>
-                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
-                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
-                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li>
-                            </ul>
+
+                    {userData && userData.id == element.postedBy.id ?
+                        <div className="post-header-right" >
+                            <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="dropdown">
+                                <button className="post-dropdown" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="img/three-dot.svg" alt="" />
+                                </button>
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a className="dropdown-item" href="/" onClick={(event) => editPost(event, element.postId)}>Edit</a></li>
+                                    {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
+                            <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                        :
+                        null
+                    }
+
+
                 </div>
                 <div className="post-content-wrapper">
-                    <div className="post-content max-520">
-                        <p>{element.title}</p>
-                    </div>
+                    {/* <div className="post-content max-520">
+                    <p >{element.name}</p>
+                </div> */}
                     {/* {element.data &&
-                        <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                            <img src={element.data} alt="" />
-                        </a>
-                    } */}
+                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
+                        <img src={element.data} alt="" />
+                    </a>
+                } */}
 
                     {(() => {
 
 
 
-                        switch (element.postType) {
+                        switch (element.type.toUpperCase()) {
 
-                            case 'image':
+                            case 'IMAGE':
 
                                 return (
 
-                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <img src={"https://ipfs.io/ipfs/" + element.postData} alt="" />
+                                    <a href="/" onClick={(event) => navigate(event)} className="post-img" >
+                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" width="100%" height="300px" />
                                     </a>
 
                                 )
 
-                            case 'video':
+                            case 'VIDEO':
 
                                 return (
 
-                                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <video controls width="100%" height="auto">
-                                            <source src={"https://ipfs.io/ipfs/" + element.postData} type="audio/mpeg" />
-                                        </video>
-                                    </a>
+                                    /*  <a href="/" onClick={(event) => navigate(event)} className="post-img">
+                                         <video controls width="100%" height="300px"
+    
+                                         >
+                                             <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
+                                         </video>
+                                     </a> */
+
+                                    <HoverVideoPlayer
+                                        videoSrc={"https://ipfs.io/ipfs/" + element.data}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%'
+                                        }}
+                                        controls
+                                        /*  restartOnPaused
+                                         volume={0.5}
+                                         muted={false} */
+                                        /*  hoverOverlay={
+                                             <div className="hover-overlay">
+                                               <h1>Video Title</h1>
+                                               <p>
+                                                 Here is a short description of the video.
+                                                 You can still see the video playing underneath this overlay.
+                                                 <a href="/video-page">Click here to read more</a>
+                                               </p>
+                                             </div>
+                                           } */
+                                        /* pausedOverlay={
+                                            <img
+                                                src={"https://ipfs.io/ipfs/" + element.data}
+                                                alt=""
+                                                style={{
+                                                    // Make the image expand to cover the video's dimensions
+                                                    width: "100%",
+                                                    height: "100%",
+                                                    objectFit: "cover",
+                                                }}
+                                            />
+                                        } */
+                                        loadingOverlay={
+                                            <div className="loading-overlay">
+                                                <div className="loading-spinner" />
+                                            </div>
+                                        }
+                                    />
 
                                 )
 
-                            case 'audio':
+                            case 'AUDIO':
 
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <audio controls>
-                                            <source src={"https://ipfs.io/ipfs/" + element.postData} type="audio/mpeg" />
+                                        <audio controls width="100%" height="300px" >
+                                            <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
                                         </audio>
 
 
@@ -103,8 +179,8 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520">
-                                       <ReactQuill readOnly={true}
-                                            theme={"bubble"} value={element.postData} />
+                                        <ReactQuill readOnly={true}
+                                            theme={"bubble"} value={element.data} />
 
                                     </div>
 
@@ -116,7 +192,7 @@ const ImagePost = (props) => {
 
                     })()}
                     <PostAttributes {...props} />
-                    {/*  <PostComments {...props} /> */}
+                    {/* <PostComments {...props} /> */}
                 </div>
             </div>
         </div>

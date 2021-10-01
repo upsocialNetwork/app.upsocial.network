@@ -10,96 +10,6 @@ import _ from 'underscore';
 import HoverVideoPlayer from 'react-hover-video-player';
 
 
-/* var commentData = [
-    {
-        "commentId": 8,
-        "comment": "mai",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 2,
-        "childIds": [],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 7,
-        "comment": "grand mother",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 2,
-        "childIds": [],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 6,
-        "comment": "grand father",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 2,
-        "childIds": [],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 5,
-        "comment": "trunks",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 2,
-        "childIds": [],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 4,
-        "comment": "Bullama",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 2,
-        "childIds": [],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 3,
-        "comment": "Gohan",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 1,
-        "childIds": [],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 2,
-        "comment": "Vegita",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 0,
-        "childIds": [
-            4,
-            5,
-            6,
-            7,
-            8
-        ],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    },
-    {
-        "commentId": 1,
-        "comment": "Goku",
-        "userId": 1,
-        "userName": "KD",
-        "parentId": 0,
-        "childIds": [
-            3
-        ],
-        "postedBy": 'Aparna Ghone',
-        "createDate": 'Aug 13, 2021 5.05 PM',
-    }
-] */
 const PostDetails = (props) => {
 
     const history = useHistory();
@@ -121,13 +31,68 @@ const PostDetails = (props) => {
         event.preventDefault()
     }
 
-    const toggleLike = () => {
-        setIsLike(!isLike);
-        setIsDisLike(false)
+    const toggleLike = (event, postId) => {
+        event.preventDefault();
+        console.log("like post id" + postId);
+        return null;
+        let user = Session.getSessionData();
+        if (user === null) {
+            history.push("/auth/login");
+        }
+        else {
+
+            let formData = {
+                "postId": postId,
+                "status": true
+            }
+            httpClient.call("like-post", formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    setIsLike(!isLike);
+                    setIsDisLike(false)
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            })
+
+        }
+
+
     }
-    const toggleDisLike = () => {
-        setIsLike(false);
-        setIsDisLike(!isDisLike)
+    const toggleDisLike = (event, postId) => {
+        event.preventDefault();
+        console.log("dislike post id" + postId);
+        return null;
+        let user = Session.getSessionData();
+        if (user === null) {
+            history.push("/auth/login");
+        }
+        else {
+
+            let formData = {
+                "postId": postId,
+                "status": false
+            }
+            httpClient.call("dislike-post", formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    setIsLike(false);
+                    setIsDisLike(!isDisLike)
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            })
+
+        }
+
     }
 
     let likeClass = isLike ? 'active' : null;
@@ -338,7 +303,11 @@ const PostDetails = (props) => {
 
                                             return (
 
-                                                null
+                                                <div className="post-content max-520">
+                                                    <ReactQuill readOnly={true}
+                                                        theme={"bubble"} value={element.data} />
+
+                                                </div>
 
                                             )
 
@@ -346,7 +315,7 @@ const PostDetails = (props) => {
                                 })()}
                             </>
                                 :
-                                <>No record</>}
+                                <></>}
 
                             {element !== null ?
                                 <>
@@ -355,9 +324,9 @@ const PostDetails = (props) => {
                                         <ul className="p-curd-left likeUnlike-wrap">
 
                                             {element !== null ? <>
-                                                <li><button id={"likes" + element.id} className={"action-type-one " + likeClass} onClick={() => { toggleLike() }}><span className="like"><i
+                                                <li><button id={"likes" + element.id} className={"action-type-one " + likeClass} onClick={(event) => { toggleLike(event, element.id) }}><span className="like"><i
                                                     className="fal fa-arrow-alt-up"></i></span>{likesCount}</button></li>
-                                                <li><button id={"dislikes" + element.id} className={"action-type-one " + disLikeClass} onClick={() => { toggleDisLike() }}><span className="unlike"><i
+                                                <li><button id={"dislikes" + element.id} className={"action-type-one " + disLikeClass} onClick={(event) => { toggleDisLike(event, element.id) }}><span className="unlike"><i
                                                     className="fal fa-arrow-alt-down"></i></span>{dislikesCount}</button></li>
                                             </> : null
                                             }

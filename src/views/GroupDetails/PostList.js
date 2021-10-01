@@ -32,20 +32,7 @@ const PostList = (props) => {
                         case "text": return <ImagePost key={index} postData={element} />;
                         default: return <ImagePost key={index} postData={element} />;
                     }
-                }) : <div className="cmn-card shadow-gray-point-3  mb-4">
-                    <div className="post-wrapper post-type-one">
-                        <div className="post-header">
-                        </div>
-                        <div className="post-content-wrapper">
-                            <div className="post-content max-520">
-                                <div className="no-post-design">
-                                    <img src="img/q-1.svg" alt="" />
-                                    <p>No posts yet</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                }) : null
             }
         </div>
     );

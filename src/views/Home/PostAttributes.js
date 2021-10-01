@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Session from '../../utils/session';
 import { useHistory } from 'react-router-dom';
+import httpClient from '../../services/http';
+import { ErrorToast, SuccessToast } from '../../utils/common';
 
 const PostAttributes = (props) => {
 
@@ -54,13 +56,68 @@ const PostAttributes = (props) => {
 
 
 
-    const toggleLike = () => {
-        setIsLike(!isLike);
-        setIsDisLike(false)
+    const toggleLike = (event, postId) => {
+        event.preventDefault();
+        console.log("like post id" + postId);
+        return null;
+        let user = Session.getSessionData();
+        if (user === null) {
+            history.push("/auth/login");
+        }
+        else {
+
+            let formData = {
+                "postId": postId,
+                "status": true
+            }
+            httpClient.call("like-post", formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    setIsLike(!isLike);
+                    setIsDisLike(false)
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            })
+
+        }
+
+
     }
-    const toggleDisLike = () => {
-        setIsLike(false);
-        setIsDisLike(!isDisLike)
+    const toggleDisLike = (event, postId) => {
+        event.preventDefault();
+        console.log("dislike post id" + postId);
+        return null;
+        let user = Session.getSessionData();
+        if (user === null) {
+            history.push("/auth/login");
+        }
+        else {
+
+            let formData = {
+                "postId": postId,
+                "status": false
+            }
+            httpClient.call("dislike-post", formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    setIsLike(false);
+                    setIsDisLike(!isDisLike)
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            })
+
+        }
+
     }
 
     let likeClass = isLike ? 'active' : null;
@@ -88,23 +145,16 @@ const PostAttributes = (props) => {
 
 
 
-
-
-
-
-
-
-
-
     return (
         <>
 
             <div className="post-crud-wrap max-520 d-flex justify-content-between">
                 <ul className="p-curd-left likeUnlike-wrap">
 
-                    <li><button id={"likes" + element.id} className={"action-type-one " + likeClass} onClick={() => { toggleLike() }}><span className="like"><i
-                        className="fal fa-arrow-alt-up"></i></span>{likesCount}</button></li>
-                    <li><button id={"dislikes" + element.id} className={"action-type-one " + disLikeClass} onClick={() => { toggleDisLike() }}><span className="unlike"><i
+                    <li>
+                        <button id={"likes" + element.id} className={"action-type-one " + likeClass} onClick={(event) => { toggleLike(event, element.id) }}><span className="like"><i
+                            className="fal fa-arrow-alt-up"></i></span>{likesCount}</button></li>
+                    <li><button id={"dislikes" + element.id} className={"action-type-one " + disLikeClass} onClick={(event) => { toggleDisLike(event, element.id) }}><span className="unlike"><i
                         className="fal fa-arrow-alt-down"></i></span>{dislikesCount}</button></li>
 
                 </ul>

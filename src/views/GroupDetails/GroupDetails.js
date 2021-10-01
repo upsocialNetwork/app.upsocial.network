@@ -6,6 +6,7 @@ import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common
 import { useHistory } from 'react-router-dom';
 import PostList from './PostList';
 import Session from '../../utils/session';
+import InfiniteScroll from 'react-infinite-scroller';
 
 
 const CreateGroupJoin = (props) => {
@@ -13,6 +14,7 @@ const CreateGroupJoin = (props) => {
 
     const location = useLocation();
     const [details, setDetails] = useState();
+    const [posts, setPosts] = useState();
 
     useEffect(() => {
         if (location.state === null || location.state === undefined) {
@@ -89,10 +91,9 @@ const CreateGroupJoin = (props) => {
     }
 
     const getGroupDetails = (groupid) => {
-        // console.log('groupid', groupid);
-
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
+                getGroupPosts(groupid);
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
                 let user = Session.getSessionData();
@@ -100,6 +101,20 @@ const CreateGroupJoin = (props) => {
                     console.log(user.id);
                     modToolsEnable(user, result);
                 }
+
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+    const getGroupPosts = (groupid) => {
+        httpClient.call("get-group-post/" + 1 + "/" + groupid, null, { method: 'GET' }).then(function (response) {
+            if (response.success) {
+                setPosts(response)
             }
             else {
                 ErrorToast(response.result.message);
@@ -110,10 +125,20 @@ const CreateGroupJoin = (props) => {
     }
 
     let result = details && details.result && details.result.data ? details.result.data : [];
-    let pt = result.posts ? result.posts : [];
+    let pt = posts && posts.result && posts.result.data ? posts.result.data : [];
     const modToolsEnable = (user, result) => {
         if (user.id === result.owner.id) {
             document.getElementById('mod-tools').style.display = 'inline';
+        }
+    }
+
+    const loadFunc = (page) => {
+        if (page > 5) return false
+        let isLogin = Session.getSessionData();
+        if (isLogin == null) {
+
+        } else {
+            getGroupPosts(page)
         }
     }
 
@@ -201,22 +226,52 @@ const CreateGroupJoin = (props) => {
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Most Liked</button>
+                        role="tab" aria-controls="profile" aria-selected="false">Liked</button>
                 </li>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="true">Most Commented</button>
+                        role="tab" aria-controls="contact" aria-selected="true">Commented</button>
                 </li>
             </ul>
             <div className="tab-content  mb-4" id="myTabContent">
                 <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <PostList type={'Latest'} postlist={pt} />
+                    <InfiniteScroll
+                        pageStart={1}
+                        loadMore={loadFunc}
+                        hasMore={props.hasMore}
+                        loader={<div className="loader" key={0}>Loading ...</div>}
+                    >
+
+                        <PostList type={'Latest'} postlist={pt} />
+
+                    </InfiniteScroll>
+
                 </div>
+
                 <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <PostList type={'Most Liked'} postlist={pt} />
+                    <InfiniteScroll
+                        pageStart={1}
+                        loadMore={loadFunc}
+                        hasMore={props.hasMore}
+                        loader={<div className="loader" key={0}>Loading ...</div>}
+                    >
+                        <PostList type={'Liked'} postlist={pt} />
+                    </InfiniteScroll>
+
+
+
                 </div>
                 <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <PostList type={'Most Commented'} postlist={pt} />
+
+
+                    <InfiniteScroll
+                        pageStart={1}
+                        loadMore={loadFunc}
+                        hasMore={props.hasMore}
+                        loader={<div className="loader" key={0}>Loading ...</div>}
+                    >
+                        <PostList type={'Commented'} postlist={pt} />
+                    </InfiniteScroll>
                 </div>
             </div>
 

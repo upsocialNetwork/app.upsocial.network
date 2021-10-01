@@ -60,6 +60,7 @@ const ImagePost = (props) => {
 
 
 
+
     // console.log(element);
 
 
@@ -145,9 +146,9 @@ const ImagePost = (props) => {
                                             height: '100%'
                                         }}
                                         controls
-                                       /*  restartOnPaused
-                                        volume={0.5}
-                                        muted={false} */
+                                        /*  restartOnPaused
+                                         volume={0.5}
+                                         muted={false} */
                                         /*  hoverOverlay={
                                              <div className="hover-overlay">
                                                <h1>Video Title</h1>
