@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import ImagePost from './ImagePost';
-import SponseredPost from './SponseredPost';
-import LinkPost from './LinkPost';
-
 
 
 const PostList = (props) => {
 
-    let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
+    //let postData = props.postlist && props.postlist.result && props.postlist.result.data ? props.postlist.result.data : [];
 
 
     return (

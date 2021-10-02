@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { colorModeToggle } from './../utils/common';
 import { useHistory } from "react-router-dom";
-import { useSelector } from 'react-redux'
+
 import Session from './../utils/session';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from './../utils/common';
+import {  ErrorToast } from './../utils/common';
 
 
 const Header = (props) => {
@@ -23,7 +23,7 @@ const Header = (props) => {
             setWalletAddress(walletAdd);
         }
 
-        console.log("-------------------------");
+       // console.log("-------------------------");
         let loginState = Session.isLoggedIn()
         setIsLoggedIn(loginState)
 

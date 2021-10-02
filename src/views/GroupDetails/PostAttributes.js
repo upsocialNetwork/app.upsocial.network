@@ -58,7 +58,7 @@ const PostAttributes = (props) => {
 
     const toggleLike = (event, postId) => {
         event.preventDefault();
-        console.log("like post id" + postId);
+        //console.log("like post id" + postId);
         return null;
         let user = Session.getSessionData();
         if (user === null) {
@@ -90,7 +90,7 @@ const PostAttributes = (props) => {
     }
     const toggleDisLike = (event, postId) => {
         event.preventDefault();
-        console.log("dislike post id" + postId);
+        //console.log("dislike post id" + postId);
         return null;
         let user = Session.getSessionData();
         if (user === null) {

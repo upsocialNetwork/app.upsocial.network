@@ -33,11 +33,21 @@ const ModTools = (props) => {
         event.preventDefault();
     }
 
+    const editGroup = (event, groupId) => {
+        event.preventDefault();
+       // console.log(groupId);
+        history.push({
+            pathname: '/edit-group',
+            search: '?id=' + groupId + '',
+            state: { detail: groupId }
+        });
+    }
+
 
     const getMembersList = (groupid) => {
         httpClient.call("get-group-memebers/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success == false) {
-                console.log(response);
+                //console.log(response);
 
             }
             else {
@@ -96,7 +106,7 @@ const ModTools = (props) => {
             "groupId": groupId,
             "userId": transferOwner
         }
-        console.log(formData);
+        //console.log(formData);
         httpClient.call("transfer-ownership", formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 SuccessToast(response.result.message);
@@ -107,7 +117,7 @@ const ModTools = (props) => {
                 });
             }
             else {
-                console.log(response);
+                // console.log(response);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
@@ -121,7 +131,7 @@ const ModTools = (props) => {
             "groupId": groupId,
             "userId": owner
         }
-        console.log(formData);
+        // console.log(formData);
         httpClient.call("make-owner", formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 SuccessToast(response.result.message);
@@ -140,7 +150,7 @@ const ModTools = (props) => {
             "groupId": groupId,
             "userId": moderator
         }
-        console.log(formData);
+        //console.log(formData);
         httpClient.call("make-moderator", formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 SuccessToast(response.result.message);
@@ -173,7 +183,7 @@ const ModTools = (props) => {
                                     <img src="img/folder.svg" alt="" />
                                 </label> */}
                             </div>
-                            <h5><a href="#" onClick={(event) => { navigate(event) }} className="d-inline-block">{data !== null ? data.name : null} <span
+                            <h5><a href="#" onClick={(event) => { editGroup(event, data.id) }} className="d-inline-block">{data !== null ? data.name : null} <span
                                 className="position-absolute status joined">Edit</span></a> {/* <span
                                     className="sub">r/heyderbeautiful</span> */}
                             </h5>

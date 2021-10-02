@@ -9,6 +9,8 @@ import httpClient from '../../services/http';
 
 const ForgetPassword = (props) => {
 
+    const history = useHistory();
+
     let [email, setEmail] = useState();
 
 
@@ -19,13 +21,18 @@ const ForgetPassword = (props) => {
         let formData = {
             email: email
         }
-        httpClient.call("forget-password", formData, { method: 'POST' }).then(function (response) {
+        httpClient.call("forget-password", formData, { method: 'PUT' }).then(function (response) {
             SuccessToast(response.result.message);
         }, function (error) {
             ErrorToast(error.result.message);
         })
     }
 
+
+    const loginPage = (event) => {
+        event.preventDefault();
+        history.push("/auth/login");
+    }
 
 
 
@@ -64,7 +71,7 @@ const ForgetPassword = (props) => {
                             </div> */}
                         </div>
                         <div className="login-left flex">
-                            <div className="ask-user">Already Account ? <a href="/" className="theme-color" >Login & Registration </a>
+                            <div className="ask-user">Already Account ? <a href="#" onClick={(event) => { loginPage(event) }} className="theme-color" >Login & Registration </a>
                             </div>
                         </div>
                         {/* <div className="login-right">

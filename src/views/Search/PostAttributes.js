@@ -1,9 +1,9 @@
-import React from 'react';
-
+/* import React from 'react';
+ */
 const PostAttributes = (props) => {
 
-    let element = props.postData;
-
+   /*  let element = props.postData;
+ */
     return (
         <>
             <div className="post-crud-wrap max-520 d-flex justify-content-between">

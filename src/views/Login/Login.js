@@ -114,31 +114,35 @@ const Login = (props) => {
                         </div>
                         <form action="#" className="login-g-wrapper">
                             <div className="login-left">
-                                <h5>Sign up to get your own <br />
-                                    personalized Upsocial experience!</h5>
 
-                                <p>By having a Upsocial account, you can subscribe, <br />
-                                    vote, and comment on all your favorite Reddit <br />
-                                    content. Sign up in just seconds.</p>
+                                <h6>UPSOCIAL !</h6>
+                                <h1>WELCOME </h1>
+                                <h1 className="opacity-one-times">WELCOME </h1>
+                                <h1 className="opacity-two-times">WELCOME </h1>
+                                <h5>Sign up to be a
+                                    BETA USER and claim your 1,000 USN</h5>
+
+                                <p>Free your mind and get paid for creating content, driving traffic and referring friends.
+                                    A place to have open conversations and bring people together.</p>
                             </div>
                             <div className="login-right">
                                 <div className="input-wrapper">
-                                    <label htmlFor="">First Name</label>
-                                    <input type="text" name="firstName" className="form-control"
+                                    <label htmlFor=""> Name</label>
+                                    <input type="text" name="firstName" className="form-control input-sm"
                                         onChange={(event) => { setSignupFirstName(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('firstName')} />
                                     {validator.current.message('firstName', signupFirstName, 'required')}
                                 </div>
-                                <div className="input-wrapper">
+                                {/* <div className="input-wrapper">
                                     <label htmlFor="">Last Name</label>
-                                    <input type="text" name="lastName" className="form-control"
+                                    <input type="text" name="lastName" className="form-control input-sm"
                                         onChange={(event) => { setSignupLastName(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('lastName')} />
                                     {validator.current.message('lastName', signupLastName, 'required')}
-                                </div>
+                                </div> */}
                                 <div className="input-wrapper">
                                     <label htmlFor="">Username</label>
-                                    <input type="text" name="userName" className="form-control"
+                                    <input type="text" name="userName" className="form-control input-sm"
                                         onChange={(event) => { setSignupUserName(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('userName')} />
                                     {validator.current.message('userName', signupUserName, 'required')}
@@ -146,14 +150,14 @@ const Login = (props) => {
 
                                 <div className="input-wrapper">
                                     <label htmlFor="">Email</label>
-                                    <input type="email" name="email" className="form-control"
+                                    <input type="email" name="email" className="form-control input-sm"
                                         onChange={(event) => { setSignupEmail(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('email')} />
                                     {validator.current.message('email', signupEmail, 'required|email')}
                                 </div>
                                 <div className="input-wrapper">
                                     <label htmlFor="">Password</label>
-                                    <input type="password" name="password" className="form-control"
+                                    <input type="password" name="password" className="form-control input-sm"
                                         onChange={(event) => { setSignupPassword(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('password')} />
                                     {validator.current.message('password', signupPassword, 'required')}
@@ -165,7 +169,7 @@ const Login = (props) => {
                                 </div>
                             </div>
                             <div className="login-right">
-                                <div className="text-center">
+                                <div className="text-right">
                                     <button type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
 
                                 </div>
@@ -212,21 +216,21 @@ const Login = (props) => {
 
                             <div className="login-right">
                                 <div className="twin-btn d-flex align-items-center justify-content-between">
-                                    <a href="/" onClick={(event) => forgetPassword(event)}
-                                        className="btn bg-transparent border border-primary radius-30 forgot-password">Forget
-                                        Password</a>
+
                                     <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { doLogin(event) }}>Login Now</button>
+                                    <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { forgetPassword(event) }}>Forget Password</button>
+
                                 </div>
                             </div>
                         </form>
                     </div>
                 }
             </div>
-            <div className="access-bottom-part">
-                <div className="policy-link">By signing up, you agree to our <a href="/" onClick={(event) => navigate(event)} className="link theme-color">Terms</a> and
-                    that you have read our <a href="/" onClick={(event) => navigate(event)} className="link theme-color">Privacy Policy</a> and <a href="/" onClick={(event) => navigate(event)}
+            {/* <div className="access-bottom-part">
+                <div className="policy-link">By signing up, you agree to our <a href="#" onClick={(event) => navigate(event)} className="link theme-color">Terms</a> and
+                    that you have read our <a href="#" onClick={(event) => navigate(event)} className="link theme-color">Privacy Policy</a> and <a href="#" onClick={(event) => navigate(event)}
                         className="link theme-color">Content Policy</a>.</div>
-            </div>
+            </div> */}
         </div>
     );
 }

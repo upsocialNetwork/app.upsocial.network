@@ -23,7 +23,7 @@ const EditProfile = (props) => {
         else {
             // props._getProfile();
             const user = Session.getSessionData();
-            console.log(user);
+            //console.log(user);
             setUserName(user.userName);
             setFirstName(user.firstName);
             setLastName(user.lastName);
@@ -72,7 +72,7 @@ const EditProfile = (props) => {
                 Session.setSessionData(response.result.data);
             }
             else {
-                console.log(response);
+              //  console.log(response);
                 ErrorToast(response.result.message);
             }
         }, function (error) {

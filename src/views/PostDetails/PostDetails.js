@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom'
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+import {  ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import httpClient from '../../services/http';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
@@ -33,7 +33,7 @@ const PostDetails = (props) => {
 
     const toggleLike = (event, postId) => {
         event.preventDefault();
-        console.log("like post id" + postId);
+    // console.log("like post id" + postId);
         return null;
         let user = Session.getSessionData();
         if (user === null) {
@@ -65,7 +65,7 @@ const PostDetails = (props) => {
     }
     const toggleDisLike = (event, postId) => {
         event.preventDefault();
-        console.log("dislike post id" + postId);
+        //console.log("dislike post id" + postId);
         return null;
         let user = Session.getSessionData();
         if (user === null) {
@@ -136,7 +136,7 @@ const PostDetails = (props) => {
         if (element !== null) {
             if (element.likes !== null) {
                 for (var i = 0; i < element.likes.length; i++) {
-                    if (element.likes[i].status == true) {
+                    if (element.likes[i].status === true) {
                         likeCount++;
                     } else {
                         dislikeCount++;
@@ -144,7 +144,7 @@ const PostDetails = (props) => {
 
                     if (user !== null) {
                         if (user.id === element.likes[i].likedBy.id) {
-                            if (element.likes[i].status == true) {
+                            if (element.likes[i].status === true) {
                                 document.getElementById("likes" + element.id).click();
                             }
                             else {
@@ -377,7 +377,7 @@ const PostDetails = (props) => {
                                             {commentData && commentData.length > 0 &&
 
                                                 commentData.map((commentElement, index) => {
-                                                    if (commentElement.parentId != 0) return null;
+                                                    if (commentElement.parentId !== 0) return null;
 
                                                     return (
                                                         <li key={index}>

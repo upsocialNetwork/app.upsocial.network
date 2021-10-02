@@ -17,7 +17,7 @@ const RightSideBar = (props) => {
     // console.log(gl);
 
 
-    const history = useHistory();
+   // const history = useHistory();
 
     const navigate = (event) => {
         event.preventDefault()
@@ -122,24 +122,24 @@ const GroupRecord = (props) => {
 
 
     const groupDetails = (event, id) => {
-        //console.log(id);
         event.preventDefault();
         let isLogin = Session.isLoggedIn();
-        // console.log("login status", isLogin);
-        if (isLogin == false) {
+        if (isLogin === false) {
             history.push("/auth/login");
         } else {
+
             history.push({
                 pathname: '/group/details',
                 search: '?id=' + id + '',
                 state: { detail: id }
             });
+            if (window.location.pathname === "/group/details") {
+
+                window.location.reload();
+            }
         }
 
     }
-
-
-
 
     return (
         <div className="single-group">

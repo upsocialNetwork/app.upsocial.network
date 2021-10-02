@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react';
-
 import PostList from './PostList';
 import GroupList from './GroupList';
 

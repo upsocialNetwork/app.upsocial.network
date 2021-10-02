@@ -1,7 +1,7 @@
-import React from 'react';
-import PostAttributes from './PostAttributes';
-import PostComments from './PostComments';
-
+/* import React from 'react';
+ */import PostAttributes from './PostAttributes';
+/* import PostComments from './PostComments';
+ */
 const LinkPost = (props) => {
 
     let element = props.postData;

@@ -7,11 +7,7 @@ import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
-
-
-
-
-
+import $ from 'jquery';
 const EditPost = (props) => {
     const history = useHistory();
     const location = useLocation();
@@ -23,9 +19,11 @@ const EditPost = (props) => {
 
             history.push('/auth/login');
         }
-        //console.log(location);
+        if (location.state == null) {
+            history.push('');
+
+        }
         const id = location.state.postid;
-        //console.log("post id", id);
         getpostDetails(id);
     }, []);
 
@@ -38,45 +36,70 @@ const EditPost = (props) => {
     let [selectedFile, setSelectedFile] = useState(null);
     let [dataType, setDataType] = useState(null);
     let [postType, setPostType] = useState(null);
-
-
-    const navigate = (event) => {
-        event.preventDefault();
-    }
-
-
     const getpostDetails = (id) => {
         httpClient.call("get-post-details/" + id, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
-                console.log(response);
                 SuccessToast(response.result.message);
 
                 let res = response.result.data;
-                setTitle(res.postName);
-                setId(res.postId);
-
-                // console.log(res.postData);
-                if (res.postType == "text") {
+                setId(res.id);
+                setTitle(res.name);
+                setAdult(res.nsfw)
+                if (res.type == "text") {
                     document.getElementById("text-tab").click();
                     setText(true);
                     setPostType("text");
                     setDataType(".txt");
-                    setData(res.postData);
+                    setData(res.data);
 
+                    if (res.nsfw == true) {
+                        $("#nsfwtext").prop("checked", true);
+                    }
+                    else {
+                        $("#nsfwtext").prop("checked", false);
+                    }
                 }
                 else {
                     document.getElementById("link-tab").click();
                     setText(false);
-                    setPostType(res.postType);
-                    setDataType(res.postDataType);
-                    setPostData(res.postData);
+                    setPostType(res.type);
+                    setDataType(res.dataType);
+                    setPostData(res.data);
+                    if (res.nsfw == true) {
+                        $("#nsfwdata").prop("checked", true);
+                    }
+                    else {
+                        $("#nsfwdata").prop("checked", false);
+                    }
+                    if (res.type.toUpperCase() === "IMAGE") {
+                        $("#div1").attr('hidden', false);
+                        $('#div1').prepend("<img src=" + "https://ipfs.io/ipfs/" + res.data + " alt='' width='100%' height='300px'  />");
+                        $("#image1").attr('hidden', false);
+                        $("#video1").attr('hidden', true);
+                        $("#audio1").attr('hidden', true);
+                    }
+                    else if (res.type.toUpperCase() === "VIDEO") {
+                        $("#div1").attr('hidden', false);
+                        $('#div1').prepend("<video controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></video>");
+                        $("#video1").attr('hidden', false);
+                        $("#image1").attr('hidden', true);
+                        $("#audio1").attr('hidden', true);
+                    } else if (res.type.toUpperCase() === "AUDIO") {
+                        $("#div1").attr('hidden', false);
+                        $('#div1').prepend("<audio controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></audio>");
+                        $("#audio1").attr('hidden', false);
+                        $("#video1").attr('hidden', true);
+                        $("#image1").attr('hidden', true);
+                    }
                 }
-                setAdult(res.adultContent)
+
             }
             else {
                 ErrorToast(response.result.message);
+                console.log(response);
+                // history.push('/');
             }
-            //  console.log(response);
+
         }, function (error) {
             console.log(error);
         });
@@ -84,41 +107,38 @@ const EditPost = (props) => {
 
 
 
-    const savePost = (event) => {
+    const updatePost = (event) => {
         event.preventDefault();
         let formData = {};
         if (isText) {
             formData = {
                 "id": id,
-                "postType": "text",
-                "title": title,
+                "type": "text",
+                "name": title,
                 "data": data,
                 "dataType": ".txt",
-                "adultContent": isAdult
+                "nsfw": isAdult
 
             };
         }
         else {
-
             formData = {
                 "id": id,
-                "postType": postType,
-                "title": title,
+                "type": postType,
+                "name": title,
                 "data": postdata,
                 "dataType": dataType,
-                "adultContent": isAdult
-
+                "nsfw": isAdult
             };
 
         }
 
-        // console.log(formData);
-
-        httpClient.call('update-timeline-post', formData, { method: 'POST' }).then(function (response) {
+        //console.log(formData);
+        httpClient.call('update-post', formData, { method: 'PUT' }).then(function (response) {
             if (response.success) {
-                //console.log(response);
                 SuccessToast(response.result.message);
-                //history.push("/");
+                //console.log(response);
+                history.push("/");
             }
             else {
                 ErrorToast(response.result.message);
@@ -127,18 +147,45 @@ const EditPost = (props) => {
         }, function (error) {
             ErrorToast(error.result.message);
         })
-
-
-
     }
-
 
     const convertFileToBase64 = (data) => {
         const reader = new FileReader();
         reader.onloadend = function () {
-            var b64 = reader.result.replace(
-                /^data:.+;base64,/, '');
+            var b64 = reader.result.replace(/^data:.+;base64,/, '');
             setPostData(b64);
+            let postType = data.type.substring(0, 5);
+            if (postType === "image") {
+                //set value
+
+                document.getElementById("image-prev").src = reader.result;
+                document.getElementById('image-prev').style.display = 'inline';
+                //reset value
+                document.getElementById('video-prev').style.display = 'none';
+                document.getElementById('audio-prev').style.display = 'none';
+                document.getElementById("video-prev").value = "";
+                document.getElementById("audio-prev").value = "";
+            } else if (postType === "video") {
+                //set value
+                document.getElementById("video-prev").src = reader.result;
+                document.getElementById('video-prev').style.display = 'inline';
+                //reset value
+                document.getElementById('image-prev').style.display = 'none';
+                document.getElementById('audio-prev').style.display = 'none';
+                document.getElementById("image-prev").value = "";
+                document.getElementById("audio-prev").value = "";
+            } else {
+
+                //set value
+                document.getElementById("audio-prev").src = reader.result;
+                document.getElementById('audio-prev').style.display = 'inline';
+
+                //reset value
+                document.getElementById('video-prev').style.display = 'none';
+                document.getElementById('image-prev').style.display = 'none';
+                document.getElementById("video-prev").value = "";
+                document.getElementById("image-prev").value = "";
+            }
             console.log("file converted successfully");
         };
         reader.readAsDataURL(data);
@@ -153,17 +200,24 @@ const EditPost = (props) => {
                 ErrorToast('Please select file size less than 10 MB');
                 return null;
             }
+            $("#div1").attr('hidden', true);
+            $("#div2").attr('hidden', false);
+            convertFileToBase64(file);
+
             if (postType == "image") {
+                // console.log(postType);
                 setDataType(".jpg");
                 setPostType("image");
             } else if (postType == "video") {
+                ///  console.log(postType);
                 setDataType(".mp4");
                 setPostType("video");
             } else {
+                // console.log(postType);
                 setDataType(".mp3");
                 setPostType("audio");
             }
-            convertFileToBase64(file);
+
         }
         else {
             ErrorToast('Please select file size less than 10 MB');
@@ -177,20 +231,8 @@ const EditPost = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
-                    <h3 className="tertiary-title position-relative">Edit Post</h3>
-                    {/*  <div className="post-writter d-flex justify-content-between" >
-                        <div className="user">
-                            <div className="avater">
-                                <img className="img-fluid" src="img/user.png" alt="" />
-                            </div>
-                            <h5><a href="#" className="d-inline-block">u/GalaGames</a>
-                            </h5>
-                        </div>
-                        <button type="button" className="tooltip-btn" data-bs-toggle="tooltip" data-bs-html="true"
-                            title="<p>Lorem ipsum dolor sit amet sojeljfla aofdifelfoa dlfjdfowef.</p>">
-                            <img src="img/info-icon.svg" alt="" />
-                        </button>
-                    </div> */}
+                    <h3 className="tertiary-title position-relative">Create Post</h3>
+
 
                     <div className="post-contents">
                         <ul className="nav nav-tabs types" id="createPost" role="tablist">
@@ -223,31 +265,46 @@ const EditPost = (props) => {
                                                 />
                                             </div>
 
+
                                             <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
-                                                    <div className="drag-and-drop-div">
-                                                        <img src="img/drag-and-drop.png" alt="" />
-                                                        <label htmlFor="drag" className="drag-and-drop">
-                                                            <input type="file" name="file" id="drag" /* onChange={changeHandler} */
+                                                    <div className="user-name-change-input">
+                                                        <input className="form-control" type="file" name="file"
 
-                                                                onChange={(event) => { convertFile(event.target.files[0]) }}
-                                                            />
-                                                            Choose File
-                                                        </label>
+                                                            onChange={(event) => { convertFile(event.target.files[0]) }}
+                                                        />
                                                     </div>
+                                                </div>
+
+                                                <div id="div1" hidden>
+
+                                                </div>
+
+                                                <div id="div2" hidden>
+                                                    <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
+                                                        style={{ display: 'none' }}
+
+                                                    />
+                                                    <video controls width="100%" height="300px" id="video-prev" style={{ display: 'none' }} >
+                                                        <source src="" type="audio/mpeg" />
+                                                    </video>
+                                                    <audio controls id="audio-prev" width="100%" height="300px" style={{ display: 'none' }}>
+                                                        <source src="" type="audio/mpeg" />
+                                                    </audio>
                                                 </div>
                                             </div>
 
-                                        </div><br />
-                                        {/* <div className="text-content-wrap">
+                                        </div>
+
+                                        <br />
+                                        <div className="text-content-wrap">
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
-                                                <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} 
-                                                    value={isAdult}  id="checkbox" />
+                                                <input type="checkbox" id="nsfwdata" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
                                                 <span className="checkmark"></span>
                                             </label>
-                                        </div> */}
+                                        </div>
 
                                     </div>
                                 </div>
@@ -256,8 +313,7 @@ const EditPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                    onChange={(event) => { setTitle(event.target.value) }}
-                                                    value={title}
+                                                    onChange={(event) => { setTitle(event.target.value) }} value={title}
                                                 />
                                             </div>
                                             <div className="text-editor-wrapper">
@@ -268,76 +324,77 @@ const EditPost = (props) => {
 
 
                                         </div><br />
-                                        {/*  <div className="text-content-wrap">
+                                        <div className="text-content-wrap">
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
-                                                <input type="checkbox" name="checkbox" id="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
+                                                <input type="checkbox" id="nsfwtext" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
                                                 <span className="checkmark"></span>
                                             </label>
-                                        </div> */}
+                                        </div>
 
                                     </div>
                                 </div>
                             </div>
                             {/* <div className="tg-g-right">
-                                <div className="input-wrapper type-2">
-                                    <label htmlFor="">Attach File</label>
-                                    <div className="drag-and-drop-div">
-                                        <img src="img/drag-and-drop.png" alt="" />
-                                        <label htmlFor="drag" className="drag-and-drop">
-                                            <input type="file" name="" id="drag" />
-                                            Choose File
-                                        </label>
-                                    </div>
+                            <div className="input-wrapper type-2">
+                                <label htmlFor="">Attach File</label>
+                                <div className="drag-and-drop-div">
+                                    <img src="img/drag-and-drop.png" alt="" />
+                                    <label htmlFor="drag" className="drag-and-drop">
+                                        <input type="file" name="" id="drag" />
+                                        Choose File
+                                    </label>
                                 </div>
-                            </div> */}
+                            </div>
+                        </div> */}
                         </div>
 
                         <div className="cmn-rw in-create-post-filed">
                             <label htmlFor="check-1" className="check-box">
                                 {/* <input id="check-1" type="checkbox" />
-                                <div className="checkbox"><img src="img/checkbox.png" alt="" />
-                                    <img className="check-ok" src="img/check-ok.png" alt="" />
-                                </div>
-                                <p>Send replies to my inbox</p> */}
+                            <div className="checkbox"><img src="img/checkbox.png" alt="" />
+                                <img className="check-ok" src="img/check-ok.png" alt="" />
+                            </div>
+                            <p>Send replies to my inbox</p> */}
                             </label>
 
                             <div className="twin-btn d-flex align-items-center justify-content-between">
 
-                                <button type="submit" className="btn primary-bg ms-3 proxima-bold"
-                                    onClick={(event) => { savePost(event) }}
-                                >Update Post</button>
+                                <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title &&
+                                    id)}
+                                    onClick={(event) => { updatePost(event) }}
+                                >Update Now</button>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
             {/*  <ul className="nav nav-tabs" id="myTab" role="tablist" >
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                        role="tab" aria-controls="home" aria-selected="false">Popular</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                        role="tab" aria-controls="profile" aria-selected="false">Recommended</button>
-                </li>
-                <li className="nav-item" role="presentation">
-                    <button className="nav-linFk" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
-                        role="tab" aria-controls="contact" aria-selected="true">All</button>
-                </li>
-            </ul> */}
+            <li className="nav-item" role="presentation">
+                <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home" aria-selected="false">Popular</button>
+            </li>
+            <li className="nav-item" role="presentation">
+                <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile" aria-selected="false">Recommended</button>
+            </li>
+            <li className="nav-item" role="presentation">
+                <button className="nav-linFk" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    role="tab" aria-controls="contact" aria-selected="true">All</button>
+            </li>
+        </ul> */}
             {/* <div className="tab-content  mb-4" id="myTabContent" >
-                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <PostList type={'POPULAR'} postlist={pt} />
-                </div>
-                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <PostList type={'RECOMMENDED'} postlist={pt} />
-                </div>
-                <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                    <PostList type={'ALL'} postlist={pt} />
-                </div>
-            </div> */}
+            <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <PostList type={'POPULAR'} postlist={pt} />
+            </div>
+            <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                <PostList type={'RECOMMENDED'} postlist={pt} />
+            </div>
+            <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                <PostList type={'ALL'} postlist={pt} />
+            </div>
+        </div> */}
         </main>
     );
 }

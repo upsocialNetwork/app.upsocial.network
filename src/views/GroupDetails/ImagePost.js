@@ -31,7 +31,7 @@ const ImagePost = (props) => {
 
     const editPost = (event, postid) => {
         event.preventDefault();
-        console.log(postid);
+       // console.log(postid);
         history.push({
             pathname: '/edit-post',
             search: '?id=' + postid + '',
@@ -59,7 +59,7 @@ const ImagePost = (props) => {
 
 
                     {userData && userData.id == element.postedBy.id ?
-                        <div className="post-header-right" >
+                        <div className="post-header-right"  hidden>
                             <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"

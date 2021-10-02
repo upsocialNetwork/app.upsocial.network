@@ -98,7 +98,7 @@ const CreateGroupJoin = (props) => {
                 let result = response && response.result && response.result.data ? response.result.data : [];
                 let user = Session.getSessionData();
                 if (user !== null) {
-                    console.log(user.id);
+                    //console.log(user.id);
                     modToolsEnable(user, result);
                 }
 

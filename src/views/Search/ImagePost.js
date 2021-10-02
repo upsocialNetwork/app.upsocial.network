@@ -1,14 +1,14 @@
-import React from 'react';
-import PostAttributes from './PostAttributes';
-import PostComments from './PostComments';
-
+/* import React from 'react';
+ */import PostAttributes from './PostAttributes';
+/* import PostComments from './PostComments';
+ */
 const ImagePost = (props) => {
 
-    let element = props.postData;
+  /*   let element = props.postData;
 
     console.log("image component");
     console.log(element);
-
+ */
     const navigate = (event) => {
         event.preventDefault()
     }

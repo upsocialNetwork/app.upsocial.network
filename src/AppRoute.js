@@ -27,6 +27,7 @@ import TopGroupSearch from './views/TopGroupSearch';
 import ChangePassword from './views/ChangePassword/ChangePassword';
 import EditPost from './views/EditPost/EditPost';
 import PostDetails from './views/PostDetails/PostDetails';
+import EditGroup from './views/EditGroup/EditGroup';
 
 const FullLayout = (props) => {
   const history = useHistory();
@@ -127,6 +128,7 @@ const AuthorizeRoute = () => {
                   <Route exact path="/" component={Home}></Route>
                   <Route exact path="/search-result" component={Search}></Route>
                   <Route exact path="/create-group" component={Community}></Route>
+                  <Route exact path="/edit-group" component={EditGroup}></Route>
                   <Route exact path="/group/details" component={GroupDetails}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
                   <Route exact path="/edit-post" component={EditPost}></Route>

@@ -15,7 +15,7 @@ const PostList = (props) => {
         <div className="tb-content-wrapper ">
             {postData && postData.length > 0 ?
                 postData.map((element, index) => {
-                    switch (element.postType) {
+                    switch (element.type) {
                         case "image": return <ImagePost key={index} postData={element} />;
                         case "video": return <ImagePost key={index} postData={element} />;
                         case "text": return <ImagePost key={index} postData={element} />;

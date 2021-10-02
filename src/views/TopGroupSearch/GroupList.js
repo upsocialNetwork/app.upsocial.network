@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
 
@@ -9,13 +8,13 @@ const GroupList = (props) => {
     let groupListDat = props.groupsList && props.groupsList.result && props.groupsList.result.data ? props.groupsList.result.data : [];
 
 
-   // console.log(props.groupsList);
+    // console.log(props.groupsList);
 
     const groupDetails = (event, id) => {
         event.preventDefault();
 
         let isLogin = Session.isLoggedIn();
-        if (isLogin == false) {
+        if (isLogin === false) {
             history.push("/auth/login");
         } else {
             history.push({
@@ -31,9 +30,6 @@ const GroupList = (props) => {
     }
 
 
-    const joinGroup = (event) => {
-
-    }
 
 
     return (
@@ -81,7 +77,7 @@ const GroupList = (props) => {
                                                 onClick={(event) => { groupDetails(event, element.id) }}
                                             >{element.name}</a> <span>{element.members.length} Members</span> </h6>
                                         </div>
-                                       {/*  <div className="one-line-relevent-description">
+                                        {/*  <div className="one-line-relevent-description">
                                             <p>{element.description}</p>
                                         </div> */}
                                         <a href="#" onClick={(event) => { navigate(event) }} className="btn primary-bg proxima-bold join">

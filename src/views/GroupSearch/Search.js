@@ -25,7 +25,7 @@ const Search = (props) => {
     }, []);
 
     const getGroupList = (userid) => {
-        console.log("calling", userid);
+        //console.log("calling", userid);
         httpClient.call("get-user-group/" + 1, null, { method: 'GET' }).then(function (response) {
             setGroupList(response);
             if (response.success == false) {
