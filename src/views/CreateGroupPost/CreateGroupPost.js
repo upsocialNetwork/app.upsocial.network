@@ -73,6 +73,12 @@ const CreateGroupPost = (props) => {
             if (response.success) {
                 SuccessToast(response.result.message);
                 // history.push("/");
+
+                history.push({
+                    pathname: '/group/details',
+                    search: '?id=' + groupId + '',
+                    state: { detail: groupId }
+                });
             }
             else {
                 ErrorToast(response.result.message);

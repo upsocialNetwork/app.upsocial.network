@@ -67,7 +67,7 @@ const CreatePost = (props) => {
         httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
             if (response.success) {
                 SuccessToast(response.result.message);
-                // history.push("/");
+                history.push("/");
             }
             else {
                 ErrorToast(response.result.message);
