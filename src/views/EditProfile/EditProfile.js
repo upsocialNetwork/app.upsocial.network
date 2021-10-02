@@ -13,6 +13,7 @@ const EditProfile = (props) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [image, setImage] = useState('');
+    const [previmage, setPrevImage] = useState('');
     const [country, setCountry] = useState('');
     const [about, setAbout] = useState('');
     useEffect(() => {
@@ -29,6 +30,7 @@ const EditProfile = (props) => {
             setLastName(user.lastName);
             setAbout(user.about);
             setImage(user.image);
+            setPrevImage(user.image);
             //setDate("03/05/1998");
             if (user.country !== null) {
                 setCountry(user.country);
@@ -67,12 +69,12 @@ const EditProfile = (props) => {
 
         httpClient.call('profile-update', formData, { method: 'PUT' }).then(function (response) {
             if (response.success == true) {
-               // console.log(response.result.data);
+                // console.log(response.result.data);
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);
             }
             else {
-              //  console.log(response);
+                //  console.log(response);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
@@ -90,7 +92,8 @@ const EditProfile = (props) => {
             var b64 = reader.result.replace(
                 /^data:.+;base64,/, '');
             setImage(b64);
-            document.getElementById("profile-image").src = reader.result;
+            setPrevImage(null);
+            document.getElementById("profileimage").src = reader.result;
             console.log("file converted successfully");
         };
         reader.readAsDataURL(data);
@@ -137,11 +140,11 @@ const EditProfile = (props) => {
                                 </div>
                                 <div className="pf-lr-part grid">
                                     <div className="profile-avater size-big position-relative">
-                                        {image ?
-                                            <img className="avater-image img-fluid" src={"https://ipfs.io/ipfs/" + image} alt="" id="profile-image"
+                                        {previmage ?
+                                            <img className="avater-image img-fluid" src={"https://ipfs.io/ipfs/" + previmage} alt="" id="profile-image"
 
                                             /> :
-                                            <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profile-image"
+                                            <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profileimage"
 
                                             />}
                                         {/* <img className="avater-image img-fluid" src="img/user.png" alt="" id="profile-image" 

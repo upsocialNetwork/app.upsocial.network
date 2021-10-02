@@ -6,6 +6,8 @@ import 'react-quill/dist/quill.snow.css';
 import { useHistory } from 'react-router-dom';
 import HoverVideoPlayer from 'react-hover-video-player';
 import Session from '../../utils/session';
+import { ErrorToast, SuccessToast } from '../../utils/common';
+import httpClient from '../../services/http';
 const ImagePost = (props) => {
     const history = useHistory();
 
@@ -31,12 +33,87 @@ const ImagePost = (props) => {
 
     const editPost = (event, postid) => {
         event.preventDefault();
-       // console.log(postid);
+        // console.log(postid);
         history.push({
             pathname: '/edit-post',
             search: '?id=' + postid + '',
             state: { postid: postid }
         });
+
+    }
+
+    const claimPost = (event, postid) => {
+        event.preventDefault();
+
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+        let formData = {
+            "id": postid
+        }
+
+        httpClient.call("claim-post", formData, { method: 'POST' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+
+    const deletePost = (event, postId) => {
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+        httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+                window.location.reload();
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+    const promotePost = (event, postId) => {
+        event.preventDefault();
+        //console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "postId": postId
+        }
+
+        httpClient.call("promote-post", formData, { method: 'POST' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+
 
     }
 
@@ -59,7 +136,7 @@ const ImagePost = (props) => {
 
 
                     {userData && userData.id == element.postedBy.id ?
-                        <div className="post-header-right"  hidden>
+                        <div className="post-header-right" >
                             <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
@@ -67,14 +144,30 @@ const ImagePost = (props) => {
                                     <img src="img/three-dot.svg" alt="" />
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a className="dropdown-item" href="/" onClick={(event) => editPost(event, element.postId)}>Edit</a></li>
+                                    <li><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
+                                    <li ><a className="dropdown-item" href="#" onClick={(event) => deletePost(event, element.id)} style={{ color: 'red' }}>Delete</a></li>
+
                                     {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
-                            <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
+                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
                                 </ul>
                             </div>
                         </div>
                         :
-                        null
+                        <div className="post-header-right" >
+                            <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="dropdown">
+                                <button className="post-dropdown" type="button" id="dropdownMenuButton1"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="img/three-dot.svg" alt="" />
+                                </button>
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a className="dropdown-item" href="/" onClick={(event) => claimPost(event, element.id)}>Claim Post</a></li>
+                                    <li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
+                                    {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
+                                <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
+                                </ul>
+                            </div>
+                        </div>
                     }
 
 

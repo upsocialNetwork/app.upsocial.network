@@ -2,14 +2,14 @@
 import { useHistory } from 'react-router-dom';
 import httpClient from '../../services/http';
 import { ErrorToast, SuccessToast } from '../../utils/common';
-
+import Session from '../../utils/session';
 
 const GroupList = (props) => {
     const history = useHistory();
     let groupListDat = props.groupsList && props.groupsList.result && props.groupsList.result.data ? props.groupsList.result.data : [];
 
 
-    //console.log(props.groupsList);
+    //console.log(groupListDat);
 
     const groupDetails = (event, id) => {
         event.preventDefault();
@@ -25,13 +25,24 @@ const GroupList = (props) => {
         event.preventDefault();
     }
 
+
+
     const joinOrLeaveGroup = (event, groupid, type) => {
+
         event.preventDefault();
-        if (type === true) {
+        let isLogin = Session.isLoggedIn();
+        if (isLogin === false) {
+            history.push("/auth/login");
+        }
+        if (type == true) {
             //leaving group
-            httpClient.call("leave-group/" + groupid, null, { method: 'GET' }).then(function (response) {
+            let formData = {
+                "groupId": groupid
+            }
+            httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     SuccessToast(response.result.message);
+                    window.location.reload();
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -46,11 +57,12 @@ const GroupList = (props) => {
             //group
             //leaving group
             let formData = {
-                "id": groupid
+                "groupId": groupid
             }
-            httpClient.call("join-group" + groupid, formData, { method: 'POST' }).then(function (response) {
+            httpClient.call("join-group", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     SuccessToast(response.result.message);
+                    window.location.reload();
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -70,7 +82,7 @@ const GroupList = (props) => {
             <div className="tb-content-wrapper">
                 <div className="cmn-card shadow-gray-point-2">
 
-                    <div className="sorting-row">
+                    <div className="sorting-row" hidden>
                         {/*  <div className="sort">
                             <p>Sort by </p>
                             <select name="sort-engage" id="sort-engage" className="selection type-2">
@@ -113,7 +125,7 @@ const GroupList = (props) => {
                                         {/*  <div className="one-line-relevent-description">
                                         <p>{element.description}</p>
                                     </div> */}
-                                        <a href="#" onClick={(event) => { navigate(event) }} className="btn primary-bg proxima-bold join">
+                                        <a href="#" onClick={(event) => { joinOrLeaveGroup(event, element.id, element.joined) }} className="btn primary-bg proxima-bold join">
                                             {element.joined ? <>Leave</> : <>Join</>}
                                         </a>
                                     </div>)

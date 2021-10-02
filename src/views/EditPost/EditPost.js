@@ -231,7 +231,7 @@ const EditPost = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
-                    <h3 className="tertiary-title position-relative">Create Post</h3>
+                    <h3 className="tertiary-title position-relative">Edit Post</h3>
 
 
                     <div className="post-contents">

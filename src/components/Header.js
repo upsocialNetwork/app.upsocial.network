@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { colorModeToggle } from './../utils/common';
 import { useHistory } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
 import Session from './../utils/session';
-import {  ErrorToast } from './../utils/common';
+import { ErrorToast } from './../utils/common';
+import $ from 'jquery';
 
 
 const Header = (props) => {
     const history = useHistory();
+    const location = useLocation();
     let [isLoggedIn, setIsLoggedIn] = useState(false);
     let [isMetamask, setMatamask] = useState(false);
     let [walletAddress, setWalletAddress] = useState('');
@@ -23,7 +25,7 @@ const Header = (props) => {
             setWalletAddress(walletAdd);
         }
 
-       // console.log("-------------------------");
+        // console.log("-------------------------");
         let loginState = Session.isLoggedIn()
         setIsLoggedIn(loginState)
 
@@ -115,6 +117,27 @@ const Header = (props) => {
      } */
 
 
+    $("#searchParam").change(function (e) {
+        e.preventDefault();
+        var value = $("#searchParam").val();
+        searchRecords(value)
+    });
+
+    const searchRecords = (param) => {
+        //console.log(param);
+        let userData = Session.isLoggedIn();
+        if (!userData) {
+            history.push('/auth/login');
+        } else {
+
+            history.push({
+                pathname: 'search-result',
+                search: '?search=' + param + '',
+                state: { search: param }
+            });
+        }
+    }
+
 
 
     return (
@@ -176,8 +199,8 @@ const Header = (props) => {
                         <span className="input-group-text" id="basic-addon1">
                             <img src="img/search.svg" alt="" />
                         </span>
-                        <input type="text" className="form-control ht-50" placeholder="Search..." aria-label="Search Messages"
-                            aria-describedby="Search..." />
+                        <input type="text" className="form-control ht-50" placeholder="Search..." /* aria-label="Search Messages"
+                            aria-describedby="Search..." */  id="searchParam1" />
                     </div>
                 </div>
             </form>
@@ -194,7 +217,10 @@ const Header = (props) => {
                                     <span className="input-group-text" id="basic-addon1"><img src="img/search.svg"
                                         alt="" /></span>
                                     <input type="text" className="form-control ht-50" placeholder="Search in Upsocial"
-                                        aria-label="Search in Upsocial" aria-describedby="Search in Upsocial" />
+                                        id="searchParam"  /* aria-label="Search in Upsocial" aria-describedby="Search in Upsocial"  */
+
+
+                                    />
                                 </div>
                             </form>
                         </div>

@@ -85,6 +85,57 @@ const ImagePost = (props) => {
     }
 
 
+    const deletePost = (event, postId) => {
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+        httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+                window.location.reload();
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+    const promotePost = (event, postId) => {
+        event.preventDefault();
+        //console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "postId": postId
+        }
+
+        httpClient.call("promote-post", formData, { method: 'POST' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+
+
+    }
+
+
+
 
 
     // console.log(element);
@@ -115,7 +166,9 @@ const ImagePost = (props) => {
                                     <img src="img/three-dot.svg" alt="" />
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a className="dropdown-item" href="/" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
+                                    <li><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
+                                    <li ><a className="dropdown-item" href="#" onClick={(event) => deletePost(event, element.id)} style={{ color: 'red' }}>Delete</a></li>
+
                                     {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
                                 <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
                                 </ul>
@@ -131,6 +184,7 @@ const ImagePost = (props) => {
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a className="dropdown-item" href="/" onClick={(event) => claimPost(event, element.id)}>Claim Post</a></li>
+                                    <li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
                                     {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
                                 <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
                                 </ul>

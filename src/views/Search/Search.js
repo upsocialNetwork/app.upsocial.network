@@ -1,13 +1,21 @@
 import PostList from './PostList';
 import GroupList from './GroupList';
-
-
-
+import { useLocation } from "react-router-dom";
+import { useHistory } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 
 const Search = (props) => {
 
+    const history = useHistory();
 
-
+    const location = useLocation();
+    useEffect(() => {
+        if (location.state === null || location.state === undefined) {
+            history.push("/auth/login");
+        } else {
+            console.log(location.state.search);
+        }
+    }, []);
 
 
     return (

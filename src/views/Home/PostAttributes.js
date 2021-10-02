@@ -90,7 +90,7 @@ const PostAttributes = (props) => {
     }
     const toggleDisLike = (event, postId) => {
         event.preventDefault();
-       // console.log("dislike post id" + postId);
+        // console.log("dislike post id" + postId);
         return null;
         let user = Session.getSessionData();
         if (user === null) {
@@ -143,6 +143,33 @@ const PostAttributes = (props) => {
     }
 
 
+    const savedPost = (event, postId) => {
+        event.preventDefault();
+        // console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "id": postId
+        }
+
+        httpClient.call("saved-post", formData, { method: 'POST' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+
 
 
     return (
@@ -165,7 +192,7 @@ const PostAttributes = (props) => {
                             src="img/sms.svg" alt="" /></button></li>
                     {/*   <li><button><img src="img/star.svg" alt=""/></button></li>
                     <li><button><img src="img/share.png" alt=""/></button></li> */}
-                    <li><button><img src="img/badge.svg" alt="" /></button></li>
+                    <li><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                 </ul>
             </div>
             {/* <div className="post-crud-wrap max-520 d-flex justify-content-between">

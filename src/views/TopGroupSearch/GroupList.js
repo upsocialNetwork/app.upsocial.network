@@ -1,5 +1,8 @@
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
+import httpClient from '../../services/http';
+import { ErrorToast, SuccessToast } from '../../utils/common';
+
 
 
 const GroupList = (props) => {
@@ -13,6 +16,7 @@ const GroupList = (props) => {
     const groupDetails = (event, id) => {
         event.preventDefault();
 
+
         let isLogin = Session.isLoggedIn();
         if (isLogin === false) {
             history.push("/auth/login");
@@ -25,10 +29,54 @@ const GroupList = (props) => {
         }
     }
 
-    const navigate = (event) => {
-        event.preventDefault();
-    }
 
+
+    const joinOrLeaveGroup = (event, groupid, type) => {
+        event.preventDefault();
+        let isLogin = Session.isLoggedIn();
+        if (isLogin === false) {
+            history.push("/auth/login");
+        }
+        if (type == true) {
+            //leaving group
+            let formData = {
+                "groupId": groupid
+            }
+            httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    window.location.reload();
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            });
+
+        }
+        else {
+            //group
+            //leaving group
+            let formData = {
+                "groupId": groupid
+            }
+            httpClient.call("join-group", formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    window.location.reload();
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            });
+        }
+
+    }
 
 
 
@@ -37,7 +85,7 @@ const GroupList = (props) => {
             <div className="tb-content-wrapper">
                 <div className="cmn-card shadow-gray-point-2">
 
-                    <div className="sorting-row">
+                    <div className="sorting-row" hidden>
                         {/* <div className="sort">
                             <p>Sort by </p>
                             <select name="sort-engage" id="sort-engage" className="selection type-2">
@@ -80,8 +128,8 @@ const GroupList = (props) => {
                                         {/*  <div className="one-line-relevent-description">
                                             <p>{element.description}</p>
                                         </div> */}
-                                        <a href="#" onClick={(event) => { navigate(event) }} className="btn primary-bg proxima-bold join">
-                                            {element.joined ? <>Leave</> : <>Join</>}
+                                        <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn primary-bg proxima-bold join">
+                                            {/*  {element.joined ? <>Leave</> : <>Join</>} */} View
                                         </a>
                                     </div>
                                 )

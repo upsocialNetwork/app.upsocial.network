@@ -49,12 +49,15 @@ const CreateGroupJoin = (props) => {
 
     const joinOrLeaveGroup = (event, groupid, type) => {
         event.preventDefault();
-        return null;
         if (type == true) {
             //leaving group
-            httpClient.call("leave-group/" + groupid, null, { method: 'GET' }).then(function (response) {
+            let formData = {
+                "groupId": groupid
+            }
+            httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     SuccessToast(response.result.message);
+                    window.location.reload();
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -69,11 +72,12 @@ const CreateGroupJoin = (props) => {
             //group
             //leaving group
             let formData = {
-                "id": groupid
+                "groupId": groupid
             }
-            httpClient.call("join-group" + groupid, formData, { method: 'POST' }).then(function (response) {
+            httpClient.call("join-group", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     SuccessToast(response.result.message);
+                    window.location.reload();
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -93,6 +97,7 @@ const CreateGroupJoin = (props) => {
     const getGroupDetails = (groupid) => {
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
+                //   console.log(response);
                 getGroupPosts(groupid);
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
@@ -162,9 +167,6 @@ const CreateGroupJoin = (props) => {
                             <h5><a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block">{result && result.name} <span
                                 className="position-absolute status joined">
 
-
-
-
                                 {result && result.joined ? <>Leaved</> : <>Join</>}
 
 
@@ -189,37 +191,42 @@ const CreateGroupJoin = (props) => {
                 </div>
             </div>
 
-            <div className="cmn-card shadow-gray-point-2 mb-4">
-                <div className="create-post">
 
-                    <div className="one-auto-g-wrap">
-                        <div className="one-icon">
-                            <img src="img/fav.ico" alt="" />
+            {result && result.joined ?
 
+
+                <div className="cmn-card shadow-gray-point-2 mb-4">
+                    <div className="create-post">
+
+                        <div className="one-auto-g-wrap">
+                            <div className="one-icon">
+                                <img src="img/fav.ico" alt="" />
+
+                            </div>
+                            <div className="input-wrapper">
+                                <input className="form-control bg-gray-f6ff shadow-gray-inset-15" type="text"
+                                    placeholder="Create Post" onClick={(event) => { createPost(event, result && result.id) }} />
+                            </div>
                         </div>
-                        <div className="input-wrapper">
-                            <input className="form-control bg-gray-f6ff shadow-gray-inset-15" type="text"
-                                placeholder="Create Post" onClick={(event) => { createPost(event, result && result.id) }} />
-                        </div>
+
+                        <ul className="p-curd-right plc-2 max-520 justify-content-end">
+                            <li><button>
+                                <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
+                                    <img src="img/c-1.svg" alt="" />
+                                </label>
+                            </button>
+                            </li>
+                            <li><button>
+                                <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
+                                    <img src="img/c-2.svg" alt="" />
+                                </label></button></li>
+                            {/*   <li><button><img src="img/c-3.svg" alt="" /></button></li> */}
+                        </ul>
                     </div>
-
-                    <ul className="p-curd-right plc-2 max-520 justify-content-end">
-                        <li><button>
-                            <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
-                                <img src="img/c-1.svg" alt="" />
-                            </label>
-                        </button>
-                        </li>
-                        <li><button>
-                            <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
-                                <img src="img/c-2.svg" alt="" />
-                            </label></button></li>
-                        {/*   <li><button><img src="img/c-3.svg" alt="" /></button></li> */}
-                    </ul>
                 </div>
-            </div>
+                : <></>}
 
-            <ul className="nav nav-tabs" id="myTab" role="tablist">
+            <ul className="nav nav-tabs" id="myTab" role="tablist" hidden>
                 <li className="nav-item" role="presentation">
                     <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
                         role="tab" aria-controls="home" aria-selected="false">Latest</button>
@@ -242,7 +249,23 @@ const CreateGroupJoin = (props) => {
                         loader={<div className="loader" key={0}>Loading ...</div>}
                     >
 
-                        <PostList type={'Latest'} postlist={pt} />
+                        {pt.length > 0 ? <PostList type={'Latest'} postlist={pt} /> : <div className="cmn-card shadow-gray-point-3  mb-4">
+                            <div className="post-wrapper post-type-one">
+                                <div className="post-header">
+                                </div>
+                                <div className="post-content-wrapper">
+                                    <div className="post-content max-520">
+                                        <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
+                                        <button type="button"
+
+                                           
+
+                                            className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>}
 
                     </InfiniteScroll>
 
@@ -255,7 +278,23 @@ const CreateGroupJoin = (props) => {
                         hasMore={props.hasMore}
                         loader={<div className="loader" key={0}>Loading ...</div>}
                     >
-                        <PostList type={'Liked'} postlist={pt} />
+                        {pt.length > 0 ? <PostList type={'Liked'} postlist={pt} /> : <div className="cmn-card shadow-gray-point-3  mb-4">
+                            <div className="post-wrapper post-type-one">
+                                <div className="post-header">
+                                </div>
+                                <div className="post-content-wrapper">
+                                    <div className="post-content max-520">
+                                        <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
+                                        <button type="button"
+
+                                            
+
+                                            className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>}
                     </InfiniteScroll>
 
 
@@ -270,7 +309,31 @@ const CreateGroupJoin = (props) => {
                         hasMore={props.hasMore}
                         loader={<div className="loader" key={0}>Loading ...</div>}
                     >
-                        <PostList type={'Commented'} postlist={pt} />
+
+
+                        {pt.length > 0 ? <PostList type={'Commented'} postlist={pt} /> : <div className="cmn-card shadow-gray-point-3  mb-4">
+                            <div className="post-wrapper post-type-one">
+                                <div className="post-header">
+                                </div>
+                                <div className="post-content-wrapper">
+                                    <div className="post-content max-520">
+                                        <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
+                                        <button type="button"
+
+                                           
+
+                                            className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>}
+
+
+
+
+
+
                     </InfiniteScroll>
                 </div>
             </div>

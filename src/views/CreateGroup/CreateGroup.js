@@ -5,7 +5,7 @@ import Session from "../../utils/session";
 import { useHistory } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
-
+import $ from 'jquery';
 const Community = (props) => {
 
     const history = useHistory();
@@ -56,7 +56,8 @@ const Community = (props) => {
         reader.onloadend = function () {
             var b64 = reader.result.replace(
                 /^data:.+;base64,/, '');
-            document.getElementById("profile-image").src = reader.result;
+            document.getElementById("profileimage").src = reader.result;
+            // $("#profileimage").attr('src', reader.result);
             setImage(b64);
             console.log("file converted successfully");
         };
@@ -115,7 +116,7 @@ const Community = (props) => {
                             <div className="pf-lr-part grid">
                                 <div className="profile-avater size-big position-relative">
 
-                                    <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profile-image"
+                                    <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profileimage"
 
                                     />
 
