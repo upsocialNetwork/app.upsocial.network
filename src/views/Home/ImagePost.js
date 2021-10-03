@@ -215,7 +215,7 @@ const ImagePost = (props) => {
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img" >
-                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" width="100%" height="300px" />
+                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" width="100%" height="100%" />
                                     </a>
 
                                 )
@@ -239,6 +239,7 @@ const ImagePost = (props) => {
                                             height: '100%'
                                         }}
                                         controls
+                                        muted={false}
                                         /*  restartOnPaused
                                          volume={0.5}
                                          muted={false} */
@@ -278,7 +279,7 @@ const ImagePost = (props) => {
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <audio controls width="100%" height="300px" >
+                                        <audio controls width="100%" height="100%" >
                                             <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
                                         </audio>
 

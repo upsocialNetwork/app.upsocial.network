@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation } from 'react-router-dom'
-import {  ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+import { ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import httpClient from '../../services/http';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
@@ -20,6 +20,8 @@ const PostDetails = (props) => {
     let [likesCount, setLikesCount] = useState(0);
     let [dislikesCount, setDisLikesCount] = useState(0);
     let [commentData, setCommentData] = useState(null);
+
+    let [commentMessage, setCommentMessage] = useState(null);
     var likeCount = 0;
     var dislikeCount = 0;
 
@@ -29,11 +31,12 @@ const PostDetails = (props) => {
 
     const navigate = (event) => {
         event.preventDefault()
+        console.log("calling");
     }
 
     const toggleLike = (event, postId) => {
         event.preventDefault();
-    // console.log("like post id" + postId);
+        // console.log("like post id" + postId);
         return null;
         let user = Session.getSessionData();
         if (user === null) {
@@ -63,6 +66,74 @@ const PostDetails = (props) => {
 
 
     }
+
+    const savedPost = (event, postId) => {
+        event.preventDefault();
+        // console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "id": postId
+        }
+
+        httpClient.call("saved-post", formData, { method: 'POST' }).then(function (response) {
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+    const saveParentComment = (event, postid) => {
+        event.preventDefault();
+        // console.log(postid);
+
+        let formData = {
+            "data": commentMessage,
+            "parentId": 0,
+            "postId": postid
+        }
+        console.log(formData);
+        return null;
+        httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
+            console.log(response);
+            window.location.reload(false);
+
+        }, function (error) {
+            console.log(error);
+        });
+    }
+
+    const saveChildComment = (event, parentid, postid) => {
+        event.preventDefault();
+        // console.log(postid);
+
+        let formData = {
+            "data": commentMessage,
+            "parentId": parentid,
+            "postId": postid
+        }
+        //console.log(formData);
+       // return null;
+
+        httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
+            console.log(response);
+            window.location.reload(false);
+
+        }, function (error) {
+            console.log(error);
+        });
+    }
+
     const toggleDisLike = (event, postId) => {
         event.preventDefault();
         //console.log("dislike post id" + postId);
@@ -163,6 +234,7 @@ const PostDetails = (props) => {
             }
         }
     }
+
 
 
     return (
@@ -324,31 +396,34 @@ const PostDetails = (props) => {
                                         <ul className="p-curd-left likeUnlike-wrap">
 
                                             {element !== null ? <>
-                                                <li><button id={"likes" + element.id} className={"action-type-one " + likeClass} onClick={(event) => { toggleLike(event, element.id) }}><span className="like"><i
+                                                <li><button id={"likes" + element.id} className={"action-type-one " + true} onClick={(event) => { toggleLike(event, element.id) }}><span className="like"><i
                                                     className="fal fa-arrow-alt-up"></i></span>{likesCount}</button></li>
-                                                <li><button id={"dislikes" + element.id} className={"action-type-one " + disLikeClass} onClick={(event) => { toggleDisLike(event, element.id) }}><span className="unlike"><i
+                                                <li><button id={"dislikes" + element.id} className={"action-type-one " + false} onClick={(event) => { toggleDisLike(event, element.id) }}><span className="unlike"><i
                                                     className="fal fa-arrow-alt-down"></i></span>{dislikesCount}</button></li>
                                             </> : null
                                             }
                                         </ul>
                                         <ul className="p-curd-right">
                                             <li><button data-bs-toggle="collapse" data-bs-target="#comment-1"
-                                                onClick={(event) => { navigate(event) }}
+                                            /* onClick={(event) => { navigate(event) }} */
                                             ><img
                                                     src="img/sms.svg" alt="" /></button></li>
 
-                                            <li><button><img src="img/badge.svg" alt="" /></button></li>
+                                            <li><button onClick={(event) => { savedPost(event, element.id) }}><img src="img/badge.svg" alt="" /></button></li>
                                         </ul>
                                     </div>
 
-                                    <form className="post-coment-form max-520 collapse" id={"comment-" + element.id}>
+                                    <form className="post-coment-form max-520 collapse" id="comment-1">
                                         <div className="input-wrapper">
                                             <input type="text" className="form-control ht-50 design-2 design-3"
-                                                placeholder="Add new comment" />
+                                                placeholder="Add new comment" onChange={(event) => { setCommentMessage(event.target.value) }} />
                                         </div>
                                         <div className="submit-comment">
-                                            <p>Receive comment notifications</p>
-                                            <button className="btn gradient-bg-one radius-30 f-bold post-comment">Post
+                                            <p></p>
+                                            <button className="btn gradient-bg-one radius-30 f-bold post-comment"
+
+                                                onClick={(event) => { saveParentComment(event, element.id) }}
+                                            >Post
                                                 Comment</button>
                                         </div>
                                     </form>
@@ -378,6 +453,7 @@ const PostDetails = (props) => {
 
                                                 commentData.map((commentElement, index) => {
                                                     if (commentElement.parentId !== 0) return null;
+                                                    //console.log(commentElement);
 
                                                     return (
                                                         <li key={index}>
@@ -385,7 +461,7 @@ const PostDetails = (props) => {
                                                                 <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
                                                                     src="img/dol-1.png" alt="" /></a>
                                                                 <div className="comment-part">
-                                                                    <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{commentElement.user.name}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
+                                                                    <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{commentElement.user.userName}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
                                                                     <div className="comment-text">
                                                                         <p>{commentElement.comment}</p>
                                                                     </div>
@@ -396,10 +472,12 @@ const PostDetails = (props) => {
                                                                         <button className="report" hidden>Report</button>
                                                                     </div>
 
-                                                                    <form action="#" className="reply-form collapse" id={"reply-" + commentElement.id}>
-                                                                        <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment"></textarea>
+                                                                    <form className="reply-form collapse" id={"reply-" + commentElement.id}>
+                                                                        <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment1"
+                                                                            onChange={(event) => { setCommentMessage(event.target.value) }}
+                                                                        ></textarea>
                                                                         <div className="text-end mt-3">
-                                                                            <button type="submit" className="btn gradient-bg-one radius-30 f-bold reply-post">Post</button>
+                                                                            <button type="submit" onClick={(event) => { saveChildComment(event, commentElement.id, element.id) }} className="btn gradient-bg-one radius-30 f-bold reply-post">Post</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -410,28 +488,33 @@ const PostDetails = (props) => {
                                                                         commentElement.childIds.map((childElement, key) => {
                                                                             let index = _.findIndex(commentData, { id: childElement });
                                                                             let replyElement = commentData[index];
+                                                                            //console.log(replyElement);
                                                                             return (
                                                                                 <li key={key}>
                                                                                     <div className="elementory-avater-wrap single-comment">
                                                                                         <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
                                                                                             src="img/dol-1.png" alt="" /></a>
                                                                                         <div className="comment-part">
-                                                                                            <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{replyElement.postedBy}</a>{/* <span>{replyElement.createDate}</span> */}</h6>
+                                                                                            <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{replyElement.user.userName}</a>{/* <span>{replyElement.createDate}</span> */}</h6>
                                                                                             <div className="comment-text">
                                                                                                 <p>{replyElement.comment}</p>
                                                                                             </div>
 
-                                                                                            <div
-                                                                                                className="reply-or-report-btn d-flex justify-content-end">
+                                                                                            <div className="reply-or-report-btn d-flex justify-content-end">
                                                                                                 <button className="reply" data-bs-toggle="collapse"
                                                                                                     data-bs-target={"#nestedOne-reply-" + replyElement.id}>Reply</button>
                                                                                                 <button className="report" hidden>Report</button>
                                                                                             </div>
 
-                                                                                            <form action="#" className="reply-form collapse" id={"nestedOne-reply-" + replyElement.id}>
-                                                                                                <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment"></textarea>
+                                                                                            <form className="reply-form collapse" id={"nestedOne-reply-" + replyElement.id}>
+                                                                                                <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment1"
+                                                                                                    onChange={(event) => { setCommentMessage(event.target.value) }}
+
+                                                                                                ></textarea>
                                                                                                 <div className="text-end mt-3">
-                                                                                                    <button type="submit" className="btn gradient-bg-one radius-30 f-bold reply-post">Post</button>
+                                                                                                    <button type="submit" className="btn gradient-bg-one radius-30 f-bold reply-post"
+                                                                                                        onClick={(event) => { saveChildComment(event, replyElement.id, element.id) }}
+                                                                                                    >Post</button>
                                                                                                 </div>
                                                                                             </form>
                                                                                         </div>

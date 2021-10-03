@@ -2,10 +2,10 @@
 import axios from 'axios';
 
 let defaultConfig = {
-  
-   //API_URL: "http://68.183.245.212:8080/Upsocial/ipfsservice/api/v0/",
-   API_URL: "http://localhost:8433/Upsocial/ipfsservice/api/v1/", 
-   HEADERS: {
+
+    //API_URL: "https://api.upsocial.network:8443/Upsocial/ipfsservice/api/v1/",
+    API_URL: "http://localhost:8433/Upsocial/ipfsservice/api/v1/",
+    HEADERS: {
         "Content-Type": "application/json; charset=utf-8",
     }
 };
@@ -18,7 +18,7 @@ let httpClient = {
     * @param configObject ConfigObject use as a global variable and access it in getConfig
     * combine default config and param config
     */
-    setConfig(configObject){
+    setConfig(configObject) {
         defaultConfig = Object.assign(defaultConfig, configObject);
     },
 
@@ -26,7 +26,7 @@ let httpClient = {
     * getConfig method to get http client config
     * return http client config object
     */
-    getConfig(){
+    getConfig() {
         return defaultConfig;
     },
 
@@ -37,63 +37,63 @@ let httpClient = {
     * @param options Options use to set request method and headers
     * return primise
     */
-    call(endPoint, data, options, processCallBack){
-        processCallBack = typeof processCallBack == 'function' ? processCallBack : function(){}
-        return new Promise(function(resolve, reject) {
-              // get http client config
-              let httpConfig = httpClient.getConfig();
+    call(endPoint, data, options, processCallBack) {
+        processCallBack = typeof processCallBack == 'function' ? processCallBack : function () { }
+        return new Promise(function (resolve, reject) {
+            // get http client config
+            let httpConfig = httpClient.getConfig();
 
-              let method = options && options['method'] ? options['method'] : 'GET';
+            let method = options && options['method'] ? options['method'] : 'GET';
 
-              // check header exist in option
-              if(typeof options['headers'] === 'undefined'){
+            // check header exist in option
+            if (typeof options['headers'] === 'undefined') {
                 // added headers in option object
                 options['headers'] = {}
-              }
+            }
 
-              // combine default headers and config headers
+            // combine default headers and config headers
 
-              options['headers'] = Object.assign(httpConfig['HEADERS'], options['headers']);
+            options['headers'] = Object.assign(httpConfig['HEADERS'], options['headers']);
 
-              // create request options object with method, body and headers
-              let requestOptions = {};
+            // create request options object with method, body and headers
+            let requestOptions = {};
 
-              // get api url from config and combine API url and endPoint
-              requestOptions['url'] = httpConfig['API_URL']+endPoint;
+            // get api url from config and combine API url and endPoint
+            requestOptions['url'] = httpConfig['API_URL'] + endPoint;
 
-              // check if request method is get then data will send in params option and if request method is post then data will send into data option
-              if(method !== 'GET'){
-                  requestOptions['data'] = data;
-              }else{
-                  requestOptions['params'] = data;
-              }
-              // add method in option
-              requestOptions['method'] = method;
+            // check if request method is get then data will send in params option and if request method is post then data will send into data option
+            if (method !== 'GET') {
+                requestOptions['data'] = data;
+            } else {
+                requestOptions['params'] = data;
+            }
+            // add method in option
+            requestOptions['method'] = method;
 
-              requestOptions['cache'] = "no-cache";
+            requestOptions['cache'] = "no-cache";
 
-              // add headers in request option
-              requestOptions['headers'] = options && options['headers'] ? options['headers'] : {};
-              // add config in request option
-              requestOptions['config'] = requestOptions['headers'];
-              requestOptions['onUploadProgress'] = function (progressEvent) {
+            // add headers in request option
+            requestOptions['headers'] = options && options['headers'] ? options['headers'] : {};
+            // add config in request option
+            requestOptions['config'] = requestOptions['headers'];
+            requestOptions['onUploadProgress'] = function (progressEvent) {
                 // Do whatever you want with the native progress event
-                let percent = Math.round( (progressEvent.loaded * 100) / progressEvent.total )
+                let percent = Math.round((progressEvent.loaded * 100) / progressEvent.total)
                 processCallBack(percent);
-              }
-              // send request with options.
-              axios(requestOptions)
-              .then(function (response) {
-                  let responseData = response.data;
-                  resolve(responseData);
+            }
+            // send request with options.
+            axios(requestOptions)
+                .then(function (response) {
+                    let responseData = response.data;
+                    resolve(responseData);
 
 
-              })
-              .catch(function (error, data, config) {
-                  //handle error
-                  let message = error && error.response && error.response.data ? error.response.data : error;
-                  reject(message);
-              });
+                })
+                .catch(function (error, data, config) {
+                    //handle error
+                    let message = error && error.response && error.response.data ? error.response.data : error;
+                    reject(message);
+                });
 
 
         });

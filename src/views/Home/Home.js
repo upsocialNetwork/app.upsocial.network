@@ -104,7 +104,7 @@ const Home = (props) => {
 
 
 
-                <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+               {/*  <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <InfiniteScroll
                         pageStart={1}
                         loadMore={loadFunc}
@@ -133,7 +133,7 @@ const Home = (props) => {
 
 
                 </div>
-                <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                */} {/* <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
 
                     <InfiniteScroll
@@ -160,7 +160,7 @@ const Home = (props) => {
                             </div>
                         </div>}
                     </InfiniteScroll>
-                </div>
+                </div> */}
             </div>
 
 
