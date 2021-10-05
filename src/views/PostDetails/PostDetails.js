@@ -102,8 +102,7 @@ const PostDetails = (props) => {
             "parentId": 0,
             "postId": postid
         }
-        console.log(formData);
-        return null;
+
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
             console.log(response);
             window.location.reload(false);
@@ -123,7 +122,7 @@ const PostDetails = (props) => {
             "postId": postid
         }
         //console.log(formData);
-       // return null;
+        // return null;
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
             console.log(response);

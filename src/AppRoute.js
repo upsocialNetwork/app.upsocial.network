@@ -110,6 +110,7 @@ const AuthorizeRoute = () => {
                   <Route path="/user/edit-profile" component={EditProfile}></Route>
                   <Route path="/user/change-password" component={ChangePassword}></Route>
                   <Route exact path="/user/my-groups" component={GroupSearch}></Route>
+                  <Route exact path="/user/top-groups" component={TopGroupSearch}></Route>
                 </HFLayout>
               )
             }}>
@@ -122,6 +123,7 @@ const AuthorizeRoute = () => {
               )
             }}>
             </Route>
+            
             <Route path="/" children={() => {
               return (
                 <FullLayout>
@@ -133,7 +135,7 @@ const AuthorizeRoute = () => {
                   <Route exact path="/create-post" component={CreatePost}></Route>
                   <Route exact path="/edit-post" component={EditPost}></Route>
                   <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
-                  <Route exact path="/group/top-groups" component={TopGroupSearch}></Route>
+                  {/*    <Route exact path="/group/top-groups" component={TopGroupSearch}></Route> */}
                   <Route exact path="/post-details" component={PostDetails}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>

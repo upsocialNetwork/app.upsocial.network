@@ -215,7 +215,12 @@ const ImagePost = (props) => {
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img" >
-                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" width="100%" height="100%" />
+                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
+                                            style={{
+                                                width: '100%',
+                                                height: 'auto',
+                                                objectFit: "cover",
+                                            }} />
                                     </a>
 
                                 )
@@ -236,13 +241,14 @@ const ImagePost = (props) => {
                                         videoSrc={"https://ipfs.io/ipfs/" + element.data}
                                         style={{
                                             width: '100%',
-                                            height: '100%'
+                                            height: 'auto',
+                                            objectFit: "cover",
                                         }}
                                         controls
-                                        muted={false}
-                                        /*  restartOnPaused
-                                         volume={0.5}
-                                         muted={false} */
+
+                                        /* 
+                                       
+                                        muted={false} */
                                         /*  hoverOverlay={
                                              <div className="hover-overlay">
                                                <h1>Video Title</h1>

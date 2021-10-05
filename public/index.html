@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/img/fav.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="%PUBLIC_URL%/img/fav.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
@@ -24,44 +22,48 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
-    <!-- Favicon Icon -->
-    <link rel="shortcut icon" href="%PUBLIC_URL%/img/logo-fav.ico" type="image/png">
 
-    <!-- Bootstrap css -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrap.css">
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js"
+    integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+  <title>React App</title>
+  <!-- Favicon Icon -->
+  <link rel="shortcut icon" href="%PUBLIC_URL%/img/logo-fav.ico" type="image/png">
 
-    <!-- Fontawesome css -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/all.min.css">
+  <!-- Bootstrap css -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/bootstrap.css">
 
-    <!-- Plugin Css  -->
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/minibar.min.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/splide-core.min.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/nice-select.css">    
+  <!-- Fontawesome css -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/all.min.css">
 
-    <!-- Custom css -->
-    
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/main-layout.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/login-registration.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/loader.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/message.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/search-result.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/edit-profile.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/create-post-group-mod.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/create-post-group-mod.css">
-    <link rel="stylesheet" href="%PUBLIC_URL%/css/base.css">
-    <base href="/">
+  <!-- Plugin Css  -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/minibar.min.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/splide-core.min.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/nice-select.css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+  <!-- Custom css -->
 
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/main-layout.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/login-registration.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/loader.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/message.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/search-result.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/edit-profile.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/create-post-group-mod.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/create-post-group-mod.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/css/base.css">
+  <base href="/">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -71,17 +73,18 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <!-- Jquery Js -->
-    <script src="%PUBLIC_URL%/js/jquery-3.6.0.min.js"></script>
-    <!-- Popper Js -->
-    <script src="%PUBLIC_URL%/js/popper.min.js"></script>
+  <!-- Jquery Js -->
+  <script src="%PUBLIC_URL%/js/jquery-3.6.0.min.js"></script>
+  <!-- Popper Js -->
+  <script src="%PUBLIC_URL%/js/popper.min.js"></script>
 
-    <!-- Bootstrap Js -->
-    <script src="%PUBLIC_URL%/js/bootstrap.min.js"></script>
+  <!-- Bootstrap Js -->
+  <script src="%PUBLIC_URL%/js/bootstrap.min.js"></script>
 
-    
-    <!-- Main Js -->
-    <script src="%PUBLIC_URL%/js/main.js"></script>
-    <script defer src="%PUBLIC_URL%/js/jquery.nice-select.min.js" ></script>
-  </body>
+
+  <!-- Main Js -->
+  <script src="%PUBLIC_URL%/js/main.js"></script>
+  <script defer src="%PUBLIC_URL%/js/jquery.nice-select.min.js"></script>
+</body>
+
 </html>

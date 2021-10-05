@@ -8,7 +8,6 @@ import PostList from './PostList';
 import Session from '../../utils/session';
 import InfiniteScroll from 'react-infinite-scroller';
 
-
 const CreateGroupJoin = (props) => {
     const history = useHistory();
 
@@ -48,6 +47,7 @@ const CreateGroupJoin = (props) => {
 
 
     const joinOrLeaveGroup = (event, groupid, type) => {
+
         event.preventDefault();
         if (type == true) {
             //leaving group
@@ -97,6 +97,9 @@ const CreateGroupJoin = (props) => {
     const getGroupDetails = (groupid) => {
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
+
+
+
                 //   console.log(response);
                 getGroupPosts(groupid);
                 setDetails(response)
@@ -117,6 +120,8 @@ const CreateGroupJoin = (props) => {
     }
 
     const getGroupPosts = (groupid) => {
+
+       
         httpClient.call("get-group-post/" + 1 + "/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
                 setPosts(response)
@@ -150,7 +155,10 @@ const CreateGroupJoin = (props) => {
 
 
     return (
+
+
         <main className="main-content mx-auto">
+
 
 
             <div className="cmn-card shadow-gray-point-3 mb-4">
@@ -258,7 +266,7 @@ const CreateGroupJoin = (props) => {
                                         <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
                                         <button type="button"
 
-                                           
+
 
                                             className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
 
@@ -287,7 +295,7 @@ const CreateGroupJoin = (props) => {
                                         <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
                                         <button type="button"
 
-                                            
+
 
                                             className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
 
@@ -320,7 +328,7 @@ const CreateGroupJoin = (props) => {
                                         <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
                                         <button type="button"
 
-                                           
+
 
                                             className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
 

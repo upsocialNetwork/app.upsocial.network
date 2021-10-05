@@ -8,6 +8,7 @@ import ModToolLeftSideBar from '../../components/ModToolLeftSideBar';
 import Footer from '../../components/Footer';
 import session from '../../utils/session';
 import httpClient from '../../services/http';
+import LeftSideBar from '../../components/LeftSideBar';
 
 
 const ModToolLayout = (props) => {
@@ -38,7 +39,7 @@ const ModToolLayout = (props) => {
   return (
     <section>
       <Header {...props} _signOut={() => { signOut() }} />
-      <ModToolLeftSideBar {...props} />
+      <LeftSideBar {...props} />
       <div className="route-container container">{props.children ? props.children : 'Loading...'}</div>
       <Footer {...props} />
     </section>

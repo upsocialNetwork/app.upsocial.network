@@ -67,7 +67,7 @@ const CreatePost = (props) => {
         httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
             if (response.success) {
                 SuccessToast(response.result.message);
-                history.push("/");
+                //history.push("/");
             }
             else {
                 ErrorToast(response.result.message);
@@ -127,7 +127,7 @@ const CreatePost = (props) => {
             setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 10) {
+            if (size > 50) {
                 ErrorToast('Please select file size less than 10 MB');
                 return null;
             }

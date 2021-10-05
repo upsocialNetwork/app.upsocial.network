@@ -97,3 +97,8 @@ export function colorModeToggle(){
       applyDarkMode()
   }
 }
+
+export function smartContract(data){
+
+  return "successfully";
+}

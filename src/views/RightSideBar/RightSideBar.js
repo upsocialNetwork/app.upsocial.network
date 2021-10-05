@@ -85,7 +85,7 @@ const GroupList = (props) => {
     const history = useHistory();
     const searchGroup = (event) => {
         event.preventDefault();
-        history.push('/group/top-groups');
+        history.push('/user/top-groups');
     }
 
     return (

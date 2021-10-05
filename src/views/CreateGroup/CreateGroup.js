@@ -6,6 +6,8 @@ import { useHistory } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
 import $ from 'jquery';
+import Web3 from 'web3';
+
 const Community = (props) => {
 
     const history = useHistory();
@@ -40,7 +42,8 @@ const Community = (props) => {
             if (response.success == true) {
                 SuccessToast(response.result.message);
                 //console.log(response);
-                history.push('/user/my-groups');
+                saveInBlockchain(response);
+                //history.push('/user/my-groups');
             }
             else {
                 ErrorToast(response.result.message);
@@ -83,6 +86,62 @@ const Community = (props) => {
             ErrorToast('Please select file size less than 2 MB');
             return null;
         }
+
+    }
+
+    const saveInBlockchain = (response) => {
+
+        const walletNo = sessionStorage.getItem("walletno");
+        if (walletNo === null) {
+
+            ErrorToast("Wallet not connectd");
+            //alert("connect wallet ");
+            return null;
+
+        }
+
+
+
+        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        window.ethereum.enable();
+        const contract_abi = [
+            {
+                "inputs": [],
+                "name": "retrieve",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "num",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "store",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            }
+        ];
+
+        var contract_address = "0xd9145CCE52D386f254917e481eB44e9943F39138";
+        const NameContract = new Web3.eth.Contract(contract_abi, contract_address);
+
+        NameContract.methods.store(response.result.data.id).send({ from: '0xC9E2A1fC69267dBD45779007B71b840Ec7986752' })
+            .then(function (receipt) {
+                console.log(receipt);
+                // saveTransaction(response, receipt);
+                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+            });
 
     }
 
