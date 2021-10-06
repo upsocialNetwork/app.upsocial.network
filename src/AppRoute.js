@@ -123,7 +123,7 @@ const AuthorizeRoute = () => {
               )
             }}>
             </Route>
-            
+
             <Route path="/" children={() => {
               return (
                 <FullLayout>

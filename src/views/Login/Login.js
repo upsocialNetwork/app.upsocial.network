@@ -21,7 +21,7 @@ const Login = (props) => {
     let [signupPassword, setSignupPassword] = useState('')
     let [isSignupSubmit, setIsSignupSubmit] = useState(false)
     let [isLogin, setIsLogin] = useState(true)
-
+    let [walletAddress, setWalletAddress] = useState(null);
     const navigate = (event) => {
         event.preventDefault()
     }
@@ -29,6 +29,7 @@ const Login = (props) => {
     useEffect(() => {
         Loader(props.requestProcess);
         if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
+            
             let authData = props.loginData;
             //  console.log(authData);
             Session.setSessionData(authData.result.data);
@@ -37,15 +38,18 @@ const Login = (props) => {
             setIsLoginSubmit(false);
             history.push('/')
         } else if (isLoginSubmit && props.loginData) {
+            
             setIsLoginSubmit(false);
             ErrorToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
         }
 
         if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
+           
             SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
             setIsSignupSubmit(false);
             setIsLogin(true);
         } else if (isSignupSubmit && props.signupData) {
+            
             setIsSignupSubmit(false);
             ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
         }
@@ -62,6 +66,7 @@ const Login = (props) => {
     const doLogin = (event) => {
         event.preventDefault();
         if (validatorLogin.current.allValid()) {
+            Loader(true);
             setIsLoginSubmit(true);
             props._doLogin({ email, password });
         }
@@ -70,12 +75,12 @@ const Login = (props) => {
     const userSignup = (event) => {
         event.preventDefault();
         if (validator.current.allValid()) {
+            Loader(true);
             setIsSignupSubmit(true);
             props._doSignup({
                 userName: signupUserName,
-                firstName: signupFirstName,
-                lastName: signupLastName,
                 email: signupEmail,
+                wallet: walletAddress,
                 password: signupPassword
             });
         }
@@ -91,10 +96,43 @@ const Login = (props) => {
         history.push('/');
     }
 
+    const connectMetamask = (event) => {
+        event.preventDefault();
+
+        if (typeof window.ethereum !== 'undefined') {
+            console.log('MetaMask is installed!');
+            // setMatamask(true);
+            //  SuccessToast("MetaMask is installed!");
+            getAccount();
+        }
+        else {
+            ErrorToast("MetaMask is not installed!");
+            console.log('MetaMask is not installed!');
+            //  setMatamask(false);
+            return null;
+        }
+    }
+
+    async function getAccount() {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        if (account == null) {
+            setWalletAddress(null);
+            console.log("NO wallet");
+        }
+        else {
+            sessionStorage.setItem("walletno", account);
+            setWalletAddress(account);
+            console.log("Wallet No", account);
+
+        }
+    }
+
     return (
         <div className="login-wrapper">
             <div className="access-top-part">
                 {!isLogin ?
+
                     <div className="registration-part" id="register-content">
                         <div className="registration-title text-center">
                             <h6>Register</h6>
@@ -126,13 +164,13 @@ const Login = (props) => {
                                     A place to have open conversations and bring people together.</p>
                             </div>
                             <div className="login-right">
-                                <div className="input-wrapper">
-                                    <label htmlFor=""> Name</label>
-                                    <input type="text" name="firstName" className="form-control input-sm"
-                                        onChange={(event) => { setSignupFirstName(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('firstName')} />
-                                    {validator.current.message('firstName', signupFirstName, 'required')}
-                                </div>
+                                {/* <div className="input-wrapper">
+                                        <label htmlFor=""> Name</label>
+                                        <input type="text" name="firstName" className="form-control input-sm"
+                                            onChange={(event) => { setSignupFirstName(event.target.value) }}
+                                            onBlur={() => validator.current.showMessageFor('firstName')} />
+                                        {validator.current.message('firstName', signupFirstName, 'required')}
+                                    </div> */}
                                 {/* <div className="input-wrapper">
                                     <label htmlFor="">Last Name</label>
                                     <input type="text" name="lastName" className="form-control input-sm"
@@ -162,6 +200,19 @@ const Login = (props) => {
                                         onBlur={() => validator.current.showMessageFor('password')} />
                                     {validator.current.message('password', signupPassword, 'required')}
                                 </div>
+
+                                <div className="input-wrapper">
+                                    <label htmlFor="">Connect Wallet</label>
+                                    {walletAddress === null ?
+                                        <a href="#" onClick={(event) => { connectMetamask(event) }} >  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'black' }} width="30px" height="30px" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
+                                            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+                                        </svg></a>
+                                        : <input type="text" className="form-control input-sm" value={walletAddress} />}
+                                </div>
+
+
+
+
                             </div>
                             <div className="login-left flex">
                                 <div className="ask-user">Already have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(true) }}>Login
@@ -170,7 +221,11 @@ const Login = (props) => {
                             </div>
                             <div className="login-right">
                                 <div className="text-right">
-                                    <button type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
+                                    <button
+
+                                        disabled={!(walletAddress && signupEmail && signupPassword && signupUserName)}
+
+                                        type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
 
                                 </div>
                             </div>
@@ -217,7 +272,7 @@ const Login = (props) => {
                             <div className="login-right">
                                 <div className="twin-btn d-flex align-items-center justify-content-between">
 
-                                    <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { doLogin(event) }}>Login Now</button>
+                                    <button type="submit" disabled={!(email && password)} className="btn gradient-bg-one radius-30 login" onClick={(event) => { doLogin(event) }}>Login Now</button>
                                     <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { forgetPassword(event) }}>Forget Password</button>
 
                                 </div>
@@ -232,6 +287,9 @@ const Login = (props) => {
                         className="link theme-color">Content Policy</a>.</div>
             </div> */}
         </div>
+
+
+
     );
 }
 

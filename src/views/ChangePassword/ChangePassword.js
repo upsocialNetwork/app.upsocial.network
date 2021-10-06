@@ -49,19 +49,19 @@ const ChangePassword = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <div className="edit-profile-title">
-                    <h4>Edit Profile</h4>
+                    <h4>Change Password</h4>
                 </div>
 
                 <div className="edit-profile-wrapper">
 
 
                     <div className="edit-associate-blk-wrapper">
-                        <h5 className="associate-blk-title">Change Password</h5>
+                        {/* <h5 className="associate-blk-title">Change Password</h5> */}
                         <div className="customize-profile">
 
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
-                                    <p>Old Password:</p>
+                                    <p>Old Password <span style={{ color: 'red' }}> * </span></p>
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="password" className="form-control" placeholder="Old Password"
@@ -71,7 +71,7 @@ const ChangePassword = (props) => {
                             </div>
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
-                                    <p>New Password:</p>
+                                    <p>New Password <span style={{ color: 'red' }}> * </span></p>
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="New Password"

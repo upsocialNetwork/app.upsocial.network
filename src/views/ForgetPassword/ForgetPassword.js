@@ -22,9 +22,15 @@ const ForgetPassword = (props) => {
             email: email
         }
         httpClient.call("forget-password", formData, { method: 'PUT' }).then(function (response) {
-            SuccessToast(response.result.message);
+            Loader(false);
+            if (response.success == true) {
+                SuccessToast(response.result.message);
+            } else {
+                ErrorToast(response.result.message);
+            }
         }, function (error) {
-            ErrorToast(error.result.message);
+            Loader(false);
+            console.log(error);
         })
     }
 

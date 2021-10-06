@@ -6,7 +6,7 @@ import 'react-quill/dist/quill.snow.css';
 import { useHistory } from 'react-router-dom';
 import HoverVideoPlayer from 'react-hover-video-player';
 import Session from '../../utils/session';
-import { ErrorToast, SuccessToast } from '../../utils/common';
+import {Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import httpClient from '../../services/http';
 const ImagePost = (props) => {
     const history = useHistory();
@@ -43,6 +43,7 @@ const ImagePost = (props) => {
     }
 
     const claimPost = (event, postid) => {
+        Loader(true);
         event.preventDefault();
 
         let user = Session.getSessionData();
@@ -56,6 +57,7 @@ const ImagePost = (props) => {
         }
 
         httpClient.call("claim-post", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
             }
@@ -63,12 +65,14 @@ const ImagePost = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
 
     const deletePost = (event, postId) => {
+        Loader(true);
         event.preventDefault();
         let user = Session.getSessionData();
         if (user == null) {
@@ -77,6 +81,7 @@ const ImagePost = (props) => {
             return null;
         }
         httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
                 window.location.reload();
@@ -85,6 +90,7 @@ const ImagePost = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
@@ -162,8 +168,8 @@ const ImagePost = (props) => {
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a className="dropdown-item" href="/" onClick={(event) => claimPost(event, element.id)}>Claim Post</a></li>
-                                    <li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
-                                    {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
+                                    {/*    <li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
+                                  */}   {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
                                 <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
                                 </ul>
                             </div>

@@ -16,6 +16,6 @@ let appConfig = {
    'API_KEY': 'fdsf435r743n9',
    'DATA_ENCRYPT_KEY': 'B86897CA1FA567B7F7LL2975C3AB5A09CE1C9F9CB29CE4390CB9FE9CED847AC8',
    'CHOKIDAR_USEPOLLING': true
-} */
-
+}
+ */
 export default appConfig;

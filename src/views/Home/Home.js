@@ -22,6 +22,7 @@ const Home = (props) => {
         if (isLogin == null) {
             gePopularPost(1)
         } else {
+            
             geTimeLinePost(1)
         }
     }, [])

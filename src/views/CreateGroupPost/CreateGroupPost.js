@@ -37,6 +37,7 @@ const CreateGroupPost = (props) => {
     console.log(pt); */
 
     const savePost = (event) => {
+        Loader(true);
         event.preventDefault();
         let formData = {};
         if (isText) {
@@ -70,6 +71,7 @@ const CreateGroupPost = (props) => {
 
         // return null;
         httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
                 // history.push("/");
@@ -85,6 +87,7 @@ const CreateGroupPost = (props) => {
             }
 
         }, function (error) {
+            Loader(false);
             ErrorToast(error.result.message);
         })
     }

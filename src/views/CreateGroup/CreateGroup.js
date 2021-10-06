@@ -7,8 +7,9 @@ import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
 import $ from 'jquery';
 import Web3 from 'web3';
-
 const Community = (props) => {
+
+
 
     const history = useHistory();
     let [name, setName] = useState('');
@@ -28,7 +29,7 @@ const Community = (props) => {
         event.preventDefault();
     }
     const createGroup = (event) => {
-
+        Loader(true);
         event.preventDefault();
         let formData = {
             "name": name,
@@ -39,16 +40,19 @@ const Community = (props) => {
         }
         // console.log(formData);
         httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
+                history.push('/user/my-groups')
                 //console.log(response);
-                saveInBlockchain(response);
+                //saveInBlockchain(response);
                 //history.push('/user/my-groups');
             }
             else {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
 
@@ -155,8 +159,8 @@ const Community = (props) => {
 
 
                         <div className="user-name">
-                            <h5>Name </h5>
-                            <p>Group names including only Alphabet.
+                            <h5>Name <span style={{ color: 'red' }}> * </span></h5>
+                            <p>Group names includes only Alphabet.
 
                             </p>
                         </div>
@@ -170,7 +174,7 @@ const Community = (props) => {
                         </div>
                         <div className="customize-pf-g-wrap">
                             <div className="pf-lf-part">
-                                <h5>Group Avtar </h5>
+                                <h5>Group Avatar <span style={{ color: 'red' }}> * </span></h5>
                             </div>
                             <div className="pf-lr-part grid">
                                 <div className="profile-avater size-big position-relative">
@@ -213,13 +217,13 @@ const Community = (props) => {
                         </div>*/}
 
                         <div className="post-type-selection">
-                            <h4>Group type</h4>
+                            <h4>Group type <span style={{ color: 'red' }}> * </span></h4>
                             <select className="form-control select2" onChange={(event) => { setType(event.target.value) }}>
                                 <option defaultValue>Open this select menu</option>
                                 <option value="Public" >Public ( Anyone can view, post, and comment to this group )</option>
-                                <option value="Restricted">Restricted ( Anyone can view this group, but only approved users can post)</option>
+                                {/*       <option value="Restricted">Restricted ( Anyone can view this group, but only approved users can post)</option>
                                 <option value="Private">Private ( Anyone can view, post, and comment to this group)</option>
-                            </select>
+                          */}   </select>
                         </div>
                         <div className="post-type-selection">
                             <h4>NSFW</h4>
@@ -231,7 +235,7 @@ const Community = (props) => {
                         </div>
                         <div className="post-type-selection">
 
-                            <h4>Description</h4>
+                            <h4>Description <span style={{ color: 'red' }}> * </span></h4>
                             <div className="pf-lr-part">
                                 <div className="text-editor-wrapper">
 

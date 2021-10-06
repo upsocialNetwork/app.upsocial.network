@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import httpClient from '../../services/http';
 import Select from 'react-select';
 import { useStore } from 'react-redux';
-import { ErrorToast, SuccessToast } from '../../utils/common';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 
 
 const ModTools = (props) => {
@@ -17,6 +17,7 @@ const ModTools = (props) => {
     let [transferOwner, setTransferOwner] = useState('');
     let [owner, setOwner] = useState('');
     let [moderator, setModerator] = useState('');
+    let [member, setMember] = useState('');
 
 
     useEffect(() => {
@@ -35,7 +36,7 @@ const ModTools = (props) => {
 
     const editGroup = (event, groupId) => {
         event.preventDefault();
-       // console.log(groupId);
+        // console.log(groupId);
         history.push({
             pathname: '/edit-group',
             search: '?id=' + groupId + '',
@@ -45,6 +46,7 @@ const ModTools = (props) => {
 
 
     const getMembersList = (groupid) => {
+        Loader(true);
         httpClient.call("get-group-memebers/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success == false) {
                 //console.log(response);
@@ -71,9 +73,20 @@ const ModTools = (props) => {
                 option2.text = "Select Account";
                 x2.add(option2);
 
+                document.getElementById("members").innerHTML = "";
+                var x3 = document.getElementById("members");
+                var option3 = document.createElement("option");
+                option3.text = "Select Account";
+                x3.add(option3);
+
+
+
+
+
                 var owner1 = document.getElementById('member-owner');
                 var moderator1 = document.getElementById('member-moderator');
                 var select = document.getElementById('transfer-ownership');
+                var members = document.getElementById('members');
                 for (var i = 0; i < rs.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = rs[i].user.id;
@@ -92,15 +105,25 @@ const ModTools = (props) => {
                     opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
                     owner1.appendChild(opt);
                 }
+
+                for (var i = 0; i < rs.length; i++) {
+                    var opt = document.createElement('option');
+                    opt.value = rs[i].user.id;
+                    opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                    members.appendChild(opt);
+                }
             }
+            Loader(false);
 
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
 
     const transferOwnership = (event) => {
+        Loader(true);
         event.preventDefault();
         let formData = {
             "groupId": groupId,
@@ -108,6 +131,7 @@ const ModTools = (props) => {
         }
         //console.log(formData);
         httpClient.call("transfer-ownership", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
                 history.push({
@@ -121,11 +145,13 @@ const ModTools = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
     const makeOwner = (event) => {
+        Loader(true);
         event.preventDefault();
         let formData = {
             "groupId": groupId,
@@ -133,6 +159,7 @@ const ModTools = (props) => {
         }
         // console.log(formData);
         httpClient.call("make-owner", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
             }
@@ -140,11 +167,13 @@ const ModTools = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
     const makeModerator = (event) => {
+        Loader(true);
         event.preventDefault();
         let formData = {
             "groupId": groupId,
@@ -152,6 +181,7 @@ const ModTools = (props) => {
         }
         //console.log(formData);
         httpClient.call("make-moderator", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
             }
@@ -159,6 +189,50 @@ const ModTools = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
+
+    const removeMember = (event) => {
+        Loader(true);
+        event.preventDefault();
+        let formData = {
+            "groupId": groupId,
+            "userId": member
+        }
+        //console.log(formData);
+        httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success == true) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
+
+
+    const deactivate = (event, groupId) => {
+        Loader(true);
+        event.preventDefault();
+        // console.log(groupId);
+        httpClient.call("deactive-group/" + groupId, null, { method: 'GET' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                history.push('/user/my-groups');
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+
+        }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
@@ -269,6 +343,38 @@ const ModTools = (props) => {
                         </div>
                         <div className="accordion-item">
                             <button className="accordion-btn collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree1" aria-expanded="false" aria-controls="collapseThree">
+                                Remove Member
+                            </button>
+                            <div id="collapseThree1" className="accordion-collapse collapse" aria-labelledby="headingThree"
+                                data-bs-parent="#accordionExample">
+                                <div className="accordion-body">
+                                    <div className="group-permission-wrapper">
+                                        <p className="like-title">Account address of a Member:</p>
+                                        <div className="search-input">
+                                            <select className="form-select" id="members"
+                                                onChange={(event) => { setMember(event.target.value) }}
+                                            >
+                                                <option value="0">Select Account</option>
+                                            </select>
+
+                                        </div>
+
+                                        <div className="twin-btn type-5 d-flex align-items-center justify-content-end">
+                                            <button className="btn primary-bg ms-3 proxima-bold" type="button"
+                                                onClick={(event) => { removeMember(event) }}
+
+                                                disabled={!(transferOwner)}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="accordion-item">
+                            <button className="accordion-btn collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 Transfer ownership
                             </button>
@@ -298,6 +404,11 @@ const ModTools = (props) => {
                                     </div>
                                 </div>
                             </div>
+                        </div><br /><br />
+                        <div className="twin-btn type-5 d-flex ">
+                            <button type="button"
+                                onClick={(event) => { deactivate(event, data.id) }}
+                                className="btn primary-bg ms-3 proxima-bold" >Deactivate</button>
                         </div>
                     </div>
                 </div>

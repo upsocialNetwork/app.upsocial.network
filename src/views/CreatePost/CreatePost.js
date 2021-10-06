@@ -9,12 +9,10 @@ import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
 
 
-
-
 const CreatePost = (props) => {
     const history = useHistory();
     const location = useLocation();
-
+   
     useEffect(() => {
         let userData = Session.isLoggedIn();
         if (!userData) {
@@ -37,6 +35,7 @@ const CreatePost = (props) => {
     console.log(pt); */
 
     const savePost = (event) => {
+        Loader(true);
         event.preventDefault();
         let formData = {};
         if (isText) {
@@ -65,8 +64,10 @@ const CreatePost = (props) => {
 
         // return null;
         httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
+                history.push('/')
                 //history.push("/");
             }
             else {
@@ -74,6 +75,7 @@ const CreatePost = (props) => {
             }
 
         }, function (error) {
+            Loader(false);
             ErrorToast(error.result.message);
         })
     }

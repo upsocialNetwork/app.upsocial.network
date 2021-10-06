@@ -36,7 +36,9 @@ const EditPost = (props) => {
     let [selectedFile, setSelectedFile] = useState(null);
     let [dataType, setDataType] = useState(null);
     let [postType, setPostType] = useState(null);
-    const getpostDetails = (id) => {
+    const getpostDetails = (id) => 
+    {
+        Loader(true);
         httpClient.call("get-post-details/" + id, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
                 SuccessToast(response.result.message);
@@ -100,7 +102,10 @@ const EditPost = (props) => {
                 // history.push('/');
             }
 
+            Loader(false);
+
         }, function (error) {
+            Loader(false);
             console.log(error);
         });
     }
@@ -108,6 +113,7 @@ const EditPost = (props) => {
 
 
     const updatePost = (event) => {
+        Loader(true);
         event.preventDefault();
         let formData = {};
         if (isText) {
@@ -135,16 +141,19 @@ const EditPost = (props) => {
 
         //console.log(formData);
         httpClient.call('update-post', formData, { method: 'PUT' }).then(function (response) {
+            
+            Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
                 //console.log(response);
-                history.push("/");
+               // history.push("/");
             }
             else {
                 ErrorToast(response.result.message);
             }
 
         }, function (error) {
+            Loader(false);
             ErrorToast(error.result.message);
         })
     }

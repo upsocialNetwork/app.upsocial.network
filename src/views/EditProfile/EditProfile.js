@@ -45,6 +45,7 @@ const EditProfile = (props) => {
     }
 
     const updateProfile = (event) => {
+        Loader(true);
         event.preventDefault();
 
         const d = new Date(value);
@@ -68,6 +69,7 @@ const EditProfile = (props) => {
         //return null;
 
         httpClient.call('profile-update', formData, { method: 'PUT' }).then(function (response) {
+            Loader(false);
             if (response.success == true) {
                 // console.log(response.result.data);
                 SuccessToast(response.result.message);
@@ -78,6 +80,7 @@ const EditProfile = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
 
@@ -132,7 +135,7 @@ const EditProfile = (props) => {
 
 
                     <div className="edit-associate-blk-wrapper">
-                        <h5 className="associate-blk-title">Customize Profile</h5>
+                        {/*  <h5 className="associate-blk-title">Customize Profile</h5> */}
                         <div className="customize-profile">
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
@@ -177,7 +180,7 @@ const EditProfile = (props) => {
 
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
-                                    <p>Profile Name:</p>
+                                    <p>Profile Name: <span style={{ color: 'red' }}> * </span></p>
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="User Name" value={userName}
@@ -187,7 +190,7 @@ const EditProfile = (props) => {
                             </div>
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
-                                    <p>First Name:</p>
+                                    <p>First Name: <span style={{ color: 'red' }}> * </span></p>
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="First name"
@@ -197,7 +200,7 @@ const EditProfile = (props) => {
                             </div>
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
-                                    <p>Last Name:</p>
+                                    <p>Last Name: <span style={{ color: 'red' }}> * </span></p>
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="Last name"
@@ -286,7 +289,13 @@ const EditProfile = (props) => {
                     </div> */}
 
                     <div className="save-change-rw text-end">
-                        <a href="/" onClick={(event) => updateProfile(event)} className="btn primary-bg proxima-bold effect-one">Save Changes</a>
+
+                        <a href="/" onClick={(event) => updateProfile(event)} className="btn primary-bg proxima-bold effect-one"
+
+                            disabled={!(userName &&
+                                firstName && lastName)}
+
+                        >Save Changes</a>
                     </div>
                 </div>
             </div>

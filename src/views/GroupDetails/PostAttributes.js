@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Session from '../../utils/session';
 import { useHistory } from 'react-router-dom';
 import httpClient from '../../services/http';
-import { ErrorToast, SuccessToast } from '../../utils/common';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 
 const PostAttributes = (props) => {
 
@@ -14,13 +14,20 @@ const PostAttributes = (props) => {
     let [isDisLike, setIsDisLike] = useState(false);
     let [likesCount, setLikesCount] = useState(0);
     let [dislikesCount, setDisLikesCount] = useState(0);
+    let [userData, setUserData] = useState(null);
     var likeCount = 0;
     var dislikeCount = 0;
 
     useEffect(() => {
 
         let user = Session.getSessionData();
-
+        if (user == null) {
+        }
+        else {
+            // console.log("Session");
+            // console.log(user);
+            setUserData(user);
+        }
         if (element !== null) {
             if (element.likes !== null) {
                 for (var i = 0; i < element.likes.length; i++) {
@@ -144,9 +151,136 @@ const PostAttributes = (props) => {
 
 
 
+    const promotePost = (event, postId) => {
+        Loader(true);
+        event.preventDefault();
+        //console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "postId": postId
+        }
+
+        httpClient.call("promote-post", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+
+
+    }
+
+
+    const giveAward = (event, postId) => {
+        event.preventDefault();
+        /* let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        } */
+        //console.log("give award");
+        // SuccessToast("Award successfully transfered");
+        document.getElementById('modal-closed').click();
+        //$('#modal-closed').click();
+    }
+
+
+    const savedPost = (event, postId) => {
+        Loader(true);
+        event.preventDefault();
+        // console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "id": postId
+        }
+
+        httpClient.call("saved-post", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
+
+
 
     return (
         <>
+            <div className="container">
+                <div className="modal" id="myModal1">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+
+
+                            <div className="modal-header">
+                                <h4 className="modal-title">Awards</h4>
+                                <button type="button" id="modal-closed" className="btn btn-danger close" data-dismiss="modal">&times;</button>
+                                {/*     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                           */}  </div>
+
+
+                            <div className="modal-body">
+
+                                <div class="text-center">
+                                    <img src="img/award.jpg" className="img-fluid" alt="Responsive image"
+
+                                        style={{ width: "100px", height: "100px" }}
+                                    />
+                                </div>
+
+                                <div class="text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+                                        <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518l.087.02z" />
+                                        <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path fill-rule="evenodd" d="M8 13.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
+                                    </svg>&nbsp;500
+                                </div><br />
+
+
+
+                                <div class="text-center">
+                                    <button type="button" className="btn btn-danger"
+                                        onClick={(event) => { giveAward(event, element.id) }}
+                                    >Give Award</button>
+                                </div>
+
+                            </div>
+
+
+                            <div className="modal-footer">
+                                <button hidden type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
             <div className="post-crud-wrap max-520 d-flex justify-content-between">
                 <ul className="p-curd-left likeUnlike-wrap">
@@ -161,11 +295,19 @@ const PostAttributes = (props) => {
                 <ul className="p-curd-right">
                     <li><button data-bs-toggle="collapse" data-bs-target="#comment-1"
                         onClick={(event) => { pageDetails(event) }}
-                    ><img
-                            src="img/sms.svg" alt="" /></button></li>
-                    {/*   <li><button><img src="img/star.svg" alt=""/></button></li>
-                    <li><button><img src="img/share.png" alt=""/></button></li> */}
-                    <li><button><img src="img/badge.svg" alt="" /></button></li>
+                    ><img src="img/sms.svg" alt="" /></button></li>
+
+                    {userData !== null?
+                        <li><button data-toggle="modal" data-target="#myModal1">  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" class="bi bi-award" viewBox="0 0 16 16">
+                            <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z" />
+                            <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
+                        </svg></button></li>
+                        : <></>}
+
+
+
+                    <li><button onClick={(event) => promotePost(event, element.id)}><img src="img/share.png" alt="" /></button></li>
+                    <li><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                 </ul>
             </div>
             {/* <div className="post-crud-wrap max-520 d-flex justify-content-between">

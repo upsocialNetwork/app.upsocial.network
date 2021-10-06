@@ -127,7 +127,7 @@ const CreateGroupJoin = (props) => {
                 setPosts(response)
             }
             else {
-                ErrorToast(response.result.message);
+               // ErrorToast(response.result.message);
             }
         }, function (error) {
             console.log(error);

@@ -17,7 +17,7 @@ const RightSideBar = (props) => {
     // console.log(gl);
 
 
-   // const history = useHistory();
+    // const history = useHistory();
 
     const navigate = (event) => {
         event.preventDefault()
@@ -127,16 +127,19 @@ const GroupRecord = (props) => {
         if (isLogin === false) {
             history.push("/auth/login");
         } else {
+            
 
             history.push({
                 pathname: '/group/details',
                 search: '?id=' + id + '',
                 state: { detail: id }
             });
+
             if (window.location.pathname === "/group/details") {
 
                 window.location.reload();
             }
+
         }
 
     }
@@ -154,9 +157,9 @@ const GroupRecord = (props) => {
                     {element.name}
                 </div>
             </a>
-            <div className="gp-button ">
+            {/* <div className="gp-button ">
                 <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn border border-primary follow float-right">View</a>
-            </div>
+            </div> */}
 
 
         </div>

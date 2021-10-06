@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { colorModeToggle } from './../utils/common';
+import { colorModeToggle, Loader, SuccessToast } from './../utils/common';
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Session from './../utils/session';
 import { ErrorToast } from './../utils/common';
 import $ from 'jquery';
+import httpClient from '../services/http';
 
 
 const Header = (props) => {
@@ -17,21 +18,24 @@ const Header = (props) => {
 
     useEffect(() => {
 
-        const walletAdd = sessionStorage.getItem("walletno");
+        /* const walletAdd = sessionStorage.getItem("walletno");
         if (walletAdd === null || walletAdd === undefined) {
             setWalletAddress(null);
         }
         else {
             setWalletAddress(walletAdd);
-        }
+        } */
 
         // console.log("-------------------------");
         let loginState = Session.isLoggedIn()
         setIsLoggedIn(loginState)
 
         const user_details = Session.getSessionData();
+        //console.log(user_details);
         if (user_details !== null) {
             setUserDetails(user_details);
+            setWalletAddress(user_details.wallet);
+
         }
 
 
@@ -77,7 +81,9 @@ const Header = (props) => {
         history.push("/auth/login");
     }
 
-    const connectMetamask = () => {
+    const connectMetamask = (event) => {
+
+        event.preventDefault();
 
         if (typeof window.ethereum !== 'undefined') {
             console.log('MetaMask is installed!');
@@ -103,9 +109,34 @@ const Header = (props) => {
         else {
             sessionStorage.setItem("walletno", account);
             setWalletAddress(account);
+            updateWalletAddress(account);
             console.log("Wallet No", account);
 
         }
+    }
+
+
+    const updateWalletAddress = (walletadd) => {
+        Loader(true);
+        let formData = {
+            "wallet": walletadd
+        }
+
+        httpClient.call("add-wallet", formData, { method: 'PUT' }).then(function (response) {
+
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                Session.setSessionData(response.result.data);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+
+        }, function (error) {
+            console.log(error);
+        })
+
     }
 
     /*  const connectWallet = (event) => {
@@ -159,7 +190,7 @@ const Header = (props) => {
                                 <ul className="list-group list-group-flush">
                                     {walletAddress === null ?
                                         <li className="list-group-item d-flex justify-content-between align-items-center">
-                                            <a href="#" onClick={(event) => connectMetamask(event)}
+                                            <a href="/" onClick={(event) => connectMetamask(event)}
 
                                                 style={{ textDecoration: 'none', color: 'black' }}
                                             >Connect to Metamask Wallet</a> <span className="badge badge-light-success">Connected</span>
@@ -232,11 +263,15 @@ const Header = (props) => {
 
                             {!isLoggedIn ?
 
+
                                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                    <a href="#" data-toggle="modal" data-target="#myModal">  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'white' }} width="30px" height="30px" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
+
+                                    {/* <a href="#" data-toggle="modal" data-target="#myModal">  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'white' }} width="30px" height="30px" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
                                         <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
-                                    </svg></a>
-                                    &nbsp; &nbsp; &nbsp; &nbsp;
+                                    </svg>
+                                    </a>
+
+                                    &nbsp; &nbsp; &nbsp; &nbsp; */}
                                     <a href="#" onClick={(event) => login(event)}> <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'white' }} width="30px" height="30px" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                         <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                     </svg></a> </div>
@@ -447,6 +482,7 @@ const Header = (props) => {
                                         </ul>
                                     </li>
                                     <li className="ms-3 ">
+
                                         <a href="#" data-toggle="modal" data-target="#myModal">  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'white' }} width="30px" height="30px" fill="currentColor" class="bi bi-wallet2" viewBox="0 0 16 16">
                                             <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
                                         </svg></a>
