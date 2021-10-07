@@ -78,12 +78,13 @@ const PostAttributes = (props) => {
             }
             httpClient.call("like-post", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
-                    let responseData = response.result.data.result
                     SuccessToast(response.result.message);
                     setIsLike(!isLike);
                     setIsDisLike(false);
+                    let responseData = response.result.data
                     setLikesCount(responseData.totalLikes);
                     setDisLikesCount(responseData.totalDisLikes);
+                    document.getElementById("likes" + postId).classList.add('active');
                     document.getElementById("dislikes" + postId).classList.remove('active');
                 }
                 else {
@@ -116,10 +117,11 @@ const PostAttributes = (props) => {
                     SuccessToast(response.result.message);
                     setIsLike(false);
                     setIsDisLike(!isDisLike)
-                    let likeC = likesCount-1;
-                    setLikesCount(likeC);
-                    let dislikesC = dislikesCount+1;
-                    setDisLikesCount(dislikesC);
+                    let responseData = response.result.data
+                    setLikesCount(responseData.totalLikes);
+                    setDisLikesCount(responseData.totalDisLikes);
+                    document.getElementById("likes" + postId).classList.remove('active');
+                    document.getElementById("dislikes" + postId).classList.add('active');
                 }
                 else {
                     ErrorToast(response.result.message);
