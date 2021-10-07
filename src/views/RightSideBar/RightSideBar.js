@@ -1,24 +1,22 @@
+import React, { useEffect, useState } from 'react';
 import { MiniBar } from 'minibarjs';
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
-
+import httpClient from '../../services/http';
 const RightSideBar = (props) => {
+    let [advertisement, setAdvertisement] = useState(null);
 
     useEffect(() => {
 
         props._getPopularGroups();
+        getAdvertisement();
 
 
 
     }, [])
 
     let gl = props.groupData;
-    // console.log(gl);
-
-
-    // const history = useHistory();
-
     const navigate = (event) => {
         event.preventDefault()
     }
@@ -40,6 +38,25 @@ const RightSideBar = (props) => {
     } */
 
 
+    const getAdvertisement = () => {
+        console.log("calling advertisement");
+        httpClient.call("get-all-advertisement", null, { method: 'GET' }).then(function (response) {
+
+            if (response.success) {
+                let res = response.result.data;
+                setAdvertisement(res);
+            }
+            else {
+                setAdvertisement(null);
+            }
+
+        }, function (error) {
+            console.log(error);
+        })
+    }
+
+    //console.log(advertisement);
+
 
 
     const rightSide = props.rightSide ? props.rightSide : false;
@@ -54,24 +71,54 @@ const RightSideBar = (props) => {
                         <GroupList grouplist={gl} />
                     </div>
 
-                    <div className="cmn-card shadow-gray-point-2">
-                        <div className="elementory-chunk">
-                            <div className="elementory-brand">
-                                <div className="elementory-avater-wrap">
-                                    <img src="img/b-1.svg" alt="" className="elemetory-avater" />
-                                    <h6>Elementry <span>Sponsered</span></h6>
-                                </div>
-                                <p>Avail 50-80% Off* for this Raksha Bandhan only at #Elementry! Shop NOW!</p>
-                            </div>
-                            <div className="cd-img">
-                                <img src="img/img-1.jpg" alt="" />
-                            </div>
 
-                            <div className="text-end p-20">
-                                <a href="#" onClick={(event) => navigate(event)} className="btn border border-primary shop-now">Shop now</a>
+
+                    {advertisement && advertisement.length > 0 ?
+                        advertisement.map((element, index) => {
+                            return (<div className="cmn-card shadow-gray-point-2" key={index}>
+                                <div className="elementory-chunk">
+                                    <div className="elementory-brand">
+                                        <div className="elementory-avater-wrap">
+                                            <img src="img/b-1.svg" alt="" className="elemetory-avater" />
+                                            <h6>{element.title} <span>Sponsered</span></h6>
+                                        </div>
+                                        <p>{element.description ? element.description : null}</p>
+                                    </div>
+                                    <div className="cd-img">
+                                        {element.data ? <img src={"https://ipfs.io/ipfs/" + element.data} alt="" /> : <img src="img/img-1.jpg" alt="" />}
+
+
+                                    </div>
+
+                                    <div className="text-end p-20">
+                                        <a href={element.link} target="_blank" className="btn border border-primary shop-now">Visit Now</a>
+                                    </div>
+                                </div>
+                            </div>)
+                        })
+
+                        : <div className="cmn-card shadow-gray-point-2">
+                            <div className="elementory-chunk">
+                                <div className="elementory-brand">
+                                    <div className="elementory-avater-wrap">
+                                        <img src="img/b-1.svg" alt="" className="elemetory-avater" />
+                                        <h6>Elementry <span>Sponsered</span></h6>
+                                    </div>
+                                    <p>Avail 50-80% Off* for this Raksha Bandhan only at #Elementry! Shop NOW!</p>
+                                </div>
+                                <div className="cd-img">
+                                    <img src="img/img-1.jpg" alt="" />
+                                </div>
+
+                                <div className="text-end p-20">
+                                    <a href="#" onClick={(event) => navigate(event)} className="btn border border-primary shop-now">Shop now</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
+
+
+
                 </div>
             </div>
         </div>
