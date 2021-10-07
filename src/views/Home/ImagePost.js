@@ -116,7 +116,6 @@ const ImagePost = (props) => {
     // console.log(element);
 
 
-
     return (
         <div className="cmn-card shadow-gray-point-3  mb-4">
             <div className="post-wrapper post-type-one">

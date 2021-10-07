@@ -68,7 +68,7 @@ const Header = (props) => {
 
     const home = (event) => {
         event.preventDefault();
-        history.push('/');
+        history.push({pathname: '/', search: '', state: new Date().getTime()});
     }
 
     const changePassword = (event) => {

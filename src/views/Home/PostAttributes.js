@@ -41,10 +41,10 @@ const PostAttributes = (props) => {
                     if (user !== null) {
                         if (user.id === element.likes[i].likedBy.id) {
                             if (element.likes[i].status == true) {
-                                document.getElementById("likes" + element.id).click();
+                                document.getElementById("likes" + element.id).classList.add('active');
                             }
                             else {
-                                document.getElementById("dislikes" + element.id).click();
+                                document.getElementById("dislikes" + element.id).classList.add('active');;
                             }
                         }
                     }
@@ -66,8 +66,6 @@ const PostAttributes = (props) => {
 
     const toggleLike = (event, postId) => {
         event.preventDefault();
-        //console.log("like post id" + postId);
-        return null;
         let user = Session.getSessionData();
         if (user === null) {
             history.push("/auth/login");
@@ -82,7 +80,12 @@ const PostAttributes = (props) => {
                 if (response.success) {
                     SuccessToast(response.result.message);
                     setIsLike(!isLike);
-                    setIsDisLike(false)
+                    setIsDisLike(false);
+                    let likeC = likesCount+1;
+                    setLikesCount(likeC);
+                    let dislikesC = dislikesCount -1;
+                    setDisLikesCount(dislikesC);
+                    document.getElementById("dislikes" + postId).classList.remove('active');
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -98,8 +101,7 @@ const PostAttributes = (props) => {
     }
     const toggleDisLike = (event, postId) => {
         event.preventDefault();
-        // console.log("dislike post id" + postId);
-        return null;
+        console.log("dislike post id" + postId);
         let user = Session.getSessionData();
         if (user === null) {
             history.push("/auth/login");
@@ -115,6 +117,10 @@ const PostAttributes = (props) => {
                     SuccessToast(response.result.message);
                     setIsLike(false);
                     setIsDisLike(!isDisLike)
+                    let likeC = likesCount-1;
+                    setLikesCount(likeC);
+                    let dislikesC = dislikesCount+1;
+                    setDisLikesCount(dislikesC);
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -226,8 +232,6 @@ const PostAttributes = (props) => {
         document.getElementById('modal-closed').click();
         //$('#modal-closed').click();
     }
-
-
 
 
     return (

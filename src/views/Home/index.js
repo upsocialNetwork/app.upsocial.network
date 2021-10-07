@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
 	let stateData = {
 		requestProcess: state.post.requestProcess,
 		hasMore: state.post.hasMore
-	}	
+	}
 	if (state.post.postData) {
 		stateData["postData"] = state.post.postData
 	}

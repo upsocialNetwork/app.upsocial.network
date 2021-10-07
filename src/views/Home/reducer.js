@@ -20,10 +20,11 @@ const reducer = createReducer({
 
     [responsePostListData]: (state, params) => {
         let responseParams = params && params.data ? params.data : [];
+        let finalData = params.page == 1 ? responseParams : [...state.postData, ...responseParams];
         return {
             ...state,
             requestProcess: false,
-            postData: [...state.postData, ...responseParams],
+            postData: finalData,
             hasMore: params && !params.error && responseParams.length == 10 ? true : false,
             error: params && params.error ? params.error: 'Something went wrong'
         };
