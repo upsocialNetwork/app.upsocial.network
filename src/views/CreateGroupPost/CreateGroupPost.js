@@ -4,19 +4,19 @@ import PostList from './../Home/PostList';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
 const CreateGroupPost = (props) => {
     const history = useHistory();
     const location = useLocation();
+    const params = useParams();
 
 
     useEffect(() => {
-        setGroupId(location.state.detail);
+        setGroupId(params.id);
         let userData = Session.isLoggedIn();
         if (!userData) {
-
             history.push('/auth/login');
         }
 
@@ -74,13 +74,7 @@ const CreateGroupPost = (props) => {
             Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
-                // history.push("/");
-
-                history.push({
-                    pathname: '/group/details',
-                    search: '?id=' + groupId + '',
-                    state: { detail: groupId }
-                });
+                history.push('/group/details/'+groupId);
             }
             else {
                 ErrorToast(response.result.message);

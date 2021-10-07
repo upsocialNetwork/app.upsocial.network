@@ -1,33 +1,29 @@
-import React, { useEffect, useState, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from "react-router-dom";
-import { setHttpClientConfig, SetSassion } from './utils/common';
-import Session from './utils/session';
-
+import React, { Suspense, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from "react-router-dom";
+import Loader from './components/Loader';
+import Message from './components/Message';
 import ErrorBoundary from './ErrorBoundary';
-import Layout from './views/Layout'
-import ModToolLayout from './views/Layout/ModToolLayout';
-import Home from './views/Home';
-import Search from './views/Search';
-import EditProfile from './views/EditProfile';
-import Community from './views/CreateGroup';
-import CreateGroupJoin from './views/GroupDetails';
-import CreatePost from './views/CreatePost';
-import ModTools from './views/ModTools';
-import Login from './views/Login';
-import RightSideBar from './views/RightSideBar';
-import Message from './components/Message'
-import Loader from './components/Loader'
-import { useSelector } from 'react-redux'
-import ForgetPassword from './views/ForgetPassword/ForgetPassword';
-import GroupSearch from './views/GroupSearch';
-import TopCommunitySearch from './views/TopGroupSearch';
-import CreateGroupPost from './views/CreateGroupPost';
-import GroupDetails from './views/GroupDetails';
-import TopGroupSearch from './views/TopGroupSearch';
+import { setHttpClientConfig, SetSassion } from './utils/common';
 import ChangePassword from './views/ChangePassword/ChangePassword';
-import EditPost from './views/EditPost/EditPost';
-import PostDetails from './views/PostDetails/PostDetails';
+import Community from './views/CreateGroup';
+import CreateGroupPost from './views/CreateGroupPost';
+import CreatePost from './views/CreatePost';
 import EditGroup from './views/EditGroup/EditGroup';
+import EditPost from './views/EditPost/EditPost';
+import EditProfile from './views/EditProfile';
+import ForgetPassword from './views/ForgetPassword/ForgetPassword';
+import GroupDetails from './views/GroupDetails';
+import GroupSearch from './views/GroupSearch';
+import Home from './views/Home';
+import Layout from './views/Layout';
+import ModToolLayout from './views/Layout/ModToolLayout';
+import Login from './views/Login';
+import ModTools from './views/ModTools';
+import PostDetails from './views/PostDetails/PostDetails';
+import Search from './views/Search';
+import TopGroupSearch from './views/TopGroupSearch';
+
 
 const FullLayout = (props) => {
   const history = useHistory();
@@ -118,7 +114,7 @@ const AuthorizeRoute = () => {
             <Route path="/mod-tools" children={() => {
               return (
                 <ModToollLayout>
-                  <Route exact path="/mod-tools" component={ModTools}></Route>
+                  <Route exact path="/mod-tools/:id" component={ModTools}></Route>
                 </ModToollLayout>
               )
             }}>
@@ -131,10 +127,10 @@ const AuthorizeRoute = () => {
                   <Route exact path="/search-result" component={Search}></Route>
                   <Route exact path="/create-group" component={Community}></Route>
                   <Route exact path="/edit-group" component={EditGroup}></Route>
-                  <Route exact path="/group/details" component={GroupDetails}></Route>
+                  <Route exact path="/group/details/:id" component={GroupDetails}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
                   <Route exact path="/edit-post" component={EditPost}></Route>
-                  <Route exact path="/create-group-post" component={CreateGroupPost}></Route>
+                  <Route exact path="/create-group-post/:id" component={CreateGroupPost}></Route>
                   {/*    <Route exact path="/group/top-groups" component={TopGroupSearch}></Route> */}
                   <Route exact path="/post-details" component={PostDetails}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}

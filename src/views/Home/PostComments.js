@@ -271,10 +271,12 @@ const PostComments = (props) => {
                                                                         </form>
                                                                     </div>
                                                                 </div>
-                                                                {/* {replyElement.reply && replyElement.reply.length > 0 &&
+                                                                {childElement.childElement && replyElement.childIds.length > 0 &&
                                                                     <ul className="nested-comment">
                                                                         {
-                                                                            replyElement.reply.map((replyElement, key) => {
+                                                                            replyElement.reply.map((childElement, key) => {
+                                                                                let index = _.findIndex(commentData, { commentId: childElement });
+                                                                                let replyElement = commentData[index];
                                                                                 return (
                                                                                     <li key={key}>
                                                                                         <div className="elementory-avater-wrap single-comment">
@@ -293,7 +295,7 @@ const PostComments = (props) => {
                                                                         }
                                                                     </ul>
 
-                                                                } */}
+                                                                }
                                                             </li>
                                                         )
                                                     })

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PostList from './../Home/PostList';
-import { useHistory } from 'react-router-dom';
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory, useParams } from 'react-router-dom';
 import httpClient from '../../services/http';
 import Select from 'react-select';
 import { useStore } from 'react-redux';
@@ -18,16 +17,15 @@ const ModTools = (props) => {
     let [owner, setOwner] = useState('');
     let [moderator, setModerator] = useState('');
     let [member, setMember] = useState('');
-
+    const params = useParams();
 
     useEffect(() => {
         if (location === null) {
             history.push("/auth/login");
         }
-
-        setGroupId(location.state.detail.id);
+        setGroupId(params.id);
         setData(location.state.detail);
-        getMembersList(location.state.detail.id);
+        getMembersList(params.id);
     }, []);
 
     const navigate = (event) => {

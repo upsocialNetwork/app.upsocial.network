@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import { useHistory } from 'react-router-dom';
@@ -15,28 +15,34 @@ const CreateGroupJoin = (props) => {
     const [details, setDetails] = useState();
     const [posts, setPosts] = useState();
 
+    const params = useParams();
+
     useEffect(() => {
-        if (location.state === null || location.state === undefined) {
+        if (!params.id) {
             history.push("/auth/login");
         } else {
-            getGroupDetails(location.state.detail);
+            getGroupDetails(params.id);
         }
     }, []);
 
+    useEffect(() => {
+        if (!params.id) {
+            history.push("/auth/login");
+        } else {
+            getGroupDetails(params.id);
+        }
+    }, [params.id]);
+
     const createPost = (event, id) => {
         event.preventDefault();
-        history.push({
-            pathname: '/create-group-post',
-            search: '?id=' + id + '',
-            state: { detail: id }
-        });
+        history.push('/create-group-post/'+id);
     }
 
     const modTools = (event) => {
         event.preventDefault();
         let dt = details && details.result && details.result.data ? details.result.data : [];
         history.push({
-            pathname: '/mod-tools',
+            pathname: '/mod-tools/'+dt.id,
             search: '?id=' + dt.id + '',
             state: { detail: dt }
         });
@@ -57,7 +63,7 @@ const CreateGroupJoin = (props) => {
             httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     SuccessToast(response.result.message);
-                    window.location.reload();
+                    //window.location.reload();
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -77,7 +83,7 @@ const CreateGroupJoin = (props) => {
             httpClient.call("join-group", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     SuccessToast(response.result.message);
-                    window.location.reload();
+                    //window.location.reload();
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -97,10 +103,6 @@ const CreateGroupJoin = (props) => {
     const getGroupDetails = (groupid) => {
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
-
-
-
-                //   console.log(response);
                 getGroupPosts(groupid);
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
@@ -151,7 +153,6 @@ const CreateGroupJoin = (props) => {
             getGroupPosts(page)
         }
     }
-
 
 
     return (

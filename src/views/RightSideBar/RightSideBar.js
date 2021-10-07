@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
 import { MiniBar } from 'minibarjs';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
-import { Loader } from '../../utils/common';
 
 const RightSideBar = (props) => {
 
@@ -132,16 +131,8 @@ const GroupRecord = (props) => {
         } else {
 
 
-            history.push({
-                pathname: '/group/details',
-                search: '?id=' + id + '',
-                state: { detail: id }
-            });
+            history.push('/group/details/'+id);
 
-            if (window.location.pathname === "/group/details") {
-
-                window.location.reload(false)
-            }
 
         }
 
