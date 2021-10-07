@@ -7,16 +7,16 @@ import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
-
+import { Redirect } from 'react-router-dom';
 
 const CreatePost = (props) => {
-    const history = useHistory();
+    const history1 = useHistory();
     const location = useLocation();
-   
+
     useEffect(() => {
         let userData = Session.isLoggedIn();
         if (!userData) {
-            history.push('/auth/login');
+            history1.push('/auth/login');
         }
     }, []);
 
@@ -67,7 +67,9 @@ const CreatePost = (props) => {
             Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
-                history.push('/')
+
+
+                history1.push('/')
                 //history.push("/");
             }
             else {
@@ -130,7 +132,7 @@ const CreatePost = (props) => {
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
             if (size > 50) {
-                ErrorToast('Please select file size less than 10 MB');
+                ErrorToast('Please select file size less than 50 MB');
                 return null;
             }
             convertFileToBase64(file);
@@ -150,7 +152,7 @@ const CreatePost = (props) => {
 
         }
         else {
-            ErrorToast('Please select file size less than 10 MB');
+            ErrorToast('Please select file size less than 50 MB');
             return null;
         }
 

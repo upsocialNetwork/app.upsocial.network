@@ -10,26 +10,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 const Home = (props) => {
 
 
-    const gePopularPost = (page) => {
-        props._getPopularPost(page);
-    }
-    const geTimeLinePost = (page) => {
-        props._getTimlinePost(page);
-    }
-
-    useEffect(() => {
-        let isLogin = Session.getSessionData();
-        if (isLogin == null) {
-            gePopularPost(1)
-        } else {
-            
-            geTimeLinePost(1)
-        }
-    }, [])
-
-
-
-
 
     let pt = props.postData;
     Loader(props.requestProcess);
@@ -43,6 +23,30 @@ const Home = (props) => {
             geTimeLinePost(page)
         }
     }
+
+    const gePopularPost = (page) => {
+        props._getPopularPost(page);
+    }
+    const geTimeLinePost = (page) => {
+        props._getTimlinePost(page);
+    }
+
+    useEffect(() => {
+
+        let isLogin = Session.getSessionData();
+        if (isLogin == null) {
+            gePopularPost(1)
+        } else {
+
+            geTimeLinePost(1)
+        }
+    }, [])
+
+
+
+
+
+
 
 
 
@@ -105,7 +109,7 @@ const Home = (props) => {
 
 
 
-               {/*  <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                {/*  <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <InfiniteScroll
                         pageStart={1}
                         loadMore={loadFunc}

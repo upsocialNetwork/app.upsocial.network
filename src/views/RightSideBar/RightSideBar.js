@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { MiniBar } from 'minibarjs';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
+import { Loader } from '../../utils/common';
 
 const RightSideBar = (props) => {
 
@@ -123,11 +124,13 @@ const GroupRecord = (props) => {
 
     const groupDetails = (event, id) => {
         event.preventDefault();
+
         let isLogin = Session.isLoggedIn();
         if (isLogin === false) {
+
             history.push("/auth/login");
         } else {
-            
+
 
             history.push({
                 pathname: '/group/details',
@@ -137,7 +140,7 @@ const GroupRecord = (props) => {
 
             if (window.location.pathname === "/group/details") {
 
-                window.location.reload();
+                window.location.reload(false)
             }
 
         }
