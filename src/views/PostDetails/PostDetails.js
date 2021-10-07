@@ -10,6 +10,75 @@ import _ from 'underscore';
 import HoverVideoPlayer from 'react-hover-video-player';
 
 
+const Comment = props => {
+    const navigate = (event) => {
+        event.preventDefault()
+    }
+
+    let originalCommentData = props.originalCommentData;
+    let comment = props.comment;
+    let index = props.index;
+    let isParent = props.isParent;
+    let element = props.element
+
+
+    if(!isParent){
+        let indexEle = _.findIndex(originalCommentData, { id: comment });
+        comment = originalCommentData[indexEle];
+    }
+    let childsData = comment && comment.childIds && comment.childIds.length > 0 ? comment.childIds : null;
+
+    if(!comment) return null;
+
+    return (
+        
+            <li key={index}>
+                <div className="elementory-avater-wrap single-comment">
+                    <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
+                        src="img/dol-1.png" alt="" /></a>
+                    <div className="comment-part">
+                        <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{comment && comment.user && comment.user.userName ? comment.user.userName : ''}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
+                        <div className="comment-text">
+                            <p>{comment && comment.comment ? comment.comment : ''}</p>
+                        </div>
+
+                        <div className="reply-or-report-btn d-flex justify-content-end">
+                            <button className="reply" data-bs-toggle="collapse" id={"reply-child-button"}
+                                data-bs-target={"#reply-" + comment.id}>Reply</button>
+                            <button className="report" hidden>Report</button>
+                        </div>
+
+                        <form className="reply-form collapse" id={"reply-" + comment.id}>
+                            <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment1"
+                                onChange={(event) => { props.setCommentMessage(event.target.value) }}
+                            ></textarea>
+                            <div className="text-end mt-3">
+                                <button type="submit" onClick={(event) => { 
+                                    props.saveChildComment(event, comment.id, element.id)
+                                }} className="btn gradient-bg-one radius-30 f-bold reply-post">Post</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {childsData && <ul className={"nested-comment"}><Comments {...props} originalCommentData={originalCommentData} commentData={childsData} isParent={false} /></ul> }
+            </li>
+            
+    )
+};
+
+const Comments = props => {
+    if(!props.commentData || props.commentData.length < 1) return null
+    
+    return (
+        <>
+            {props.commentData.map(function (comment, index) {
+                if(props.isParent && comment.parentId != 0) return null
+                return  <Comment {...props} originalCommentData={props.originalCommentData} commentData={props.commentData} key={comment.id} comment={comment} isParent={props.isParent} index={index} />
+            })}
+        </>
+    )
+};
+
 const PostDetails = (props) => {
 
     const history = useHistory();
@@ -32,7 +101,6 @@ const PostDetails = (props) => {
 
     const navigate = (event) => {
         event.preventDefault()
-        console.log("calling");
     }
 
     const toggleLike = (event, postId) => {
@@ -49,13 +117,12 @@ const PostDetails = (props) => {
             }
             httpClient.call("like-post", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
+                    let responseData = response.result.data.result
                     SuccessToast(response.result.message);
                     setIsLike(!isLike);
                     setIsDisLike(false)
-                    let likeC = likesCount+1;
-                    setLikesCount(likeC);
-                    let dislikesC = dislikesCount -1;
-                    setDisLikesCount(dislikesC);
+                    setLikesCount(responseData.totalLikes);
+                    setDisLikesCount(responseData.totalDisLikes);
                     document.getElementById("likes" + postId).classList.remove('active');
                 }
                 else {
@@ -108,8 +175,9 @@ const PostDetails = (props) => {
         }
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
-            console.log(response);
-            //window.location.reload(false);
+            setCommentMessage('')
+            document.getElementById('comment-1-button').click()
+            getPostDetails(params.postid);
 
         }, function (error) {
             console.log(error);
@@ -118,19 +186,16 @@ const PostDetails = (props) => {
 
     const saveChildComment = (event, parentid, postid) => {
         event.preventDefault();
-        // console.log(postid);
 
         let formData = {
             "data": commentMessage,
             "parentId": parentid,
             "postId": postid
         }
-        //console.log(formData);
-        // return null;
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
-            console.log(response);
-            //window.location.reload(false);
+            getPostDetails(params.postid);
+            setCommentMessage('')
 
         }, function (error) {
             console.log(error);
@@ -154,9 +219,9 @@ const PostDetails = (props) => {
                     SuccessToast(response.result.message);
                     setIsLike(false);
                     setIsDisLike(!isDisLike)
-                    let likeC = likesCount-1;
+                    let likeC = likesCount - 1;
                     setLikesCount(likeC);
-                    let dislikesC = dislikesCount+1;
+                    let dislikesC = dislikesCount + 1;
                     setDisLikesCount(dislikesC);
                     document.getElementById("dislikes" + postId).classList.remove('active');
                 }
@@ -240,6 +305,7 @@ const PostDetails = (props) => {
             }
         }
     }
+
 
 
 
@@ -410,7 +476,7 @@ const PostDetails = (props) => {
                                             }
                                         </ul>
                                         <ul className="p-curd-right">
-                                            <li><button data-bs-toggle="collapse" data-bs-target="#comment-1"
+                                            <li><button data-bs-toggle="collapse" data-bs-target="#comment-1" id="comment-1-button"
                                             /* onClick={(event) => { navigate(event) }} */
                                             ><img
                                                     src="img/sms.svg" alt="" /></button></li>
@@ -454,7 +520,11 @@ const PostDetails = (props) => {
                                 <div className="tab-content comment-tab-content" id="commentTabContent">
                                     <div className="tab-pane fade show active" id="newestComment" role="tabpanel"
                                         aria-labelledby="newestComment-tab">
-                                        <ul className="comments-dispaly">
+                                        <ul className={"comments-dispaly"}>
+                                            <Comments originalCommentData={commentData} commentData={commentData} isParent={true} saveChildComment={saveChildComment} setCommentMessage={setCommentMessage} element={element}/>
+                                        </ul>
+                                        <ul className="comments-dispaly" hidden>
+
                                             {commentData && commentData.length > 0 &&
 
                                                 commentData.map((commentElement, index) => {
@@ -473,7 +543,7 @@ const PostDetails = (props) => {
                                                                     </div>
 
                                                                     <div className="reply-or-report-btn d-flex justify-content-end">
-                                                                        <button className="reply" data-bs-toggle="collapse"
+                                                                        <button className="reply" data-bs-toggle="collapse" id={"reply-child-button"}
                                                                             data-bs-target={"#reply-" + commentElement.id}>Reply</button>
                                                                         <button className="report" hidden>Report</button>
                                                                     </div>
@@ -507,7 +577,7 @@ const PostDetails = (props) => {
                                                                                             </div>
 
                                                                                             <div className="reply-or-report-btn d-flex justify-content-end">
-                                                                                                <button className="reply" data-bs-toggle="collapse"
+                                                                                                <button className="reply" data-bs-toggle="collapse" id={"#nestedOne-reply-" + commentElement.id + "-button"}
                                                                                                     data-bs-target={"#nestedOne-reply-" + replyElement.id}>Reply</button>
                                                                                                 <button className="report" hidden>Report</button>
                                                                                             </div>
