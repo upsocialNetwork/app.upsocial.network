@@ -37,8 +37,6 @@ const PostDetails = (props) => {
 
     const toggleLike = (event, postId) => {
         event.preventDefault();
-        // console.log("like post id" + postId);
-        return null;
         let user = Session.getSessionData();
         if (user === null) {
             history.push("/auth/login");
@@ -54,6 +52,11 @@ const PostDetails = (props) => {
                     SuccessToast(response.result.message);
                     setIsLike(!isLike);
                     setIsDisLike(false)
+                    let likeC = likesCount+1;
+                    setLikesCount(likeC);
+                    let dislikesC = dislikesCount -1;
+                    setDisLikesCount(dislikesC);
+                    document.getElementById("likes" + postId).classList.remove('active');
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -136,8 +139,6 @@ const PostDetails = (props) => {
 
     const toggleDisLike = (event, postId) => {
         event.preventDefault();
-        //console.log("dislike post id" + postId);
-        return null;
         let user = Session.getSessionData();
         if (user === null) {
             history.push("/auth/login");
@@ -153,6 +154,11 @@ const PostDetails = (props) => {
                     SuccessToast(response.result.message);
                     setIsLike(false);
                     setIsDisLike(!isDisLike)
+                    let likeC = likesCount-1;
+                    setLikesCount(likeC);
+                    let dislikesC = dislikesCount+1;
+                    setDisLikesCount(dislikesC);
+                    document.getElementById("dislikes" + postId).classList.remove('active');
                 }
                 else {
                     ErrorToast(response.result.message);
@@ -216,10 +222,10 @@ const PostDetails = (props) => {
                     if (user !== null) {
                         if (user.id === element.likes[i].likedBy.id) {
                             if (element.likes[i].status === true) {
-                                document.getElementById("likes" + element.id).click();
+                                document.getElementById("likes" + element.id).classList.add('active');
                             }
                             else {
-                                document.getElementById("dislikes" + element.id).click();
+                                document.getElementById("dislikes" + element.id).classList.add('active');
                             }
                         }
                     }
