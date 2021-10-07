@@ -14,8 +14,7 @@ const GroupList = (props) => {
     const groupDetails = (event, id) => {
         event.preventDefault();
         history.push({
-            pathname: '/group/details',
-            search: '?id=' + id + '',
+            pathname: '/group/details/'+id,
             state: { detail: id }
         });
 

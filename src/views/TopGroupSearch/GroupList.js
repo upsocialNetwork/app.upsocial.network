@@ -22,8 +22,7 @@ const GroupList = (props) => {
             history.push("/auth/login");
         } else {
             history.push({
-                pathname: '/group/details',
-                search: '?id=' + id + '',
+                pathname: '/group/details/'+id,
                 state: { detail: id }
             });
         }

@@ -41,19 +41,14 @@ const ImagePost = (props) => {
             history.push('/auth/login');
         }
         else {
-            history.push({
-                pathname: '/post-details',
-                search: '?id=' + id + '',
-                state: { detail: id }
-            });
+            history.push('/post-details/'+id);
         }
     }
 
     const editPost = (event, postid) => {
         event.preventDefault();
         history.push({
-            pathname: '/edit-post',
-            search: '?id=' + postid + '',
+            pathname: '/edit-post/'+postid,
             state: { postid: postid }
         });
 

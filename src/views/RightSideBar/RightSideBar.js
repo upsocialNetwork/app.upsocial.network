@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { MiniBar } from 'minibarjs';
-import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
 import httpClient from '../../services/http';

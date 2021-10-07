@@ -2,7 +2,7 @@ import React from 'react';
 import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import { useEffect, useState } from "react";
 import Session from "../../utils/session";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
 import { useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ const EditGroup = (props) => {
 
     const history = useHistory();
     const location = useLocation();
+    const params = useParams();
 
     let [name, setName] = useState('');
     let [type, setType] = useState('');
@@ -22,12 +23,19 @@ const EditGroup = (props) => {
     let [id, setId] = useState('');
 
     useEffect(() => {
-        if (location.state === null || location.state === undefined) {
+        if (!params.groupId) {
             history.push("/auth/login");
         } else {
-            getGroupDetails(location.state.detail);
+            getGroupDetails(params.groupId);
         }
     }, []);
+    useEffect(() => {
+        if (!params.groupId) {
+            history.push("/auth/login");
+        } else {
+            getGroupDetails(params.groupId);
+        }
+    }, [params.groupId]);
 
     const navigate = (event) => {
         event.preventDefault();
@@ -43,8 +51,6 @@ const EditGroup = (props) => {
             "nsfw": isAdult,
             "image": image
         }
-        //console.log(formData);
-        //return null;
         httpClient.call('update-group', formData, { method: 'PUT' }).then(function (response) {
             Loader(false);
             if (response.success == true) {
@@ -217,7 +223,7 @@ const EditGroup = (props) => {
                             <div className="drag-and-drop-div">
                                 <img src="img/drag-and-drop.png" alt="" />
                                 <label htmlFor="drag" className="drag-and-drop"> 
-                            <input class="form-control" type="file" name="file" accept="image/*"
+                            <input className="form-control" type="file" name="file" accept="image/*"
 
                                 onChange={(event) => { convertFile(event.target.files[0]) }}
                             />

@@ -34,11 +34,7 @@ const ImagePost = (props) => {
     const editPost = (event, postid) => {
         event.preventDefault();
         // console.log(postid);
-        history.push({
-            pathname: '/edit-post',
-            search: '?id=' + postid + '',
-            state: { postid: postid }
-        });
+        history.push('/edit-post/'+postid);
 
     }
 

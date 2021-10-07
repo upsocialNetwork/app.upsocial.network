@@ -6,11 +6,12 @@ import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import $ from 'jquery';
 const EditPost = (props) => {
     const history = useHistory();
     const location = useLocation();
+    const params = useParams()
 
     useEffect(() => {
 
@@ -19,13 +20,26 @@ const EditPost = (props) => {
 
             history.push('/auth/login');
         }
-        if (location.state == null) {
+        if (!params.postid) {
             history.push('');
 
         }
-        const id = location.state.postid;
+        const id = params.postid;
         getpostDetails(id);
     }, []);
+    useEffect(() => {
+
+        let userData = Session.isLoggedIn();
+        if (!userData) {
+            history.push('/auth/login');
+        }
+        if (!params.postid) {
+            history.push('');
+
+        }
+        const id = params.postid;
+        getpostDetails(id);
+    }, [params.postid]);
 
     let [id, setId] = useState(null);
     let [title, setTitle] = useState(null);

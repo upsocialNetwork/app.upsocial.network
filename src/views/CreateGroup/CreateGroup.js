@@ -207,7 +207,7 @@ const Community = (props) => {
                             <div className="drag-and-drop-div">
                                 <img src="img/drag-and-drop.png" alt="" />
                                 <label htmlFor="drag" className="drag-and-drop"> 
-                            <input class="form-control" type="file" name="file" accept="image/*"
+                            <input className="form-control" type="file" name="file" accept="image/*"
 
                                 onChange={(event) => { convertFile(event.target.files[0]) }}
                             />

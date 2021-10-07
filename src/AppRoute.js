@@ -126,13 +126,13 @@ const AuthorizeRoute = () => {
                   <Route exact path="/" component={Home}></Route>
                   <Route exact path="/search-result" component={Search}></Route>
                   <Route exact path="/create-group" component={Community}></Route>
-                  <Route exact path="/edit-group" component={EditGroup}></Route>
+                  <Route exact path="/edit-group/:groupId" component={EditGroup}></Route>
                   <Route exact path="/group/details/:id" component={GroupDetails}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
-                  <Route exact path="/edit-post" component={EditPost}></Route>
+                  <Route exact path="/edit-post/:postid" component={EditPost}></Route>
                   <Route exact path="/create-group-post/:id" component={CreateGroupPost}></Route>
                   {/*    <Route exact path="/group/top-groups" component={TopGroupSearch}></Route> */}
-                  <Route exact path="/post-details" component={PostDetails}></Route>
+                  <Route exact path="/post-details/:postid" component={PostDetails}></Route>
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
 

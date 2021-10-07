@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import httpClient from '../../services/http';
 import ReactQuill from 'react-quill'; // ES6
@@ -14,6 +14,7 @@ const PostDetails = (props) => {
 
     const history = useHistory();
     const location = useLocation();
+    const params = useParams()
     const [element, setDetails] = useState(null);
     let [isLike, setIsLike] = useState(false);
     let [isDisLike, setIsDisLike] = useState(false);
@@ -26,7 +27,7 @@ const PostDetails = (props) => {
     var dislikeCount = 0;
 
     useEffect(() => {
-        getPostDetails(location.state.detail);
+        getPostDetails(params.postid);
     }, []);
 
     const navigate = (event) => {
@@ -105,7 +106,7 @@ const PostDetails = (props) => {
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
             console.log(response);
-            window.location.reload(false);
+            //window.location.reload(false);
 
         }, function (error) {
             console.log(error);
@@ -126,7 +127,7 @@ const PostDetails = (props) => {
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
             console.log(response);
-            window.location.reload(false);
+            //window.location.reload(false);
 
         }, function (error) {
             console.log(error);

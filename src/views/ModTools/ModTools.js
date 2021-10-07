@@ -35,11 +35,7 @@ const ModTools = (props) => {
     const editGroup = (event, groupId) => {
         event.preventDefault();
         // console.log(groupId);
-        history.push({
-            pathname: '/edit-group',
-            search: '?id=' + groupId + '',
-            state: { detail: groupId }
-        });
+        history.push('/edit-group/'+groupId);
     }
 
 
@@ -132,11 +128,7 @@ const ModTools = (props) => {
             Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push({
-                    pathname: '/group/details',
-                    search: '?id=' + groupId + '',
-                    state: { detail: groupId }
-                });
+                history.push('/group/details'+groupId);
             }
             else {
                 // console.log(response);
