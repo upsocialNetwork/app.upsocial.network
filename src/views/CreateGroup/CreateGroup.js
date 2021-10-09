@@ -154,7 +154,7 @@ const Community = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form create-group">
-                    <h3 className="tertiary-title color-primary position-relative">Create a Group</h3>
+                    <h3 className="tertiary-title color-primary position-relative">Create A Group</h3>
                     <div className="create-group-content position-relative">
 
 

@@ -20,6 +20,7 @@ import Layout from './views/Layout';
 import ModToolLayout from './views/Layout/ModToolLayout';
 import Login from './views/Login';
 import ModTools from './views/ModTools';
+import MyPosts from './views/MyPosts';
 import PostDetails from './views/PostDetails/PostDetails';
 import Search from './views/Search';
 import TopGroupSearch from './views/TopGroupSearch';
@@ -107,6 +108,7 @@ const AuthorizeRoute = () => {
                   <Route path="/user/change-password" component={ChangePassword}></Route>
                   <Route exact path="/user/my-groups" component={GroupSearch}></Route>
                   <Route exact path="/user/top-groups" component={TopGroupSearch}></Route>
+                  <Route exact path="/user/my-posts" component={MyPosts}></Route>
                 </HFLayout>
               )
             }}>

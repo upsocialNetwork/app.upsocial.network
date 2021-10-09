@@ -28,6 +28,15 @@ const ModTools = (props) => {
         getMembersList(params.id);
     }, []);
 
+    useEffect(() => {
+        if (location === null) {
+            history.push("/auth/login");
+        }
+        setGroupId(params.id);
+        setData(location.state.detail);
+        getMembersList(params.id);
+    }, [params.id]);
+
     const navigate = (event) => {
         event.preventDefault();
     }
@@ -35,7 +44,7 @@ const ModTools = (props) => {
     const editGroup = (event, groupId) => {
         event.preventDefault();
         // console.log(groupId);
-        history.push('/edit-group/'+groupId);
+        history.push('/edit-group/' + groupId);
     }
 
 
@@ -126,12 +135,13 @@ const ModTools = (props) => {
         //console.log(formData);
         httpClient.call("transfer-ownership", formData, { method: 'POST' }).then(function (response) {
             Loader(false);
+
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push('/group/details'+groupId);
+                history.push('/group/details/' + params.id);
+
             }
             else {
-                // console.log(response);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
@@ -150,8 +160,11 @@ const ModTools = (props) => {
         // console.log(formData);
         httpClient.call("make-owner", formData, { method: 'POST' }).then(function (response) {
             Loader(false);
+
             if (response.success == true) {
                 SuccessToast(response.result.message);
+                history.push('/group/details/' + params.id);
+
             }
             else {
                 ErrorToast(response.result.message);
@@ -172,8 +185,11 @@ const ModTools = (props) => {
         //console.log(formData);
         httpClient.call("make-moderator", formData, { method: 'POST' }).then(function (response) {
             Loader(false);
+
             if (response.success == true) {
                 SuccessToast(response.result.message);
+                history.push('/group/details/' + params.id);
+
             }
             else {
                 ErrorToast(response.result.message);
@@ -192,10 +208,11 @@ const ModTools = (props) => {
             "userId": member
         }
         //console.log(formData);
-        httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
+        httpClient.call("remove-from-group", formData, { method: 'POST' }).then(function (response) {
             Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
+                history.push('/group/details/' + params.id);
             }
             else {
                 ErrorToast(response.result.message);
@@ -282,7 +299,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                        <p className="like-title">Make new owner </p>
+                                       {/*  <p className="like-title">Make new owner </p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="member-owner"
                                                 onChange={(event) => { setOwner(event.target.value) }}
@@ -311,7 +328,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                        <p className="like-title">Make new owner </p>
+                                      {/*   <p className="like-title">Make new owner </p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="member-moderator"
                                                 onChange={(event) => { setModerator(event.target.value) }}
@@ -340,7 +357,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                        <p className="like-title">Account address of a Member:</p>
+                                       {/*  <p className="like-title">Account address of a Member:</p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="members"
                                                 onChange={(event) => { setMember(event.target.value) }}
@@ -354,7 +371,7 @@ const ModTools = (props) => {
                                             <button className="btn primary-bg ms-3 proxima-bold" type="button"
                                                 onClick={(event) => { removeMember(event) }}
 
-                                                disabled={!(transferOwner)}
+                                                disabled={!(member)}
                                             >
                                                 Remove
                                             </button>
@@ -372,7 +389,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                        <p className="like-title">Account address of a new owner:</p>
+                                        {/* <p className="like-title">Account address of a new owner:</p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="transfer-ownership"
                                                 onChange={(event) => { setTransferOwner(event.target.value) }}

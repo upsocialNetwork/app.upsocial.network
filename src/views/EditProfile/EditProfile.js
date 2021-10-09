@@ -16,6 +16,7 @@ const EditProfile = (props) => {
     const [previmage, setPrevImage] = useState('');
     const [country, setCountry] = useState('');
     const [about, setAbout] = useState('');
+    const [email, setEmail] = useState('');
     useEffect(() => {
         let userData = Session.isLoggedIn();
         if (!userData) {
@@ -31,6 +32,7 @@ const EditProfile = (props) => {
             setAbout(user.about);
             setImage(user.image);
             setPrevImage(user.image);
+            setEmail(user.email);
             //setDate("03/05/1998");
             if (user.country !== null) {
                 setCountry(user.country);
@@ -178,6 +180,16 @@ const EditProfile = (props) => {
                                 </div>
                             </div>
 
+                            <div className="customize-pf-g-wrap">
+                                <div className="pf-lf-part">
+                                    <p>Email:</p>
+                                </div>
+                                <div className="pf-lr-part">
+                                    <input type="text" className="form-control" placeholder="User Name" value={email}
+                                        disabled
+                                    />
+                                </div>
+                            </div>
                             <div className="customize-pf-g-wrap">
                                 <div className="pf-lf-part">
                                     <p>Profile Name: <span style={{ color: 'red' }}> * </span></p>

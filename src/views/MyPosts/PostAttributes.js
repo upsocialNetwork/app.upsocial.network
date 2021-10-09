@@ -65,8 +65,6 @@ const PostAttributes = (props) => {
 
 
     const toggleLike = (event, postId) => {
-        Loader(true);
-        
         event.preventDefault();
         let user = Session.getSessionData();
         if (user === null) {
@@ -88,18 +86,12 @@ const PostAttributes = (props) => {
                     setDisLikesCount(responseData.totalDisLikes);
                     document.getElementById("likes" + postId).classList.add('active');
                     document.getElementById("dislikes" + postId).classList.remove('active');
-                    Loader(false);
-        
                 }
                 else {
-                    Loader(false);
-        
                     ErrorToast(response.result.message);
                 }
 
             }, function (error) {
-                Loader(false);
-        
                 console.log(error);
             })
 
@@ -108,8 +100,6 @@ const PostAttributes = (props) => {
 
     }
     const toggleDisLike = (event, postId) => {
-        Loader(true);
-        
         event.preventDefault();
         console.log("dislike post id" + postId);
         let user = Session.getSessionData();
@@ -132,18 +122,12 @@ const PostAttributes = (props) => {
                     setDisLikesCount(responseData.totalDisLikes);
                     document.getElementById("likes" + postId).classList.remove('active');
                     document.getElementById("dislikes" + postId).classList.add('active');
-                    Loader(false);
-        
                 }
                 else {
-                    Loader(false);
-        
                     ErrorToast(response.result.message);
                 }
 
             }, function (error) {
-                Loader(false);
-        
                 console.log(error);
             })
 
@@ -157,11 +141,11 @@ const PostAttributes = (props) => {
 
 
     const pageDetails = (event) => {
-        
         event.preventDefault();
         const id = element.id;
         let user = Session.getSessionData();
         if (user == null) {
+
             history.push('/auth/login');
         }
         else {

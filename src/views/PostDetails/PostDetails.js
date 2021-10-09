@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useLocation, useParams } from 'react-router-dom'
-import { ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import httpClient from '../../services/http';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
@@ -22,58 +22,58 @@ const Comment = props => {
     let element = props.element
 
 
-    if(!isParent){
+    if (!isParent) {
         let indexEle = _.findIndex(originalCommentData, { id: comment });
         comment = originalCommentData[indexEle];
     }
     let childsData = comment && comment.childIds && comment.childIds.length > 0 ? comment.childIds : null;
 
-    if(!comment) return null;
+    if (!comment) return null;
 
     return (
-        
-            <li key={index}>
-                <div className="elementory-avater-wrap single-comment">
-                    <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
-                        src="img/dol-1.png" alt="" /></a>
-                    <div className="comment-part">
-                        <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{comment && comment.user && comment.user.userName ? comment.user.userName : ''}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
-                        <div className="comment-text">
-                            <p>{comment && comment.comment ? comment.comment : ''}</p>
-                        </div>
 
-                        <div className="reply-or-report-btn d-flex justify-content-end">
-                            <button className="reply" data-bs-toggle="collapse" id={"reply-child-button"}
-                                data-bs-target={"#reply-" + comment.id}>Reply</button>
-                            <button className="report" hidden>Report</button>
-                        </div>
-
-                        <form className="reply-form collapse" id={"reply-" + comment.id}>
-                            <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment1"
-                                onChange={(event) => { props.setCommentMessage(event.target.value) }}
-                            ></textarea>
-                            <div className="text-end mt-3">
-                                <button type="submit" onClick={(event) => { 
-                                    props.saveChildComment(event, comment.id, element.id)
-                                }} className="btn gradient-bg-one radius-30 f-bold reply-post">Post</button>
-                            </div>
-                        </form>
+        <li key={index}>
+            <div className="elementory-avater-wrap single-comment">
+                <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
+                    src="img/dol-1.png" alt="" /></a>
+                <div className="comment-part">
+                    <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{comment && comment.user && comment.user.userName ? comment.user.userName : ''}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
+                    <div className="comment-text">
+                        <p>{comment && comment.comment ? comment.comment : ''}</p>
                     </div>
+
+                    <div className="reply-or-report-btn d-flex justify-content-end">
+                        <button className="reply" data-bs-toggle="collapse" id={"reply-child-button"}
+                            data-bs-target={"#reply-" + comment.id}>Reply</button>
+                        <button className="report" hidden>Report</button>
+                    </div>
+
+                    <form className="reply-form collapse" id={"reply-" + comment.id}>
+                        <textarea className="form-control reply-textarea" name="reply-comment" id="reply-comment1"
+                            onChange={(event) => { props.setCommentMessage(event.target.value) }}
+                        ></textarea>
+                        <div className="text-end mt-3">
+                            <button type="submit" onClick={(event) => {
+                                props.saveChildComment(event, comment.id, element.id)
+                            }} className="btn gradient-bg-one radius-30 f-bold reply-post">Post</button>
+                        </div>
+                    </form>
                 </div>
-                {childsData && <ul className={"nested-comment"}><Comments {...props} originalCommentData={originalCommentData} commentData={childsData} isParent={false} /></ul> }
-            </li>
-            
+            </div>
+            {childsData && <ul className={"nested-comment"}><Comments {...props} originalCommentData={originalCommentData} commentData={childsData} isParent={false} /></ul>}
+        </li>
+
     )
 };
 
 const Comments = props => {
-    if(!props.commentData || props.commentData.length < 1) return null
-    
+    if (!props.commentData || props.commentData.length < 1) return null
+
     return (
         <>
             {props.commentData.map(function (comment, index) {
-                if(props.isParent && comment.parentId != 0) return null
-                return  <Comment {...props} originalCommentData={props.originalCommentData} commentData={props.commentData} key={comment.id} comment={comment} isParent={props.isParent} index={index} />
+                if (props.isParent && comment.parentId != 0) return null
+                return <Comment {...props} originalCommentData={props.originalCommentData} commentData={props.commentData} key={comment.id} comment={comment} isParent={props.isParent} index={index} />
             })}
         </>
     )
@@ -104,6 +104,7 @@ const PostDetails = (props) => {
     }
 
     const toggleLike = (event, postId) => {
+        Loader(true);
         event.preventDefault();
         let user = Session.getSessionData();
         if (user === null) {
@@ -117,7 +118,7 @@ const PostDetails = (props) => {
             }
             httpClient.call("like-post", formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
-                    
+
                     SuccessToast(response.result.message);
                     setIsLike(!isLike);
                     setIsDisLike(false)
@@ -126,12 +127,16 @@ const PostDetails = (props) => {
                     setDisLikesCount(responseData.totalDisLikes);
                     document.getElementById("likes" + postId).classList.add('active');
                     document.getElementById("dislikes" + postId).classList.remove('active');
+                    Loader(false);
                 }
                 else {
+                    Loader(false);
                     ErrorToast(response.result.message);
                 }
 
+
             }, function (error) {
+                Loader(false);
                 console.log(error);
             })
 
@@ -141,7 +146,9 @@ const PostDetails = (props) => {
     }
 
     const savedPost = (event, postId) => {
+
         event.preventDefault();
+        Loader(true);
         // console.log(postId);
         let user = Session.getSessionData();
         if (user == null) {
@@ -155,6 +162,7 @@ const PostDetails = (props) => {
         }
 
         httpClient.call("saved-post", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
             }
@@ -162,11 +170,13 @@ const PostDetails = (props) => {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
     const saveParentComment = (event, postid) => {
+        Loader(true);
         event.preventDefault();
         // console.log(postid);
 
@@ -177,16 +187,19 @@ const PostDetails = (props) => {
         }
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             setCommentMessage('')
             document.getElementById('comment-1-button').click()
             getPostDetails(params.postid);
 
         }, function (error) {
+            Loader(false);
             console.log(error);
         });
     }
 
     const saveChildComment = (event, parentid, postid) => {
+        Loader(true);
         event.preventDefault();
 
         let formData = {
@@ -196,15 +209,18 @@ const PostDetails = (props) => {
         }
 
         httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
             getPostDetails(params.postid);
             setCommentMessage('')
 
         }, function (error) {
+            Loader(false);
             console.log(error);
         });
     }
 
     const toggleDisLike = (event, postId) => {
+        Loader(true);
         event.preventDefault();
         let user = Session.getSessionData();
         if (user === null) {
@@ -226,12 +242,15 @@ const PostDetails = (props) => {
                     setDisLikesCount(responseData.totalDisLikes);
                     document.getElementById("likes" + postId).classList.remove('active');
                     document.getElementById("dislikes" + postId).classList.add('active');
+                    Loader(false);
                 }
                 else {
+                    Loader(false);
                     ErrorToast(response.result.message);
                 }
 
             }, function (error) {
+                Loader(false);
                 console.log(error);
             })
 
@@ -246,6 +265,7 @@ const PostDetails = (props) => {
 
 
     const getPostDetails = (postid) => {
+        Loader(true);
         httpClient.call("get-post-details/" + postid, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
                 //console.log(response);
@@ -253,11 +273,14 @@ const PostDetails = (props) => {
                 setAttribute(response.result.data);
                 setComment(response.result.data);
                 //SuccessToast(response.    result.message);
+                Loader(false);
             }
             else {
+                Loader(false);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
@@ -307,6 +330,57 @@ const PostDetails = (props) => {
             }
         }
     }
+
+
+
+    const promotePost = (event, postId) => {
+
+        Loader(true);
+        event.preventDefault();
+        //console.log(postId);
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+
+        let formData = {
+            "postId": postId
+        }
+
+        httpClient.call("promote-post", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+
+
+    }
+
+
+    const giveAward = (event, postId) => {
+        event.preventDefault();
+        /* let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        } */
+        //console.log("give award");
+        SuccessToast("Award successfully transfered");
+        document.getElementById('modal-closed').click();
+        //$('#modal-closed').click();
+    }
+
+
 
 
 
@@ -479,11 +553,13 @@ const PostDetails = (props) => {
                                         </ul>
                                         <ul className="p-curd-right">
                                             <li><button data-bs-toggle="collapse" data-bs-target="#comment-1" id="comment-1-button"
-                                            /* onClick={(event) => { navigate(event) }} */
-                                            ><img
-                                                    src="img/sms.svg" alt="" /></button></li>
-
-                                            <li><button onClick={(event) => { savedPost(event, element.id) }}><img src="img/badge.svg" alt="" /></button></li>
+                                            ><img src="img/sms.svg" alt="" /></button></li>
+                                            <li><button data-toggle="modal" data-target="#myModal1">  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" className="bi bi-award" viewBox="0 0 16 16">
+                                                <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z" />
+                                                <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
+                                            </svg></button></li>
+                                            <li><button onClick={(event) => promotePost(event, element.id)}><img src="img/share.png" alt="" /></button></li>
+                                            <li><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                                         </ul>
                                     </div>
 
@@ -523,7 +599,7 @@ const PostDetails = (props) => {
                                     <div className="tab-pane fade show active" id="newestComment" role="tabpanel"
                                         aria-labelledby="newestComment-tab">
                                         <ul className={"comments-dispaly"}>
-                                            <Comments originalCommentData={commentData} commentData={commentData} isParent={true} saveChildComment={saveChildComment} setCommentMessage={setCommentMessage} element={element}/>
+                                            <Comments originalCommentData={commentData} commentData={commentData} isParent={true} saveChildComment={saveChildComment} setCommentMessage={setCommentMessage} element={element} />
                                         </ul>
                                     </div>
                                 </div>

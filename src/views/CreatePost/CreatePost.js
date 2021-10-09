@@ -60,9 +60,9 @@ const CreatePost = (props) => {
 
         }
 
-        // console.log(formData);
+       /*  console.log(formData);
 
-        // return null;
+        return null; */
         httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
             Loader(false);
             if (response.success) {
@@ -163,7 +163,7 @@ const CreatePost = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
-                    <h3 className="tertiary-title position-relative">Create Post</h3>
+                    <h3 className="tertiary-title position-relative">Create A Post</h3>
                     {/*  <div className="post-writter d-flex justify-content-between" >
                         <div className="user">
                             <div className="avater">

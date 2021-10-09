@@ -35,15 +35,15 @@ const CreateGroupJoin = (props) => {
 
     const createPost = (event, id) => {
         event.preventDefault();
-        history.push('/create-group-post/'+id);
+        history.push('/create-group-post/' + id);
     }
 
     const modTools = (event) => {
         event.preventDefault();
         let dt = details && details.result && details.result.data ? details.result.data : [];
         history.push({
-            pathname: '/mod-tools/'+dt.id,
-            search: '?id=' + dt.id + '',
+            pathname: '/mod-tools/' + dt.id,
+            /*  search: '?id=' + dt.id + '',*/
             state: { detail: dt }
         });
     }
@@ -53,7 +53,7 @@ const CreateGroupJoin = (props) => {
 
 
     const joinOrLeaveGroup = (event, groupid, type) => {
-
+        Loader(true);
         event.preventDefault();
         if (type == true) {
             //leaving group
@@ -61,8 +61,10 @@ const CreateGroupJoin = (props) => {
                 "groupId": groupid
             }
             httpClient.call("leave-group", formData, { method: 'POST' }).then(function (response) {
+                Loader(false);
                 if (response.success) {
                     SuccessToast(response.result.message);
+                    getGroupDetails(params.id);
                     //window.location.reload();
                 }
                 else {
@@ -70,6 +72,7 @@ const CreateGroupJoin = (props) => {
                 }
 
             }, function (error) {
+                Loader(false);
                 console.log(error);
             });
 
@@ -81,8 +84,10 @@ const CreateGroupJoin = (props) => {
                 "groupId": groupid
             }
             httpClient.call("join-group", formData, { method: 'POST' }).then(function (response) {
+                Loader(false);
                 if (response.success) {
                     SuccessToast(response.result.message);
+                    getGroupDetails(params.id);
                     //window.location.reload();
                 }
                 else {
@@ -90,6 +95,7 @@ const CreateGroupJoin = (props) => {
                 }
 
             }, function (error) {
+                Loader(false);
                 console.log(error);
             });
         }
@@ -101,48 +107,60 @@ const CreateGroupJoin = (props) => {
     }
 
     const getGroupDetails = (groupid) => {
+        Loader(true);
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 getGroupPosts(groupid);
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
                 let user = Session.getSessionData();
                 if (user !== null) {
-                    //console.log(user.id);
-                    modToolsEnable(user, result);
+                    // console.log(user);
+                    // console.log(response);
+                    if (user.id === response.result.data.owner.id) {
+                        console.log("mode display");
+                        document.getElementById('mod-tools').style.display = 'inline';
+                    } else {
+                        document.getElementById('mod-tools').style.display = 'none';
+                    }
                 }
 
             }
             else {
+
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
     const getGroupPosts = (groupid) => {
+        Loader(true);
 
-       
         httpClient.call("get-group-post/" + 1 + "/" + groupid, null, { method: 'GET' }).then(function (response) {
+            Loader(false);
             if (response.success) {
                 setPosts(response)
             }
             else {
-               // ErrorToast(response.result.message);
+                // ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
 
     let result = details && details.result && details.result.data ? details.result.data : [];
     let pt = posts && posts.result && posts.result.data ? posts.result.data : [];
-    const modToolsEnable = (user, result) => {
-        if (user.id === result.owner.id) {
-            document.getElementById('mod-tools').style.display = 'inline';
-        }
-    }
+    /*  const modToolsEnable = (user, result) => {
+         if (user.id === result.owner.id) {
+             document.getElementById('mod-tools').style.display = 'inline';
+         }
+     } */
 
     const loadFunc = (page) => {
         if (page > 5) return false
@@ -176,7 +194,7 @@ const CreateGroupJoin = (props) => {
                             <h5><a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block">{result && result.name} <span
                                 className="position-absolute status joined">
 
-                                {result && result.joined ? <>Leaved</> : <>Join</>}
+                                {result && result.joined ? <>Leave</> : <>Join</>}
 
 
                             </span></a> {/* <span
@@ -187,11 +205,11 @@ const CreateGroupJoin = (props) => {
                         </div>
 
                         <div className="mod-tools" id="mod-tools" style={{ display: 'none' }}>
-                            <a href="#" onClick={(event) => { modTools(event) }}><svg width="17" height="20" viewBox="0 0 17 20" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                            <a style={{ color: '#FF416C' }} href="#" onClick={(event) => { modTools(event) }}><svg width="17" height="20" viewBox="0 0 17 20" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" >
                                 <path
                                     d="M1.00158 4.81213C3.8003 4.76371 6.16572 3.8344 8.19728 2C10.2217 3.8171 12.5966 4.77523 15.4095 4.80291C15.4238 5.0312 15.4451 5.23182 15.4462 5.43244C15.4486 6.90595 15.4534 8.37831 15.4462 9.85183C15.4285 13.8965 12.4842 17.7671 8.50982 18.9616C8.32277 19.0181 8.08481 19.01 7.89775 18.9523C3.84647 17.691 1.01105 13.9092 1.00158 9.76766C0.998027 8.1431 1.00158 6.51855 1.00158 4.81213Z"
-                                    stroke="black" strokeWidth="1.5" strokeMiterlimit="10" />
+                                    stroke="#FF416C" strokeWidth="1.5" strokeMiterlimit="10" />
                             </svg>
                                 Mod Tools</a>
                         </div>

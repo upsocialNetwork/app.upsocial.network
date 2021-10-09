@@ -175,11 +175,7 @@ const GroupRecord = (props) => {
 
             history.push("/auth/login");
         } else {
-
-
-            history.push('/group/details/'+id);
-
-
+            history.push('/group/details/' + id);
         }
 
     }

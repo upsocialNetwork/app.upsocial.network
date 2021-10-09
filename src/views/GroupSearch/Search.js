@@ -18,24 +18,26 @@ const Search = (props) => {
             history.push('/auth/login');
         }
         else {
-
-            //console.log(userData);
             getGroupList(userData.id);
         }
     }, []);
 
+    
+
     const getGroupList = (userid) => {
-        //console.log("calling", userid);
+        Loader(true);
         httpClient.call("get-user-group/" + 1, null, { method: 'GET' }).then(function (response) {
+            Loader(false);
             setGroupList(response);
             if (response.success == false) {
                 ErrorToast(response.result.message);
             }
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }
-  
+
 
 
 

@@ -145,7 +145,7 @@ const EditGroup = (props) => {
         <main className="main-content mx-auto">
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form create-group">
-                    <h3 className="tertiary-title color-primary position-relative">Edit a Group</h3>
+                    <h3 className="tertiary-title color-primary position-relative">Edit A Group</h3>
                     <div className="create-group-content position-relative">
 
 
@@ -267,7 +267,7 @@ const EditGroup = (props) => {
                                 <button type="submit" onClick={(event) => { updateGroup(event) }} className="btn primary-bg ms-3 proxima-bold"
 
                                     disabled={!(name && type && image)}
-                                >Create Group</button>
+                                >Update Group</button>
                             </div>
                         </div>
 

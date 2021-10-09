@@ -23,7 +23,7 @@ const LeftSideBar = (props) => {
     const mypost = (event) => {
         event.preventDefault();
 
-        history.push('/');
+        history.push('/user/my-posts');
     }
 
     const searchGroup = (event) => {

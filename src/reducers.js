@@ -9,6 +9,7 @@ import rightSideBar from './views/RightSideBar/reducer';
 import editProfile from './views/EditProfile/reducer';
 import topCommunitySearch from './views/TopGroupSearch/reducer';
 import groupPost from './views/CreateGroupPost/reducer';
+import myPost from './views/MyPosts/reducer';
 
 
 
@@ -84,7 +85,8 @@ const reducers = combineReducers({
   rightSideBar,
   editProfile,
   topCommunitySearch,
-  groupPost
+  groupPost,
+  myPost
 });
 
 
