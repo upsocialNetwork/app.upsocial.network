@@ -6,6 +6,8 @@ import { useHistory, useParams } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
 import { useLocation } from "react-router-dom";
+import Contract from "../../utils/contract";
+import Web3 from 'web3';
 import $ from 'jquery';
 const EditGroup = (props) => {
 
@@ -51,14 +53,37 @@ const EditGroup = (props) => {
             "nsfw": isAdult,
             "image": image
         }
-        httpClient.call('update-group', formData, { method: 'PUT' }).then(function (response) {
-            Loader(false);
+
+        event.preventDefault();
+        httpClient.call('check-edit-group-name', formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
-                SuccessToast(response.result.message);
-                //console.log(response);
-                history.push('/user/my-groups');
+                let userData = Session.getSessionData();
+                Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+                window.ethereum.enable();
+                const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+                NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+                    .then(function (receipt) {
+                        console.log(receipt);
+                        httpClient.call('update-group', formData, { method: 'PUT' }).then(function (response) {
+                            Loader(false);
+                            if (response.success) {
+                                SuccessToast(response.result.message);
+                                history.push("/user/my-groups");
+                            }
+                            else {
+                                ErrorToast(response.result.message);
+                            }
+
+                        }, function (error) {
+                            Loader(false);
+                            ErrorToast(error.result.message);
+                        })
+                    }, function (error) {
+                        console.log(error);
+                    });
             }
             else {
+                Loader(false);
                 ErrorToast(response.result.message);
             }
         }, function (error) {

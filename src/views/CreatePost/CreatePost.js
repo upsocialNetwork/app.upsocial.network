@@ -8,7 +8,8 @@ import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
 import { Redirect } from 'react-router-dom';
-
+import Contract from "../../utils/contract";
+import Web3 from 'web3';
 const CreatePost = (props) => {
     const history1 = useHistory();
     const location = useLocation();
@@ -60,26 +61,32 @@ const CreatePost = (props) => {
 
         }
 
-       /*  console.log(formData);
+        let userData = Session.getSessionData();
+        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        window.ethereum.enable();
+        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+            .then(function (receipt) {
+                console.log(receipt);
+                httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
+                    Loader(false);
+                    if (response.success) {
+                        SuccessToast(response.result.message);
+                        history1.push("/");
+                    }
+                    else {
+                        ErrorToast(response.result.message);
+                    }
 
-        return null; */
-        httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
-            Loader(false);
-            if (response.success) {
-                SuccessToast(response.result.message);
+                }, function (error) {
+                    Loader(false);
+                    ErrorToast(error.result.message);
+                })
+            }, function (error) {
+                console.log(error);
+            });
 
 
-                history1.push('/')
-                //history.push("/");
-            }
-            else {
-                ErrorToast(response.result.message);
-            }
-
-        }, function (error) {
-            Loader(false);
-            ErrorToast(error.result.message);
-        })
     }
 
 
