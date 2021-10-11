@@ -27,7 +27,7 @@ const Comment = props => {
         comment = originalCommentData[indexEle];
     }
     let childsData = comment && comment.childIds && comment.childIds.length > 0 ? comment.childIds : null;
-
+    if(childsData && childsData.length > 0) childsData.sort((a, b)=>{ return b-a})
     if (!comment) return null;
 
     return (
