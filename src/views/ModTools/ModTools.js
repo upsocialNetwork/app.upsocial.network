@@ -5,6 +5,7 @@ import httpClient from '../../services/http';
 import Select from 'react-select';
 import { useStore } from 'react-redux';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+import Session from '../../utils/session';
 
 
 const ModTools = (props) => {
@@ -24,8 +25,10 @@ const ModTools = (props) => {
             history.push("/auth/login");
         }
         setGroupId(params.id);
+        getGroupDetails(params.id);
         setData(location.state.detail);
-        getMembersList(params.id);
+        // getMembersList(params.id);
+
     }, []);
 
     useEffect(() => {
@@ -33,8 +36,10 @@ const ModTools = (props) => {
             history.push("/auth/login");
         }
         setGroupId(params.id);
+        getGroupDetails(params.id);
         setData(location.state.detail);
-        getMembersList(params.id);
+        //getMembersList(params.id);
+
     }, [params.id]);
 
     const navigate = (event) => {
@@ -48,7 +53,71 @@ const ModTools = (props) => {
     }
 
 
+    const getGroupDetails = (groupId) => {
+        Loader(true);
+        httpClient.call("get-group-details/" + groupId, null, { method: 'GET' }).then(function (response) {
+            if (response.success) {
+                let result = response && response.result && response.result.data ? response.result.data : [];
+                let user = Session.getSessionData();
+
+                // setData(result);
+                //  console.log(data);
+                if (user.id === result.owner.id) {
+                    //console.log("mode display");
+                    document.getElementById('setting-group-makeOwner').style.display = 'inline';
+                    document.getElementById('setting-group-makeModerator').style.display = 'inline';
+                    document.getElementById('setting-group-removeMember').style.display = 'inline';
+                    document.getElementById('setting-group-transferOwnership').style.display = 'inline';
+                    document.getElementById('setting-groupDeactivated').style.display = 'inline';
+                    document.getElementById('setting-edit-group').style.display = 'inline';
+
+                }
+                else {
+                    if (result.joined) {
+                        if (result.role.toUpperCase() === "MODERATOR") {
+                            document.getElementById('setting-group-makeOwner').style.display = 'none';
+                            document.getElementById('setting-group-makeModerator').style.display = 'none';
+                            document.getElementById('setting-group-transferOwnership').style.display = 'none';
+                            document.getElementById('setting-groupDeactivated').style.display = 'none';
+                            document.getElementById('setting-group-removeMember').style.display = 'inline';
+                            document.getElementById('setting-edit-group').style.display = 'none';
+                        }
+                        else if (result.role.toUpperCase() === "OWNER") {
+                            document.getElementById('setting-group-makeOwner').style.display = 'none';
+                            document.getElementById('setting-group-transferOwnership').style.display = 'none';
+                            document.getElementById('setting-groupDeactivated').style.display = 'none';
+                            document.getElementById('setting-group-makeModerator').style.display = 'inline';
+                            document.getElementById('setting-group-removeMember').style.display = 'inline';
+                            document.getElementById('setting-edit-group').style.display = 'inline';
+                        }
+                    } else {
+                        document.getElementById('setting-group-makeOwner').style.display = 'none';
+                        document.getElementById('setting-group-makeModerator').style.display = 'none';
+                        document.getElementById('setting-group-removeMember').style.display = 'none';
+                        document.getElementById('setting-group-transferOwnership').style.display = 'none';
+                        document.getElementById('setting-groupDeactivated').style.display = 'none';
+                        document.getElementById('setting-edit-group').style.display = 'none';
+                    }
+
+                }
+                getMembersList(params.id);
+            }
+            else {
+
+                ErrorToast(response.result.message);
+            }
+            Loader(false);
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
+
+
+
+
     const getMembersList = (groupid) => {
+
         Loader(true);
         httpClient.call("get-group-memebers/" + groupid, null, { method: 'GET' }).then(function (response) {
             if (response.success == false) {
@@ -56,7 +125,9 @@ const ModTools = (props) => {
 
             }
             else {
+                //console.log(data);
                 let rs = response && response.result.data ? response.result.data : [];
+                //console.log(rs);
                 document.getElementById("transfer-ownership").innerHTML = "";
                 var x = document.getElementById("transfer-ownership");
                 var option = document.createElement("option");
@@ -82,26 +153,28 @@ const ModTools = (props) => {
                 option3.text = "Select Account";
                 x3.add(option3);
 
-
-
-
-
                 var owner1 = document.getElementById('member-owner');
                 var moderator1 = document.getElementById('member-moderator');
                 var select = document.getElementById('transfer-ownership');
                 var members = document.getElementById('members');
+
+                // transfer ownership user add
                 for (var i = 0; i < rs.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = rs[i].user.id;
                     opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
                     select.appendChild(opt);
                 }
+
+                // make moderator user add
                 for (var i = 0; i < rs.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = rs[i].user.id;
                     opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
                     moderator1.appendChild(opt);
                 }
+
+                // make owner user add
                 for (var i = 0; i < rs.length; i++) {
                     var opt = document.createElement('option');
                     opt.value = rs[i].user.id;
@@ -109,11 +182,32 @@ const ModTools = (props) => {
                     owner1.appendChild(opt);
                 }
 
+                // remove member user add
+
+                //console.log("req role" + data.role);
                 for (var i = 0; i < rs.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = rs[i].user.id;
-                    opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
-                    members.appendChild(opt);
+                    if (data.role === "MODERATOR") {
+                        if (rs[i].role === "MEMBER") {
+                            var opt = document.createElement('option');
+                            opt.value = rs[i].user.id;
+                            opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                            members.appendChild(opt);
+                        }
+                    }
+                    else {
+                        if (rs[i].role === "MEMBER" || rs[i].role === "MODERATOR") {
+                            //          console.log("req role 1" + rs[i].role);
+                            var opt = document.createElement('option');
+                            opt.value = rs[i].user.id;
+                            opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                            members.appendChild(opt);
+                        }
+
+                    }
+                }
+                let user = Session.getSessionData();
+                if (user === null) {
+                    history.push("/");
                 }
             }
             Loader(false);
@@ -265,7 +359,11 @@ const ModTools = (props) => {
                                 </label> */}
                             </div>
                             <h5><a href="#" onClick={(event) => { editGroup(event, data.id) }} className="d-inline-block">{data !== null ? data.name : null} <span
-                                className="position-absolute status joined">Edit</span></a> {/* <span
+                                className="position-absolute status joined"
+
+                                style={{ display: 'none' }} id="setting-edit-group"
+
+                            >Edit</span></a> {/* <span
                                     className="sub">r/heyderbeautiful</span> */}
                             </h5>
                         </div>
@@ -290,7 +388,8 @@ const ModTools = (props) => {
                     </div> */}
 
                     <div className="accordion" id="accordionExample">
-                        <div className="accordion-item" >
+
+                        <div className="accordion-item" style={{ display: 'none' }} id="setting-group-makeOwner">
                             <button className="accordion-btn" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                                 Owners
@@ -299,7 +398,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                       {/*  <p className="like-title">Make new owner </p> */}
+                                        {/*  <p className="like-title">Make new owner </p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="member-owner"
                                                 onChange={(event) => { setOwner(event.target.value) }}
@@ -319,7 +418,8 @@ const ModTools = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="accordion-item" >
+
+                        <div className="accordion-item" style={{ display: 'none' }} id="setting-group-makeModerator">
                             <button className="accordion-btn collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                 Moderators
@@ -328,7 +428,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                      {/*   <p className="like-title">Make new owner </p> */}
+                                        {/*   <p className="like-title">Make new owner </p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="member-moderator"
                                                 onChange={(event) => { setModerator(event.target.value) }}
@@ -348,7 +448,11 @@ const ModTools = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="accordion-item">
+
+
+
+
+                        <div className="accordion-item" style={{ display: 'none' }} id="setting-group-removeMember">
                             <button className="accordion-btn collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree1" aria-expanded="false" aria-controls="collapseThree">
                                 Remove Member
@@ -357,7 +461,7 @@ const ModTools = (props) => {
                                 data-bs-parent="#accordionExample">
                                 <div className="accordion-body">
                                     <div className="group-permission-wrapper">
-                                       {/*  <p className="like-title">Account address of a Member:</p> */}
+                                        {/*  <p className="like-title">Account address of a Member:</p> */}
                                         <div className="search-input">
                                             <select className="form-select" id="members"
                                                 onChange={(event) => { setMember(event.target.value) }}
@@ -380,7 +484,10 @@ const ModTools = (props) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="accordion-item">
+
+
+
+                        <div className="accordion-item" style={{ display: 'none' }} id="setting-group-transferOwnership">
                             <button className="accordion-btn collapsed" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 Transfer ownership
@@ -412,8 +519,10 @@ const ModTools = (props) => {
                                 </div>
                             </div>
                         </div><br /><br />
-                        <div className="twin-btn type-5 d-flex ">
-                            <button type="button"
+
+
+                        <div className="twin-btn type-5 d-flex " >
+                            <button type="button" style={{ display: 'none' }} id="setting-groupDeactivated"
                                 onClick={(event) => { deactivate(event, data.id) }}
                                 className="btn primary-bg ms-3 proxima-bold" >Deactivate</button>
                         </div>

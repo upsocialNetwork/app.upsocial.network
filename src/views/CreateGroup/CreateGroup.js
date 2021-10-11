@@ -1,7 +1,8 @@
 import React from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+import { Loader, ErrorToast, SuccessToast, SetSassion, smartContract } from '../../utils/common';
 import { useEffect, useState } from "react";
 import Session from "../../utils/session";
+import Contract from "../../utils/contract"
 import { useHistory } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
@@ -23,33 +24,102 @@ const Community = (props) => {
         if (!userData) {
             history.push('/auth/login');
         }
+
+
     }, []);
 
     const navigate = (event) => {
         event.preventDefault();
     }
     const createGroup = (event) => {
+
+        let userData = Session.getSessionData();
+        if (userData.wallet === null) {
+            ErrorToast("Wallet not connectd");
+            return null;
+        }
+
         Loader(true);
         event.preventDefault();
-        let formData = {
-            "name": name,
-            "description": about,
-            "type": type,
-            "nsfw": isAdult,
-            "image": image
+        //checkGroupName(name)
+        var boolRes = checkGroupName(name);
+        if (boolRes === true) {
+            console.log("true response");
         }
-        // console.log(formData);
-        httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
-            Loader(false);
+
+        /*  httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
+  
+              if (response.success == true) 
+              {
+                  let smartContractResult = Contract.transfer(userData.wallet);
+                  console.log(smartContractResult.status);
+                  if (smartContractResult.status === true) {
+                      httpClient.call("create-group", formData, { method: 'POST' }).then(function (response) {
+                          Loader(false);
+                          SuccessToast(response.result.message);
+                          history.push('/user/my-groups')
+                      }, function (error) {
+                          Loader(false);
+                          console.log(error);
+                      })
+  
+                  }
+                  else {
+                      Loader(false);
+                      console.log(smartContractResult);
+                  }
+              }
+              else {
+                  Loader(false);
+                  ErrorToast(response.result.message);
+              }
+          }, function (error) {
+              Loader(false);
+              console.log(error);
+          })  */
+
+    }
+
+    let checkGroupName = function (name) {
+
+        let formData1 = {
+            "name": name
+        };
+        httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
-                SuccessToast(response.result.message);
-                history.push('/user/my-groups')
-                //console.log(response);
-                //saveInBlockchain(response);
-                //history.push('/user/my-groups');
+
+                return true;
+                /* let userData = Session.getSessionData();
+                let smartContractResult = Contract.transfer(userData.wallet);
+                console.log(smartContractResult.status);
+                let formData = {
+                    "name": name,
+                    "description": about,
+                    "type": type,
+                    "nsfw": isAdult,
+                    "image": image
+                }
+                if (smartContractResult.status === true) {
+                    httpClient.call("create-group", formData, { method: 'POST' }).then(function (response) {
+                        Loader(false);
+                        SuccessToast(response.result.message);
+                        history.push('/user/my-groups')
+                    }, function (error) {
+                        Loader(false);
+                        console.log(error);
+                    })
+
+                }
+                else {
+                    Loader(false);
+                    console.log(smartContractResult);
+                } */
+
             }
             else {
+                Loader(false);
                 ErrorToast(response.result.message);
+                return false;
             }
         }, function (error) {
             Loader(false);
@@ -57,6 +127,51 @@ const Community = (props) => {
         })
 
     }
+
+    /* const checkGroupName = (name) => {
+        let formData1 = {
+            "name": name
+        };
+        httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
+            if (response.success == true) {
+                let userData = Session.getSessionData();
+                let smartContractResult = Contract.transfer(userData.wallet);
+                console.log(smartContractResult.status);
+                let formData = {
+                    "name": name,
+                    "description": about,
+                    "type": type,
+                    "nsfw": isAdult,
+                    "image": image
+                }
+                if (smartContractResult.status === true) {
+                    httpClient.call("create-group", formData, { method: 'POST' }).then(function (response) {
+                        Loader(false);
+                        SuccessToast(response.result.message);
+                        history.push('/user/my-groups')
+                    }, function (error) {
+                        Loader(false);
+                        console.log(error);
+                    })
+
+                }
+                else {
+                    Loader(false);
+                    console.log(smartContractResult);
+                }
+
+            }
+            else {
+                Loader(false);
+                ErrorToast(response.result.message);
+
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    } */
+
 
     const convertFileToBase64 = (data) => {
         const reader = new FileReader();
@@ -93,61 +208,6 @@ const Community = (props) => {
 
     }
 
-    const saveInBlockchain = (response) => {
-
-        const walletNo = sessionStorage.getItem("walletno");
-        if (walletNo === null) {
-
-            ErrorToast("Wallet not connectd");
-            //alert("connect wallet ");
-            return null;
-
-        }
-
-
-
-        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
-        window.ethereum.enable();
-        const contract_abi = [
-            {
-                "inputs": [],
-                "name": "retrieve",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "num",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "store",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            }
-        ];
-
-        var contract_address = "0xd9145CCE52D386f254917e481eB44e9943F39138";
-        const NameContract = new Web3.eth.Contract(contract_abi, contract_address);
-
-        NameContract.methods.store(response.result.data.id).send({ from: '0xC9E2A1fC69267dBD45779007B71b840Ec7986752' })
-            .then(function (receipt) {
-                console.log(receipt);
-                // saveTransaction(response, receipt);
-                // receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
-            });
-
-    }
 
 
     return (

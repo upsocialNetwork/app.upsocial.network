@@ -115,15 +115,24 @@ const CreateGroupJoin = (props) => {
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
                 let user = Session.getSessionData();
-                if (user !== null) {
-                    // console.log(user);
-                    // console.log(response);
-                    if (user.id === response.result.data.owner.id) {
-                        console.log("mode display");
-                        document.getElementById('mod-tools').style.display = 'inline';
+                //console.log(response);
+                if (user.id === response.result.data.owner.id) {
+                    //console.log("mode display");
+                    document.getElementById('mod-tools').style.display = 'inline';
+                }
+                else {
+
+                    if (response.result.data.joined) {
+                        if (response.result.data.role.toUpperCase() === "MODERATOR" || response.result.data.role.toUpperCase() === "OWNER") {
+                            document.getElementById('mod-tools').style.display = 'inline';
+                        }
+                        else {
+                            document.getElementById('mod-tools').style.display = 'none';
+                        }
                     } else {
                         document.getElementById('mod-tools').style.display = 'none';
                     }
+
                 }
 
             }
