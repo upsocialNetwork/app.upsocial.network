@@ -1,7 +1,6 @@
 import Web3 from 'web3';
 import { responsePostListData } from '../views/Home/action';
 
-
 const contract_abi = [
     {
         "inputs": [
@@ -238,37 +237,15 @@ const contract_abi = [
     }
 ];
 
-var contract_address = "0x11Bb81388D9a35f66708eB310D7F86e607f565B5";
+const contract_address = "0x11Bb81388D9a35f66708eB310D7F86e607f565B5";
+const upsocial_wallet = "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA";
 
 let Contact = (function () {
 
-
-    let result = {};
-
-
-    let transfer = function (userWallet) {
-        try {
-            Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
-            window.ethereum.enable();
-            const NameContract = new Web3.eth.Contract(contract_abi, contract_address);
-            NameContract.methods.transfer("0x33fbfEA30c6d70b468daa48220DcF920404DC4eA", "30").send({ from: userWallet })
-                .then(function (receipt) {
-                    result['status'] = true;
-                    result['receipt'] = receipt;
-                });
-            //console.log(result);
-            return result;
-        } catch (e) {
-            console.log("exception calling" + e);
-            result['status'] = false;
-            result['receipt'] = e;
-            return result;
-        }
-
-    }
-
     return {
-        transfer: transfer
+        contract_address: contract_address,
+        contract_abi: contract_abi,
+        upsocial_wallet: upsocial_wallet
     }
 })();
 

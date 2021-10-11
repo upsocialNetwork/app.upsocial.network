@@ -8,6 +8,8 @@ import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
 import { useLocation, useParams } from "react-router-dom";
 import $ from 'jquery';
+import Contract from "../../utils/contract";
+import Web3 from 'web3';
 const EditPost = (props) => {
     const history = useHistory();
     const location = useLocation();
@@ -50,8 +52,7 @@ const EditPost = (props) => {
     let [selectedFile, setSelectedFile] = useState(null);
     let [dataType, setDataType] = useState(null);
     let [postType, setPostType] = useState(null);
-    const getpostDetails = (id) => 
-    {
+    const getpostDetails = (id) => {
         Loader(true);
         httpClient.call("get-post-details/" + id, null, { method: 'GET' }).then(function (response) {
             if (response.success) {
@@ -153,23 +154,36 @@ const EditPost = (props) => {
 
         }
 
-        //console.log(formData);
-        httpClient.call('update-post', formData, { method: 'PUT' }).then(function (response) {
-            
-            Loader(false);
-            if (response.success) {
-                SuccessToast(response.result.message);
-                //console.log(response);
-               // history.push("/");
-            }
-            else {
-                ErrorToast(response.result.message);
-            }
+        let userData = Session.getSessionData();
+        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        window.ethereum.enable();
+        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+            .then(function (receipt) {
+                console.log(receipt);
+                httpClient.call('update-post', formData, { method: 'PUT' }).then(function (response) {
+                    Loader(false);
+                    if (response.success) {
+                        SuccessToast(response.result.message);
+                        history.push('/user/my-posts')
+                    }
+                    else {
+                        ErrorToast(response.result.message);
+                    }
 
-        }, function (error) {
-            Loader(false);
-            ErrorToast(error.result.message);
-        })
+                }, function (error) {
+                    Loader(false);
+                    ErrorToast(error.result.message);
+                })
+            }, function (error) {
+                console.log(error);
+            });
+
+
+
+
+
+
     }
 
     const convertFileToBase64 = (data) => {
@@ -255,8 +269,6 @@ const EditPost = (props) => {
             <div className="cmn-card shadow-gray-point-3 mb-4">
                 <form action="#" className="create-post-form">
                     <h3 className="tertiary-title position-relative">Edit A Post</h3>
-
-
                     <div className="post-contents">
                         <ul className="nav nav-tabs types" id="createPost" role="tablist">
                             <li className="nav-item" role="presentation">

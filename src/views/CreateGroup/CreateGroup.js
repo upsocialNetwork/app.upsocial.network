@@ -32,51 +32,58 @@ const Community = (props) => {
         event.preventDefault();
     }
     const createGroup = (event) => {
-
+        Loader(true);
         let userData = Session.getSessionData();
         if (userData.wallet === null) {
+            Loader(false);
             ErrorToast("Wallet not connectd");
             return null;
         }
 
-        Loader(true);
-        event.preventDefault();
-        //checkGroupName(name)
-        var boolRes = checkGroupName(name);
-        if (boolRes === true) {
-            console.log("true response");
+        let formData = {
+            "name": name,
+            "description": about,
+            "type": type,
+            "nsfw": isAdult,
+            "image": image
         }
 
-        /*  httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
-  
-              if (response.success == true) 
-              {
-                  let smartContractResult = Contract.transfer(userData.wallet);
-                  console.log(smartContractResult.status);
-                  if (smartContractResult.status === true) {
-                      httpClient.call("create-group", formData, { method: 'POST' }).then(function (response) {
-                          Loader(false);
-                          SuccessToast(response.result.message);
-                          history.push('/user/my-groups')
-                      }, function (error) {
-                          Loader(false);
-                          console.log(error);
-                      })
-  
-                  }
-                  else {
-                      Loader(false);
-                      console.log(smartContractResult);
-                  }
-              }
-              else {
-                  Loader(false);
-                  ErrorToast(response.result.message);
-              }
-          }, function (error) {
-              Loader(false);
-              console.log(error);
-          })  */
+        event.preventDefault();
+        httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
+            if (response.success == true) {
+                let userData = Session.getSessionData();
+                Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+                window.ethereum.enable();
+                const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+                NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+                    .then(function (receipt) {
+                        console.log(receipt);
+                        httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
+                            Loader(false);
+                            if (response.success) {
+                                SuccessToast(response.result.message);
+                                history.push("/user/my-groups");
+                            }
+                            else {
+                                ErrorToast(response.result.message);
+                            }
+
+                        }, function (error) {
+                            Loader(false);
+                            ErrorToast(error.result.message);
+                        })
+                    }, function (error) {
+                        console.log(error);
+                    });
+            }
+            else {
+                Loader(false);
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
 
     }
 
@@ -85,6 +92,16 @@ const Community = (props) => {
         let formData1 = {
             "name": name
         };
+        let formData = {
+            "name": name,
+            "description": about,
+            "type": type,
+            "nsfw": isAdult,
+            "image": image
+        }
+
+
+
         httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
 
