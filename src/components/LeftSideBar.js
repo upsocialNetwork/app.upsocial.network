@@ -43,7 +43,7 @@ const LeftSideBar = (props) => {
         }
     }, []);
     useEffect(() => {
-        setUserName(props.session.userName);
+        setUserName(props.session && props.session.userName ? props.session.userName : '');
     }, [props.session])
 
     return (
