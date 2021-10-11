@@ -40,10 +40,11 @@ const LeftSideBar = (props) => {
             const user = Session.getSessionData();
             setImage(user.image);
             setUserName(user.userName);
-
         }
-
     }, []);
+    useEffect(() => {
+        setUserName(props.session.userName);
+    }, [props.session])
 
     return (
         <div className="left-sidebar-wrapper position-fixed">

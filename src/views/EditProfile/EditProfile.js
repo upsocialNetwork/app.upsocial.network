@@ -76,6 +76,7 @@ const EditProfile = (props) => {
                 // console.log(response.result.data);
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);
+                SetSassion(response.result.data)
             }
             else {
                 //  console.log(response);

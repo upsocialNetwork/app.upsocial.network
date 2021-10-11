@@ -33,13 +33,16 @@ const Header = (props) => {
         const user_details = Session.getSessionData();
         //console.log(user_details);
         if (user_details !== null) {
+            console.log('user_details', user_details)
             setUserDetails(user_details);
             setWalletAddress(user_details.wallet);
-
         }
 
 
     }, [])
+    useEffect(() => {
+        setUserDetails(props.session);
+    }, [props.session])
 
     const mobileMenuToggle = (event) => {
         event.preventDefault();
