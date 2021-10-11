@@ -63,7 +63,25 @@ const EditGroup = (props) => {
                 const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
                 NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
                     .then(function (receipt) {
-                        console.log(receipt);
+                        //  console.log(receipt);
+
+
+                        let transaction = {
+                            "_blockNumber": receipt.blockNumber,
+                            "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                            "_from": receipt.from,
+                            "_gasUsed": receipt.gasUsed,
+                            "_status": receipt.status,
+                            "_to": receipt.to,
+                            "_transactionHash": receipt.transactionHash,
+                            "_transactionIndex": receipt.transactionIndex,
+                            "_blockHash": receipt.blockHash,
+                            "_contractAddress": Contract.contract_address
+                        }
+
+                        formData['transaction'] = transaction;
+
+
                         httpClient.call('update-group', formData, { method: 'PUT' }).then(function (response) {
                             Loader(false);
                             if (response.success) {
@@ -76,9 +94,10 @@ const EditGroup = (props) => {
 
                         }, function (error) {
                             Loader(false);
-                            ErrorToast(error.result.message);
+                            ErrorToast(error.message);
                         })
                     }, function (error) {
+                        Loader(false);
                         console.log(error);
                     });
             }
@@ -88,6 +107,7 @@ const EditGroup = (props) => {
             }
         }, function (error) {
             Loader(false);
+            ErrorToast(error.message);
             console.log(error);
         })
 

@@ -15,30 +15,16 @@ const Header = (props) => {
     let [isMetamask, setMatamask] = useState(false);
     let [walletAddress, setWalletAddress] = useState('');
     const [userDetails, setUserDetails] = useState('');
+    let [param, setParam] = useState('');
 
     useEffect(() => {
-
-        /* const walletAdd = sessionStorage.getItem("walletno");
-        if (walletAdd === null || walletAdd === undefined) {
-            setWalletAddress(null);
-        }
-        else {
-            setWalletAddress(walletAdd);
-        } */
-
-        // console.log("-------------------------");
         let loginState = Session.isLoggedIn()
         setIsLoggedIn(loginState)
-
         const user_details = Session.getSessionData();
-        //console.log(user_details);
         if (user_details !== null) {
-            console.log('user_details', user_details)
             setUserDetails(user_details);
             setWalletAddress(user_details.wallet);
         }
-
-
     }, [])
     useEffect(() => {
         setUserDetails(props.session);
@@ -71,7 +57,7 @@ const Header = (props) => {
 
     const home = (event) => {
         event.preventDefault();
-        history.push({pathname: '/', search: '', state: new Date().getTime()});
+        history.push({ pathname: '/', search: '', state: new Date().getTime() });
     }
 
     const changePassword = (event) => {
@@ -83,6 +69,8 @@ const Header = (props) => {
         event.preventDefault();
         history.push("/auth/login");
     }
+
+
 
     const connectMetamask = (event) => {
 
@@ -155,23 +143,36 @@ const Header = (props) => {
     $("#searchParam").change(function (e) {
         e.preventDefault();
         var value = $("#searchParam").val();
-        searchRecords(value)
+        search(value)
     });
 
-    const searchRecords = (param) => {
-        //console.log(param);
-        let userData = Session.isLoggedIn();
-        if (!userData) {
-            history.push('/auth/login');
-        } else {
+    $("#searchParam1").change(function (e) {
+        e.preventDefault();
+        var value = $("#searchParam1").val();
+        search(value)
+    });
 
-            history.push({
-                pathname: 'search-result',
-                search: '?search=' + param + '',
-                state: { search: param }
-            });
-        }
+    const search = (value) => {
+        history.push({
+            pathname: '/search-result/' + value,
+            state: { search: value }
+        });
     }
+
+    /*  const searchRecords = (param) => {
+         //console.log(param);
+         let userData = Session.isLoggedIn();
+         if (!userData) {
+             history.push('/auth/login');
+         } else {
+ 
+             history.push({
+                 pathname: 'search-result',
+                 search: '?search=' + param + '',
+                 state: { search: param }
+             });
+         }
+     } */
 
 
 
@@ -234,7 +235,14 @@ const Header = (props) => {
                         <span className="input-group-text" id="basic-addon1">
                             <img src="img/search.svg" alt="" />
                         </span>
-                        <input type="text" className="form-control ht-50" placeholder="Search..." /* aria-label="Search Messages"
+                        <input type="text"
+
+                            /*  onChange={(event) => { search(event) }} */
+
+                            className="form-control ht-50" placeholder="Search..." /* aria-label="Search Messages"
+                            
+                            
+                            
                             aria-describedby="Search..." */  id="searchParam1" />
                     </div>
                 </div>
@@ -252,6 +260,8 @@ const Header = (props) => {
                                     <span className="input-group-text" id="basic-addon1"><img src="img/search.svg"
                                         alt="" /></span>
                                     <input type="text" className="form-control ht-50" placeholder="Search in Upsocial"
+
+                                        /*  onChange={(event) => { search(event) }} */
                                         id="searchParam"  /* aria-label="Search in Upsocial" aria-describedby="Search in Upsocial"  */
 
 

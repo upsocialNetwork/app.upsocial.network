@@ -39,14 +39,10 @@ const Community = (props) => {
             ErrorToast("Wallet not connectd");
             return null;
         }
-
         let formData = {
-            "name": name,
-            "description": about,
-            "type": type,
-            "nsfw": isAdult,
-            "image": image
+            "name": name
         }
+
 
         event.preventDefault();
         httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
@@ -57,7 +53,29 @@ const Community = (props) => {
                 const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
                 NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
                     .then(function (receipt) {
-                        console.log(receipt);
+                       // console.log(receipt);
+
+
+
+                        let formData = {
+                            "name": name,
+                            "description": about,
+                            "type": type,
+                            "nsfw": isAdult,
+                            "image": image,
+                            "transaction": {
+                                "_blockNumber": receipt.blockNumber,
+                                "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                                "_from": receipt.from,
+                                "_gasUsed": receipt.gasUsed,
+                                "_status": receipt.status,
+                                "_to": receipt.to,
+                                "_transactionHash": receipt.transactionHash,
+                                "_transactionIndex": receipt.transactionIndex,
+                                "_blockHash": receipt.blockHash,
+                                "_contractAddress": Contract.contract_address
+                            }
+                        }
                         httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
                             Loader(false);
                             if (response.success) {
@@ -70,10 +88,11 @@ const Community = (props) => {
 
                         }, function (error) {
                             Loader(false);
-                            ErrorToast(error.result.message);
+                            ErrorToast(error.message);
                         })
                     }, function (error) {
-                        console.log(error);
+                        Loader(false);
+                        ErrorToast(error.message);
                     });
             }
             else {
@@ -82,6 +101,7 @@ const Community = (props) => {
             }
         }, function (error) {
             Loader(false);
+            ErrorToast(error.message);
             console.log(error);
         })
 

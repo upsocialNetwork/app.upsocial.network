@@ -160,7 +160,22 @@ const EditPost = (props) => {
         const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
         NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
             .then(function (receipt) {
-                console.log(receipt);
+                //  console.log(receipt);
+
+                let transaction = {
+                    "_blockNumber": receipt.blockNumber,
+                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                    "_from": receipt.from,
+                    "_gasUsed": receipt.gasUsed,
+                    "_status": receipt.status,
+                    "_to": receipt.to,
+                    "_transactionHash": receipt.transactionHash,
+                    "_transactionIndex": receipt.transactionIndex,
+                    "_blockHash": receipt.blockHash,
+                    "_contractAddress": Contract.contract_address
+                }
+
+                formData['transaction'] = transaction;
                 httpClient.call('update-post', formData, { method: 'PUT' }).then(function (response) {
                     Loader(false);
                     if (response.success) {
@@ -173,9 +188,11 @@ const EditPost = (props) => {
 
                 }, function (error) {
                     Loader(false);
-                    ErrorToast(error.result.message);
+                    ErrorToast(error.message);
                 })
             }, function (error) {
+                Loader(false);
+                ErrorToast(error.message);
                 console.log(error);
             });
 
@@ -187,6 +204,7 @@ const EditPost = (props) => {
     }
 
     const convertFileToBase64 = (data) => {
+        Loader(true);
         const reader = new FileReader();
         reader.onloadend = function () {
             var b64 = reader.result.replace(/^data:.+;base64,/, '');
@@ -202,6 +220,7 @@ const EditPost = (props) => {
                 document.getElementById('audio-prev').style.display = 'none';
                 document.getElementById("video-prev").value = "";
                 document.getElementById("audio-prev").value = "";
+                Loader(false);
             } else if (postType === "video") {
                 //set value
                 document.getElementById("video-prev").src = reader.result;
@@ -211,6 +230,7 @@ const EditPost = (props) => {
                 document.getElementById('audio-prev').style.display = 'none';
                 document.getElementById("image-prev").value = "";
                 document.getElementById("audio-prev").value = "";
+                Loader(false);
             } else {
 
                 //set value
@@ -222,6 +242,7 @@ const EditPost = (props) => {
                 document.getElementById('image-prev').style.display = 'none';
                 document.getElementById("video-prev").value = "";
                 document.getElementById("image-prev").value = "";
+                Loader(false);
             }
             console.log("file converted successfully");
         };
@@ -233,8 +254,8 @@ const EditPost = (props) => {
             setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 10) {
-                ErrorToast('Please select file size less than 10 MB');
+            if (size > 1000) {
+                ErrorToast('Please select file size greater than 1000 MB');
                 return null;
             }
             $("#div1").attr('hidden', true);
@@ -257,7 +278,7 @@ const EditPost = (props) => {
 
         }
         else {
-            ErrorToast('Please select file size less than 10 MB');
+            ErrorToast('Please select file size greater than 1000 MB');
             return null;
         }
 

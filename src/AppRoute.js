@@ -126,7 +126,7 @@ const AuthorizeRoute = () => {
               return (
                 <FullLayout>
                   <Route exact path="/" component={Home}></Route>
-                  <Route exact path="/search-result" component={Search}></Route>
+                  <Route exact path="/search-result/:search" component={Search}></Route>
                   <Route exact path="/create-group" component={Community}></Route>
                   <Route exact path="/edit-group/:groupId" component={EditGroup}></Route>
                   <Route exact path="/group/details/:id" component={GroupDetails}></Route>

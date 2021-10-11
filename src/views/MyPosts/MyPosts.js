@@ -76,9 +76,7 @@ const Home = (props) => {
                                         <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
                                         <button type="button"
 
-                                            onClick={() => { gePopularPost(1) }}
-
-                                            className="btn gradient-bg-one radius-30 register align-center">Browse Popular Posts</button>
+                                            className="btn gradient-bg-one radius-30 register align-center">NO Posts</button>
 
                                     </div>
                                 </div>
