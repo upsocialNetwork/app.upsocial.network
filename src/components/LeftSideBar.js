@@ -118,7 +118,7 @@ const LeftSideBar = (props) => {
                         </div>
                     }
 
-                    <div className="bottom-zone mt-auto">
+                    <div className="bottom-zone mt-auto" >
                         <div className="user-profile">
                             <div className="user">
                                 <div className="avater">

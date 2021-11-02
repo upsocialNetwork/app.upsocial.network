@@ -36,7 +36,7 @@ const Home = (props) => {
             gePopularPost(1)
         } else {
 
-            geTimeLinePost(1)
+            gePopularPost(1)
         }
     }, [])
 

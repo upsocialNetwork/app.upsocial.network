@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { useHistory } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import httpClient from '../../services/http';
-import { ErrorToast, SuccessToast } from '../../utils/common';
+import { ErrorToast, Loader, SuccessToast } from '../../utils/common';
 
 const Search = (props) => {
     const params = useParams();
@@ -34,19 +34,25 @@ const Search = (props) => {
     }, [params.search]);
 
     const getResult = (param) => {
+        Loader(true);
         httpClient.call("search/" + param, null, { method: 'GET' }).then(function (response) {
-            console.log(response);
+            //console.log(response);
 
             if (response.result.data.Groups !== null) {
+                
                 setGroups(response.result.data.Groups);
+                Loader(false);
             }
 
             if (response.result.data.Posts !== null) {
                 setPosts(response.result.data.Posts);
+                Loader(false);
             }
 
             SuccessToast(response.result.message);
+            Loader(false);
         }, function (error) {
+            Loader(false);
             console.log(error);
         })
     }

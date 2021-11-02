@@ -200,12 +200,12 @@ const PostDetails = (props) => {
 
 
         let userData = Session.getSessionData();
-        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         window.ethereum.enable();
         const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-        NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
             .then(function (receipt) {
-                //console.log(receipt);
+                console.log(receipt);
 
                 let transaction = {
                     "_blockNumber": receipt.blockNumber,
@@ -267,12 +267,12 @@ const PostDetails = (props) => {
 
 
         let userData = Session.getSessionData();
-        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         window.ethereum.enable();
         const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-        NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
             .then(function (receipt) {
-                // console.log(receipt);
+                console.log(receipt);
                 let transaction = {
                     "_blockNumber": receipt.blockNumber,
                     "_cumulativeGasUsed": receipt.cumulativeGasUsed,
@@ -500,11 +500,7 @@ const PostDetails = (props) => {
                             </div>
 
                             <div className="text-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-coin" viewBox="0 0 16 16">
-                                    <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518l.087.02z" />
-                                    <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                    <path fillRule="evenodd" d="M8 13.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
-                                </svg>&nbsp;500
+                                USN &nbsp;100
                             </div><br />
 
 
@@ -544,7 +540,7 @@ const PostDetails = (props) => {
                                             <img src="img/dol-1.png" alt="" />
                                         }</a>
                                     <h6>
-                                        <a href="/" onClick={(event) => navigate(event)} >
+                                        <a href="/" onClick={(event) => navigate(event)} style={{fontSize:"22px"}} >
                                             {element !== null ? element.name : null}
                                         </a> <span>Posted by  {element !== null ? element.postedBy.userName : null}
                                         </span>
@@ -656,7 +652,7 @@ const PostDetails = (props) => {
 
                                                     <div className="post-content max-520">
                                                         <ReactQuill readOnly={true}
-                                                            theme={"bubble"} value={element.data} />
+                                          theme=""/*   theme={"bubble"} */ value={element.data} />
 
                                                     </div>
                                                 )
@@ -666,7 +662,7 @@ const PostDetails = (props) => {
 
                                                     <div className="post-content max-520">
                                                         <ReactQuill readOnly={true}
-                                                            theme={"bubble"} value={element.data} />
+                                                            theme="" value={element.data} />
 
                                                     </div>
 
@@ -700,7 +696,7 @@ const PostDetails = (props) => {
                                                     <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
                                                 </svg></button></li>
                                                 <li><button onClick={(event) => promotePost(event, element.id)}><img src="img/share.png" alt="" /></button></li>
-                                                <li><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
+                                                <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                                             </ul>
                                         </div>
 

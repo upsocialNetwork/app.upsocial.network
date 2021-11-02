@@ -7,7 +7,7 @@ import Session from '../../utils/session';
 import { useHistory } from 'react-router-dom';
 import HoverVideoPlayer from 'react-hover-video-player';
 import httpClient from '../../services/http';
-import {Loader, ErrorToast, SuccessToast } from '../../utils/common';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 const ImagePost = (props) => {
 
     const history = useHistory();
@@ -41,14 +41,14 @@ const ImagePost = (props) => {
             history.push('/auth/login');
         }
         else {
-            history.push('/post-details/'+id);
+            history.push('/post-details/' + id);
         }
     }
 
     const editPost = (event, postid) => {
         event.preventDefault();
         history.push({
-            pathname: '/edit-post/'+postid,
+            pathname: '/edit-post/' + postid,
             state: { postid: postid }
         });
 
@@ -107,7 +107,7 @@ const ImagePost = (props) => {
         })
     }
 
-   
+
 
 
 
@@ -117,13 +117,13 @@ const ImagePost = (props) => {
 
 
     return (
-        <div className="cmn-card shadow-gray-point-3  mb-4">
-            <div className="post-wrapper post-type-one">
-                <div className="post-header">
+        <div className="cmn-card shadow-gray-point-3  mb-4" >
+            <div className="post-wrapper post-type-one" >
+                <div className="post-header" >
                     <div className="elementory-avater-wrap">
                         <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
                         <h6>
-                            <a href="/" onClick={(event) => { pageDetails(event) }} >
+                            <a href="/" onClick={(event) => { pageDetails(event) }} style={{ fontSize: "22px" }}>
                                 {element.name}
                             </a> <span>Posted by  {element.postedBy.userName}
                             </span>
@@ -158,7 +158,7 @@ const ImagePost = (props) => {
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a className="dropdown-item" href="/" onClick={(event) => claimPost(event, element.id)}>Claim Post</a></li>
-                                   {/*<li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
+                                    {/*<li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
                                       <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
                                 <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
                                 </ul>
@@ -168,7 +168,7 @@ const ImagePost = (props) => {
 
 
                 </div>
-                <div className="post-content-wrapper">
+                <div className="post-content-wrapper" >
                     {/* <div className="post-content max-520">
                         <p >{element.name}</p>
                     </div> */}
@@ -274,9 +274,9 @@ const ImagePost = (props) => {
 
                                 return (
 
-                                    <div className="post-content max-520">
+                                    <div className="post-content max-520" >
                                         <ReactQuill readOnly={true}
-                                            theme={"bubble"} value={element.data} />
+                                          theme=""/*   theme={"bubble"} */ value={element.data} />
 
                                     </div>
 

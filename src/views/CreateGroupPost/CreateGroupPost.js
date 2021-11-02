@@ -7,6 +7,8 @@ import httpClient from '../../services/http';
 import { useHistory, useParams } from 'react-router-dom';
 import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
+import Contract from "../../utils/contract";
+import Web3 from 'web3';
 const CreateGroupPost = (props) => {
     const history = useHistory();
     const location = useLocation();
@@ -70,20 +72,65 @@ const CreateGroupPost = (props) => {
         // console.log(formData);
 
         // return null;
-        httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
-            Loader(false);
-            if (response.success) {
-                SuccessToast(response.result.message);
-                history.push('/group/details/'+groupId);
-            }
-            else {
-                ErrorToast(response.result.message);
-            }
+        /*  httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
+             Loader(false);
+             if (response.success) {
+                 SuccessToast(response.result.message);
+                 history.push('/group/details/'+groupId);
+             }
+             else {
+                 ErrorToast(response.result.message);
+             }
+ 
+         }, function (error) {
+             Loader(false);
+             ErrorToast(error.result.message);
+         }) */
 
-        }, function (error) {
-            Loader(false);
-            ErrorToast(error.result.message);
-        })
+        let userData = Session.getSessionData();
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        window.ethereum.enable();
+        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
+            .then(function (receipt) {
+                console.log(receipt);
+
+
+                let transaction = {
+                    "_blockNumber": receipt.blockNumber,
+                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                    "_from": receipt.from,
+                    "_gasUsed": receipt.gasUsed,
+                    "_status": receipt.status,
+                    "_to": receipt.to,
+                    "_transactionHash": receipt.transactionHash,
+                    "_transactionIndex": receipt.transactionIndex,
+                    "_blockHash": receipt.blockHash,
+                    "_contractAddress": Contract.contract_address
+                }
+
+
+                formData['transaction'] = transaction;
+
+                httpClient.call('upload-group-post', formData, { method: 'POST' }).then(function (response) {
+                    Loader(false);
+                    if (response.success) {
+                        SuccessToast(response.result.message);
+                        history.push('/group/details/' + groupId);
+                    }
+                    else {
+                        ErrorToast(response.result.message);
+                    }
+
+                }, function (error) {
+                    Loader(false);
+                    ErrorToast(error.message);
+                })
+            }, function (error) {
+                Loader(false);
+                ErrorToast(error.message);
+                console.log(error);
+            });
     }
 
     const convertFileToBase64 = (data) => {
@@ -268,7 +315,7 @@ const CreateGroupPost = (props) => {
                                         </div>
 
                                         <br />
-                                        <div className="text-content-wrap">
+                                        <div className="text-content-wrap" hidden>
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
@@ -294,7 +341,7 @@ const CreateGroupPost = (props) => {
 
 
                                         </div><br />
-                                        <div className="text-content-wrap">
+                                        <div className="text-content-wrap" hidden>
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>

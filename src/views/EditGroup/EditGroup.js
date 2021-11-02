@@ -15,14 +15,14 @@ const EditGroup = (props) => {
     const location = useLocation();
     const params = useParams();
 
-    let [name, setName] = useState('');
-    let [type, setType] = useState('');
+    let [name, setName] = useState(null);
+    let [type, setType] = useState(null);
     let [isAdult, setAdult] = useState(true);
-    let [about, setAbout] = useState('');
-    let [image, setImage] = useState('');
-    let [previmage, setprevImage] = useState('');
+    let [about, setAbout] = useState(null);
+    let [image, setImage] = useState(null);
+    let [previmage, setprevImage] = useState(null);
 
-    let [id, setId] = useState('');
+    let [id, setId] = useState(null);
 
     useEffect(() => {
         if (!params.groupId) {
@@ -58,12 +58,12 @@ const EditGroup = (props) => {
         httpClient.call('check-edit-group-name', formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 let userData = Session.getSessionData();
-                Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+                Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
                 window.ethereum.enable();
                 const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-                NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+                NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
                     .then(function (receipt) {
-                        //  console.log(receipt);
+                        console.log(receipt);
 
 
                         let transaction = {
@@ -196,14 +196,14 @@ const EditGroup = (props) => {
 
                         <div className="user-name">
                             <h5>Name <span style={{ color: 'red' }}> * </span></h5>
-                            <p>Group names includes only Alphabet.
+                            <p>Group name should include only alphabets
 
                             </p>
                         </div>
 
                         <div className="user-name-change-input">
                             <input type="text" className="form-control" placeholder=""
-                                value={name}
+                                value={name} maxLength="27"
                                 onChange={(event) => { setName(event.target.value) }}
 
                             />
@@ -286,7 +286,7 @@ const EditGroup = (props) => {
                                 <option value="Private">Private ( Anyone can view, post, and comment to this group)</option>
                             */} </select>
                         </div>
-                        <div className="post-type-selection">
+                        <div className="post-type-selection" hidden>
                             <h4>NSFW</h4>
                             <label className="radioBox checkBox">
                                 <p>{/* <span className="nsfw">NSFW</span> */} 18+ year old Group</p>
@@ -311,7 +311,7 @@ const EditGroup = (props) => {
                                 {/* <a href="#" className="btn style-2 transparent-bg proxima-bold">Cancel</a> */}
                                 <button type="submit" onClick={(event) => { updateGroup(event) }} className="btn primary-bg ms-3 proxima-bold"
 
-                                    disabled={!(name && type && image)}
+                                    disabled={!(name && type && image && about)}
                                 >Update Group</button>
                             </div>
                         </div>

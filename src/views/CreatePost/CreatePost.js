@@ -62,12 +62,12 @@ const CreatePost = (props) => {
         }
 
         let userData = Session.getSessionData();
-        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         window.ethereum.enable();
         const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-        NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
             .then(function (receipt) {
-                //  console.log(receipt);
+                console.log(receipt);
 
 
                 let transaction = {
@@ -234,7 +234,7 @@ const CreatePost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-
+                                                    maxLength="30"
                                                     onChange={(event) => { setTitle(event.target.value) }}
 
                                                 />
@@ -291,7 +291,7 @@ const CreatePost = (props) => {
                                         </div>
 
                                         <br />
-                                        <div className="text-content-wrap">
+                                        <div className="text-content-wrap" hidden>
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
@@ -306,7 +306,7 @@ const CreatePost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                    onChange={(event) => { setTitle(event.target.value) }}
+                                                    maxLength="30" onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>
                                             <div className="text-editor-wrapper">
@@ -317,7 +317,7 @@ const CreatePost = (props) => {
 
 
                                         </div><br />
-                                        <div className="text-content-wrap">
+                                        <div className="text-content-wrap" hidden>
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>

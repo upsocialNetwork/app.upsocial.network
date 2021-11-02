@@ -29,7 +29,7 @@ const Login = (props) => {
     useEffect(() => {
         Loader(props.requestProcess);
         if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
-            
+
             let authData = props.loginData;
             //  console.log(authData);
             Session.setSessionData(authData.result.data);
@@ -38,18 +38,18 @@ const Login = (props) => {
             setIsLoginSubmit(false);
             history.push('/')
         } else if (isLoginSubmit && props.loginData) {
-            
+
             setIsLoginSubmit(false);
             ErrorToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
         }
 
         if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
-           
+
             SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
             setIsSignupSubmit(false);
             setIsLogin(true);
         } else if (isSignupSubmit && props.signupData) {
-            
+
             setIsSignupSubmit(false);
             ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
         }
@@ -180,7 +180,7 @@ const Login = (props) => {
                                 </div> */}
                                 <div className="input-wrapper">
                                     <label htmlFor="">Username</label>
-                                    <input type="text" name="userName" className="form-control input-sm"
+                                    <input type="text" maxLength="15" name="userName" className="form-control input-sm"
                                         onChange={(event) => { setSignupUserName(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('userName')} />
                                     {validator.current.message('userName', signupUserName, 'required')}
@@ -188,7 +188,7 @@ const Login = (props) => {
 
                                 <div className="input-wrapper">
                                     <label htmlFor="">Email</label>
-                                    <input type="email" name="email" className="form-control input-sm"
+                                    <input type="email"  name="email" className="form-control input-sm"
                                         onChange={(event) => { setSignupEmail(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('email')} />
                                     {validator.current.message('email', signupEmail, 'required|email')}
@@ -243,7 +243,10 @@ const Login = (props) => {
                             <div className="login-right">
                                 <div className="input-wrapper">
                                     <label htmlFor="">Email</label>
-                                    <input type="text" name="email" className="form-control"
+                                    <input type="text" name="email"
+
+                                        
+                                        className="form-control"
                                         onChange={(event) => { setEmail(event.target.value) }}
                                         onBlur={() => validatorLogin.current.showMessageFor('email')} />
                                     {validatorLogin.current.message('email', email, 'required|email')}

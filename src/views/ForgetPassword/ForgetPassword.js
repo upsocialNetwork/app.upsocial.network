@@ -93,8 +93,8 @@ const ForgetPassword = (props) => {
 
             </div>
             <div className="access-bottom-part">
-                <div className="policy-link">By signing up, you agree to our <a href="/" className="link theme-color">Terms</a> and
-                    that you have read our <a href="/" className="link theme-color">Privacy Policy</a> and <a href="/"
+                <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color">Terms</a> and
+                    that you have read our <a href="https://upsocial.network/privacy-policy/" className="link theme-color">Privacy Policy</a> and <a href="/"
                         className="link theme-color">Content Policy</a>.</div>
             </div>
         </div>

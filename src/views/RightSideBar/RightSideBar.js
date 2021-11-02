@@ -38,7 +38,7 @@ const RightSideBar = (props) => {
 
 
     const getAdvertisement = () => {
-        console.log("calling advertisement");
+      //  console.log("calling advertisement");
         httpClient.call("get-all-advertisement", null, { method: 'GET' }).then(function (response) {
 
             if (response.success) {
@@ -189,7 +189,7 @@ const GroupRecord = (props) => {
                 </a>
             </div>
             <a href="#" onClick={(event) => { groupDetails(event, element.id) }} style={{ textDecoration: 'none' }} >
-                <div className="gp-text text-justify">
+                <div className="gp-text ">
                     {element.name}
                 </div>
             </a>

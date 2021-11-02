@@ -328,7 +328,7 @@ const PostAttributes = (props) => {
 
 
                     <li><button onClick={(event) => promotePost(event, element.id)}><img src="img/share.png" alt="" /></button></li>
-                    <li><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
+                    <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                 </ul>
             </div>
             {/* <div className="post-crud-wrap max-520 d-flex justify-content-between">

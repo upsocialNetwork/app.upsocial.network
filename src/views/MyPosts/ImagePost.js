@@ -123,8 +123,8 @@ const ImagePost = (props) => {
                     <div className="elementory-avater-wrap">
                         <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
                         <h6>
-                            <a href="/" onClick={(event) => { pageDetails(event) }} >
-                                {element.name}
+                            <a href="/" onClick={(event) => { pageDetails(event) }}  style={{fontSize:"22px"}}>
+                                {element.name} 
                             </a> <span>Posted by  {element.postedBy.userName}
                             </span>
                         </h6>
@@ -275,9 +275,8 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520">
-                                        <ReactQuill readOnly={true}
-                                            theme={"bubble"} value={element.data} />
-
+                                       <ReactQuill readOnly={true}
+                                          theme=""/*   theme={"bubble"} */ value={element.data} />
                                     </div>
 
                                 )

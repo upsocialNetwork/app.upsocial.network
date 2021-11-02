@@ -13,11 +13,11 @@ const Community = (props) => {
 
 
     const history = useHistory();
-    let [name, setName] = useState('');
-    let [type, setType] = useState('');
+    let [name, setName] = useState(null);
+    let [type, setType] = useState(null);
     let [isAdult, setAdult] = useState(true);
-    let [about, setAbout] = useState('');
-    let [image, setImage] = useState('');
+    let [about, setAbout] = useState(null);
+    let [image, setImage] = useState(null);
 
     useEffect(() => {
         let userData = Session.isLoggedIn();
@@ -25,6 +25,11 @@ const Community = (props) => {
             history.push('/auth/login');
         }
 
+        /*  const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+         console.log(web3);
+         var Contract = require('web3-eth-contract');
+         var contract = new Contract(Contract.contract_abi, Contract.contract_address);
+         console.log(contract); */
 
     }, []);
 
@@ -48,12 +53,19 @@ const Community = (props) => {
         httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 let userData = Session.getSessionData();
-                Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+
+                console.log(userData.wallet);
+                console.log(Contract.contract_address);
+                console.log(userData.wallet);
+
+                //const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+                //Web3 = new Web3(new Web3.providers.HttpProvider(Contract.RPCURL));
+                Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
                 window.ethereum.enable();
                 const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-                NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+                NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
                     .then(function (receipt) {
-                       // console.log(receipt);
+                        console.log(receipt);
 
 
 
@@ -87,10 +99,12 @@ const Community = (props) => {
                             }
 
                         }, function (error) {
+                            console.log(error);
                             Loader(false);
                             ErrorToast(error.message);
                         })
                     }, function (error) {
+                        console.log(error);
                         Loader(false);
                         ErrorToast(error.message);
                     });
@@ -257,14 +271,15 @@ const Community = (props) => {
 
                         <div className="user-name">
                             <h5>Name <span style={{ color: 'red' }}> * </span></h5>
-                            <p>Group names includes only Alphabet.
+                            <p>
+                                Group name should include only alphabets
 
                             </p>
                         </div>
 
                         <div className="user-name-change-input">
                             <input type="text" className="form-control" placeholder=""
-
+                                maxLength="25"
                                 onChange={(event) => { setName(event.target.value) }}
 
                             />
@@ -322,7 +337,7 @@ const Community = (props) => {
                                 <option value="Private">Private ( Anyone can view, post, and comment to this group)</option>
                           */}   </select>
                         </div>
-                        <div className="post-type-selection">
+                        <div className="post-type-selection" hidden>
                             <h4>NSFW</h4>
                             <label className="radioBox checkBox">
                                 <p>{/* <span className="nsfw">NSFW</span> */} 18+ year old Group</p>
@@ -347,7 +362,7 @@ const Community = (props) => {
                                 {/* <a href="#" className="btn style-2 transparent-bg proxima-bold">Cancel</a> */}
                                 <button type="submit" onClick={(event) => { createGroup(event) }} className="btn primary-bg ms-3 proxima-bold"
 
-                                    disabled={!(name && type && image)}
+                                    disabled={!(name && type && image && about)}
                                 >Create Group</button>
                             </div>
                         </div>

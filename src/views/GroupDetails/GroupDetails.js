@@ -200,13 +200,21 @@ const CreateGroupJoin = (props) => {
 
 
                             </div>
-                            <h5><a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block">{result && result.name} <span
-                                className="position-absolute status joined">
+                            <h5>
+                                <a href="#" onClick={(event) => { navigate(event) }} className="d-inline-block">{result && result.name}
+                                </a>
 
-                                {result && result.joined ? <>Leave</> : <>Join</>}
+
+                                <a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block ">
+                                    <span style={{ margin: "0px -30px 0px 50px" }}
+                                        className="position-absolute status joined">
+
+                                        {result && result.joined ? <>Leave</> : <>Join</>}
+                                    </span>
+                                </a>
 
 
-                            </span></a> {/* <span
+                                {/* <span
                                 className="sub">u/{result && result.owner.userName}</span> */}
 
 
@@ -222,7 +230,6 @@ const CreateGroupJoin = (props) => {
                             </svg>
                                 Mod Tools</a>
                         </div>
-
                     </div>
                 </div>
             </div>

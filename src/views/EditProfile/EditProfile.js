@@ -197,7 +197,7 @@ const EditProfile = (props) => {
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="User Name" value={userName}
-                                        onChange={(event) => { setUserName(event.target.value) }}
+                                        maxLength="15" onChange={(event) => { setUserName(event.target.value) }}
                                     />
                                 </div>
                             </div>
@@ -207,7 +207,7 @@ const EditProfile = (props) => {
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="First name"
-                                        onChange={(event) => { setFirstName(event.target.value) }} value={firstName}
+                                       maxLength="15" onChange={(event) => { setFirstName(event.target.value) }} value={firstName}
                                     />
                                 </div>
                             </div>
@@ -217,7 +217,7 @@ const EditProfile = (props) => {
                                 </div>
                                 <div className="pf-lr-part">
                                     <input type="text" className="form-control" placeholder="Last name"
-                                        onChange={(event) => { setLastName(event.target.value) }} value={lastName}
+                                        maxLength="15" onChange={(event) => { setLastName(event.target.value) }} value={lastName}
                                     />
                                 </div>
                             </div>

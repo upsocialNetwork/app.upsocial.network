@@ -27,7 +27,7 @@ const EditPost = (props) => {
 
         }
         const id = params.postid;
-        getpostDetails(id);
+       // getpostDetails(id);
     }, []);
     useEffect(() => {
 
@@ -88,22 +88,24 @@ const EditPost = (props) => {
                     else {
                         $("#nsfwdata").prop("checked", false);
                     }
+                    $('#div2').prepend('');
+
                     if (res.type.toUpperCase() === "IMAGE") {
-                        $("#div1").attr('hidden', false);
-                        $('#div1').prepend("<img src=" + "https://ipfs.io/ipfs/" + res.data + " alt='' width='100%' height='300px'  />");
+                        $("#div2").attr('hidden', false);
+                        $('#div2').prepend("<img src=" + "https://ipfs.io/ipfs/" + res.data + " alt='' width='100%' height='300px'  />");
                         $("#image1").attr('hidden', false);
                         $("#video1").attr('hidden', true);
                         $("#audio1").attr('hidden', true);
                     }
                     else if (res.type.toUpperCase() === "VIDEO") {
-                        $("#div1").attr('hidden', false);
-                        $('#div1').prepend("<video controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></video>");
+                        $("#div2").attr('hidden', false);
+                        $('#div2').prepend("<video controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></video>");
                         $("#video1").attr('hidden', false);
                         $("#image1").attr('hidden', true);
                         $("#audio1").attr('hidden', true);
                     } else if (res.type.toUpperCase() === "AUDIO") {
-                        $("#div1").attr('hidden', false);
-                        $('#div1').prepend("<audio controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></audio>");
+                        $("#div2").attr('hidden', false);
+                        $('#div2').prepend("<audio controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></audio>");
                         $("#audio1").attr('hidden', false);
                         $("#video1").attr('hidden', true);
                         $("#image1").attr('hidden', true);
@@ -155,12 +157,12 @@ const EditPost = (props) => {
         }
 
         let userData = Session.getSessionData();
-        Web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         window.ethereum.enable();
         const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-        NameContract.methods.transfer(Contract.upsocial_wallet, "1").send({ from: userData.wallet })
+        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
             .then(function (receipt) {
-                //  console.log(receipt);
+                console.log(receipt);
 
                 let transaction = {
                     "_blockNumber": receipt.blockNumber,
@@ -315,7 +317,7 @@ const EditPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                    value={title}
+                                                    value={title}  maxLength="30"
                                                     onChange={(event) => { setTitle(event.target.value) }}
 
                                                 />
@@ -333,9 +335,9 @@ const EditPost = (props) => {
                                                     </div>
                                                 </div>
 
-                                                <div id="div1" hidden>
+                                               {/*  <div id="div1" hidden>
 
-                                                </div>
+                                                </div> */}
 
                                                 <div id="div2" hidden>
                                                     <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
@@ -354,7 +356,7 @@ const EditPost = (props) => {
                                         </div>
 
                                         <br />
-                                        <div className="text-content-wrap">
+                                        <div className="text-content-wrap" hidden>
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" id="nsfwdata" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
@@ -369,7 +371,7 @@ const EditPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                    onChange={(event) => { setTitle(event.target.value) }} value={title}
+                                                maxLength="30"     onChange={(event) => { setTitle(event.target.value) }} value={title}
                                                 />
                                             </div>
                                             <div className="text-editor-wrapper">
@@ -380,7 +382,7 @@ const EditPost = (props) => {
 
 
                                         </div><br />
-                                        <div className="text-content-wrap">
+                                        <div className="text-content-wrap" hidden>
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>

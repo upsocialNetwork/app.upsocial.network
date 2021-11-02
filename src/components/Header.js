@@ -14,7 +14,9 @@ const Header = (props) => {
     let [isLoggedIn, setIsLoggedIn] = useState(false);
     let [isMetamask, setMatamask] = useState(false);
     let [walletAddress, setWalletAddress] = useState('');
+    let [walletBalance, setWalletBalance] = useState('');
     const [userDetails, setUserDetails] = useState('');
+    let [notification, setNotification] = useState('');
     let [param, setParam] = useState('');
 
     useEffect(() => {
@@ -24,7 +26,9 @@ const Header = (props) => {
         if (user_details !== null) {
             setUserDetails(user_details);
             setWalletAddress(user_details.wallet);
+            setWalletBalance(user_details.walletBalance);
         }
+        myNotification();
     }, [])
     useEffect(() => {
         setUserDetails(props.session);
@@ -65,6 +69,13 @@ const Header = (props) => {
         history.push("/user/change-password");
     }
 
+    const gotonotification = (event) => {
+        event.preventDefault();
+        history.push("/user/notification");
+    }
+
+
+
     const login = (event) => {
         event.preventDefault();
         history.push("/auth/login");
@@ -77,14 +88,14 @@ const Header = (props) => {
         event.preventDefault();
 
         if (typeof window.ethereum !== 'undefined') {
-            console.log('MetaMask is installed!');
+            // console.log('MetaMask is installed!');
             setMatamask(true);
             //  SuccessToast("MetaMask is installed!");
             getAccount();
         }
         else {
             ErrorToast("MetaMask is not installed!");
-            console.log('MetaMask is not installed!');
+            // console.log('MetaMask is not installed!');
             setMatamask(false);
             return null;
         }
@@ -95,13 +106,13 @@ const Header = (props) => {
         const account = accounts[0];
         if (account == null) {
             setWalletAddress(null);
-            console.log("NO wallet");
+            // console.log("NO wallet");
         }
         else {
             sessionStorage.setItem("walletno", account);
             setWalletAddress(account);
             updateWalletAddress(account);
-            console.log("Wallet No", account);
+            //console.log("Wallet No", account);
 
         }
     }
@@ -122,6 +133,27 @@ const Header = (props) => {
             }
             else {
                 ErrorToast(response.result.message);
+            }
+
+        }, function (error) {
+            console.log(error);
+        })
+
+    }
+
+
+    const myNotification = () => {
+
+        httpClient.call("get-notification", null, { method: 'GET' }).then(function (response) {
+            if (response.success) {
+
+                setNotification(response.result.data);
+                // console.log(response);
+                //SuccessToast(response.result.message);
+
+            }
+            else {
+                // ErrorToast(response.result.message);
             }
 
         }, function (error) {
@@ -205,9 +237,13 @@ const Header = (props) => {
                                         <li className="list-group-item d-flex justify-content-between align-items-center">
 
                                             <a href="#" onClick={(event) => navigate(event)}
-
                                                 style={{ textDecoration: 'none', color: 'black' }}
-                                            >Wallet No<br />{walletAddress}</a> <span className="badge badge-light-success">Connected</span>
+                                            >Wallet Address<br />{walletAddress}<br /><br />Upsocial Wallet Balance<br />USN {walletBalance}</a>
+
+
+                                            {/* <span className="badge badge-light-success">Connected</span> */}
+
+
 
                                         </li>
                                     }
@@ -298,115 +334,48 @@ const Header = (props) => {
                                         data-bs-target="#mobile-search" className="mobile-header-search icon-border"><i
                                             className="fal fa-search"></i></a>
                                     </li>
-                                    {/* hide notification block */}
-                                    <li className="ms-3" hidden><a href="/" onClick={(event) => navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
+
+                                    <li className="ms-3" ><a href="/" onClick={(event) => navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
                                         aria-expanded="false" className="notification new-state">
                                         <img src="img/bell.svg"
                                             alt="" /></a>
                                         <ul className="dropdown-menu setting-dropdown notification-d w-340"
                                             aria-labelledby="notificationDropdown">
                                             <li>
-                                                <div className="dropdown-title-wrap">
-                                                    <h6>Notifications</h6>
-                                                    <div className="dropdown-crud-master">
-                                                        <button className="tik-mark"><img src="img/tik-mark.svg" alt="" /></button>
-                                                        <button className="setting"><img src="img/setting.svg" alt="" /></button>
+                                                <div className="messages">
+                                                    <div className="dropdown-title-wrap">
+                                                        <h6>Notification</h6>
+                                                        {/*  <div className="dropdown-crud-master">
+                                                            <button className="edit"><img src="img/edit.svg" alt="" /></button>
+                                                        </div> */}
                                                     </div>
-                                                </div>
 
-                                                <div className="all-notification">
-                                                    <div className="single-notification">
-                                                        <div className="notification-thumb">
-                                                            <img className="thumb" src="img/gp-1.jpg" alt="" />
+                                                    <div className="all-messages">
 
-                                                            <img className="transparent-bell" src="img/bell-2.svg" alt="" /></div>
-                                                    </div>
-                                                    <div className="single-not-content">
-                                                        <h5><a href="/" onClick={(event) => navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
-                                                            off
-                                                            right!.23 hrs</a>
-                                                            <div className="dropdown">
-                                                                <button className="post-dropdown" type="button"
-                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                    aria-expanded="false">
-                                                                    <img src="img/three-dot-small.svg" alt="" />
-                                                                </button>
-                                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
-                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a>
-                                                                    </li>
-                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else
-                                                                        here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </h5>
-                                                        <p>
-                                                            Communitities that have posts for people to interact with see more
-                                                            action so try adding five posts today</p>
-                                                    </div>
-                                                </div>
-                                                <div className="single-notification">
-                                                    <div className="notification-thumb">
-                                                        <img className="thumb" src="img/gp-1.jpg" alt="" />
+                                                        <div className="messages-result">
+                                                            {notification && notification.length > 0 ?
 
-                                                        <img className="transparent-bell" src="img/bell-2.svg" alt="" />
-                                                    </div>
-                                                    <div className="single-not-content">
-                                                        <h5><a href="/" onClick={(event) => navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
-                                                            off
-                                                            right!.23 hrs</a>
-                                                            <div className="dropdown">
-                                                                <button className="post-dropdown" type="button"
-                                                                    id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                    aria-expanded="false">
-                                                                    <img src="img/three-dot-small.svg" alt="" />
-                                                                </button>
-                                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
-                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a>
-                                                                    </li>
-                                                                    <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else
-                                                                        here</a></li>
-                                                                </ul>
-                                                            </div>
-                                                        </h5>
-                                                        <p>
-                                                            Communitities that have posts for people to interact with see more
-                                                            action so try adding five posts today</p>
-                                                    </div>
-                                                    <div className="single-notification">
-                                                        <div className="notification-thumb">
-                                                            <img className="thumb" src="img/gp-1.jpg" alt="" />
+                                                                notification.slice(0, 5).map((element, index) => {
+                                                                    return (
+                                                                        <div className="single-group single-message" key={index}>
+                                                                            <div className="gp-icon"><img src="img/dol-1.png" alt="" />
+                                                                            </div>
+                                                                            <div className="gp-text">{element.message}</div>
 
-                                                            <img className="transparent-bell" src="img/bell-2.svg" alt="" />
-                                                        </div>
-                                                        <div className="single-not-content">
-                                                            <h5><a href="/" onClick={(event) => navigate(event)} className="single-notification-title">Start r/ jeytumbhi1234
-                                                                off
-                                                                right!.23 hrs</a>
-                                                                <div className="dropdown">
-                                                                    <button className="post-dropdown" type="button"
-                                                                        id="dropdownMenuButton1" data-bs-toggle="dropdown"
-                                                                        aria-expanded="false">
-                                                                        <img src="img/three-dot-small.svg" alt="" />
-                                                                    </button>
-                                                                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Action</a></li>
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a>
-                                                                        </li>
-                                                                        <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else
-                                                                            here</a></li>
-                                                                    </ul>
+                                                                        </div>);
+                                                                })
+
+                                                                :
+
+                                                                <div className="text-center see-all-btn-wrapper">
+                                                                    <a href="/" onClick={(event) => navigate(event)} className="see-all">No Notification</a>
                                                                 </div>
-                                                            </h5>
-                                                            <p>
-                                                                Communitities that have posts for people to interact with see more
-                                                                action so try adding five posts today</p>
-                                                        </div>
-                                                    </div>
 
-                                                    <div className="text-center see-all-btn-wrapper">
-                                                        <a href="/" onClick={(event) => navigate(event)} className="see-all">See All</a>
+                                                            }
+                                                            <div className="text-center see-all-btn-wrapper">
+                                                                <a href="/" onClick={(event) => gotonotification(event)} className="see-all">See All</a>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </li>
@@ -496,10 +465,20 @@ const Header = (props) => {
                                     </li>
                                     <li className="ms-3 ">
 
+                                        {/*  {walletAddress !== null ? <span className="dot" style={{
+                                            margin: "0px 10px 0px 20px",
+                                            height: "15px", width: "15px", backgroundColor: "green", borderRadius: "50%", display: "inline-block"
+                                        }}></span> : <span className="dot" style={{
+                                            margin: "0px 10px 0px 20px",
+                                            height: "15px", width: "15px", backgroundColor: "red", borderRadius: "50%", display: "inline-block"
+                                        }}></span>} */}
+
+
                                         <a href="#" data-toggle="modal" data-target="#myModal">  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'white' }} width="30px" height="30px" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
                                             <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
+
                                         </svg></a>
-                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                       {/*  &nbsp; &nbsp; &nbsp; &nbsp; */}
                                     </li>
 
 
@@ -526,9 +505,9 @@ const Header = (props) => {
 
                                                 <ul className="side-menu setting-menu">
                                                     <li hidden><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt="" /></span>Switch account</a></li>
-                                                    <li><a href="/" onClick={(event) => changePassword(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting& Privacy</a> </li>
+                                                    <li><a href="/" onClick={(event) => changePassword(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting & Privacy</a> </li>
                                                     <li hidden><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
-                                                    <li><a href="/" onClick={(event) => { event.preventDefault(); colorModeToggle() }}><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Changedisplay mode</a></li>
+                                                    <li><a href="/" onClick={(event) => { event.preventDefault(); colorModeToggle() }}><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Change display mode</a></li>
                                                     <li><a href="/" onClick={(event) => logout(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
                                                 </ul>
                                             </li>
