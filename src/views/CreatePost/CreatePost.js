@@ -62,9 +62,11 @@ const CreatePost = (props) => {
         }
 
         let userData = Session.getSessionData();
-        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        /*  Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545"); */
+        Web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
         window.ethereum.enable();
         const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+        console.log(NameContract);
         NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
             .then(function (receipt) {
                 console.log(receipt);

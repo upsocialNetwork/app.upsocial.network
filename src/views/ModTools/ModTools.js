@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { useStore } from 'react-redux';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import Session from '../../utils/session';
+import $ from 'jquery';
 
 
 const ModTools = (props) => {
@@ -340,6 +341,10 @@ const ModTools = (props) => {
 
 
 
+    //$('.js-example-basic-single').select2();
+
+
+
 
     return (
         <main className="main-content mx-auto">
@@ -405,7 +410,19 @@ const ModTools = (props) => {
                                             >
                                                 <option value="0">Select Account</option>
                                             </select>
+
+
                                         </div>
+
+                                        <div className="col-sm-4 padding-minimum">
+                                            <label for="mobile" class="control-label"><span className="text-danger">*</span> Gender</label>
+                                            <select name="gender" id="gender" className="form-control select2-container step2-select" data-placeholder="Select Gender">
+                                                <option></option>
+                                                <option value="1">Male</option>
+                                                <option value="0">Female</option>
+                                            </select>
+                                        </div>
+
 
                                         <div className="twin-btn type-5 d-flex align-items-center justify-content-end">
                                             <button className="btn primary-bg ms-3 proxima-bold" type="button"

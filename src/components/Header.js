@@ -238,7 +238,7 @@ const Header = (props) => {
 
                                             <a href="#" onClick={(event) => navigate(event)}
                                                 style={{ textDecoration: 'none', color: 'black' }}
-                                            >Wallet Address<br />{walletAddress}<br /><br />Upsocial Wallet Balance<br />USN {walletBalance}</a>
+                                            >Wallet Address<br />{walletAddress}<br />{/* <br />Upsocial Wallet Balance<br />USN {walletBalance} */}</a>
 
 
                                             {/* <span className="badge badge-light-success">Connected</span> */}

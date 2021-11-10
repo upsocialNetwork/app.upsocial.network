@@ -472,6 +472,9 @@ const PostDetails = (props) => {
     }
 
 
+    console.log(element);
+    //var aDay = 24 * 60 * 60 * 1000;
+    //var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
 
 
 
@@ -548,7 +551,7 @@ const PostDetails = (props) => {
                                 </div>
 
                                 <div className="post-header-right" hidden>
-                                    <div className="post-time">{/* {element.agoTime} */}</div>
+                             {/*    <div className="post-time">{timeResult + " ago"}</div> */}
                                     <div className="dropdown">
                                         <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown" aria-expanded="false">

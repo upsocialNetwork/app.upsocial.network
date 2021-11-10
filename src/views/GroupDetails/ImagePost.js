@@ -76,7 +76,7 @@ const ImagePost = (props) => {
             history.push('/auth/login');
             return null;
         }
-        httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
+        httpClient.call("delete-post/" + postId, null, { method: 'GET' }).then(function (response) {
             Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
@@ -119,7 +119,8 @@ const ImagePost = (props) => {
 
     }
 
-
+    var aDay = 24 * 60 * 60 * 1000;
+    var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
 
 
     return (
@@ -139,7 +140,7 @@ const ImagePost = (props) => {
 
                     {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
-                            <div className="post-time">{/* {element.agoTime} */}</div>
+                              <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">

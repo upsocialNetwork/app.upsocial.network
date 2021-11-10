@@ -8,6 +8,8 @@ import { useHistory } from 'react-router-dom';
 import HoverVideoPlayer from 'react-hover-video-player';
 import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+import moment from 'moment';
+
 const ImagePost = (props) => {
 
     const history = useHistory();
@@ -107,13 +109,11 @@ const ImagePost = (props) => {
         })
     }
 
+    //console.log(element);
+    var aDay = 24 * 60 * 60 * 1000;
+    var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
+    //console.log(timeResult + " ago");
 
-
-
-
-
-
-    // console.log(element);
 
 
     return (
@@ -133,7 +133,7 @@ const ImagePost = (props) => {
 
                     {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
-                            <div className="post-time">{/* {element.agoTime} */}</div>
+                             <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,7 +150,7 @@ const ImagePost = (props) => {
                         </div>
                         :
                         <div className="post-header-right" >
-                            <div className="post-time">{/* {element.agoTime} */}</div>
+                             <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -276,7 +276,7 @@ const ImagePost = (props) => {
 
                                     <div className="post-content max-520" >
                                         <ReactQuill readOnly={true}
-                                          theme=""/*   theme={"bubble"} */ value={element.data} />
+                                            theme=""/*   theme={"bubble"} */ value={element.data} />
 
                                     </div>
 

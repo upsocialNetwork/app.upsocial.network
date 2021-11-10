@@ -158,7 +158,7 @@ const Login = (props) => {
                                 <h1 className="opacity-one-times">WELCOME </h1>
                                 <h1 className="opacity-two-times">WELCOME </h1>
                                 <h5>Sign up to be a
-                                    BETA USER and claim your 1,000 USN</h5>
+                                    BETA USER and claim your 100 USN</h5>
 
                                 <p>Free your mind and get paid for creating content, driving traffic and referring friends.
                                     A place to have open conversations and bring people together.</p>
@@ -261,9 +261,9 @@ const Login = (props) => {
                                 </div>
                             </div>
                             <div className="login-left flex">
-                                <div className="ask-user">Dont have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
+                                <div className="ask-user">Don't have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
                                     <br /><br />
-                                    Visit Upsocial ?
+                                    Visit Upsocial ? &nbsp;
                                     <a href="/" className="theme-color" onClick={(event) => { home(event) }}>Home</a>
 
                                 </div>
@@ -276,7 +276,7 @@ const Login = (props) => {
                                 <div className="twin-btn d-flex align-items-center justify-content-between">
 
                                     <button type="submit" disabled={!(email && password)} className="btn gradient-bg-one radius-30 login" onClick={(event) => { doLogin(event) }}>Login Now</button>
-                                    <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { forgetPassword(event) }}>Forget Password</button>
+                                    <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { forgetPassword(event) }}>Forgot Password</button>
 
                                 </div>
                             </div>

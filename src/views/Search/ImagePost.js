@@ -91,7 +91,7 @@ const ImagePost = (props) => {
             history.push('/auth/login');
             return null;
         }
-        httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
+        httpClient.call("delete-post/" + postId, null, { method: 'GET' }).then(function (response) {
             Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);
@@ -106,7 +106,8 @@ const ImagePost = (props) => {
         })
     }
 
-
+    var aDay = 24 * 60 * 60 * 1000;
+    var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
 
 
 
