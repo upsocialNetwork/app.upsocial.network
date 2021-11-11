@@ -180,7 +180,7 @@ const Login = (props) => {
                                 </div> */}
                                 <div className="input-wrapper">
                                     <label htmlFor="">Username</label>
-                                    <input type="text" maxLength="15" name="userName" className="form-control input-sm"
+                                    <input type="text" name="userName" className="form-control input-sm"
                                         onChange={(event) => { setSignupUserName(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('userName')} />
                                     {validator.current.message('userName', signupUserName, 'required')}
@@ -235,7 +235,7 @@ const Login = (props) => {
                     <div className="login-part" id="login-content">
                         <form action="#" className="login-g-wrapper">
                             <div className="login-left">
-                                <h6>Hi There !</h6>
+                                <h6>Hi There!</h6>
                                 <h1>WELCOME BACK</h1>
                                 <h1 className="opacity-one-times">WELCOME BACK</h1>
                                 <h1 className="opacity-two-times">WELCOME BACK</h1>
@@ -261,9 +261,9 @@ const Login = (props) => {
                                 </div>
                             </div>
                             <div className="login-left flex">
-                                <div className="ask-user">Don't have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
+                                <div className="ask-user">Don't have an Account? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
                                     <br /><br />
-                                    Visit Upsocial ? &nbsp;
+                                    Visit Upsocial? &nbsp;
                                     <a href="/" className="theme-color" onClick={(event) => { home(event) }}>Home</a>
 
                                 </div>
