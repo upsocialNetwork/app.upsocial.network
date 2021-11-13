@@ -3,6 +3,7 @@ import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common
 import Session from '../../utils/session';
 import SimpleReactValidator from 'simple-react-validator';
 import { useHistory } from "react-router-dom";
+import Web3 from 'web3';
 
 
 const Login = (props) => {
@@ -73,17 +74,44 @@ const Login = (props) => {
     }
 
     const userSignup = (event) => {
+
         event.preventDefault();
-        if (validator.current.allValid()) {
-            Loader(true);
-            setIsSignupSubmit(true);
-            props._doSignup({
-                userName: signupUserName,
-                email: signupEmail,
-                wallet: walletAddress,
-                password: signupPassword
+        connectMetamask();
+        const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        web3.eth.personal.sign("Welcome to Upsocial Signing Process", "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA", "test password!").then(
+            function (res) {
+                console.log("true");
+                console.log(res);
+                var Accounts = require('web3-eth-accounts');
+                var accounts = new Accounts('https://data-seed-prebsc-1-s1.binance.org:8545');
+                console.log(accounts);
+
+            }, function (error) {
+                console.log("false");
+                console.log(error);
             });
-        }
+
+        //const account = accounts[0];
+
+
+
+        return null;
+        /* if (account == null) {
+            console.log("wallet null");
+            return null;
+        } else {
+
+            if (validator.current.allValid()) {
+                Loader(true);
+                setIsSignupSubmit(true);
+                props._doSignup({
+                    userName: signupUserName,
+                    email: signupEmail,
+                    wallet: walletAddress,
+                    password: signupPassword
+                });
+            }
+        } */
     }
 
     const forgetPassword = (event) => {
@@ -111,6 +139,17 @@ const Login = (props) => {
             //  setMatamask(false);
             return null;
         }
+    }
+
+
+    const connectSignin = (event) => {
+        event.preventDefault();
+        console.log("calling");
+        const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        web3.eth.personal.sign("Hello world", "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA", "test password!").then(console.log);
+
+
+
     }
 
     async function getAccount() {
@@ -159,41 +198,25 @@ const Login = (props) => {
                                 <h1 className="opacity-two-times">WELCOME </h1>
                                 <h5>Sign up to be a
                                     BETA USER and claim your 100 USN</h5>
-
-                                <p>Free your mind and get paid for creating content, driving traffic and referring friends.
-                                    A place to have open conversations and bring people together.</p>
                             </div>
-                            <div className="login-right">
-                                {/* <div className="input-wrapper">
-                                        <label htmlFor=""> Name</label>
-                                        <input type="text" name="firstName" className="form-control input-sm"
-                                            onChange={(event) => { setSignupFirstName(event.target.value) }}
-                                            onBlur={() => validator.current.showMessageFor('firstName')} />
-                                        {validator.current.message('firstName', signupFirstName, 'required')}
-                                    </div> */}
-                                {/* <div className="input-wrapper">
-                                    <label htmlFor="">Last Name</label>
-                                    <input type="text" name="lastName" className="form-control input-sm"
-                                        onChange={(event) => { setSignupLastName(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('lastName')} />
-                                    {validator.current.message('lastName', signupLastName, 'required')}
-                                </div> */}
-                                <div className="input-wrapper">
+
+                            <div className="login-right" >
+                                {/* <div className="input-wrapper" hidden>
                                     <label htmlFor="">Username</label>
                                     <input type="text" name="userName" className="form-control input-sm"
                                         onChange={(event) => { setSignupUserName(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('userName')} />
                                     {validator.current.message('userName', signupUserName, 'required')}
-                                </div>
+                                </div> */}
 
                                 <div className="input-wrapper">
                                     <label htmlFor="">Email</label>
-                                    <input type="email"  name="email" className="form-control input-sm"
+                                    <input type="email" name="email" className="form-control input-sm"
                                         onChange={(event) => { setSignupEmail(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('email')} />
                                     {validator.current.message('email', signupEmail, 'required|email')}
                                 </div>
-                                <div className="input-wrapper">
+                                {/* <div className="input-wrapper" hidden>
                                     <label htmlFor="">Password</label>
                                     <input type="password" name="password" className="form-control input-sm"
                                         onChange={(event) => { setSignupPassword(event.target.value) }}
@@ -201,30 +224,24 @@ const Login = (props) => {
                                     {validator.current.message('password', signupPassword, 'required')}
                                 </div>
 
-                                <div className="input-wrapper">
+                                <div className="input-wrapper" hidden>
                                     <label htmlFor="">Connect Wallet</label>
                                     {walletAddress === null ?
                                         <a href="#" onClick={(event) => { connectMetamask(event) }} >  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'black' }} width="30px" height="30px" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
                                             <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
                                         </svg></a>
                                         : <input type="text" className="form-control input-sm" value={walletAddress} />}
-                                </div>
-
-
-
-
+                                </div> */}
                             </div>
                             <div className="login-left flex">
                                 <div className="ask-user">Already have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(true) }}>Login
                                     Now</a>
                                 </div>
                             </div>
-                            <div className="login-right">
+                            <div className="login-right" >
                                 <div className="text-right">
                                     <button
-
-                                        disabled={!(walletAddress && signupEmail && signupPassword && signupUserName)}
-
+                                        disabled={!(signupEmail)}
                                         type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
 
                                 </div>
@@ -245,7 +262,7 @@ const Login = (props) => {
                                     <label htmlFor="">Email</label>
                                     <input type="text" name="email"
 
-                                        
+
                                         className="form-control"
                                         onChange={(event) => { setEmail(event.target.value) }}
                                         onBlur={() => validatorLogin.current.showMessageFor('email')} />
