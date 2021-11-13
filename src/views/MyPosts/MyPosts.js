@@ -4,6 +4,7 @@ import { Loader } from '../../utils/common';
 import PostList from './PostList';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useHistory } from 'react-router-dom';
+import CreatePostForm from '../Home/CreatePostForm';
 
 
 const Home = (props) => {
@@ -43,6 +44,7 @@ const Home = (props) => {
 
     return (
         <main className="main-content mx-auto">
+            <CreatePostForm />
 
             <ul className="nav nav-tabs" id="myTab" role="tablist" hidden>
                 <li className="nav-item" role="presentation">

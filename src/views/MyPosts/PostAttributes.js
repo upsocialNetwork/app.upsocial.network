@@ -3,6 +3,7 @@ import Session from '../../utils/session';
 import { useHistory } from 'react-router-dom';
 import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+import $ from 'jquery';
 
 const PostAttributes = (props) => {
 
@@ -222,16 +223,12 @@ const PostAttributes = (props) => {
 
     const giveAward = (event, postId) => {
         event.preventDefault();
-        /* let user = Session.getSessionData();
-        if (user == null) {
 
-            history.push('/auth/login');
-            return null;
-        } */
-        //console.log("give award");
-        SuccessToast("Award successfully transfered");
+        var token = $("#transfertokenvalue").val();
+        $("#transfertokenvalue").val(0);
+        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
         document.getElementById('modal-closed').click();
-        //$('#modal-closed').click();
+
     }
 
 
@@ -260,7 +257,20 @@ const PostAttributes = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    USN  100
+                                    USN &nbsp;Token
+
+                                    <div className="d-flex justify-content-center" >
+                                        <div className="pf-lr-part">
+                                            <input type="number" className="form-control"
+                                                max="50" id="transfertokenvalue"
+
+                                            />
+
+                                        </div>
+                                    </div>
+
+
+
                                 </div><br />
 
 
@@ -308,7 +318,9 @@ const PostAttributes = (props) => {
 
 
 
-                    <li><button onClick={(event) => promotePost(event, element.id)}><img src="img/share.png" alt="" /></button></li>
+                    <li><button onClick={(event) => promotePost(event, element.id)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
+                    </svg></button></li>
                     <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                 </ul>
             </div>

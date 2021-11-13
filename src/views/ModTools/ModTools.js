@@ -29,6 +29,7 @@ const ModTools = (props) => {
         getGroupDetails(params.id);
         setData(location.state.detail);
         // getMembersList(params.id);
+      
 
     }, []);
 
@@ -40,6 +41,8 @@ const ModTools = (props) => {
         getGroupDetails(params.id);
         setData(location.state.detail);
         //getMembersList(params.id);
+
+
 
     }, [params.id]);
 
@@ -412,16 +415,10 @@ const ModTools = (props) => {
                                             </select>
 
 
+
+
                                         </div>
 
-                                        <div className="col-sm-4 padding-minimum">
-                                            <label for="mobile" class="control-label"><span className="text-danger">*</span> Gender</label>
-                                            <select name="gender" id="gender" className="form-control select2-container step2-select" data-placeholder="Select Gender">
-                                                <option></option>
-                                                <option value="1">Male</option>
-                                                <option value="0">Female</option>
-                                            </select>
-                                        </div>
 
 
                                         <div className="twin-btn type-5 d-flex align-items-center justify-content-end">
@@ -541,7 +538,7 @@ const ModTools = (props) => {
                         <div className="twin-btn type-5 d-flex " >
                             <button type="button" style={{ display: 'none' }} id="setting-groupDeactivated"
                                 onClick={(event) => { deactivate(event, data.id) }}
-                                className="btn primary-bg ms-3 proxima-bold" >Deactivate</button>
+                                className="btn primary-bg ms-3 proxima-bold" hidden>Deactivate</button>
                         </div>
                     </div>
                 </div>

@@ -14,6 +14,7 @@ const ImagePost = (props) => {
 
     const history = useHistory();
     let element = props.postData;
+ //   console.log(element);
     let [userData, setUserData] = useState();
 
 
@@ -133,7 +134,7 @@ const ImagePost = (props) => {
 
                     {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
-                             <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -150,7 +151,7 @@ const ImagePost = (props) => {
                         </div>
                         :
                         <div className="post-header-right" >
-                             <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="post-time">{/* {element.agoTime} */}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">

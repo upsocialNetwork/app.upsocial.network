@@ -10,6 +10,7 @@ import _ from 'underscore';
 import HoverVideoPlayer from 'react-hover-video-player';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
+import $ from 'jquery';
 
 const Comment = props => {
     const navigate = (event) => {
@@ -31,12 +32,26 @@ const Comment = props => {
     if (childsData && childsData.length > 0) childsData.sort((a, b) => { return b - a })
     if (!comment) return null;
 
+    //console.log(comment);
     return (
 
         <li key={index}>
             <div className="elementory-avater-wrap single-comment">
-                <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
-                    src="img/dol-1.png" alt="" /></a>
+                <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater">
+                    {/* <img
+                    src="img/dol-1.png" alt="" />
+ */}
+
+
+                    {comment.user.image ?
+                        <img className="avater-image img-fluid" src={"https://ipfs.io/ipfs/" + comment.user.image} alt="" id="profile-image"
+
+                        /> :
+                        <img className="avater-image img-fluid" src="img/dol-1.png" alt="" id="profileimage"
+
+                        />
+                    }
+                </a>
                 <div className="comment-part">
                     <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{comment && comment.user && comment.user.userName ? comment.user.userName : ''}</a>{/* <span>{commentElement.createDate}</span> */}</h6>
                     <div className="comment-text">
@@ -459,20 +474,15 @@ const PostDetails = (props) => {
 
     const giveAward = (event, postId) => {
         event.preventDefault();
-        /* let user = Session.getSessionData();
-        if (user == null) {
-
-            history.push('/auth/login');
-            return null;
-        } */
-        //console.log("give award");
-        SuccessToast("Award successfully transfered");
+        var token = $("#transfertokenvalue").val();
+        $("#transfertokenvalue").val(0);
+        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
         document.getElementById('modal-closed').click();
-        //$('#modal-closed').click();
+
     }
 
 
-    console.log(element);
+    //console.log(element);
     //var aDay = 24 * 60 * 60 * 1000;
     //var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
 
@@ -503,7 +513,20 @@ const PostDetails = (props) => {
                             </div>
 
                             <div className="text-center">
-                                USN &nbsp;100
+                                USN &nbsp;Token
+
+                                <div className="d-flex justify-content-center" >
+                                    <div className="pf-lr-part">
+                                        <input type="number" className="form-control"
+                                            max="50" id="transfertokenvalue"
+
+                                        />
+
+                                    </div>
+                                </div>
+
+
+
                             </div><br />
 
 
@@ -543,7 +566,7 @@ const PostDetails = (props) => {
                                             <img src="img/dol-1.png" alt="" />
                                         }</a>
                                     <h6>
-                                        <a href="/" onClick={(event) => navigate(event)} style={{fontSize:"22px"}} >
+                                        <a href="/" onClick={(event) => navigate(event)} style={{ fontSize: "22px" }} >
                                             {element !== null ? element.name : null}
                                         </a> <span>Posted by  {element !== null ? element.postedBy.userName : null}
                                         </span>
@@ -551,7 +574,7 @@ const PostDetails = (props) => {
                                 </div>
 
                                 <div className="post-header-right" hidden>
-                             {/*    <div className="post-time">{timeResult + " ago"}</div> */}
+                                    {/*    <div className="post-time">{timeResult + " ago"}</div> */}
                                     <div className="dropdown">
                                         <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -655,7 +678,7 @@ const PostDetails = (props) => {
 
                                                     <div className="post-content max-520">
                                                         <ReactQuill readOnly={true}
-                                          theme=""/*   theme={"bubble"} */ value={element.data} />
+                                                            theme=""/*   theme={"bubble"} */ value={element.data} />
 
                                                     </div>
                                                 )
@@ -698,7 +721,9 @@ const PostDetails = (props) => {
                                                     <path d="M9.669.864 8 0 6.331.864l-1.858.282-.842 1.68-1.337 1.32L2.6 6l-.306 1.854 1.337 1.32.842 1.68 1.858.282L8 12l1.669-.864 1.858-.282.842-1.68 1.337-1.32L13.4 6l.306-1.854-1.337-1.32-.842-1.68L9.669.864zm1.196 1.193.684 1.365 1.086 1.072L12.387 6l.248 1.506-1.086 1.072-.684 1.365-1.51.229L8 10.874l-1.355-.702-1.51-.229-.684-1.365-1.086-1.072L3.614 6l-.25-1.506 1.087-1.072.684-1.365 1.51-.229L8 1.126l1.356.702 1.509.229z" />
                                                     <path d="M4 11.794V16l4-1 4 1v-4.206l-2.018.306L8 13.126 6.018 12.1 4 11.794z" />
                                                 </svg></button></li>
-                                                <li><button onClick={(event) => promotePost(event, element.id)}><img src="img/share.png" alt="" /></button></li>
+                                                <li><button onClick={(event) => promotePost(event, element.id)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
+                                                </svg></button></li>
                                                 <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                                             </ul>
                                         </div>

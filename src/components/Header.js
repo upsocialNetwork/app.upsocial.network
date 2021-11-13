@@ -336,9 +336,19 @@ const Header = (props) => {
                                     </li>
 
                                     <li className="ms-3" ><a href="/" onClick={(event) => navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
-                                        aria-expanded="false" className="notification new-state">
-                                        <img src="img/bell.svg"
-                                            alt="" /></a>
+                                        aria-expanded="false" /* className="notification new-state" */>
+
+
+                                        {/*  <img src="img/bell.svg"
+                                            alt="" /> */}
+
+
+                                        <svg style={{ color: 'white' }} width="30px" height="30px" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+                                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                                        </svg>
+
+
+                                    </a>
                                         <ul className="dropdown-menu setting-dropdown notification-d w-340"
                                             aria-labelledby="notificationDropdown">
                                             <li>
@@ -478,7 +488,7 @@ const Header = (props) => {
                                             <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
 
                                         </svg></a>
-                                       {/*  &nbsp; &nbsp; &nbsp; &nbsp; */}
+                                        {/*  &nbsp; &nbsp; &nbsp; &nbsp; */}
                                     </li>
 
 

@@ -96,6 +96,7 @@ var commentData = [
 
 const PostComments = (props) => {
 
+    //console.log(props);
     let element = props.postData;
     let commentCount = element.commentCount;
 
@@ -142,8 +143,8 @@ const PostComments = (props) => {
                                 return (
                                     <li key={index}>
                                         <div className="elementory-avater-wrap single-comment">
-                                            <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
-                                                src="img/gp-1.jpg" alt="" /></a>
+                                            <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater">{/* <img
+                                                src="img/gp-1.jpg" alt="" /> */}</a>
                                             <div className="comment-part">
                                                 <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{commentElement.postedBy}</a><span>{commentElement.createDate}</span></h6>
                                                 <div className="comment-text">
@@ -173,8 +174,9 @@ const PostComments = (props) => {
                                                         return (
                                                             <li key={key}>
                                                                 <div className="elementory-avater-wrap single-comment">
-                                                                    <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
-                                                                        src="img/gp-1.jpg" alt="" /></a>
+                                                                    <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater">
+                                                                       {/*  <img
+                                                                        src="img/gp-1.jpg" alt="" /> */}</a>
                                                                     <div className="comment-part">
                                                                         <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
                                                                         <div className="comment-text">
@@ -202,11 +204,14 @@ const PostComments = (props) => {
                                                                             replyElement.reply.map((childElement, key) => {
                                                                                 let index = _.findIndex(commentData, { commentId: childElement });
                                                                                 let replyElement = commentData[index];
+                                                                                console.log(replyElement);
+                                                                                console.log(index);
                                                                                 return (
                                                                                     <li key={key}>
                                                                                         <div className="elementory-avater-wrap single-comment">
-                                                                                            <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"><img
-                                                                                                src="img/gp-1.jpg" alt="" /></a>
+                                                                                            <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater">
+                                                                                               {/*  <img
+                                                                                                src="img/gp-1.jpg" alt="" /> */}</a>
                                                                                             <div className="comment-part">
                                                                                                 <h6><strong>Posted by</strong><a href="/" onClick={(event) => navigate(event)}>{replyElement.postedBy}</a><span>{replyElement.createDate}</span></h6>
                                                                                                 <div className="comment-text">

@@ -239,7 +239,7 @@ const CreateGroupPost = (props) => {
                                 <button className="nav-link active" id="link-tab" data-bs-toggle="tab" data-bs-target="#link"
                                     type="button" role="tab" aria-controls="home" aria-selected="true"
                                     onClick={() => { setText(false) }}
-                                >Image & Video</button>
+                                >Media</button>
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button className="nav-link" id="text-tab" data-bs-toggle="tab" data-bs-target="#text"
