@@ -67,7 +67,7 @@ const ForgetPassword = (props) => {
                                 onClick={(event) => { doForgetPassword(event) }}
 
                                 disabled={!email}
-                            >Forget Password</button>
+                            >Forgot Password</button>
 
                             {/* <div className="input-wrapper">
                                 <label htmlFor="">Password</label>
@@ -93,9 +93,9 @@ const ForgetPassword = (props) => {
 
             </div>
             <div className="access-bottom-part">
-                <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color">Terms</a> and
-                    that you have read our <a href="https://upsocial.network/privacy-policy/" className="link theme-color">Privacy Policy</a> and <a href="/"
-                        className="link theme-color">Content Policy</a>.</div>
+                <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color" target="_blank">Terms</a> and
+                    that you have read our <a href="https://upsocial.network/privacy-policy/"  className="link theme-color" target="_blank">Privacy Policy</a> and <a href="https://upsocial.network/privacy-policy/"
+                     target="_blank"   className="link theme-color">Content Policy</a>.</div>
             </div>
         </div>
     );

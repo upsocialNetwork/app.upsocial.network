@@ -63,11 +63,11 @@ const AuthorizeRoute = () => {
   let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
-    if (state.authSession.userData && ['/auth/login', '/auth/forget-password'].indexOf(history.location.pathname) !== -1) {
+    if (state.authSession.userData && ['/auth/login', '/auth/forgot-password'].indexOf(history.location.pathname) !== -1) {
       //setIsLoggedIn(true)
       //history.push('/')
     }
-    else if ((!state.authSession || !state.authSession.userData) && ['/auth/login', '/auth/forget-password'].indexOf(history.location.pathname) === -1) {
+    else if ((!state.authSession || !state.authSession.userData) && ['/auth/login', '/auth/forgot-password'].indexOf(history.location.pathname) === -1) {
       //setIsLoggedIn(false)
       //history.push('/login')
     }
@@ -96,7 +96,7 @@ const AuthorizeRoute = () => {
               return (
                 <LoginLayout>
                   <Route path="/auth/login" component={Login} ></Route>
-                  <Route path="/auth/forget-password" component={ForgetPassword} ></Route>
+                  <Route path="/auth/forgot-password" component={ForgetPassword} ></Route>
                 </LoginLayout>
               )
             }}>
