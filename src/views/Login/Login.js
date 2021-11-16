@@ -4,7 +4,6 @@ import Session from '../../utils/session';
 import SimpleReactValidator from 'simple-react-validator';
 import { useHistory } from "react-router-dom";
 
-
 const Login = (props) => {
 
     const history = useHistory();
