@@ -3,6 +3,8 @@ import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common
 import Session from '../../utils/session';
 import SimpleReactValidator from 'simple-react-validator';
 import { useHistory } from "react-router-dom";
+import Web3 from 'web3';
+import Contractcustom from "../../utils/contract";
 
 const Login = (props) => {
 
@@ -47,10 +49,19 @@ const Login = (props) => {
             SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
             setIsSignupSubmit(false);
             setIsLogin(true);
+           // transeferRegistrationToken();
+            // let authData = props.signupData;
+            //  console.log(authData);
+            /* Session.setSessionData(authData.result.data);
+            SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+            SetSassion(authData.result.data);
+            setIsLoginSubmit(false);
+            history.push('/') */
         } else if (isSignupSubmit && props.signupData) {
 
             setIsSignupSubmit(false);
             ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+            //transeferRegistrationToken();
         }
     }, [props.loginData, props.signupData])
 
@@ -62,27 +73,100 @@ const Login = (props) => {
     })
 
 
+    const transeferRegistrationToken = () => {
+        console.log("calling for false token");
+        // code 1
+        var Contract = require('web3-eth-contract');
+        Contract.setProvider(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        window.ethereum.enable();
+        var contract = new Contract(Contractcustom.contract_abi, Contractcustom.contract_address);
+        contract.methods.transfer("0x2Cf07B736bfFe655267f950EBEC647811B963a06", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
+            .then(function (receipt) {
+                console.log(receipt);
+                return null;
+                let transaction = {
+                    "_blockNumber": receipt.blockNumber,
+                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                    "_from": receipt.from,
+                    "_gasUsed": receipt.gasUsed,
+                    "_status": receipt.status,
+                    "_to": receipt.to,
+                    "_transactionHash": receipt.transactionHash,
+                    "_transactionIndex": receipt.transactionIndex,
+                    "_blockHash": receipt.blockHash,
+                    "_contractAddress": Contract.contract_address
+                }
+            }, function (error) {
+                Loader(false);
+                ErrorToast(error.message);
+                console.log(error);
+            });
+    }
+
     const doLogin = (event) => {
         event.preventDefault();
-        if (validatorLogin.current.allValid()) {
+        if (typeof window.ethereum !== 'undefined') {
+            console.log('MetaMask is installed!');
+            const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+            var account = web3.currentProvider.selectedAddress
             Loader(true);
             setIsLoginSubmit(true);
-            props._doLogin({ email, password });
+            props._doLogin({ wallet: account });
+        }
+        else {
+            ErrorToast("MetaMask is not installed!");
+            console.log('MetaMask is not installed!');
+            return null;
         }
     }
 
-    const userSignup = (event) => {
-        event.preventDefault();
-        if (validator.current.allValid()) {
-            Loader(true);
-            setIsSignupSubmit(true);
-            props._doSignup({
-                userName: signupUserName,
-                email: signupEmail,
-                wallet: walletAddress,
-                password: signupPassword
+    const userSignup = () => {
+        // event.preventDefault();
+
+        //Loader(true);
+        //setIsSignupSubmit(true);
+        //console.log(signupUserName);
+        //console.log(signupEmail);
+        //console.log(walletAddress);
+        //console.log(signupPassword);
+
+        /*  return null;
+         props._doSignup({
+             userName: signupUserName,
+             email: signupEmail,
+             wallet: walletAddress,
+             password: signupPassword
+         }); */
+
+    }
+
+
+    const signingMetamask = () => {
+        const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        var account = web3.currentProvider.selectedAddress
+        web3.eth.personal.sign("Welcome to Upsocial Signing Process", account, "test password!").then(
+            function (res) {
+                console.log("true");
+                console.log(res);
+
+                if (account === null) {
+                    ErrorToast("Wallet address  is not mandatory");
+                    return null;
+                }
+                Loader(true);
+                setIsSignupSubmit(true);
+                console.log("calling api");
+                props._doSignup({
+                    userName: signupUserName,
+                    email: signupEmail,
+                    wallet: account,
+                });
+            }, function (error) {
+                console.log("error signing process");
+                console.log("false");
+                console.log(error);
             });
-        }
+
     }
 
     const forgetPassword = (event) => {
@@ -97,11 +181,8 @@ const Login = (props) => {
 
     const connectMetamask = (event) => {
         event.preventDefault();
-
         if (typeof window.ethereum !== 'undefined') {
             console.log('MetaMask is installed!');
-            // setMatamask(true);
-            //  SuccessToast("MetaMask is installed!");
             getAccount();
         }
         else {
@@ -123,7 +204,7 @@ const Login = (props) => {
             sessionStorage.setItem("walletno", account);
             setWalletAddress(account);
             console.log("Wallet No", account);
-
+            signingMetamask();
         }
     }
 
@@ -164,12 +245,12 @@ const Login = (props) => {
                             </div>
                             <div className="login-right">
                                 {/* <div className="input-wrapper">
-                                        <label htmlFor=""> Name</label>
-                                        <input type="text" name="firstName" className="form-control input-sm"
-                                            onChange={(event) => { setSignupFirstName(event.target.value) }}
-                                            onBlur={() => validator.current.showMessageFor('firstName')} />
-                                        {validator.current.message('firstName', signupFirstName, 'required')}
-                                    </div> */}
+                                    <label htmlFor=""> Name</label>
+                                    <input type="text" name="firstName" className="form-control input-sm"
+                                        onChange={(event) => { setSignupFirstName(event.target.value) }}
+                                        onBlur={() => validator.current.showMessageFor('firstName')} />
+                                    {validator.current.message('firstName', signupFirstName, 'required')}
+                                </div> */}
                                 {/* <div className="input-wrapper">
                                     <label htmlFor="">Last Name</label>
                                     <input type="text" name="lastName" className="form-control input-sm"
@@ -187,26 +268,34 @@ const Login = (props) => {
 
                                 <div className="input-wrapper">
                                     <label htmlFor="">Email</label>
-                                    <input type="email"  name="email" className="form-control input-sm"
+                                    <input type="email" name="email" className="form-control input-sm"
                                         onChange={(event) => { setSignupEmail(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('email')} />
                                     {validator.current.message('email', signupEmail, 'required|email')}
                                 </div>
-                                <div className="input-wrapper">
+                                {/*  <div className="input-wrapper">
                                     <label htmlFor="">Password</label>
                                     <input type="password" name="password" className="form-control input-sm"
                                         onChange={(event) => { setSignupPassword(event.target.value) }}
                                         onBlur={() => validator.current.showMessageFor('password')} />
                                     {validator.current.message('password', signupPassword, 'required')}
-                                </div>
+                                </div> */}
 
-                                <div className="input-wrapper">
+                                {/* <div className="input-wrapper">
                                     <label htmlFor="">Connect Wallet</label>
                                     {walletAddress === null ?
                                         <a href="#" onClick={(event) => { connectMetamask(event) }} >  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'black' }} width="30px" height="30px" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
                                             <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
                                         </svg></a>
                                         : <input type="text" className="form-control input-sm" value={walletAddress} />}
+                                </div> */}
+                                <div className="text-right">
+                                    <button
+
+                                        disabled={!(signupEmail && signupUserName)}
+
+                                        type="submit" onClick={(event) => { connectMetamask(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
+
                                 </div>
 
 
@@ -220,11 +309,11 @@ const Login = (props) => {
                             </div>
                             <div className="login-right">
                                 <div className="text-right">
-                                    <button
+                                    {/*  <button
 
                                         disabled={!(walletAddress && signupEmail && signupPassword && signupUserName)}
 
-                                        type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
+                                        type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button> */}
 
                                 </div>
                             </div>
@@ -240,24 +329,33 @@ const Login = (props) => {
                                 <h1 className="opacity-two-times">WELCOME BACK</h1>
                             </div>
                             <div className="login-right">
-                                <div className="input-wrapper">
+
+                                <div className="text-right"><br /><br /><br />
+                                    <button
+
+                                        /*  disabled={!(signupEmail && signupUserName)} */
+
+                                        type="submit" onClick={(event) => { doLogin(event) }} className="btn gradient-bg-one radius-30 register">Connect To Wallet</button>
+
+                                </div>
+                                {/* <div className="input-wrapper">
                                     <label htmlFor="">Email</label>
                                     <input type="text" name="email"
 
-                                        
+
                                         className="form-control"
                                         onChange={(event) => { setEmail(event.target.value) }}
                                         onBlur={() => validatorLogin.current.showMessageFor('email')} />
                                     {validatorLogin.current.message('email', email, 'required|email')}
-                                </div>
+                                </div> */}
 
-                                <div className="input-wrapper">
+                                {/*  <div className="input-wrapper">
                                     <label htmlFor="">Password</label>
                                     <input type="password" name="password" className="form-control"
                                         onChange={(event) => { setPassword(event.target.value) }}
                                         onBlur={() => validatorLogin.current.showMessageFor('password')} />
                                     {validatorLogin.current.message('password', password, 'required')}
-                                </div>
+                                </div> */}
                             </div>
                             <div className="login-left flex">
                                 <div className="ask-user">Don't have an Account? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
@@ -272,12 +370,12 @@ const Login = (props) => {
                             </div>
 
                             <div className="login-right">
-                                <div className="twin-btn d-flex align-items-center justify-content-between">
+                                {/* <div className="twin-btn d-flex align-items-center justify-content-between">
 
                                     <button type="submit" disabled={!(email && password)} className="btn gradient-bg-one radius-30 login" onClick={(event) => { doLogin(event) }}>Login Now</button>
                                     <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { forgetPassword(event) }}>Forgot Password</button>
 
-                                </div>
+                                </div> */}
                             </div>
                         </form>
                     </div>
