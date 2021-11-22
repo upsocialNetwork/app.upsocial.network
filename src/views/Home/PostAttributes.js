@@ -9,7 +9,7 @@ const PostAttributes = (props) => {
 
     const history = useHistory();
     let element = props.postData;
-    let [transferTokenValue, setTransferTokenValue] = useState(false);
+    let [transferTokenValue, setTransferTokenValue] = useState(null);
 
 
     let [isLike, setIsLike] = useState(false);
@@ -241,8 +241,16 @@ const PostAttributes = (props) => {
     const giveAward = (event, postId) => {
         event.preventDefault();
 
+
+
+
         var token = $("#transfertokenvalue").val();
-       // console.log(token);
+
+        if (token <= 0) {
+            ErrorToast("Invalid value");
+            return false;
+        }
+        // console.log(token);
         $("#transfertokenvalue").val(0);
 
         /* let user = Session.getSessionData();
@@ -288,7 +296,7 @@ const PostAttributes = (props) => {
                                     <div className="d-flex justify-content-center" >
                                         <div className="pf-lr-part">
                                             <input type="number" className="form-control"
-                                                max="50" id="transfertokenvalue"
+                                                max="50" id="transfertokenvalue" required
 
                                             />
 
@@ -302,7 +310,7 @@ const PostAttributes = (props) => {
 
 
                                 <div className="text-center">
-                                    <button type="button" className="btn btn-danger"
+                                    <button type="button" id="giverewardbutton" className="btn btn-danger"
                                         onClick={(event) => { giveAward(event, element.id) }}
                                     >Give Award</button>
                                 </div>

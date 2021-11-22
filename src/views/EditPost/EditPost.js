@@ -27,7 +27,7 @@ const EditPost = (props) => {
 
         }
         const id = params.postid;
-       // getpostDetails(id);
+        // getpostDetails(id);
     }, []);
     useEffect(() => {
 
@@ -90,22 +90,24 @@ const EditPost = (props) => {
                     }
                     $('#div2').prepend('');
 
+
+
                     if (res.type.toUpperCase() === "IMAGE") {
                         $("#div2").attr('hidden', false);
-                        $('#div2').prepend("<img src=" + "https://ipfs.io/ipfs/" + res.data + " alt='' width='100%' height='300px'  />");
+                        $('#div2').prepend("<div id='div1'> <img src=" + "https://ipfs.io/ipfs/" + res.data + " alt='' width='100%' height='300px'  '/></div>");
                         $("#image1").attr('hidden', false);
                         $("#video1").attr('hidden', true);
                         $("#audio1").attr('hidden', true);
                     }
                     else if (res.type.toUpperCase() === "VIDEO") {
                         $("#div2").attr('hidden', false);
-                        $('#div2').prepend("<video controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></video>");
+                        $('#div2').prepend("<div id='div1'><video  controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg'  /></video></div>");
                         $("#video1").attr('hidden', false);
                         $("#image1").attr('hidden', true);
                         $("#audio1").attr('hidden', true);
                     } else if (res.type.toUpperCase() === "AUDIO") {
                         $("#div2").attr('hidden', false);
-                        $('#div2').prepend("<audio controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg' /></audio>");
+                        $('#div2').prepend("<div id='div1'><audio controls width='100%' height='300px'><source src=" + "https://ipfs.io/ipfs/" + res.data + " type='audio/mpeg'  /></audio></div>");
                         $("#audio1").attr('hidden', false);
                         $("#video1").attr('hidden', true);
                         $("#image1").attr('hidden', true);
@@ -213,6 +215,7 @@ const EditPost = (props) => {
             setPostData(b64);
             let postType = data.type.substring(0, 5);
             if (postType === "image") {
+                $("#div1").attr('hidden', true);
                 //set value
 
                 document.getElementById("image-prev").src = reader.result;
@@ -224,6 +227,7 @@ const EditPost = (props) => {
                 document.getElementById("audio-prev").value = "";
                 Loader(false);
             } else if (postType === "video") {
+                $("#div1").attr('hidden', true);
                 //set value
                 document.getElementById("video-prev").src = reader.result;
                 document.getElementById('video-prev').style.display = 'inline';
@@ -234,7 +238,7 @@ const EditPost = (props) => {
                 document.getElementById("audio-prev").value = "";
                 Loader(false);
             } else {
-
+                $("#div1").attr('hidden', true);
                 //set value
                 document.getElementById("audio-prev").src = reader.result;
                 document.getElementById('audio-prev').style.display = 'inline';
@@ -317,7 +321,7 @@ const EditPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                    value={title}  maxLength="30"
+                                                    value={title} maxLength="30"
                                                     onChange={(event) => { setTitle(event.target.value) }}
 
                                                 />
@@ -335,7 +339,7 @@ const EditPost = (props) => {
                                                     </div>
                                                 </div>
 
-                                               {/*  <div id="div1" hidden>
+                                                {/*  <div id="div1" hidden>
 
                                                 </div> */}
 
@@ -371,7 +375,7 @@ const EditPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                maxLength="30"     onChange={(event) => { setTitle(event.target.value) }} value={title}
+                                                    maxLength="30" onChange={(event) => { setTitle(event.target.value) }} value={title}
                                                 />
                                             </div>
                                             <div className="text-editor-wrapper">

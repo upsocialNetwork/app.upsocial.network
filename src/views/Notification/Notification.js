@@ -13,8 +13,7 @@ const Notification = props => {
     useEffect(() => {
 
         const userData = Session.getSessionData();
-        if(userData === null)
-        {
+        if (userData === null) {
             history.push("/auth/login");
         }
 
@@ -75,13 +74,20 @@ const Notification = props => {
 
                                             <div className="gp-icon">
                                                 <a href="#" onClick={(event) => { navigate(event) }} >
-                                                    <img src="img/dol-1.png" alt="" /> </a>
+                                                    {element.userImage ?
+                                                        <img src={"https://ipfs.io/ipfs/" + element.userImage}
+
+                                                        /> :
+                                                        <img src="img/dol-1.png" alt="" />
+
+                                                    }
+                                                </a>
                                             </div>
-                                            <a href="#" onClick={(event) => { navigate(event) }} style={{ textDecoration: 'none' }} >
-                                                <div className="gp-text ">
+                                            {/* <a href="#" onClick={(event) => { navigate(event) }} style={{ textDecoration: 'none' }} >
+                                                */} <div className="gp-text ">
                                                     {element.message}
                                                 </div>
-                                            </a>
+                                            {/* </a> */}
                                         </div>
                                     )
                                 })

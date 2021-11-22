@@ -38,7 +38,7 @@ const RightSideBar = (props) => {
 
 
     const getAdvertisement = () => {
-      //  console.log("calling advertisement");
+        //  console.log("calling advertisement");
         httpClient.call("get-all-advertisement", null, { method: 'GET' }).then(function (response) {
 
             if (response.success) {
@@ -188,12 +188,15 @@ const GroupRecord = (props) => {
                     {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
                 </a>
             </div>
+
+
+
             <a href="#" onClick={(event) => { groupDetails(event, element.id) }} style={{ textDecoration: 'none' }} >
-                <div className="gp-text ">
+                <div className="gp-text " >
                     {element.name}
                 </div>
             </a>
-            {/* <div className="gp-button ">
+           {/*  <div className="gp-button ">
                 <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn border border-primary follow float-right">View</a>
             </div> */}
 

@@ -92,7 +92,7 @@ const ImagePost = (props) => {
             history.push('/auth/login');
             return null;
         }
-        httpClient.call("delete-post/" + postId, null, { method: 'GET' }).then(function (response) {
+        httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
             Loader(false);
             if (response.success) {
                 SuccessToast(response.result.message);

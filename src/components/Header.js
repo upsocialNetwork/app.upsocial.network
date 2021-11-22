@@ -147,6 +147,7 @@ const Header = (props) => {
         httpClient.call("get-notification", null, { method: 'GET' }).then(function (response) {
             if (response.success) {
 
+                //console.log(response.result.data);
                 setNotification(response.result.data);
                 // console.log(response);
                 //SuccessToast(response.result.message);
@@ -368,7 +369,17 @@ const Header = (props) => {
                                                                 notification.slice(0, 5).map((element, index) => {
                                                                     return (
                                                                         <div className="single-group single-message" key={index}>
-                                                                            <div className="gp-icon"><img src="img/dol-1.png" alt="" />
+                                                                            <div className="gp-icon">
+                                                                                {/*   <img src="img/dol-1.png" alt="" /> */}
+
+
+                                                                                {element.userImage ?
+                                                                                    <img src={"https://ipfs.io/ipfs/" + element.userImage}
+
+                                                                                    /> :
+                                                                                    <img src="img/dol-1.png" alt="" />
+
+                                                                                }
                                                                             </div>
                                                                             <div className="gp-text">{element.message}</div>
 
@@ -515,7 +526,7 @@ const Header = (props) => {
 
                                                 <ul className="side-menu setting-menu">
                                                     <li hidden><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-1.svg" alt="" /></span>Switch account</a></li>
-                                                    <li><a href="/" onClick={(event) => changePassword(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting & Privacy</a> </li>
+                                                    <li hidden><a href="/" onClick={(event) => changePassword(event)}><span className="m-icon"><img src="img/i-2.svg" alt="" /></span>Setting & Privacy</a> </li>
                                                     <li hidden><a href="/" onClick={(event) => navigate(event)}><span className="m-icon"><img src="img/i-3.svg" alt="" /></span>Help & Support</a></li>
                                                     <li><a href="/" onClick={(event) => { event.preventDefault(); colorModeToggle() }}><span className="m-icon"><img src="img/i-4.svg" alt="" /></span>Change display mode</a></li>
                                                     <li><a href="/" onClick={(event) => logout(event)}><span className="m-icon"><img src="img/i-5.svg" alt="" /></span>Log out</a></li>
