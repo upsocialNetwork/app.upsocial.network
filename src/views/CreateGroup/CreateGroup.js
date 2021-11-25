@@ -51,7 +51,8 @@ const Community = (props) => {
 
         event.preventDefault();
         httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
-            if (response.success == true) {
+            if (response.success == true) 
+            {
                 let userData = Session.getSessionData();
 
                 console.log(userData.wallet);

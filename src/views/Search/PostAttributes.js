@@ -4,6 +4,9 @@ import { useHistory } from 'react-router-dom';
 import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import $ from 'jquery';
+import Contract from "../../utils/contract";
+import Web3 from 'web3';
+
 const PostAttributes = (props) => {
 
     const history = useHistory();
@@ -215,33 +218,127 @@ const PostAttributes = (props) => {
             return null;
         }
 
-        let formData = {
+        let formData = {};
+
+        formData = {
             "postId": postId
         }
+        httpClient.call('check-promote-post', formData, { method: 'POST' }).then(function (response) {
+            if (response.success == true) {
+                let userData = Session.getSessionData();
+                Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+                //Web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+                window.ethereum.enable();
+                const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+                console.log(NameContract);
+                NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
+                    .then(function (receipt) {
+                        console.log(receipt);
+                        let transaction = {
+                            "_blockNumber": receipt.blockNumber,
+                            "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                            "_from": receipt.from,
+                            "_gasUsed": receipt.gasUsed,
+                            "_status": receipt.status,
+                            "_to": receipt.to,
+                            "_transactionHash": receipt.transactionHash,
+                            "_transactionIndex": receipt.transactionIndex,
+                            "_blockHash": receipt.blockHash,
+                            "_contractAddress": Contract.contract_address
+                        }
+                        formData['transaction'] = transaction;
+                        httpClient.call('promote-post', formData, { method: 'POST' }).then(function (response) {
+                            Loader(false);
+                            if (response.success) {
+                                SuccessToast(response.result.message);
+                            }
+                            else {
+                                ErrorToast(response.result.message);
+                            }
 
-        httpClient.call("promote-post", formData, { method: 'POST' }).then(function (response) {
-            Loader(false);
-            if (response.success) {
-                SuccessToast(response.result.message);
+                        }, function (error) {
+                            Loader(false);
+                            ErrorToast(error.message);
+                        })
+                    }, function (error) {
+                        Loader(false);
+                        ErrorToast(error.message);
+                        console.log(error);
+                    });
             }
             else {
+                Loader(false);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
             Loader(false);
+            ErrorToast(error.message);
             console.log(error);
         })
-
-
     }
 
 
     const giveAward = (event, postId) => {
         event.preventDefault();
-        var token = $("#transfertokenvalue").val();
-        $("#transfertokenvalue").val(0);
-        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
-        document.getElementById('modal-closed').click();
+        let token = $("#transfertokenvalue").val();
+
+
+        if (token <= 0) {
+            ErrorToast("Invalid value");
+            return false;
+        }
+
+        Loader(true);
+        event.preventDefault();
+        let formData = {};
+        formData =
+        {
+            "postId": postId,
+            "tokens": token
+        }
+
+        let userData = Session.getSessionData();
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        //Web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+        window.ethereum.enable();
+        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+        console.log(NameContract);
+        NameContract.methods.transfer(Contract.upsocial_wallet, (token * 1000000000000000000).toString()).send({ from: userData.wallet })
+            .then(function (receipt) {
+                console.log(receipt);
+                let transaction = {
+                    "_blockNumber": receipt.blockNumber,
+                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                    "_from": receipt.from,
+                    "_gasUsed": receipt.gasUsed,
+                    "_status": receipt.status,
+                    "_to": receipt.to,
+                    "_transactionHash": receipt.transactionHash,
+                    "_transactionIndex": receipt.transactionIndex,
+                    "_blockHash": receipt.blockHash,
+                    "_contractAddress": Contract.contract_address
+                }
+                formData['transaction'] = transaction;
+                httpClient.call('give-reward', formData, { method: 'POST' }).then(function (response) {
+                    Loader(false);
+                    if (response.success) {
+                        $("#transfertokenvalue").val(0);
+                        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
+                        document.getElementById('modal-closed').click();
+                    }
+                    else {
+                        ErrorToast(response.result.message);
+                    }
+
+                }, function (error) {
+                    Loader(false);
+                    ErrorToast(error.message);
+                })
+            }, function (error) {
+                Loader(false);
+                ErrorToast(error.message);
+                console.log(error);
+            });
 
     }
 
@@ -271,22 +368,12 @@ const PostAttributes = (props) => {
                                 </div>
 
                                 <div className="text-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" className="bi bi-coin" viewBox="0 0 16 16">
-                                        <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518l.087.02z" />
-                                        <path fillRule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                                        <path fillRule="evenodd" d="M8 13.5a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
-                                    </svg>&nbsp;500
-                                </div><br />
-
-
-
-                                <div className="text-center">
                                     USN &nbsp;Token
 
                                     <div className="d-flex justify-content-center" >
                                         <div className="pf-lr-part">
                                             <input type="number" className="form-control"
-                                                max="50" id="transfertokenvalue"
+                                                max="50" id="transfertokenvalue" required
 
                                             />
 
@@ -296,6 +383,14 @@ const PostAttributes = (props) => {
 
 
                                 </div><br />
+
+
+
+                                <div className="text-center">
+                                    <button type="button" id="giverewardbutton" className="btn btn-danger"
+                                        onClick={(event) => { giveAward(event, element.id) }}
+                                    >Give Award</button>
+                                </div>
 
                             </div>
 
@@ -321,7 +416,7 @@ const PostAttributes = (props) => {
 
                 </ul>
                 <ul className="p-curd-right">
-                    <li><button data-bs-toggle="collapse" data-bs-target="#comment-1"
+                    <li><span  style={{ color: '#FF416C' }}>{element.commentCount}</span> &nbsp;<button data-bs-toggle="collapse" data-bs-target="#comment-1"
                         onClick={(event) => { pageDetails(event) }}
                     ><img src="img/sms.svg" alt="" /></button></li>
 
@@ -334,8 +429,8 @@ const PostAttributes = (props) => {
 
 
 
-                    <li><button onClick={(event) => promotePost(event, element.id)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
+                    <li><button onClick={(event) => promotePost(event, element.id)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" className="bi bi-graph-up" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
                     </svg></button></li>
                     <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                 </ul>

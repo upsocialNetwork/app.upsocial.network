@@ -1,6 +1,6 @@
 {
-  "short_name": "Upsocial",
-  "name": "Decentralized Blockchain social media plateform",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",

@@ -14,7 +14,7 @@ const ImagePost = (props) => {
 
     const history = useHistory();
     let element = props.postData;
- //   console.log(element);
+    //console.log(element);
     let [userData, setUserData] = useState();
 
 
@@ -189,13 +189,14 @@ const ImagePost = (props) => {
 
                                 return (
 
-                                    <a href="/" onClick={(event) => navigate(event)} className="post-img" >
+                                    <a href="/" onClick={(event) => { pageDetails(event) }} className="post-img"   >
                                         <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
                                             style={{
                                                 width: '100%',
-                                                height: 'auto',
+                                                maxHeight: '500px',
                                                 objectFit: "cover",
-                                            }} />
+                                            }}
+                                        />
                                     </a>
 
                                 )
@@ -216,9 +217,14 @@ const ImagePost = (props) => {
                                         videoSrc={"https://ipfs.io/ipfs/" + element.data}
                                         style={{
                                             width: '100%',
-                                            height: 'auto',
+                                            height: '100%',
                                             objectFit: "cover",
                                         }}
+                                        /*  style={{
+                                             width: '100%',
+                                             height: '30%',
+                                             objectFit: "cover",
+                                         }} */
                                         controls
 
                                         /* 

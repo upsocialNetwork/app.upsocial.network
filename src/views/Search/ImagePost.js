@@ -188,11 +188,11 @@ const ImagePost = (props) => {
 
                                 return (
 
-                                    <a href="/" onClick={(event) => navigate(event)} className="post-img" >
+                                    <a href="/" onClick={(event) => pageDetails(event)} className="post-img" >
                                         <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
                                             style={{
                                                 width: '100%',
-                                                height: 'auto',
+                                                height: '500px',
                                                 objectFit: "cover",
                                             }} />
                                     </a>
@@ -215,7 +215,7 @@ const ImagePost = (props) => {
                                         videoSrc={"https://ipfs.io/ipfs/" + element.data}
                                         style={{
                                             width: '100%',
-                                            height: 'auto',
+                                            height: '100%',
                                             objectFit: "cover",
                                         }}
                                         controls

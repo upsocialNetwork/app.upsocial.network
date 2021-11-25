@@ -61,7 +61,7 @@ const Login = (props) => {
 
             setIsSignupSubmit(false);
             ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
-            //transeferRegistrationToken();
+           // transeferRegistrationToken();
         }
     }, [props.loginData, props.signupData])
 

@@ -4,7 +4,8 @@ import { useHistory } from 'react-router-dom';
 import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import $ from 'jquery';
-
+import Contract from "../../utils/contract";
+import Web3 from 'web3';
 const PostAttributes = (props) => {
 
     const history = useHistory();
@@ -200,20 +201,61 @@ const PostAttributes = (props) => {
             return null;
         }
 
-        let formData = {
+        let formData = {};
+
+        formData = {
             "postId": postId
         }
+        httpClient.call('check-promote-post', formData, { method: 'POST' }).then(function (response) {
+            if (response.success == true) {
+                let userData = Session.getSessionData();
+                Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+                //Web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+                window.ethereum.enable();
+                const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+                console.log(NameContract);
+                NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
+                    .then(function (receipt) {
+                        console.log(receipt);
+                        let transaction = {
+                            "_blockNumber": receipt.blockNumber,
+                            "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                            "_from": receipt.from,
+                            "_gasUsed": receipt.gasUsed,
+                            "_status": receipt.status,
+                            "_to": receipt.to,
+                            "_transactionHash": receipt.transactionHash,
+                            "_transactionIndex": receipt.transactionIndex,
+                            "_blockHash": receipt.blockHash,
+                            "_contractAddress": Contract.contract_address
+                        }
+                        formData['transaction'] = transaction;
+                        httpClient.call('promote-post', formData, { method: 'POST' }).then(function (response) {
+                            Loader(false);
+                            if (response.success) {
+                                SuccessToast(response.result.message);
+                            }
+                            else {
+                                ErrorToast(response.result.message);
+                            }
 
-        httpClient.call("promote-post", formData, { method: 'POST' }).then(function (response) {
-            Loader(false);
-            if (response.success) {
-                SuccessToast(response.result.message);
+                        }, function (error) {
+                            Loader(false);
+                            ErrorToast(error.message);
+                        })
+                    }, function (error) {
+                        Loader(false);
+                        ErrorToast(error.message);
+                        console.log(error);
+                    });
             }
             else {
+                Loader(false);
                 ErrorToast(response.result.message);
             }
         }, function (error) {
             Loader(false);
+            ErrorToast(error.message);
             console.log(error);
         })
 
@@ -223,11 +265,65 @@ const PostAttributes = (props) => {
 
     const giveAward = (event, postId) => {
         event.preventDefault();
+        let token = $("#transfertokenvalue").val();
 
-        var token = $("#transfertokenvalue").val();
-        $("#transfertokenvalue").val(0);
-        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
-        document.getElementById('modal-closed').click();
+
+        if (token <= 0) {
+            ErrorToast("Invalid value");
+            return false;
+        }
+
+        Loader(true);
+        event.preventDefault();
+        let formData = {};
+        formData =
+        {
+            "postId": postId,
+            "tokens": token
+        }
+
+        let userData = Session.getSessionData();
+        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        //Web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+        window.ethereum.enable();
+        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+        console.log(NameContract);
+        NameContract.methods.transfer(Contract.upsocial_wallet, (token * 1000000000000000000).toString()).send({ from: userData.wallet })
+            .then(function (receipt) {
+                console.log(receipt);
+                let transaction = {
+                    "_blockNumber": receipt.blockNumber,
+                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                    "_from": receipt.from,
+                    "_gasUsed": receipt.gasUsed,
+                    "_status": receipt.status,
+                    "_to": receipt.to,
+                    "_transactionHash": receipt.transactionHash,
+                    "_transactionIndex": receipt.transactionIndex,
+                    "_blockHash": receipt.blockHash,
+                    "_contractAddress": Contract.contract_address
+                }
+                formData['transaction'] = transaction;
+                httpClient.call('give-reward', formData, { method: 'POST' }).then(function (response) {
+                    Loader(false);
+                    if (response.success) {
+                        $("#transfertokenvalue").val(0);
+                        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
+                        document.getElementById('modal-closed').click();
+                    }
+                    else {
+                        ErrorToast(response.result.message);
+                    }
+
+                }, function (error) {
+                    Loader(false);
+                    ErrorToast(error.message);
+                })
+            }, function (error) {
+                Loader(false);
+                ErrorToast(error.message);
+                console.log(error);
+            });
 
     }
 
@@ -305,7 +401,7 @@ const PostAttributes = (props) => {
 
                 </ul>
                 <ul className="p-curd-right">
-                    <li><button data-bs-toggle="collapse" data-bs-target="#comment-1"
+                    <li><span  style={{ color: '#FF416C' }}>{element.commentCount}</span> &nbsp;<button data-bs-toggle="collapse" data-bs-target="#comment-1"
                         onClick={(event) => { pageDetails(event) }}
                     ><img src="img/sms.svg" alt="" /></button></li>
 
@@ -318,8 +414,8 @@ const PostAttributes = (props) => {
 
 
 
-                    <li><button onClick={(event) => promotePost(event, element.id)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
+                    <li><button onClick={(event) => promotePost(event, element.id)}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style={{ color: '#FF416C' }} fill="currentColor" className="bi bi-graph-up" viewBox="0 0 16 16">
+                        <path fillRule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
                     </svg></button></li>
                     <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
                 </ul>

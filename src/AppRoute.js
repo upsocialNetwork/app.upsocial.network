@@ -25,6 +25,7 @@ import Notification from './views/Notification/Notification';
 import PostDetails from './views/PostDetails/PostDetails';
 import Search from './views/Search';
 import TopGroupSearch from './views/TopGroupSearch';
+import UserView from './views/UserView/UserView';
 
 
 const FullLayout = (props) => {
@@ -110,6 +111,7 @@ const AuthorizeRoute = () => {
                   <Route exact path="/user/my-groups" component={GroupSearch}></Route>
                   <Route exact path="/user/top-groups" component={TopGroupSearch}></Route>
                   <Route exact path="/user/my-posts" component={MyPosts}></Route>
+                  {/* <Route exact path="/user/:username" component={UserView}></Route> */}
                   <Route exact path="/user/notification" component={Notification}></Route>
                 </HFLayout>
               )
