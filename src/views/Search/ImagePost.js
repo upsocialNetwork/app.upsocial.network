@@ -192,7 +192,7 @@ const ImagePost = (props) => {
                                         <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
                                             style={{
                                                 width: '100%',
-                                                height: '500px',
+                                                maxHeight: '100vh',
                                                 objectFit: "cover",
                                             }} />
                                     </a>

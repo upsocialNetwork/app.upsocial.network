@@ -115,7 +115,7 @@ const CreateGroupJoin = (props) => {
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
                 let user = Session.getSessionData();
-                //console.log(response);
+               // console.log(response);
                 if (user.id === response.result.data.owner.id) {
                     //console.log("mode display");
                     document.getElementById('mod-tools').style.display = 'inline';
@@ -203,25 +203,22 @@ const CreateGroupJoin = (props) => {
                             <h5>
                                 <a href="#" onClick={(event) => { navigate(event) }} className="d-inline-block">{result && result.name}
                                 </a>
+                            </h5><br /> <span>{result.members && result.members.length ? result.members.length : 0} Members</span><br />
+
+                            <a href="#"  onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block " >
+                                <span
+                                    className=" status joined" style={{ textDecoration: 'none' }}>
+
+                                    {result && result.joined ? <>Leave</> : <>Join</>}
+                                </span>
+                            </a>
 
 
-                                <a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block ">
-                                    <span style={{ margin: "0px -30px 0px 50px" }}
-                                        className="position-absolute status joined">
-
-                                        {result && result.joined ? <>Leave</> : <>Join</>}
-                                    </span>
-                                </a>
-
-
-                                {/* <span
-                                className="sub">u/{result && result.owner.userName}</span> */}
-
-
-                            </h5>
                         </div>
 
                         <div className="mod-tools" id="mod-tools" style={{ display: 'none' }}>
+
+
                             <a style={{ color: '#FF416C' }} href="#" onClick={(event) => { modTools(event) }}><svg width="17" height="20" viewBox="0 0 17 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" >
                                 <path

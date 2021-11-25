@@ -700,7 +700,12 @@ const PostDetails = (props) => {
                                                 return (
 
                                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt="" />
+                                                        <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
+                                                            style={{
+                                                                width: '100%',
+                                                                maxHeight: '100vh',
+                                                                objectFit: "cover",
+                                                            }} />
                                                     </a>
 
                                                 )
