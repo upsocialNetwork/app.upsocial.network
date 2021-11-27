@@ -157,7 +157,7 @@ const EditProfile = (props) => {
                                         {/* <img className="avater-image img-fluid" src="img/user.png" alt="" id="profile-image" 
                                         
                                         /> */}
-
+                           {/*  */}
                                         {/* <label className="position-absolute upload type-2">
                                             <input type="file" name="" id="" />
                                             <img src="img/folder.svg" alt="" />
@@ -495,6 +495,7 @@ const EditProfile = (props) => {
                                 </div>
                                 <div className="pf-lr-part">
                                     <div className="text-editor-wrapper">
+                                        {/* new  editor draff will adding */}
                                         <ReactQuill onChange={(value) => { setAbout(value) }} value={about} />
                                     </div>
                                 </div>
