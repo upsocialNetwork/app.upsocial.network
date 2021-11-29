@@ -9,7 +9,40 @@ import Session from '../../utils/session';
 import { useLocation } from "react-router-dom";
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
+
+// tech 
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToHTML } from 'draft-convert';
+import DOMPurify from 'dompurify';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const CreateGroupPost = (props) => {
+
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty(),
+    );
+    const [convertedContent, setConvertedContent] = useState(null);
+
+    const handleEditorChange = (state) => {
+        setEditorState(state);
+        convertContentToHTML();
+    }
+
+    const convertContentToHTML = () => {
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+        setConvertedContent(currentContentAsHTML);
+    }
+
+    const createMarkup = (html) => {
+
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
+
+    //
+
     const history = useHistory();
     const location = useLocation();
     const params = useParams();
@@ -49,7 +82,7 @@ const CreateGroupPost = (props) => {
                 },
                 "type": "text",
                 "name": title,
-                "data": data,
+                "data": convertedContent,
                 "dataType": ".txt",
                 "nsfw": isAdult
 
@@ -333,11 +366,23 @@ const CreateGroupPost = (props) => {
                                                     onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>
-                                            <div className="text-editor-wrapper">
+                                            {/* <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
                                                     <ReactQuill onChange={(value) => { setData(value) }} />
                                                 </div>
+                                            </div> */}
+                                            <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
+                                                <Editor
+                                                    onChange={(editorState) => { setData(editorState) }}
+                                                    editorState={editorState}
+                                                    onEditorStateChange={handleEditorChange}
+                                                    wrapperClassName="wrapper-class"
+                                                    editorClassName="editor-class"
+                                                    toolbarClassName="toolbar-class"
+                                                />
                                             </div>
+                                            <div hidden className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
+
 
 
                                         </div><br />
@@ -378,8 +423,7 @@ const CreateGroupPost = (props) => {
 
                             <div className="twin-btn d-flex align-items-center justify-content-between">
 
-                                <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title &&
-                                    data)}
+                                <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title )}
                                     onClick={(event) => { savePost(event) }}
                                 >Post Now</button>
                             </div>

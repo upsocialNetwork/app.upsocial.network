@@ -10,7 +10,48 @@ import { useLocation, useParams } from "react-router-dom";
 import $ from 'jquery';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
+
+//
+// tech 
+import { ContentState, convertFromHTML } from 'draft-js';
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToHTML } from 'draft-convert';
+import DOMPurify from 'dompurify';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 const EditPost = (props) => {
+
+    const [editorState, setEditorState] = useState(null);
+
+
+    /* const [editorState, setEditorState] = useState(
+        () =>
+            EditorState.createWithContent(
+                ContentState.createFromBlockArray(
+                    convertFromHTML('<p>My initial content.</p>')
+                )),
+    ); */
+
+    const [convertedContent, setConvertedContent] = useState(null);
+
+    const handleEditorChange = (state) => {
+        setEditorState(state);
+        convertContentToHTML();
+    }
+
+    const convertContentToHTML = () => {
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+        setConvertedContent(currentContentAsHTML);
+    }
+
+    const createMarkup = (html) => {
+
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
+
+    //
     const history = useHistory();
     const location = useLocation();
     const params = useParams()
@@ -68,6 +109,19 @@ const EditPost = (props) => {
                     setPostType("text");
                     setDataType(".txt");
                     setData(res.data);
+                    //console.log(res.data);
+                    setEditorState(EditorState.createWithContent(
+                        ContentState.createFromBlockArray(
+                            convertFromHTML(res.data)
+                        )));
+                    // setEditorState(res.data);
+                    setConvertedContent(res.data);
+                    /* 
+                                        EditorState.createWithContent(
+                                            ContentState.createFromBlockArray(
+                                              convertFromHTML('<p>My initial content.</p>')
+                                            )) */
+
 
                     if (res.nsfw == true) {
                         $("#nsfwtext").prop("checked", true);
@@ -140,7 +194,7 @@ const EditPost = (props) => {
                 "id": id,
                 "type": "text",
                 "name": title,
-                "data": data,
+                "data": convertedContent,
                 "dataType": ".txt",
                 "nsfw": isAdult
 
@@ -151,8 +205,6 @@ const EditPost = (props) => {
                 "id": id,
                 "type": postType,
                 "name": title,
-                "data": postdata,
-                "dataType": dataType,
                 "nsfw": isAdult
             };
 
@@ -302,7 +354,7 @@ const EditPost = (props) => {
                                 <button className="nav-link active" id="link-tab" data-bs-toggle="tab" data-bs-target="#link"
                                     type="button" role="tab" aria-controls="home" aria-selected="true"
                                     onClick={() => { setText(false) }}
-                                >Image & Video</button>
+                                >Media</button>
                             </li>
                             <li className="nav-item" role="presentation">
                                 <button className="nav-link" id="text-tab" data-bs-toggle="tab" data-bs-target="#text"
@@ -378,11 +430,26 @@ const EditPost = (props) => {
                                                     maxLength="30" onChange={(event) => { setTitle(event.target.value) }} value={title}
                                                 />
                                             </div>
-                                            <div className="text-editor-wrapper">
+                                            {/* <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
                                                     <ReactQuill onChange={(value) => { setData(value) }} value={data} />
                                                 </div>
+                                            </div> */}
+
+
+                                            <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
+                                                <Editor
+                                                    value={convertedContent}
+                                                    onChange={(editorState) => { setData(editorState) }}
+                                                    editorState={editorState}
+                                                    onEditorStateChange={handleEditorChange}
+                                                    wrapperClassName="wrapper-class"
+                                                    editorClassName="editor-class"
+                                                    toolbarClassName="toolbar-class"
+                                                />
                                             </div>
+                                            <div hidden className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
+
 
 
                                         </div><br />

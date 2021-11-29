@@ -10,7 +10,37 @@ import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import moment from 'moment';
 
+// tech 
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToHTML } from 'draft-convert';
+import DOMPurify from 'dompurify';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const ImagePost = (props) => {
+
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty(),
+    );
+    const [convertedContent, setConvertedContent] = useState(null);
+
+    const handleEditorChange = (state) => {
+        setEditorState(state);
+        convertContentToHTML();
+    }
+
+    const convertContentToHTML = () => {
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+        setConvertedContent(currentContentAsHTML);
+    }
+
+    const createMarkup = (html) => {
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
+
+    //
 
     const history = useHistory();
     let element = props.postData;
@@ -113,7 +143,7 @@ const ImagePost = (props) => {
     //console.log(element);
     var aDay = 24 * 60 * 60 * 1000;
     var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
-    //console.log(timeResult + " ago");
+    // console.log(timeResult + " ago");
 
 
 
@@ -134,7 +164,7 @@ const ImagePost = (props) => {
 
                     {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
-                            <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="post-time"> {timeResult} </div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -151,7 +181,7 @@ const ImagePost = (props) => {
                         </div>
                         :
                         <div className="post-header-right" >
-                            <div className="post-time">{/* {element.agoTime} */}</div>
+                            <div className="post-time">{timeResult}</div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -282,9 +312,9 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520" >
-                                        <ReactQuill readOnly={true}
-                                            theme=""/*   theme={"bubble"} */ value={element.data} />
-
+                                        {/*  <ReactQuill readOnly={true}
+                                            theme=""value={element.data} /> */}
+                                        <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div>
                                     </div>
 
                                 )

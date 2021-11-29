@@ -12,6 +12,13 @@ import Contract from "../../utils/contract";
 import Web3 from 'web3';
 import $ from 'jquery';
 
+// tech 
+import { EditorState } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
+import { convertToHTML } from 'draft-convert';
+import DOMPurify from 'dompurify';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+
 const Comment = props => {
     const navigate = (event) => {
         event.preventDefault()
@@ -96,6 +103,30 @@ const Comments = props => {
 };
 
 const PostDetails = (props) => {
+
+    const [editorState, setEditorState] = useState(
+        () => EditorState.createEmpty(),
+    );
+    const [convertedContent, setConvertedContent] = useState(null);
+
+    const handleEditorChange = (state) => {
+        setEditorState(state);
+        convertContentToHTML();
+    }
+
+    const convertContentToHTML = () => {
+        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
+        setConvertedContent(currentContentAsHTML);
+    }
+
+    const createMarkup = (html) => {
+        return {
+            __html: DOMPurify.sanitize(html)
+        }
+    }
+
+
+    //
 
     const history = useHistory();
     const location = useLocation();
@@ -788,10 +819,11 @@ const PostDetails = (props) => {
 
                                                 return (
 
-                                                    <div className="post-content max-520">
-                                                        <ReactQuill readOnly={true}
-                                                            theme="" value={element.data} />
 
+                                                    <div className="post-content max-520" >
+                                                        {/*  <ReactQuill readOnly={true}
+                                        theme=""value={element.data} /> */}
+                                                        <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div>
                                                     </div>
 
                                                 )
@@ -833,7 +865,7 @@ const PostDetails = (props) => {
                                         <form className="post-coment-form max-520 collapse" id="comment-1">
                                             <div className="input-wrapper">
                                                 <input type="text" className="form-control ht-50 design-2 design-3"
-                                                    placeholder="Add new comment" onChange={(event) => { setCommentMessage(event.target.value) }} />
+                                                    placeholder="Add new comment p" onChange={(event) => { setCommentMessage(event.target.value) }} />
                                             </div>
                                             <div className="submit-comment">
                                                 <p></p>
