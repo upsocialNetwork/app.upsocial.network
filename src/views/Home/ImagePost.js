@@ -141,8 +141,8 @@ const ImagePost = (props) => {
     }
 
     //console.log(element);
-    var aDay = 24 * 60 * 60 * 1000;
-    var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
+    var current = new Date();
+    var timeResult = Session.timeDifference(current, element.createdDate);
     // console.log(timeResult + " ago");
 
 

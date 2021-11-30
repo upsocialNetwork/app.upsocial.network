@@ -49,7 +49,7 @@ const Login = (props) => {
             SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
             setIsSignupSubmit(false);
             setIsLogin(true);
-           // transeferRegistrationToken();
+            //transeferRegistrationToken();
             // let authData = props.signupData;
             //  console.log(authData);
             /* Session.setSessionData(authData.result.data);
@@ -61,7 +61,7 @@ const Login = (props) => {
 
             setIsSignupSubmit(false);
             ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
-           // transeferRegistrationToken();
+            // transeferRegistrationToken();
         }
     }, [props.loginData, props.signupData])
 
@@ -73,14 +73,16 @@ const Login = (props) => {
     })
 
 
-    const transeferRegistrationToken = () => {
+    const transeferRegistrationToken = () => 
+    {
         console.log("calling for false token");
         // code 1
         var Contract = require('web3-eth-contract');
         Contract.setProvider(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+       
         window.ethereum.enable();
         var contract = new Contract(Contractcustom.contract_abi, Contractcustom.contract_address);
-        contract.methods.transfer("0x2Cf07B736bfFe655267f950EBEC647811B963a06", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
+        contract.methods.transfer("0x1d987C54473298677b1Dde9611DE8025B8C4c5E0", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
             .then(function (receipt) {
                 console.log(receipt);
                 return null;
@@ -101,6 +103,7 @@ const Login = (props) => {
                 ErrorToast(error.message);
                 console.log(error);
             });
+            
     }
 
     const doLogin = (event) => {
