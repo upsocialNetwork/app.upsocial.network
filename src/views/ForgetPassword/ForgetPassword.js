@@ -43,59 +43,20 @@ const ForgetPassword = (props) => {
 
 
     return (
+
+
         <div className="login-wrapper">
             <div className="access-top-part">
-
-                <div className="login-part" id="login-content">
-                    <form action="#" className="login-g-wrapper">
-                        <div className="login-left">
-                            <h6>Hi There !</h6>
-                            <h1>WELCOME BACK</h1>
-                            <h1 className="opacity-one-times">WELCOME BACK</h1>
-                            <h1 className="opacity-two-times">WELCOME BACK</h1>
-                        </div>
-                        <div className="login-right">
-                            <div className="input-wrapper">
-                                <label htmlFor="">Email</label>
-                                <input type="email" name="email" className="form-control"
-
-                                    onChange={(event) => { setEmail(event.target.value) }}
-                                />
-
-                            </div>
-                            <button type="submit" className="btn gradient-bg-one radius-30 login"
-                                onClick={(event) => { doForgetPassword(event) }}
-
-                                disabled={!email}
-                            >Forgot Password</button>
-
-                            {/* <div className="input-wrapper">
-                                <label htmlFor="">Password</label>
-                                <input type="password" name="password" className="form-control"
-                                />
-
-                            </div> */}
-                        </div>
-                        <div className="login-left flex">
-                            <div className="ask-user">Already Account ? <a href="#" onClick={(event) => { loginPage(event) }} className="theme-color" >Login & Registration </a>
-                            </div>
-                        </div>
-                        {/* <div className="login-right">
-                            <div className="twin-btn d-flex align-items-center justify-content-between">
-                                <a href="/"
-                                    className="btn bg-transparent border border-primary radius-30 forgot-password">Forget
-                                    Password</a>
-
-                            </div>
-                        </div> */}
-                    </form>
-                </div>
-
+                
+                <img src="img/tokenimage.jpg" class="img-fluid" alt="Responsive image"/>
+                <br/> 
             </div>
+           
+            <h5 className="link theme-color" class="text-center">Token Address " 0x5818209Fb829311B438431cB1111dA7a3d9B04FB "</h5>
             <div className="access-bottom-part">
                 <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color" target="_blank">Terms</a> and
-                    that you have read our <a href="https://upsocial.network/privacy-policy/"  className="link theme-color" target="_blank">Privacy Policy</a> and <a href="https://upsocial.network/privacy-policy/"
-                     target="_blank"   className="link theme-color">Content Policy</a>.</div>
+                    that you have read our <a href="https://upsocial.network/privacy-policy/" className="link theme-color" target="_blank">Privacy Policy</a> and <a href="https://upsocial.network/privacy-policy/"
+                        target="_blank" className="link theme-color">Content Policy</a>.</div>
             </div>
         </div>
     );

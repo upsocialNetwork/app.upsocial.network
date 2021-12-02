@@ -162,7 +162,7 @@ const ImagePost = (props) => {
 
                     {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
-                             <div className="post-time"> {timeResult} </div>
+                            <div className="post-time"> {timeResult} </div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -179,7 +179,7 @@ const ImagePost = (props) => {
                         </div>
                         :
                         <div className="post-header-right" >
-                                <div className="post-time"> {timeResult} </div>
+                            <div className="post-time"> {timeResult} </div>
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -304,10 +304,12 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520" >
-                                    {/*  <ReactQuill readOnly={true}
-                                        theme=""value={element.data} /> */}
-                                    <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div>
-                                </div>
+                                     
+
+                                        <ReactQuill readOnly={true}
+                                            theme="" value={element.data} />
+                                        {/*  <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div> */}
+                                    </div>
 
                                 )
 

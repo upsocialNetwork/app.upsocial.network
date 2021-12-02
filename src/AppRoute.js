@@ -97,7 +97,7 @@ const AuthorizeRoute = () => {
               return (
                 <LoginLayout>
                   <Route path="/auth/login" component={Login} ></Route>
-                  <Route path="/auth/forgot-password" component={ForgetPassword} ></Route>
+                  <Route path="/auth/import-token" component={ForgetPassword} ></Route>
                 </LoginLayout>
               )
             }}>

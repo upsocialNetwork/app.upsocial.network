@@ -82,7 +82,7 @@ const CreateGroupPost = (props) => {
                 },
                 "type": "text",
                 "name": title,
-                "data": convertedContent,
+                "data": data,
                 "dataType": ".txt",
                 "nsfw": isAdult
 
@@ -366,12 +366,12 @@ const CreateGroupPost = (props) => {
                                                     onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>
-                                            {/* <div className="text-editor-wrapper">
+                                            <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
                                                     <ReactQuill onChange={(value) => { setData(value) }} />
                                                 </div>
-                                            </div> */}
-                                            <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
+                                            </div>
+                                            {/*   <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
                                                 <Editor
                                                     onChange={(editorState) => { setData(editorState) }}
                                                     editorState={editorState}
@@ -382,7 +382,7 @@ const CreateGroupPost = (props) => {
                                                 />
                                             </div>
                                             <div hidden className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-
+ */}
 
 
                                         </div><br />
@@ -423,7 +423,7 @@ const CreateGroupPost = (props) => {
 
                             <div className="twin-btn d-flex align-items-center justify-content-between">
 
-                                <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title )}
+                                <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title && data)}
                                     onClick={(event) => { savePost(event) }}
                                 >Post Now</button>
                             </div>

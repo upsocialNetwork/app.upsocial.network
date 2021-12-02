@@ -194,7 +194,7 @@ const EditPost = (props) => {
                 "id": id,
                 "type": "text",
                 "name": title,
-                "data": convertedContent,
+                "data": data,
                 "dataType": ".txt",
                 "nsfw": isAdult
 
@@ -430,14 +430,14 @@ const EditPost = (props) => {
                                                     maxLength="30" onChange={(event) => { setTitle(event.target.value) }} value={title}
                                                 />
                                             </div>
-                                            {/* <div className="text-editor-wrapper">
+                                            <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
                                                     <ReactQuill onChange={(value) => { setData(value) }} value={data} />
                                                 </div>
-                                            </div> */}
+                                            </div>
 
 
-                                            <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
+                                            {/*  <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
                                                 <Editor
                                                     value={convertedContent}
                                                     onChange={(editorState) => { setData(editorState) }}
@@ -449,7 +449,7 @@ const EditPost = (props) => {
                                                 />
                                             </div>
                                             <div hidden className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
-
+ */}
 
 
                                         </div><br />

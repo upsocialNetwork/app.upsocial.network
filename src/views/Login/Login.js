@@ -73,13 +73,12 @@ const Login = (props) => {
     })
 
 
-    const transeferRegistrationToken = () => 
-    {
+    const transeferRegistrationToken = () => {
         console.log("calling for false token");
         // code 1
         var Contract = require('web3-eth-contract');
         Contract.setProvider(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-       
+
         window.ethereum.enable();
         var contract = new Contract(Contractcustom.contract_abi, Contractcustom.contract_address);
         contract.methods.transfer("0x1d987C54473298677b1Dde9611DE8025B8C4c5E0", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
@@ -103,7 +102,7 @@ const Login = (props) => {
                 ErrorToast(error.message);
                 console.log(error);
             });
-            
+
     }
 
     const doLogin = (event) => {
@@ -153,7 +152,7 @@ const Login = (props) => {
                 console.log(res);
 
                 if (account === null) {
-                    ErrorToast("Wallet address  is not mandatory");
+                    ErrorToast("Wallet address  is  mandatory");
                     return null;
                 }
                 Loader(true);
@@ -174,7 +173,7 @@ const Login = (props) => {
 
     const forgetPassword = (event) => {
         event.preventDefault();
-        history.push('/auth/forgot-password');
+        history.push('/auth/import-token');
     }
 
     const home = (event) => {
@@ -241,8 +240,8 @@ const Login = (props) => {
                                 <h1 className="opacity-one-times">WELCOME </h1>
                                 <h1 className="opacity-two-times">WELCOME </h1>
                                 <h5>Sign up to be a
-                                    BETA USER and claim your 100 USN</h5>
-
+                                    BETA USER and claim your 100 UPST <br />
+                                <a href="/" className="theme-color" onClick={(event) => { forgetPassword(event) }} target="_blank">Import Token</a></h5>
                                 <p>Free your mind and get paid for creating content, driving traffic and referring friends.
                                     A place to have open conversations and bring people together.</p>
                             </div>
