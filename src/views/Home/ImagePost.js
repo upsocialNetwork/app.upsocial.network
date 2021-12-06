@@ -312,10 +312,10 @@ const ImagePost = (props) => {
                                 return (
 
                                     <div className="post-content max-520" >
-                                        {/*  <ReactQuill readOnly={true}
-                                            theme=""value={element.data} /> */}
-                                        <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div>
-                                    </div>
+                                        <ReactQuill readOnly={true}
+                                            theme="" value={element.data} />
+                                        {/*       <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div>
+                                   */}  </div>
 
                                 )
 

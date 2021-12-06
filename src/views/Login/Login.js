@@ -5,8 +5,10 @@ import SimpleReactValidator from 'simple-react-validator';
 import { useHistory } from "react-router-dom";
 import Web3 from 'web3';
 import Contractcustom from "../../utils/contract";
+import detectEthereumProvider from '@metamask/detect-provider'
 
 const Login = (props) => {
+
 
     const history = useHistory();
     const validatorLogin = useRef(new SimpleReactValidator());
@@ -108,9 +110,17 @@ const Login = (props) => {
     const doLogin = (event) => {
         event.preventDefault();
         if (typeof window.ethereum !== 'undefined') {
+
             console.log('MetaMask is installed!');
             const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+
+
             var account = web3.currentProvider.selectedAddress
+
+            if (account === null) {
+                ErrorToast("Please unlock metamask");
+                return null;
+            }
             Loader(true);
             setIsLoginSubmit(true);
             props._doLogin({ wallet: account });
@@ -146,13 +156,13 @@ const Login = (props) => {
     const signingMetamask = () => {
         const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         var account = web3.currentProvider.selectedAddress
-        web3.eth.personal.sign("Welcome to Upsocial Signing Process", account, "test password!").then(
+        web3.eth.personal.sign("Sign this message to prove you have access to this wallet and we will sign you in.This won't cost you any Ether", account, "test password!").then(
             function (res) {
                 console.log("true");
                 console.log(res);
 
                 if (account === null) {
-                    ErrorToast("Wallet address  is  mandatory");
+                    ErrorToast("Please unlock metamask");
                     return null;
                 }
                 Loader(true);
@@ -194,6 +204,9 @@ const Login = (props) => {
             return null;
         }
     }
+
+
+
 
     async function getAccount() {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -241,7 +254,7 @@ const Login = (props) => {
                                 <h1 className="opacity-two-times">WELCOME </h1>
                                 <h5>Sign up to be a
                                     BETA USER and claim your 100 UPST <br />
-                                <a href="/" className="theme-color" onClick={(event) => { forgetPassword(event) }} target="_blank">Import Token</a></h5>
+                                    <a href="/" className="theme-color" onClick={(event) => { forgetPassword(event) }} target="_blank">Import Token</a></h5>
                                 <p>Free your mind and get paid for creating content, driving traffic and referring friends.
                                     A place to have open conversations and bring people together.</p>
                             </div>
