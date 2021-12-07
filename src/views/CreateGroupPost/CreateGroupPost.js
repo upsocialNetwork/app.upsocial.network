@@ -291,7 +291,7 @@ const CreateGroupPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                    maxLength="30"
+                                                    maxLength="50"
                                                     onChange={(event) => { setTitle(event.target.value) }}
 
                                                 />
@@ -364,7 +364,7 @@ const CreateGroupPost = (props) => {
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
                                                    
-                                                   maxLength="30"
+                                                   maxLength="50"
                                                    onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>

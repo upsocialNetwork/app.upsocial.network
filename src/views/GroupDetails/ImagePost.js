@@ -168,21 +168,20 @@ const ImagePost = (props) => {
     return (
         <div className="cmn-card shadow-gray-point-3  mb-4">
             <div className="post-wrapper post-type-one">
-                <div className="post-header">
+                <div className="post-header" >
                     <div className="elementory-avater-wrap">
-                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
-                        <h6>
-                            <a href="/" onClick={(event) => { navigate(event) }} style={{ fontSize: "22px" }}>
-                                {element.name}
-                            </a> <span>Posted by  {element.postedBy.userName}
-                            </span>
-                        </h6>
+                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
+                        </a>
+
+                        <span>Posted by u/{element.postedBy.userName} {timeResult}
+                        </span>
+
                     </div>
 
 
                     {userData && userData.id == element.postedBy.id ?
                         <div className="post-header-right" >
-                            <div className="post-time"> {timeResult} </div>
+                            {/*  <div className="post-time"> {timeResult} </div> */}
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -199,7 +198,7 @@ const ImagePost = (props) => {
                         </div>
                         :
                         <div className="post-header-right" >
-                            <div className="post-time">{timeResult}</div>
+                            {/*  <div className="post-time">{timeResult}</div> */}
                             <div className="dropdown">
                                 <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -207,8 +206,8 @@ const ImagePost = (props) => {
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li><a className="dropdown-item" href="/" onClick={(event) => claimPost(event, element.id)}>Claim Post</a></li>
-                                    {/*    <li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
-                                  */}   {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
+                                    {/*<li><a className="dropdown-item" href="/" onClick={(event) => promotePost(event, element.id)}>Promote Post</a></li>
+                                      <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
                                 <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li> */}
                                 </ul>
                             </div>
@@ -218,14 +217,12 @@ const ImagePost = (props) => {
 
                 </div>
                 <div className="post-content-wrapper">
-                    {/* <div className="post-content max-520">
-                    <p >{element.name}</p>
-                </div> */}
-                    {/* {element.data &&
-                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                        <img src={element.data} alt="" />
-                    </a>
-                } */}
+
+                    <div className="post-content max-520">
+                        <p > <a href="/" onClick={(event) => { pageDetails(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit" }}>
+                            {element.name}
+                        </a> </p>
+                    </div>
 
                     {(() => {
 

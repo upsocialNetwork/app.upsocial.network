@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { colorModeToggle, Loader, SuccessToast } from './../utils/common';
+import { colorModeToggle, Loader, SuccessToast, SetSassion } from './../utils/common';
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import Session from './../utils/session';
 import { ErrorToast } from './../utils/common';
 import $ from 'jquery';
 import httpClient from '../services/http';
+import { convertCompilerOptionsFromJson } from 'typescript';
 
 
 const Header = (props) => {
@@ -192,6 +193,42 @@ const Header = (props) => {
         });
     }
 
+    const redeemToken = (event) => {
+
+        event.preventDefault();
+        console.log("redeem calling" + walletBalance);
+
+        if (walletBalance <= 0) 
+        {
+            ErrorToast("Insufficient balance");
+            return null;
+        }
+
+
+        Loader(true);
+        let formData = {
+            "walletBalance": walletBalance
+        }
+        httpClient.call('redeem-token', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success == true) {
+
+                SuccessToast(response.result.message);
+                Session.setSessionData(response.result.data);
+                SetSassion(response.result.data)
+                document.getElementById('modal-closed').click();
+            }
+            else {
+                //  console.log(response);
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+
+    }
+
     /*  const searchRecords = (param) => {
          //console.log(param);
          let userData = Session.isLoggedIn();
@@ -237,15 +274,8 @@ const Header = (props) => {
 
                                         <li className="list-group-item d-flex justify-content-between align-items-center">
 
-                                            <a href="#" onClick={(event) => navigate(event)}
-                                                style={{ textDecoration: 'none', color: 'black' }}
-                                            >Wallet Address<br />{walletAddress}<br />{/* <br />Upsocial Wallet Balance<br />USN {walletBalance} */}</a>
-
-
-                                            {/* <span className="badge badge-light-success">Connected</span> */}
-
-
-
+                                            Wallet Address<br />{walletAddress}<br /> <br /> Wallet Balance<br />$ {walletBalance} <br /><br /><br /><a href="#" onClick={(event) => redeemToken(event)}
+                                            > Redeem</a>
                                         </li>
                                     }
 

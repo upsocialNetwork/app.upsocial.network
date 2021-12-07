@@ -125,9 +125,6 @@ const PostDetails = (props) => {
         }
     }
 
-
-    //
-
     const history = useHistory();
     const location = useLocation();
     const params = useParams()
@@ -144,6 +141,20 @@ const PostDetails = (props) => {
 
     useEffect(() => {
         getPostDetails(params.postid);
+    }, []);
+
+
+    let [userData, setUserData] = useState();
+    useEffect(() => {
+        let user = Session.getSessionData();
+        if (user == null) {
+        }
+        else {
+            // console.log("Session");
+            // console.log(user);
+            setUserData(user);
+        }
+
     }, []);
 
     const navigate = (event) => {
@@ -301,17 +312,6 @@ const PostDetails = (props) => {
             "postId": postid
         }
 
-        /* httpClient.call("upload-comment", formData, { method: 'POST' }).then(function (response) {
-            Loader(false);
-            getPostDetails(params.postid);
-            setCommentMessage('')
-
-        }, function (error) {
-            Loader(false);
-            console.log(error);
-        }); */
-
-
         let userData = Session.getSessionData();
         Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         window.ethereum.enable();
@@ -430,8 +430,6 @@ const PostDetails = (props) => {
                 setCommentData(element.comments);
             }
         }
-
-
     }
 
     const setAttribute = (element) => {
@@ -466,6 +464,15 @@ const PostDetails = (props) => {
 
             }
         }
+    }
+
+    const editPost = (event, postid) => {
+        event.preventDefault();
+        history.push({
+            pathname: '/edit-post/' + postid,
+            state: { postid: postid }
+        });
+
     }
 
 
@@ -614,76 +621,151 @@ const PostDetails = (props) => {
     //var aDay = 24 * 60 * 60 * 1000;
     //var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
 
+    var current = new Date();
+    var timeResult;
+    if (element != null) {
+        //console.log(element);
+        timeResult = Session.timeDifference(current, element.createdDate);
+        // console.log(timeResult + " ago");
+    }
 
+
+
+    const deletePost = (event, postId) => {
+        Loader(true);
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+        httpClient.call("delete-post/" + postId, null, { method: 'DELETE' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                window.location.reload();
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
+
+    const claimPost = (event, postid) => {
+        Loader(true);
+        event.preventDefault();
+
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+            return null;
+        }
+        let formData = {
+            "id": postid
+        }
+
+        httpClient.call("claim-post", formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
 
 
     return (
-        <> <div className="container">
-            <div className="modal" id="myModal1">
-                <div className="modal-dialog">
-                    <div className="modal-content">
 
 
-                        <div className="modal-header">
-                            <h4 className="modal-title">Awards</h4>
-                            <button type="button" id="modal-closed" className="btn btn-danger close" data-dismiss="modal">&times;</button>
-                            {/*     <button type="button" className="close" data-dismiss="modal">&times;</button>
+        <>
+            {/* reward popup start start */}
+            <div className="container">
+                <div className="modal" id="myModal1">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+
+
+                            <div className="modal-header">
+                                <h4 className="modal-title">Awards</h4>
+                                <button type="button" id="modal-closed" className="btn btn-danger close" data-dismiss="modal">&times;</button>
+                                {/*     <button type="button" className="close" data-dismiss="modal">&times;</button>
                    */}  </div>
 
 
-                        <div className="modal-body">
+                            <div className="modal-body">
 
-                            <div className="text-center">
-                                <img src="img/award.jpg" className="img-fluid" alt="Responsive image"
+                                <div className="text-center">
+                                    <img src="img/award.jpg" className="img-fluid" alt="Responsive image"
 
-                                    style={{ width: "100px", height: "100px" }}
-                                />
-                            </div>
-
-                            <div className="text-center">
-                                USN &nbsp;Token
-
-                                <div className="d-flex justify-content-center" >
-                                    <div className="pf-lr-part">
-                                        <input type="number" className="form-control"
-                                            max="50" id="transfertokenvalue"
-
-                                        />
-
-                                    </div>
+                                        style={{ width: "100px", height: "100px" }}
+                                    />
                                 </div>
 
+                                <div className="text-center">
+                                    USN &nbsp;Token
+
+                                    <div className="d-flex justify-content-center" >
+                                        <div className="pf-lr-part">
+                                            <input type="number" className="form-control"
+                                                max="50" id="transfertokenvalue"
+
+                                            />
+
+                                        </div>
+                                    </div>
 
 
-                            </div><br />
+
+                                </div><br />
 
 
 
-                            <div className="text-center">
-                                <button type="button" className="btn btn-danger"
-                                    onClick={(event) => { giveAward(event, element.id) }}
-                                >Give Award</button>
+                                <div className="text-center">
+                                    <button type="button" className="btn btn-danger"
+                                        onClick={(event) => { giveAward(event, element.id) }}
+                                    >Give Award</button>
+                                </div>
+
+                            </div>
+
+
+                            <div className="modal-footer">
+                                <button hidden type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
 
                         </div>
-
-
-                        <div className="modal-footer">
-                            <button hidden type="button" className="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-
                     </div>
                 </div>
+
             </div>
 
-        </div>
 
+            {/* main content start */}
             <main className="main-content mx-auto">
                 <div className="tb-content-wrapper ">
 
                     <div className="cmn-card shadow-gray-point-3  mb-4">
                         <div className="post-wrapper post-type-one">
                             <div className="post-header">
+
+                                {/*   <div className="elementory-avater-wrap">
+                                    <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
+                                    </a>
+
+                                    <span>Posted by u/{element.postedBy.userName} {timeResult}
+                                    </span>
+
+                                </div> */}
                                 <div className="elementory-avater-wrap">
                                     <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater">
                                         {element !== null ?
@@ -693,16 +775,13 @@ const PostDetails = (props) => {
                                             :
                                             <img src="img/dol-1.png" alt="" />
                                         }</a>
-                                    <h6>
-                                        <a href="/" onClick={(event) => navigate(event)} style={{ fontSize: "22px" }} >
-                                            {element !== null ? element.name : null}
-                                        </a> <span>Posted by  {element !== null ? element.postedBy.userName : null}
-                                        </span>
-                                    </h6>
+                                    <span>Posted by  u/{element !== null ? element.postedBy.userName : null} {timeResult}
+                                    </span>
+
                                 </div>
 
-                                <div className="post-header-right" hidden>
-                                    {/*    <div className="post-time">{timeResult + " ago"}</div> */}
+                                {/* <div className="post-header-right" hidden>
+                                    
                                     <div className="dropdown">
                                         <button className="post-dropdown" type="button" id="dropdownMenuButton1"
                                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -714,11 +793,54 @@ const PostDetails = (props) => {
                                             <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Something else here</a></li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> */}
+
+                                {element !== null ? <div>
+
+
+                                    {userData && userData.id == element.postedBy.id ?
+                                        <div className="post-header-right" >
+                                            {/*  <div className="post-time"> {timeResult} </div> */}
+                                            <div className="dropdown">
+                                                <button className="post-dropdown" type="button" id="dropdownMenuButton1"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="img/three-dot.svg" alt="" />
+                                                </button>
+                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
+                                                    <li ><a className="dropdown-item" href="#" onClick={(event) => deletePost(event, element.id)} style={{ color: 'red' }}>Delete</a></li>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        :
+                                        <div className="post-header-right" >
+                                            {/*  <div className="post-time">{timeResult}</div> */}
+                                            <div className="dropdown">
+                                                <button className="post-dropdown" type="button" id="dropdownMenuButton1"
+                                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <img src="img/three-dot.svg" alt="" />
+                                                </button>
+                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <li><a className="dropdown-item" href="/" onClick={(event) => claimPost(event, element.id)}>Claim Post</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
+                                </div> : null}
                             </div>
                             <div className="post-content-wrapper">
 
+
+
                                 {element != null ? <>
+
+                                    <div className="post-content max-520">
+                                        <p > <a href="/" onClick={(event) => { navigate(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit" }}>
+                                            {element.name}
+                                        </a> </p>
+                                    </div>
 
                                     {(() => {
 

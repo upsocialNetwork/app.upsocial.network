@@ -100,17 +100,17 @@ const RightSideBar = (props) => {
                             <div className="elementory-chunk">
                                 <div className="elementory-brand">
                                     <div className="elementory-avater-wrap">
-                                        <img src="img/b-1.svg" alt="" className="elemetory-avater" />
-                                        <h6>Elementry <span>Sponsered</span></h6>
+                                        <img src="img/fav.ico" alt="" className="elemetory-avater" />
+                                        <h6>UpSocial Network  <span>Sponsered</span></h6>
                                     </div>
-                                    <p>Avail 50-80% Off* for this Raksha Bandhan only at #Elementry! Shop NOW!</p>
+                                    <p>🔥 Blockchain backed Decentralized Social Network 🔥 🚀 Post & Earn 🚀 Create Tokens 🚀 Native DeX 🚀 NFT Marketplace</p>
                                 </div>
                                 <div className="cd-img">
-                                    <img src="img/img-1.jpg" alt="" />
+                                    <img src="img/advertisment.jpg" alt="" />
                                 </div>
 
                                 <div className="text-end p-20">
-                                    <a href="#" onClick={(event) => navigate(event)} className="btn border border-primary shop-now">Shop now</a>
+                                    <a href="https://upsocial.network/" onClick={(event) => navigate(event)} className="btn border border-primary shop-now">Visit now</a>
                                 </div>
                             </div>
                         </div>
@@ -181,26 +181,21 @@ const GroupRecord = (props) => {
     }
 
     return (
-        <div className="single-group">
 
-            <div className="gp-icon">
-                <a href="#" onClick={(event) => { groupDetails(event, element.id) }} >
+        <div className="single-group-or-users">
+            <div className="elementory-avater-wrap">
+
+                <a href="#" className="elemetory-avater"
+                    onClick={(event) => { groupDetails(event, element.id) }}
+                >
                     {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
+
                 </a>
+                <h6><a href="#"
+                    onClick={(event) => { groupDetails(event, element.id) }}
+                >r/{element.name}</a> <span>{element.members.length} Members</span> </h6>
+
             </div>
-
-
-
-            <a href="#" onClick={(event) => { groupDetails(event, element.id) }} style={{ textDecoration: 'none' }} >
-                <div className="gp-text " >
-                    {element.name}
-                </div>
-            </a>
-           {/*  <div className="gp-button ">
-                <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn border border-primary follow float-right">View</a>
-            </div> */}
-
-
         </div>
     )
 }
