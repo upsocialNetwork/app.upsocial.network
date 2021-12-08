@@ -1,19 +1,19 @@
-import React from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion, smartContract } from '../../utils/common';
+//import React from 'react';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import { useEffect, useState } from "react";
 import Session from "../../utils/session";
 import Contract from "../../utils/contract"
 import { useHistory } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
-import $ from 'jquery';
+//import $ from 'jquery';
 import Web3 from 'web3';
 const Community = (props) => {
 
 
 
     const history = useHistory();
-    let [name, setName] = useState(null);
+    let [name, setName] = useState(null);   
     let [type, setType] = useState(null);
     let [isAdult, setAdult] = useState(true);
     let [about, setAbout] = useState(null);
@@ -33,9 +33,9 @@ const Community = (props) => {
 
     }, []);
 
-    const navigate = (event) => {
+    /* const navigate = (event) => {
         event.preventDefault();
-    }
+    } */
     const createGroup = (event) => {
         Loader(true);
         let userData = Session.getSessionData();
@@ -51,7 +51,7 @@ const Community = (props) => {
 
         event.preventDefault();
         httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
-            if (response.success == true) 
+            if (response.success === true) 
             {
                 let userData = Session.getSessionData();
 
@@ -122,7 +122,7 @@ const Community = (props) => {
 
     }
 
-    let checkGroupName = function (name) {
+    /* let checkGroupName = function (name) {
 
         let formData1 = {
             "name": name
@@ -141,7 +141,7 @@ const Community = (props) => {
             if (response.success == true) {
 
                 return true;
-                /* let userData = Session.getSessionData();
+                let userData = Session.getSessionData();
                 let smartContractResult = Contract.transfer(userData.wallet);
                 console.log(smartContractResult.status);
                 let formData = {
@@ -165,7 +165,7 @@ const Community = (props) => {
                 else {
                     Loader(false);
                     console.log(smartContractResult);
-                } */
+                }
 
             }
             else {
@@ -178,7 +178,7 @@ const Community = (props) => {
             console.log(error);
         })
 
-    }
+    } */
 
     /* const checkGroupName = (name) => {
         let formData1 = {
@@ -246,7 +246,7 @@ const Community = (props) => {
                 ErrorToast('Please select file size less than 2 MB');
                 return null;
             }
-            if (postType == "image") {
+            if (postType === "image") {
                 convertFileToBase64(file);
             } else {
                 ErrorToast('Please select file size less than 2 MB');

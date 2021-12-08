@@ -1,5 +1,5 @@
-import Web3 from 'web3';
-import { responsePostListData } from '../views/Home/action';
+//import Web3 from 'web3';
+//import { responsePostListData } from '../views/Home/action';
 
 const contract_abi = [
 	{

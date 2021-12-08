@@ -30,9 +30,9 @@ import UserView from './views/UserView/UserView';
 
 const FullLayout = (props) => {
   const history = useHistory();
-  if (history.location.pathname.indexOf('auth') == -1 &&
-    history.location.pathname.indexOf('user') == -1 &&
-    history.location.pathname.indexOf('mod-tools') == -1) {
+  if (history.location.pathname.indexOf('auth') === -1 &&
+    history.location.pathname.indexOf('user') === -1 &&
+    history.location.pathname.indexOf('mod-tools') === -1) {
     return <Layout leftSide={true} rightSide={true}>{props.children}</Layout>
   }
   return null
@@ -60,8 +60,8 @@ const LoginLayout = (props) => {
 
 const AuthorizeRoute = () => {
   const history = useHistory();
-  const [isLoaded, setIsLoaded] = useState(false);
-  let [isLoggedIn, setIsLoggedIn] = useState(false);
+  //const [isLoaded, setIsLoaded] = useState(false);
+  //let [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useSelector((state) => {
     if (state.authSession.userData && ['/auth/login', '/auth/forgot-password'].indexOf(history.location.pathname) !== -1) {
@@ -85,7 +85,7 @@ const AuthorizeRoute = () => {
     // }
 
     SetSassion();
-    setIsLoaded(true)
+    //setIsLoaded(true)
   })
 
   return (
@@ -111,7 +111,7 @@ const AuthorizeRoute = () => {
                   <Route exact path="/user/my-groups" component={GroupSearch}></Route>
                   <Route exact path="/user/top-groups" component={TopGroupSearch}></Route>
                   <Route exact path="/user/my-posts" component={MyPosts}></Route>
-                  {/* <Route exact path="/user/:username" component={UserView}></Route> */}
+                  <Route exact path="/user/view/:userName" component={UserView}></Route>
                   <Route exact path="/user/notification" component={Notification}></Route>
                 </HFLayout>
               )

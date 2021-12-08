@@ -87,6 +87,22 @@ const ImagePost = (props) => {
 
     }
 
+
+    const userView = (event, userName) => {
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+            history.push('/auth/login');
+        }
+        else {
+            history.push({
+                pathname: '/user/view/' + userName,
+                state: { userName: userName }
+            });
+        }
+
+    }
+
     const claimPost = (event, postid) => {
         Loader(true);
         event.preventDefault();
@@ -140,7 +156,7 @@ const ImagePost = (props) => {
         })
     }
 
-    //console.log(element);
+    // console.log(element);
     var current = new Date();
     var timeResult = Session.timeDifference(current, element.createdDate);
     // console.log(timeResult + " ago");
@@ -155,7 +171,7 @@ const ImagePost = (props) => {
                         <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
                         </a>
 
-                        <span>Posted by u/{element.postedBy.userName} {timeResult}
+                        <span>Posted by u/ <a href="#" style={{ color: "black" }} onClick={(event) => userView(event, element.postedBy.userName)}>{element.postedBy.userName}</a> {timeResult}
                         </span>
 
                     </div>
@@ -318,9 +334,6 @@ const ImagePost = (props) => {
                                 )
 
                         }
-
-
-
                     })()}
                     <PostAttributes {...props} />
                     {/* <PostComments {...props} /> */}

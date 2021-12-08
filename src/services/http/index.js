@@ -5,7 +5,7 @@ let defaultConfig = {
 
     API_URL: "https://api.upsocial.network:8443/Upsocial/ipfsservice/api/v1/",
     //API_URL: "https://api-sit.upsocial.network:8443/Upsocial/ipfsservice/api/v1/",
-    //  API_URL: "http://localhost:8433/Upsocial/ipfsservice/api/v1/",
+    //API_URL: "http://localhost:8433/Upsocial/ipfsservice/api/v1/",
     HEADERS: {
         "Content-Type": "application/json; charset=utf-8",
     }

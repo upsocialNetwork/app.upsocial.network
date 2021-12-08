@@ -1,50 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
-import PostList from './../Home/PostList';
+import { useEffect, useState } from 'react';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+//import PostList from './../Home/PostList';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory, useParams } from 'react-router-dom';
 import Session from '../../utils/session';
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 
 // tech 
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import { convertToHTML } from 'draft-convert';
-import DOMPurify from 'dompurify';
+//import { EditorState } from 'draft-js';
+//import { Editor } from 'react-draft-wysiwyg';
+//import { convertToHTML } from 'draft-convert';
+//import DOMPurify from 'dompurify';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const CreateGroupPost = (props) => {
 
-    const [editorState, setEditorState] = useState(
+    /* const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
-    );
-    const [convertedContent, setConvertedContent] = useState(null);
+    ); */
+    //const [convertedContent, setConvertedContent] = useState(null);
 
-    const handleEditorChange = (state) => {
+   /*  const handleEditorChange = (state) => {
         setEditorState(state);
         convertContentToHTML();
-    }
+    } */
 
-    const convertContentToHTML = () => {
+    /* const convertContentToHTML = () => {
         let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
         setConvertedContent(currentContentAsHTML);
-    }
+    } */
 
-    const createMarkup = (html) => {
+    /* const createMarkup = (html) => {
 
         return {
             __html: DOMPurify.sanitize(html)
         }
-    }
+    } */
 
     //
 
     const history = useHistory();
-    const location = useLocation();
+    //const location = useLocation();
     const params = useParams();
 
 
@@ -62,7 +62,7 @@ const CreateGroupPost = (props) => {
     let [isAdult, setAdult] = useState(true);
     let [data, setData] = useState();
     let [isText, setText] = useState(false);
-    let [selectedFile, setSelectedFile] = useState();
+    //let [selectedFile, setSelectedFile] = useState();
     let [dataType, setDataType] = useState();
     let [postType, setPostType] = useState();
 
@@ -211,7 +211,7 @@ const CreateGroupPost = (props) => {
 
     const convertFile = (file) => {
         if (typeof (file) != "undefined") {
-            setSelectedFile(file);
+            //setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
             if (size > 50) {
@@ -219,11 +219,11 @@ const CreateGroupPost = (props) => {
                 return null;
             }
             convertFileToBase64(file);
-            if (postType == "image") {
+            if (postType === "image") {
                 // console.log(postType);
                 setDataType(".jpg");
                 setPostType("image");
-            } else if (postType == "video") {
+            } else if (postType === "video") {
                 ///  console.log(postType);
                 setDataType(".mp4");
                 setPostType("video");
@@ -363,9 +363,9 @@ const CreateGroupPost = (props) => {
                                         <div className="text-content-wrap">
                                             <div className="post-title-eidit">
                                                 <input type="text" className="form-control" placeholder="Title"
-                                                   
-                                                   maxLength="50"
-                                                   onChange={(event) => { setTitle(event.target.value) }}
+
+                                                    maxLength="50"
+                                                    onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>
                                             <div className="text-editor-wrapper">

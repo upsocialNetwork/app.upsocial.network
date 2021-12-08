@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { applyDarkMode, applyLightMode } from './../utils/common';
 import { useHistory } from 'react-router-dom';
 import Session from '../utils/session';
@@ -14,11 +14,11 @@ const ModToolLeftSideBar = (props) => {
         event.preventDefault()
     }
 
-    const createGroup = (event) => {
+   /*  const createGroup = (event) => {
         event.preventDefault();
 
         history.push('/create-group');
-    }
+    } */
 
     const searchGroup = (event) => {
         event.preventDefault();

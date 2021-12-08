@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
-import PostList from './../Home/PostList';
+import { useEffect, useState } from 'react';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+//import PostList from './../Home/PostList';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import $ from 'jquery';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 
 //
 // tech 
-import { ContentState, convertFromHTML } from 'draft-js';
+/* import { ContentState, convertFromHTML } from 'draft-js';
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; */
 const EditPost = (props) => {
 
-    const [editorState, setEditorState] = useState(null);
-
+    /* const [editorState, setEditorState] = useState(null);
+ */
 
     /* const [editorState, setEditorState] = useState(
         () =>
@@ -32,7 +32,7 @@ const EditPost = (props) => {
                 )),
     ); */
 
-    const [convertedContent, setConvertedContent] = useState(null);
+    /* const [convertedContent, setConvertedContent] = useState(null);
 
     const handleEditorChange = (state) => {
         setEditorState(state);
@@ -49,11 +49,11 @@ const EditPost = (props) => {
         return {
             __html: DOMPurify.sanitize(html)
         }
-    }
+    } */
 
     //
     const history = useHistory();
-    const location = useLocation();
+    // const location = useLocation();
     const params = useParams()
 
     useEffect(() => {
@@ -67,7 +67,7 @@ const EditPost = (props) => {
             history.push('');
 
         }
-        const id = params.postid;
+        //const id = params.postid;
         // getpostDetails(id);
     }, []);
     useEffect(() => {
@@ -90,7 +90,7 @@ const EditPost = (props) => {
     let [data, setData] = useState(null);
     let [postdata, setPostData] = useState(null);
     let [isText, setText] = useState(false);
-    let [selectedFile, setSelectedFile] = useState(null);
+    //let [selectedFile, setSelectedFile] = useState(null);
     let [dataType, setDataType] = useState(null);
     let [postType, setPostType] = useState(null);
     const getpostDetails = (id) => {
@@ -103,19 +103,19 @@ const EditPost = (props) => {
                 setId(res.id);
                 setTitle(res.name);
                 setAdult(res.nsfw)
-                if (res.type == "text") {
+                if (res.type === "text") {
                     document.getElementById("text-tab").click();
                     setText(true);
                     setPostType("text");
                     setDataType(".txt");
                     setData(res.data);
                     //console.log(res.data);
-                    setEditorState(EditorState.createWithContent(
-                        ContentState.createFromBlockArray(
-                            convertFromHTML(res.data)
-                        )));
+                    /*  setEditorState(EditorState.createWithContent(
+                         ContentState.createFromBlockArray(
+                             convertFromHTML(res.data)
+                         ))); */
                     // setEditorState(res.data);
-                    setConvertedContent(res.data);
+                    //setConvertedContent(res.data);
                     /* 
                                         EditorState.createWithContent(
                                             ContentState.createFromBlockArray(
@@ -123,7 +123,7 @@ const EditPost = (props) => {
                                             )) */
 
 
-                    if (res.nsfw == true) {
+                    if (res.nsfw === true) {
                         $("#nsfwtext").prop("checked", true);
                     }
                     else {
@@ -136,7 +136,7 @@ const EditPost = (props) => {
                     setPostType(res.type);
                     setDataType(res.dataType);
                     setPostData(res.data);
-                    if (res.nsfw == true) {
+                    if (res.nsfw === true) {
                         $("#nsfwdata").prop("checked", true);
                     }
                     else {
@@ -309,7 +309,7 @@ const EditPost = (props) => {
 
     const convertFile = (file) => {
         if (typeof (file) != "undefined") {
-            setSelectedFile(file);
+            //setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
             if (size > 1000) {
@@ -320,11 +320,11 @@ const EditPost = (props) => {
             $("#div2").attr('hidden', false);
             convertFileToBase64(file);
 
-            if (postType == "image") {
+            if (postType === "image") {
                 // console.log(postType);
                 setDataType(".jpg");
                 setPostType("image");
-            } else if (postType == "video") {
+            } else if (postType === "video") {
                 ///  console.log(postType);
                 setDataType(".mp4");
                 setPostType("video");

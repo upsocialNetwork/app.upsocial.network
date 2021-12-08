@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { colorModeToggle, Loader, SuccessToast, SetSassion } from './../utils/common';
 import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import Session from './../utils/session';
 import { ErrorToast } from './../utils/common';
 import $ from 'jquery';
 import httpClient from '../services/http';
-import { convertCompilerOptionsFromJson } from 'typescript';
+//import { convertCompilerOptionsFromJson } from 'typescript';
 
 
 const Header = (props) => {
     const history = useHistory();
-    const location = useLocation();
+    // const location = useLocation();
     let [isLoggedIn, setIsLoggedIn] = useState(false);
-    let [isMetamask, setMatamask] = useState(false);
+    // let [isMetamask, setMatamask] = useState(false);
     let [walletAddress, setWalletAddress] = useState('');
     let [walletBalance, setWalletBalance] = useState('');
     const [userDetails, setUserDetails] = useState('');
     let [notification, setNotification] = useState('');
-    let [param, setParam] = useState('');
+    // let [param, setParam] = useState('');
 
     useEffect(() => {
         let loginState = Session.isLoggedIn()
@@ -90,14 +90,14 @@ const Header = (props) => {
 
         if (typeof window.ethereum !== 'undefined') {
             // console.log('MetaMask is installed!');
-            setMatamask(true);
+            // setMatamask(true);
             //  SuccessToast("MetaMask is installed!");
             getAccount();
         }
         else {
             ErrorToast("MetaMask is not installed!");
             // console.log('MetaMask is not installed!');
-            setMatamask(false);
+            // setMatamask(false);
             return null;
         }
     }
@@ -105,7 +105,7 @@ const Header = (props) => {
     async function getAccount() {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
-        if (account == null) {
+        if (account === null) {
             setWalletAddress(null);
             // console.log("NO wallet");
         }
@@ -198,8 +198,7 @@ const Header = (props) => {
         event.preventDefault();
         console.log("redeem calling" + walletBalance);
 
-        if (walletBalance <= 0) 
-        {
+        if (walletBalance <= 0) {
             ErrorToast("Insufficient balance");
             return null;
         }
@@ -211,7 +210,7 @@ const Header = (props) => {
         }
         httpClient.call('redeem-token', formData, { method: 'POST' }).then(function (response) {
             Loader(false);
-            if (response.success == true) {
+            if (response.success === true) {
 
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);
@@ -229,20 +228,20 @@ const Header = (props) => {
 
     }
 
-    /*  const searchRecords = (param) => {
-         //console.log(param);
-         let userData = Session.isLoggedIn();
-         if (!userData) {
-             history.push('/auth/login');
-         } else {
- 
-             history.push({
-                 pathname: 'search-result',
-                 search: '?search=' + param + '',
-                 state: { search: param }
-             });
-         }
-     } */
+    const searchRecords = (param) => {
+        //console.log(param);
+        let userData = Session.isLoggedIn();
+        if (!userData) {
+            history.push('/auth/login');
+        } else {
+
+            history.push({
+                pathname: 'search-result',
+                search: '?search=' + param + '',
+                state: { search: param }
+            });
+        }
+    }
 
 
 

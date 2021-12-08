@@ -201,6 +201,8 @@ const PostDetails = (props) => {
         }
 
 
+
+
     }
 
     const savedPost = (event, postId) => {
@@ -301,6 +303,24 @@ const PostDetails = (props) => {
             });
 
     }
+
+
+    const userView = (event, userName) => {
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+            history.push('/auth/login');
+        }
+        else {
+            history.push({
+                pathname: '/user/view/' + userName,
+                state: { userName: userName }
+            });
+        }
+
+    }
+
+
 
     const saveChildComment = (event, parentid, postid) => {
         Loader(true);
@@ -775,7 +795,7 @@ const PostDetails = (props) => {
                                             :
                                             <img src="img/dol-1.png" alt="" />
                                         }</a>
-                                    <span>Posted by  u/{element !== null ? element.postedBy.userName : null} {timeResult}
+                                    <span>Posted by u/ <a href="#" style={{ color: "black" }} onClick={(event) => userView(event, element.postedBy.userName)}>{element !== null ? element.postedBy.userName : null}</a> {timeResult}
                                     </span>
 
                                 </div>

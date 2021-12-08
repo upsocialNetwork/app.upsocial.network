@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-date-picker';
-import ReactQuill from 'react-quill'; // ES6
+import { useEffect, useState } from 'react';
+//import DatePicker from 'react-date-picker';
+//import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory } from "react-router-dom";
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+import { ErrorToast, SuccessToast } from '../../utils/common';
 import Session from '../../utils/session';
 const ChangePassword = (props) => {
     const history = useHistory();
@@ -19,9 +19,9 @@ const ChangePassword = (props) => {
         }
     }, []);
 
-    const navigate = (event) => {
+   /*  const navigate = (event) => {
         event.preventDefault()
-    }
+    } */
 
     const changePassword = (event) => {
         event.preventDefault();
@@ -30,7 +30,7 @@ const ChangePassword = (props) => {
             "newPassword": newPassword
         }
         httpClient.call('change-password', formData, { method: 'PUT' }).then(function (response) {
-            if (response.success == true) {
+            if (response.success === true) {
                 //console.log(response);
                 SuccessToast(response.result.message);
                 Session.setSessionData(response.result.data);

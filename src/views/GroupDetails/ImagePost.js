@@ -165,6 +165,21 @@ const ImagePost = (props) => {
     var timeResult = Session.timeDifference(current, element.createdDate);
 
 
+    const userView = (event, userName) => {
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+            history.push('/auth/login');
+        }
+        else {
+            history.push({
+                pathname: '/user/view/' + userName,
+                state: { userName: userName }
+            });
+        }
+
+    }
+
     return (
         <div className="cmn-card shadow-gray-point-3  mb-4">
             <div className="post-wrapper post-type-one">
@@ -173,7 +188,7 @@ const ImagePost = (props) => {
                         <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
                         </a>
 
-                        <span>Posted by u/{element.postedBy.userName} {timeResult}
+                        <span>Posted by u/ <a href="#" style={{ color: "black" }} onClick={(event) => userView(event, element.postedBy.userName)}>{element.postedBy.userName}</a> {timeResult}
                         </span>
 
                     </div>

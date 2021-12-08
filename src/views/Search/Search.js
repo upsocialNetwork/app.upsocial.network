@@ -39,7 +39,6 @@ const Search = (props) => {
             //console.log(response);
 
             if (response.result.data.Groups !== null) {
-                
                 setGroups(response.result.data.Groups);
                 Loader(false);
             }

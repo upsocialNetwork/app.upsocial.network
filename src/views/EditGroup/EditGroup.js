@@ -1,18 +1,18 @@
-import React from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
+//import React from 'react';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import { useEffect, useState } from "react";
 import Session from "../../utils/session";
 import { useHistory, useParams } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
-import { useLocation } from "react-router-dom";
+//import { useLocation } from "react-router-dom";
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 import $ from 'jquery';
 const EditGroup = (props) => {
 
     const history = useHistory();
-    const location = useLocation();
+    // const location = useLocation();
     const params = useParams();
 
     let [name, setName] = useState(null);
@@ -39,9 +39,9 @@ const EditGroup = (props) => {
         }
     }, [params.groupId]);
 
-    const navigate = (event) => {
-        event.preventDefault();
-    }
+    /*  const navigate = (event) => {
+         event.preventDefault();
+     } */
     const updateGroup = (event) => {
         Loader(true);
         event.preventDefault();
@@ -56,7 +56,7 @@ const EditGroup = (props) => {
 
         event.preventDefault();
         httpClient.call('check-edit-group-name', formData, { method: 'POST' }).then(function (response) {
-            if (response.success == true) {
+            if (response.success === true) {
                 let userData = Session.getSessionData();
                 Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
                 window.ethereum.enable();
@@ -135,7 +135,7 @@ const EditGroup = (props) => {
             }
             $("#div1").attr("hidden", true);
             $("#div2").attr("hidden", false);
-            if (postType == "image") {
+            if (postType === "image") {
                 convertFileToBase64(file);
             } else {
                 ErrorToast('Please select file size less than 2 MB');
@@ -166,7 +166,7 @@ const EditGroup = (props) => {
                 setprevImage(result.image);
                 setImage(result.image);
                 setAdult(result.nsfw);
-                if (result.nsfw == true) {
+                if (result.nsfw === true) {
                     $("#nsfw").prop("checked", true);
                 }
                 else {

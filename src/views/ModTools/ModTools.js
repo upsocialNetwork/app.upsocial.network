@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import PostList from './../Home/PostList';
+import { useEffect, useState } from 'react';
+//import PostList from './../Home/PostList';
 import { useLocation, useHistory, useParams } from 'react-router-dom';
 import httpClient from '../../services/http';
-import Select from 'react-select';
-import { useStore } from 'react-redux';
+//import Select from 'react-select';
+//import { useStore } from 'react-redux';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import Session from '../../utils/session';
-import $ from 'jquery';
+//import $ from 'jquery';
 
 
 const ModTools = (props) => {
@@ -29,7 +29,7 @@ const ModTools = (props) => {
         getGroupDetails(params.id);
         setData(location.state.detail);
         // getMembersList(params.id);
-      
+
 
     }, []);
 

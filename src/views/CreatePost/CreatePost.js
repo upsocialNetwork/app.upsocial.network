@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
-import PostList from './../Home/PostList';
+import { useEffect, useState } from 'react';
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+//import PostList from './../Home/PostList';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory } from 'react-router-dom';
 import Session from '../../utils/session';
-import { useLocation } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
+//import { useLocation } from "react-router-dom";
+//import { Redirect } from 'react-router-dom';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 
 
 //
 // tech 
-import { EditorState } from 'draft-js';
+/* import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; */
 
 const CreatePost = (props) => {
 
-    const [editorState, setEditorState] = useState(
+    /* const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
     const [convertedContent, setConvertedContent] = useState(null);
@@ -42,12 +42,12 @@ const CreatePost = (props) => {
         return {
             __html: DOMPurify.sanitize(html)
         }
-    }
+    } */
 
 
     //
     const history1 = useHistory();
-    const location = useLocation();
+    //const location = useLocation();
 
     useEffect(() => {
         let userData = Session.isLoggedIn();
@@ -61,7 +61,7 @@ const CreatePost = (props) => {
     let [isAdult, setAdult] = useState(true);
     let [data, setData] = useState();
     let [isText, setText] = useState(false);
-    let [selectedFile, setSelectedFile] = useState();
+    //let [selectedFile, setSelectedFile] = useState();
     let [dataType, setDataType] = useState();
     let [postType, setPostType] = useState();
 
@@ -194,7 +194,7 @@ const CreatePost = (props) => {
 
     const convertFile = (file) => {
         if (typeof (file) != "undefined") {
-            setSelectedFile(file);
+            //setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
             if (size > 1000) {
@@ -202,11 +202,11 @@ const CreatePost = (props) => {
                 return null;
             }
             convertFileToBase64(file);
-            if (postType == "image") {
+            if (postType === "image") {
                 // console.log(postType);
                 setDataType(".jpg");
                 setPostType("image");
-            } else if (postType == "video") {
+            } else if (postType === "video") {
                 ///  console.log(postType);
                 setDataType(".mp4");
                 setPostType("video");
