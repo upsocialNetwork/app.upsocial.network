@@ -10,6 +10,7 @@ import editProfile from './views/EditProfile/reducer';
 import topCommunitySearch from './views/TopGroupSearch/reducer';
 import groupPost from './views/CreateGroupPost/reducer';
 import myPost from './views/MyPosts/reducer';
+import userPost from './views/UserView/reducer';
 
 
 
@@ -86,7 +87,8 @@ const reducers = combineReducers({
   editProfile,
   topCommunitySearch,
   groupPost,
-  myPost
+  myPost,
+  userPost
 });
 
 

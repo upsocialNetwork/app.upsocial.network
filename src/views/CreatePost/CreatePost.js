@@ -73,9 +73,10 @@ const CreatePost = (props) => {
     const savePost = (event) => {
         Loader(true);
         event.preventDefault();
-        let formData = {};
+        let fd = {};
+       
         if (isText) {
-            formData = {
+            fd = {
                 "type": "text",
                 "name": title,
                 "data": data,
@@ -84,17 +85,13 @@ const CreatePost = (props) => {
 
             };
         }
-        else {
+        /* else {
+            console.log("media block calling");
 
-            formData = {
-                "type": postType,
-                "name": title,
-                "data": compressString(data),
-                "dataType": dataType,
-                "nsfw": isAdult
-            };
+            formData.append("extra", "{'type':"+postType+",'name':"+title+",'dataType':"+dataType+",'_blockNumber':'','_cumulativeGasUsed':'','_from':'','_gasUsed':'','_status':'','_to':'','_transactionHash':'','_transactionIndex':'','_blockHash':'','_contractAddress':''}");
+            formData.append('file', data);
 
-        }
+        } */
 
         let userData = Session.getSessionData();
         Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
@@ -117,24 +114,46 @@ const CreatePost = (props) => {
                     "_blockHash": receipt.blockHash,
                     "_contractAddress": Contract.contract_address
                 }
+                fd['transaction'] = transaction;
+
+                if (isText) {
+                    httpClient.call('upload-timline-post', fd, { method: 'POST' }).then(function (response) {
+                        Loader(false);
+                        if (response.success) {
+                            SuccessToast(response.result.message);
+                            history1.push("/");
+                        }
+                        else {
+                            ErrorToast(response.result.message);
+                        }
+
+                    }, function (error) {
+                        Loader(false);
+                        ErrorToast(error.message);
+                    })
+                }
+                else {
+                    const formData = new FormData();
+                    formData.append("extra", "{'type':"+postType+",'name':"+title+",'dataType':"+dataType+",'_blockNumber':"+receipt.blockNumber+",'_cumulativeGasUsed':"+receipt.cumulativeGasUsed+",'_from':"+receipt.from+",'_gasUsed':"+receipt.gasUsed+",'_status':"+receipt.status+",'_to':"+receipt.to+",'_transactionHash':"+receipt.transactionHash+",'_transactionIndex':"+receipt.transactionIndex+",'_blockHash':"+receipt.blockHash+",'_contractAddress':"+Contract.contract_address+"}");
+                    formData.append('file', data);
+                    httpClient.call('upload-timline-post-media', formData, { method: 'POST' }).then(function (response) {
+                        Loader(false);
+                        if (response.success) {
+                            SuccessToast(response.result.message);
+                            history1.push("/");
+                        }
+                        else {
+                            ErrorToast(response.result.message);
+                        }
+
+                    }, function (error) {
+                        Loader(false);
+                        ErrorToast(error.message);
+                    })
+
+                }
 
 
-                formData['transaction'] = transaction;
-
-                httpClient.call('upload-timline-post', formData, { method: 'POST' }).then(function (response) {
-                    Loader(false);
-                    if (response.success) {
-                        SuccessToast(response.result.message);
-                        history1.push("/");
-                    }
-                    else {
-                        ErrorToast(response.result.message);
-                    }
-
-                }, function (error) {
-                    Loader(false);
-                    ErrorToast(error.message);
-                })
             }, function (error) {
                 Loader(false);
                 ErrorToast(error.message);
@@ -168,7 +187,7 @@ const CreatePost = (props) => {
         const reader = new FileReader();
         reader.onloadend = function () {
             var b64 = reader.result.replace(/^data:.+;base64,/, '');
-            setData(b64);
+            setData(data);
             let postType = data.type.substring(0, 5);
             if (postType === "image") {
                 //set value
@@ -215,8 +234,8 @@ const CreatePost = (props) => {
             //setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 5) {
-                ErrorToast('Please select file size less than 5 MB');
+            if (size > 200) {
+                ErrorToast('File should not be greater than 200 MB');
                 return null;
             }
             convertFileToBase64(file);
@@ -236,7 +255,7 @@ const CreatePost = (props) => {
 
         }
         else {
-            ErrorToast('Please select file size greater than 1000 MB');
+            ErrorToast('File should not be greater than 200 MB');
             return null;
         }
 

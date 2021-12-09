@@ -111,11 +111,11 @@ const CreateGroupJoin = (props) => {
         httpClient.call("get-group-details/" + groupid, null, { method: 'GET' }).then(function (response) {
             Loader(false);
             if (response.success) {
-                getGroupPosts(groupid);
+                getGroupPosts(1, groupid);
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
                 let user = Session.getSessionData();
-               // console.log(response);
+                // console.log(response);
                 if (user.id === response.result.data.owner.id) {
                     //console.log("mode display");
                     document.getElementById('mod-tools').style.display = 'inline';
@@ -146,10 +146,10 @@ const CreateGroupJoin = (props) => {
         })
     }
 
-    const getGroupPosts = (groupid) => {
+    const getGroupPosts = (pageno, groupid) => {
         Loader(true);
 
-        httpClient.call("get-group-post/" + 1 + "/" + groupid, null, { method: 'GET' }).then(function (response) {
+        httpClient.call("get-group-post/" + pageno + "/" + groupid, null, { method: 'GET' }).then(function (response) {
             Loader(false);
             if (response.success) {
                 setPosts(response)
@@ -177,7 +177,7 @@ const CreateGroupJoin = (props) => {
         if (isLogin == null) {
 
         } else {
-            getGroupPosts(page)
+            getGroupPosts(page, params.id)
         }
     }
 
@@ -205,7 +205,7 @@ const CreateGroupJoin = (props) => {
                                 </a>
                             </h5><br /> <span>{result.members && result.members.length ? result.members.length : 0} Members</span><br />
 
-                            <a href="#"  onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block " >
+                            <a href="#" onClick={(event) => { joinOrLeaveGroup(event, result.id, result.joined) }} className="d-inline-block " >
                                 <span
                                     className=" status joined" style={{ textDecoration: 'none' }}>
 

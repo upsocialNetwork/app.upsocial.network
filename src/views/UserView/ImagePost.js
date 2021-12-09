@@ -27,6 +27,35 @@ const ImagePost = (props) => {
 
     }, []);
 
+
+    const userView = (event, userName) => {
+        event.preventDefault();
+        let user = Session.getSessionData();
+        if (user == null) {
+            history.push('/auth/login');
+        }
+        else {
+            history.push({
+                pathname: '/user/view/' + userName,
+                state: { userName: userName }
+            });
+        }
+
+    }
+
+    const pageDetails = (event) => {
+        event.preventDefault();
+        const id = element.id;
+        let user = Session.getSessionData();
+        if (user == null) {
+
+            history.push('/auth/login');
+        }
+        else {
+            history.push('/post-details/' + id);
+        }
+    }
+
     const navigate = (event) => {
         event.preventDefault()
     }
@@ -91,18 +120,7 @@ const ImagePost = (props) => {
         })
     }
 
-    const pageDetails = (event) => {
-        event.preventDefault();
-        const id = element.id;
-        let user = Session.getSessionData();
-        if (user == null) {
 
-            history.push('/auth/login');
-        }
-        else {
-            history.push('/post-details/'+id);
-        }
-    }
 
     const promotePost = (event, postId) => {
         event.preventDefault();
@@ -132,8 +150,10 @@ const ImagePost = (props) => {
 
     }
 
-    var aDay = 24 * 60 * 60 * 1000;
-    var timeResult = Session.convertTime(new Date(element.createdDate - aDay));
+    // console.log(element);
+    var current = new Date();
+    var timeResult = Session.timeDifference(current, element.createdDate);
+    // console.log(timeResult + " ago");
 
 
     return (
@@ -141,13 +161,12 @@ const ImagePost = (props) => {
             <div className="post-wrapper post-type-one">
                 <div className="post-header">
                     <div className="elementory-avater-wrap">
-                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}</a>
-                        <h6>
-                            <a href="/" onClick={(event) => { navigate(event) }} style={{ fontSize: "22px" }}>
-                                {element.name}
-                            </a> <span>Posted by  {element.postedBy.userName}
-                            </span>
-                        </h6>
+                        <a href="/" onClick={(event) => navigate(event)} className="elemetory-avater"> {element.postedBy.image != null ? <img src={"https://ipfs.io/ipfs/" + element.postedBy.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
+                        </a>
+
+                        <span>Posted by u/ <a href="#" style={{ color: "black" }} onClick={(event) => userView(event, element.postedBy.userName)}>{element.postedBy.userName}</a> {timeResult}
+                        </span>
+
                     </div>
 
 
@@ -160,7 +179,7 @@ const ImagePost = (props) => {
                                     <img src="img/three-dot.svg" alt="" />
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
+                                    <li hidden><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
                                     <li ><a className="dropdown-item" href="#" onClick={(event) => deletePost(event, element.id)} style={{ color: 'red' }}>Delete</a></li>
 
                                     {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
@@ -189,14 +208,11 @@ const ImagePost = (props) => {
 
                 </div>
                 <div className="post-content-wrapper">
-                    {/* <div className="post-content max-520">
-                    <p >{element.name}</p>
-                </div> */}
-                    {/* {element.data &&
-                    <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                        <img src={element.data} alt="" />
-                    </a>
-                } */}
+                    <div className="post-content max-520">
+                        <p > <a href="/" onClick={(event) => { pageDetails(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit" }}>
+                            {element.name}
+                        </a> </p>
+                    </div>
 
                     {(() => {
 

@@ -18,6 +18,9 @@ const UserView = props => {
     const location = useLocation();
     const [details, setDetails] = useState();
     const [posts, setPosts] = useState();
+    const [loginuser, setUserData] = useState();
+    const [isHide, setHide] = useState(false);
+
 
     const params = useParams();
 
@@ -35,7 +38,16 @@ const UserView = props => {
             Loader(false);
             if (response.success) {
                 setDetails(response)
-                //console.log(response);
+                getUserPosts(1, params.userName)
+
+                let user = Session.getSessionData();
+                if (user.id === response.result.data.id) {
+                    //console.log(isHide);
+                    setHide(true);
+                    //console.log(isHide);
+                }
+
+
             }
             else {
                 ErrorToast(response.result.message);
@@ -54,6 +66,95 @@ const UserView = props => {
 
     let result = details && details.result && details.result.data ? details.result.data : [];
     // console.log(result);
+
+
+
+    const loadFunc = (page) => {
+        if (page > 5) return false
+        let isLogin = Session.getSessionData();
+        if (isLogin == null) {
+            history.push("/auth/login");
+        } else {
+            getUserPosts(page, params.userName)
+        }
+    }
+
+
+    const getUserPosts = (page, userName) => {
+        Loader(true);
+        httpClient.call("get-user-post/" + page + "/" + userName, null, { method: 'GET' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                setPosts(response)
+
+
+            }
+            else {
+                // ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+    }
+
+    let pt = posts && posts.result && posts.result.data ? posts.result.data : [];
+    //console.log(pt);
+
+
+
+
+    const followOrunfollow = (event, userId, type) => {
+        Loader(true);
+        event.preventDefault();
+        if (type == true) {
+            //leaving group
+            let formData = {
+                "followingUserId": userId
+            }
+            httpClient.call("unfollow-user", formData, { method: 'POST' }).then(function (response) {
+                Loader(false);
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    getUserDetails(params.userName);
+                    //window.location.reload();
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                Loader(false);
+                console.log(error);
+            });
+
+        }
+        else {
+            //group
+            //leaving group
+            let formData = {
+                "followingUserId": userId
+            }
+            httpClient.call("follow-user", formData, { method: 'POST' }).then(function (response) {
+                Loader(false);
+                if (response.success) {
+                    SuccessToast(response.result.message);
+                    getUserDetails(params.userName);
+                    //window.location.reload();
+                }
+                else {
+                    ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                Loader(false);
+                console.log(error);
+            });
+        }
+
+    }
+
+
     return (
         <>
             <main className="main-content mx-auto">
@@ -65,53 +166,171 @@ const UserView = props => {
                                     {result && result.image ? <img className="img-fluid" src={"https://ipfs.io/ipfs/" + result.image} alt="" /> :
                                         <img className="img-fluid" src="img/dol-1.png" alt="" />}
                                 </div>
-                                <h5><a href="#" onClick={(event) => { navigate(event) }} class="d-inline-block">{result.firstName != null ? result.firstName : "Na"} {result.lastName != null ? result.lastName : "Na"} &nbsp;<span
-                                    class="position-absolute status joined">   &nbsp;{result.followed == true ? "UnFollow" : "follow"}</span></a> <span
-                                        class="sub">r/{result.userName}</span>
+                                <h5>
+                                    <a href="#" onClick={(event) => { followOrunfollow(event, result.id, result.followed) }} className="d-inline-block">r/{result.userName} &nbsp;&nbsp;&nbsp;
+
+
+                                        {isHide === true ? null :
+
+                                            <span className="position-absolute status joined" id="followuserdiv">    &nbsp;{result.followed == true ? "UnFollow" : "follow"}</span>
+                                        }
+                                    </a> <span
+                                        className="sub">{result.firstName != null ? result.firstName : "Na"} {result.lastName != null ? result.lastName : "Na"}</span>
+
+
+
+                                    {/* 
+                                    <a href="#" onClick={(event) => { followOrunfollow(event, result.id, result.followed) }} className="d-inline-block " >
+                                        <span
+                                            className="status joined" style={{ textDecoration: 'none' }}>
+
+                                            {result && result.joined ? <>Unfollow</> : <>Follow</>}
+                                        </span>
+                                    </a> */}
                                 </h5>
                             </div>
                         </div>
                     </div>
                 </div>
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                {/*  <ul className="nav nav-tabs" id="myTab" role="tablist">
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
                             role="tab" aria-controls="home" aria-selected="true">Latest</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
                             role="tab" aria-controls="profile" aria-selected="false">Most Liked</button>
                     </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
+                    <li className="nav-item" role="presentation">
+                        <button className="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button"
                             role="tab" aria-controls="contact" aria-selected="false">Most Promoted</button>
                     </li>
-                </ul>
-                <div class="cmn-card shadow-gray-point-2 mb-4">
-                    <div class="create-post">
-                        <div class="no-post-design">
+                </ul> */}
+                {/*  <div className="cmn-card shadow-gray-point-2 mb-4">
+                    <div className="create-post">
+                        <div className="no-post-design">
                             <img src="img/q-1.svg" alt="" />
                             <p>Post's Loading..</p>
                         </div>
                     </div>
+                </div> */}
+
+                <div className="tab-content  mb-4" id="myTabContent">
+                    <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <InfiniteScroll
+                            pageStart={1}
+                            loadMore={loadFunc}
+                            hasMore={props.hasMore}
+                            loader={<div className="loader" key={0}>Loading ...</div>}
+                        >
+
+                            {pt.length > 0 ? <PostList type={'Latest'} postlist={pt} /> : <div className="cmn-card shadow-gray-point-3  mb-4">
+                                <div className="post-wrapper post-type-one">
+                                    <div className="post-header">
+                                    </div>
+                                    <div className="post-content-wrapper">
+                                        <div className="post-content max-520">
+                                            <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
+                                            <button type="button"
+
+
+
+                                                className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+
+                        </InfiniteScroll>
+
+                    </div>
+
+                    <div className="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <InfiniteScroll
+                            pageStart={1}
+                            loadMore={loadFunc}
+                            hasMore={props.hasMore}
+                            loader={<div className="loader" key={0}>Loading ...</div>}
+                        >
+                            {pt.length > 0 ? <PostList type={'Liked'} postlist={pt} /> : <div className="cmn-card shadow-gray-point-3  mb-4">
+                                <div className="post-wrapper post-type-one">
+                                    <div className="post-header">
+                                    </div>
+                                    <div className="post-content-wrapper">
+                                        <div className="post-content max-520">
+                                            <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
+                                            <button type="button"
+
+
+
+                                                className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+                        </InfiniteScroll>
+
+
+
+                    </div>
+                    <div className="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+
+                        <InfiniteScroll
+                            pageStart={1}
+                            loadMore={loadFunc}
+                            hasMore={props.hasMore}
+                            loader={<div className="loader" key={0}>Loading ...</div>}
+                        >
+
+
+                            {pt.length > 0 ? <PostList type={'Commented'} postlist={pt} /> : <div className="cmn-card shadow-gray-point-3  mb-4">
+                                <div className="post-wrapper post-type-one">
+                                    <div className="post-header">
+                                    </div>
+                                    <div className="post-content-wrapper">
+                                        <div className="post-content max-520">
+                                            <p>Upsocial gets better when you join communities, so find some that you’ll love!</p>
+                                            <button type="button"
+
+
+
+                                                className="btn gradient-bg-one radius-30 register align-center">No Posts</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>}
+
+
+
+
+
+
+                        </InfiniteScroll>
+                    </div>
                 </div>
+
+
             </main>
-            <div class="right-sidebar-wrapper position-fixed d-none d-lg-block">
-                <div class="sidebar-inner scroll-bar">
-                    <div class="shadow-gurd">
-                        <div class="cmn-card shadow-gray-point-2 mb-4">
-                            <div class="groups-wrapper about-group">
-                                <h4 class="cmn-card-title">About Group</h4>
-                                <div class="groups-inner-wrapper">
+            <div className="right-sidebar-wrapper position-fixed d-none d-lg-block">
+                <div className="sidebar-inner scroll-bar">
+                    <div className="shadow-gurd">
+                        <div className="cmn-card shadow-gray-point-2 mb-4">
+                            <div className="groups-wrapper about-group">
+                                <h4 className="cmn-card-title">About Group</h4>
+                                <div className="groups-inner-wrapper">
                                     <ReactQuill readOnly={true}
                                         theme="" value={result.about} />
 
-                                    <div class="member-status">
+                                    <div className="member-status">
                                         <p><span>{result.totalFollowers}</span> Followers</p>
                                         <p><span>{result.totalFollowings}</span> Following</p>
                                     </div>
                                     <hr />
-                                    <div class="member-status">
+                                    <div className="member-status">
 
                                         <p><span>{result.groupCount}</span> Group's</p>
                                         <p><span>{result.postCount}</span> Post's</p>

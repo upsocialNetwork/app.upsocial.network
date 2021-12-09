@@ -186,7 +186,7 @@ const ImagePost = (props) => {
                                     <img src="img/three-dot.svg" alt="" />
                                 </button>
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
+                                    <li hidden><a className="dropdown-item" href="#" onClick={(event) => editPost(event, element.id)}>Edit</a></li>
                                     <li ><a className="dropdown-item" href="#" onClick={(event) => deletePost(event, element.id)} style={{ color: 'red' }}>Delete</a></li>
 
                                     {/*  <li><a className="dropdown-item" href="/" onClick={(event) => navigate(event)}>Another action</a></li>
