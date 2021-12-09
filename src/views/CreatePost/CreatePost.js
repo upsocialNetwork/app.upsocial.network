@@ -89,7 +89,7 @@ const CreatePost = (props) => {
             formData = {
                 "type": postType,
                 "name": title,
-                "data": data,
+                "data": compressString(data),
                 "dataType": dataType,
                 "nsfw": isAdult
             };
@@ -145,6 +145,24 @@ const CreatePost = (props) => {
     }
 
 
+
+    const compressString = (str = '') => {
+        let res = '';
+        let count = 1;
+        for (let i = 0; i < str.length; i++) {
+            let cur = str[i];
+            let next = str[i + 1];
+            if (cur === next) {
+                count++;
+            } else {
+                res += cur + String(count);
+                count = 1;
+            };
+        }
+        return res.length < str.length ? res : str;
+    };
+
+
     const convertFileToBase64 = (data) => {
         Loader(true);
         const reader = new FileReader();
@@ -197,8 +215,8 @@ const CreatePost = (props) => {
             //setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 1000) {
-                ErrorToast('Please select file size greater than 1000 MB');
+            if (size > 5) {
+                ErrorToast('Please select file size less than 5 MB');
                 return null;
             }
             convertFileToBase64(file);

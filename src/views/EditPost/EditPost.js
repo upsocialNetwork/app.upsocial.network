@@ -312,8 +312,8 @@ const EditPost = (props) => {
             //setSelectedFile(file);
             var size = parseFloat(file.size / (1024 * 1024)).toFixed(2);
             let postType = file.type.substring(0, 5);
-            if (size > 1000) {
-                ErrorToast('Please select file size greater than 1000 MB');
+            if (size > 5) {
+                ErrorToast('Please select file size less than 5 MB');
                 return null;
             }
             $("#div1").attr('hidden', true);
