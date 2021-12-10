@@ -139,6 +139,8 @@ const CreatePost = (props) => {
                     httpClient.call('upload-timline-post-media', formData, { method: 'POST' }).then(function (response) {
                         Loader(false);
                         if (response.success) {
+                            formData.delete('extra');
+                            formData.delete('file');
                             SuccessToast(response.result.message);
                             history1.push("/");
                         }

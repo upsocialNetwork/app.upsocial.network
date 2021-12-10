@@ -134,6 +134,8 @@ const CreateGroupPost = (props) => {
                     httpClient.call('upload-group-post-media', formData, { method: 'POST' }).then(function (response) {
                         Loader(false);
                         if (response.success) {
+                            formData.delete('extra');
+                            formData.delete('file');
                             SuccessToast(response.result.message);
                             history.push('/group/details/' + groupId);
                         }
