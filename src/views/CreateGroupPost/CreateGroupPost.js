@@ -62,7 +62,7 @@ const CreateGroupPost = (props) => {
     let [isAdult, setAdult] = useState(true);
     let [data, setData] = useState();
     let [isText, setText] = useState(false);
-
+    let [id, setId] = useState(0);
     let [dataType, setDataType] = useState();
     let [postType, setPostType] = useState();
 
@@ -73,6 +73,7 @@ const CreateGroupPost = (props) => {
         Loader(true);
         event.preventDefault();
         let fd = {};
+
         if (isText) {
             fd = {
                 "group": {
@@ -85,32 +86,27 @@ const CreateGroupPost = (props) => {
                 "nsfw": isAdult
 
             };
-        }
-        let userData = Session.getSessionData();
-        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-        window.ethereum.enable();
-        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
-            .then(function (receipt) {
-                console.log(receipt);
-
-
-                let transaction = {
-                    "_blockNumber": receipt.blockNumber,
-                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                    "_from": receipt.from,
-                    "_gasUsed": receipt.gasUsed,
-                    "_status": receipt.status,
-                    "_to": receipt.to,
-                    "_transactionHash": receipt.transactionHash,
-                    "_transactionIndex": receipt.transactionIndex,
-                    "_blockHash": receipt.blockHash,
-                    "_contractAddress": Contract.contract_address
-                }
-
-                fd['transaction'] = transaction;
-
-                if (isText) {
+            let userData = Session.getSessionData();
+            Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+            window.ethereum.enable();
+            const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+            console.log(NameContract);
+            NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
+                .then(function (receipt) {
+                    console.log(receipt);
+                    let transaction = {
+                        "_blockNumber": receipt.blockNumber,
+                        "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                        "_from": receipt.from,
+                        "_gasUsed": receipt.gasUsed,
+                        "_status": receipt.status,
+                        "_to": receipt.to,
+                        "_transactionHash": receipt.transactionHash,
+                        "_transactionIndex": receipt.transactionIndex,
+                        "_blockHash": receipt.blockHash,
+                        "_contractAddress": Contract.contract_address
+                    }
+                    fd['transaction'] = transaction;
                     httpClient.call('upload-group-post', fd, { method: 'POST' }).then(function (response) {
                         Loader(false);
                         if (response.success) {
@@ -120,43 +116,89 @@ const CreateGroupPost = (props) => {
                         else {
                             ErrorToast(response.result.message);
                         }
-
                     }, function (error) {
                         Loader(false);
                         ErrorToast(error.message);
                     })
+
+                }, function (error) {
+                    Loader(false);
+                    ErrorToast(error.message);
+                    console.log(error);
+                });
+
+        }
+        else {
+
+            const formData = new FormData();
+            formData.append('file', data);
+            httpClient.call('upload-media', formData, { method: 'POST' }).then(function (response) {
+                if (response.success) {
+                    //SuccessToast(response.result.message);
+                   // console.log(response);
+                    setId(response.result.data.id);
+                    fd = {
+                        "group": {
+                            "id": groupId
+                        },
+                        "id": response.result.data.id,
+                        "type": postType,
+                        "name": title,
+                        "dataType": dataType,
+                        "nsfw": isAdult
+
+                    };
+                    let userData = Session.getSessionData();
+                    Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+                    window.ethereum.enable();
+                    const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
+                    console.log(NameContract);
+                    NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
+                        .then(function (receipt) {
+                            console.log(receipt);
+                            let transaction = {
+                                "_blockNumber": receipt.blockNumber,
+                                "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                                "_from": receipt.from,
+                                "_gasUsed": receipt.gasUsed,
+                                "_status": receipt.status,
+                                "_to": receipt.to,
+                                "_transactionHash": receipt.transactionHash,
+                                "_transactionIndex": receipt.transactionIndex,
+                                "_blockHash": receipt.blockHash,
+                                "_contractAddress": Contract.contract_address
+                            }
+                            fd['transaction'] = transaction;
+                            httpClient.call('upload-post', fd, { method: 'POST' }).then(function (response) {
+                                Loader(false);
+                                if (response.success) {
+                                    SuccessToast(response.result.message);
+                                    history.push('/group/details/' + groupId);
+                                }
+                                else {
+                                    ErrorToast(response.result.message);
+                                }
+
+                            }, function (error) {
+                                Loader(false);
+                                ErrorToast(error.message);
+                            })
+                        }, function (error) {
+                            Loader(false);
+                            ErrorToast(error.message);
+                            console.log(error);
+                        });
+
                 }
                 else {
-
-                    const formData = new FormData();
-                    formData.append("extra", "{'type':"+postType+",'name':"+title+",'dataType':"+dataType+",'_blockNumber':"+receipt.blockNumber+",'_cumulativeGasUsed':"+receipt.cumulativeGasUsed+",'_from':"+receipt.from+",'_gasUsed':"+receipt.gasUsed+",'_status':"+receipt.status+",'_to':"+receipt.to+",'_transactionHash':"+receipt.transactionHash+",'_transactionIndex':"+receipt.transactionIndex+",'_blockHash':"+receipt.blockHash+",'_contractAddress':"+Contract.contract_address+",'groupId':"+groupId+"}");
-                    formData.append('file', data);
-                    httpClient.call('upload-group-post-media', formData, { method: 'POST' }).then(function (response) {
-                        Loader(false);
-                        if (response.success) {
-                            formData.delete('extra');
-                            formData.delete('file');
-                            SuccessToast(response.result.message);
-                            history.push('/group/details/' + groupId);
-                        }
-                        else {
-                            ErrorToast(response.result.message);
-                        }
-
-                    }, function (error) {
-                        Loader(false);
-                        ErrorToast(error.message);
-                    })
-
-
+                    Loader(false);
+                    ErrorToast(response.result.message);
                 }
-
-
             }, function (error) {
                 Loader(false);
                 ErrorToast(error.message);
-                console.log(error);
-            });
+            })
+        }
     }
 
     const convertFileToBase64 = (data) => {
@@ -296,7 +338,7 @@ const CreateGroupPost = (props) => {
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
                                                     <div className="user-name-change-input">
-                                                        <input className="form-control" type="file" name="file"
+                                                        <input className="file" type="file" name="file"
 
                                                             onChange={(event) => { convertFile(event.target.files[0]) }}
                                                         />

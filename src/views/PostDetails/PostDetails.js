@@ -866,9 +866,9 @@ const PostDetails = (props) => {
 
 
 
-                                        switch (element.type.toUpperCase()) {
+                                        switch (element.type) {
 
-                                            case 'IMAGE':
+                                            case 'image':
 
                                                 return (
 
@@ -883,7 +883,7 @@ const PostDetails = (props) => {
 
                                                 )
 
-                                            case 'VIDEO':
+                                            case 'video':
 
                                                 return (
                                                     /* 
@@ -935,7 +935,7 @@ const PostDetails = (props) => {
 
                                                 )
 
-                                            case 'AUDIO':
+                                            case 'audio':
 
                                                 return (
 
@@ -947,7 +947,7 @@ const PostDetails = (props) => {
                                                 )
 
 
-                                            case 'Text':
+                                            case 'text':
 
                                                 return (
 

@@ -31,7 +31,7 @@ const Home = (props) => {
         props._getTimlinePost(page);
     }
     useEffect(() => {
-       
+
         let isLogin = Session.getSessionData();
         if (isLogin == null) {
             gePopularPost(1)
@@ -42,14 +42,14 @@ const Home = (props) => {
     }, [])
 
 
-    
+
 
 
 
     return (
         <main className="main-content mx-auto">
 
-            <CreatePostForm />
+            {/*    <CreatePostForm /> */}
 
             <ul className="nav nav-tabs" id="myTab" role="tablist" hidden>
                 <li className="nav-item" role="presentation">

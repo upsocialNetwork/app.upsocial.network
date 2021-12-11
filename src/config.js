@@ -15,8 +15,8 @@ let appConfig = {
   'DATA_ENCRYPT_KEY': 'B86897CA1FA567B7F7LL2975C3AB5A09CE1C9F9CB29CE4390CB9FE9CED847AC8',
   'CHOKIDAR_USEPOLLING': true
 }
-
-/* let appConfig = {
+/* 
+let appConfig = {
   'APP_ENV': 'Local',
   'APP_PUBLIC_URL': '',
   'API_URL': 'http://localhost:8433/Upsocial/ipfsservice/api/v1/',

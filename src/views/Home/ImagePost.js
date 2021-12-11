@@ -156,7 +156,7 @@ const ImagePost = (props) => {
         })
     }
 
-    // console.log(element);
+    //console.log(element);
     var current = new Date();
     var timeResult = Session.timeDifference(current, element.createdDate);
     // console.log(timeResult + " ago");
@@ -227,9 +227,9 @@ const ImagePost = (props) => {
 
 
 
-                        switch (element.type.toUpperCase()) {
+                        switch (element.type) {
 
-                            case 'IMAGE':
+                            case 'image':
 
                                 return (
 
@@ -245,7 +245,7 @@ const ImagePost = (props) => {
 
                                 )
 
-                            case 'VIDEO':
+                            case 'video':
 
                                 return (
 
@@ -305,7 +305,7 @@ const ImagePost = (props) => {
 
                                 )
 
-                            case 'AUDIO':
+                            case 'audio':
 
                                 return (
 

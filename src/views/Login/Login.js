@@ -108,17 +108,16 @@ const Login = (props) => {
     }
 
     const doLogin = (event) => {
+
         event.preventDefault();
         if (typeof window.ethereum !== 'undefined') {
 
             console.log('MetaMask is installed!');
             const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-
-
             var account = web3.currentProvider.selectedAddress
-
             if (account === null) {
-                ErrorToast("Please unlock metamask");
+                getLoginAccount();
+                // ErrorToast("Please unlock metamask");
                 return null;
             }
             Loader(true);
@@ -154,6 +153,7 @@ const Login = (props) => {
 
 
     const signingMetamask = () => {
+
         const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
         var account = web3.currentProvider.selectedAddress
         web3.eth.personal.sign("Sign this message to prove you have access to this wallet and we will sign you in.This won't cost you any Ether", account, "test password!").then(
@@ -221,6 +221,13 @@ const Login = (props) => {
             console.log("Wallet No", account);
             signingMetamask();
         }
+    }
+
+    async function getLoginAccount() {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        console.log(account);
+        return account;
     }
 
     return (
