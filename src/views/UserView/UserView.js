@@ -50,7 +50,8 @@ const UserView = props => {
 
             }
             else {
-                ErrorToast(response.result.message);
+                history.push("/");
+                //ErrorToast(response.result.message);
             }
         }, function (error) {
             Loader(false);
