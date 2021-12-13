@@ -27,14 +27,20 @@ const Header = (props) => {
         if (user_details !== null) {
             userDetailsFetch(user_details.id);
             setUserDetails(user_details);
-            setWalletAddress(user_details.wallet);
-            setWalletBalance(user_details.walletBalance);
+            //setWalletAddress(user_details.wallet);
+            //setWalletBalance(user_details.walletBalance);
         }
         myNotification();
     }, [])
     useEffect(() => {
         setUserDetails(props.session);
     }, [props.session])
+
+    useEffect(() => {
+        if (props.session !== null) {
+            userDetailsFetch(props.session.id);
+        }
+    })
 
     const mobileMenuToggle = (event) => {
         event.preventDefault();
