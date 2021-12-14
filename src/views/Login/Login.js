@@ -236,7 +236,7 @@ const Login = (props) => {
                 {!isLogin ?
 
                     <div className="registration-part" id="register-content">
-                        <div className="registration-title text-center">
+                        <div className="registration-title text-center" hidden>
                             <h6>Register</h6>
                             <button className="close-registraion-screen" onClick={() => { setIsLogin(true) }}>
                                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -261,9 +261,14 @@ const Login = (props) => {
                                 <h1 className="opacity-two-times">WELCOME </h1>
                                 <h5>Sign up to be a
                                     BETA USER and claim your 100 UPST <br />
-                                    <a href="/" className="theme-color" onClick={(event) => { forgetPassword(event) }} target="_blank">Import Token</a></h5>
-                                <p>Free your mind and get paid for creating content, driving traffic and referring friends.
-                                    A place to have open conversations and bring people together.</p>
+                                   
+                                    Please follow these steps to start posting on UpSocial<br/>
+                                    <a href="/" className="theme-color" onClick={(event) => { forgetPassword(event) }} target="_blank">Import Token ?</a><br />
+                                    <a href="https://www.youtube.com/watch?v=PrWt6oQaay0" className="theme-color"  target="_blank">Install MetaMask Wallet ?</a><br />
+                                    <a href="https://www.youtube.com/watch?v=eK0FszE-vyc" className="theme-color"  target="_blank">Connect Metamask To Binance TestNet ?</a><br />
+                                    </h5>
+                               {/*  <p hidden>Free your mind and get paid for creating content, driving traffic and referring friends.
+                                    A place to have open conversations and bring people together.</p> */}
                             </div>
                             <div className="login-right">
                                 {/* <div className="input-wrapper">
@@ -329,6 +334,7 @@ const Login = (props) => {
                                     Now</a>
                                 </div>
                             </div>
+
                             <div className="login-right">
                                 <div className="text-right">
                                     {/*  <button
@@ -357,7 +363,7 @@ const Login = (props) => {
 
                                         /*  disabled={!(signupEmail && signupUserName)} */
 
-                                        type="submit" onClick={(event) => { doLogin(event) }} className="btn gradient-bg-one radius-30 register">Connect To Wallet</button>
+                                        type="submit" onClick={(event) => { doLogin(event) }} className="btn gradient-bg-one radius-30 register">Connect To Metamask</button>
 
                                 </div>
                                 {/* <div className="input-wrapper">
@@ -382,7 +388,7 @@ const Login = (props) => {
                             <div className="login-left flex">
                                 <div className="ask-user">Don't have an Account? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
                                     <br /><br />
-                                    Visit Upsocial? &nbsp;
+                                    Visit Upsocial ? &nbsp;
                                     <a href="/" className="theme-color" onClick={(event) => { home(event) }}>Home</a>
 
                                 </div>
@@ -403,11 +409,11 @@ const Login = (props) => {
                     </div>
                 }
             </div>
-            {/* <div className="access-bottom-part">
-                <div className="policy-link">By signing up, you agree to our <a href="#" onClick={(event) => navigate(event)} className="link theme-color">Terms</a> and
-                    that you have read our <a href="#" onClick={(event) => navigate(event)} className="link theme-color">Privacy Policy</a> and <a href="#" onClick={(event) => navigate(event)}
-                        className="link theme-color">Content Policy</a>.</div>
-            </div> */}
+            <div className="access-bottom-part">
+                <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color" target="_blank">Terms</a> and
+                    that you have read our <a href="https://upsocial.network/privacy-policy/" className="link theme-color" target="_blank">Privacy Policy</a> and <a href="https://upsocial.network/privacy-policy/"
+                        target="_blank" className="link theme-color">Content Policy</a>.</div>
+            </div>
         </div>
 
 
