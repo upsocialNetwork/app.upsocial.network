@@ -26,6 +26,7 @@ import PostDetails from './views/PostDetails/PostDetails';
 import Search from './views/Search';
 import TopGroupSearch from './views/TopGroupSearch';
 import UserView from './views/UserView/UserView';
+import Registration from './views/Registration/Registration';
 
 
 const FullLayout = (props) => {
@@ -107,6 +108,7 @@ const AuthorizeRoute = () => {
               return (
                 <LoginLayout>
                   <Route path="/auth/login" component={Login} ></Route>
+                  <Route path="/auth/signup" component={Registration} ></Route>
                   <Route path="/auth/import-token" component={ForgetPassword} ></Route>
                 </LoginLayout>
               )

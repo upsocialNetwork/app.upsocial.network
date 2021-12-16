@@ -19,7 +19,6 @@ const Header = (props) => {
     const [userDetails, setUserDetails] = useState('');
     let [notification, setNotification] = useState('');
     // let [param, setParam] = useState('');
-    // let [param, setParam] = useState('');
 
     useEffect(() => {
         let loginState = Session.isLoggedIn()
