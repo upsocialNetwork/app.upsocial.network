@@ -31,6 +31,7 @@ const Notification = props => {
                 setNotification(response.result.data);
                 //console.log(response);
                 //SuccessToast(response.result.message);
+                //testing message
 
                 Loader(false);
             }
