@@ -32,9 +32,7 @@ const Login = (props) => {
     useEffect(() => {
         Loader(props.requestProcess);
         if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
-
             let authData = props.loginData;
-            //  console.log(authData);
             Session.setSessionData(authData.result.data);
             SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
             SetSassion(authData.result.data);
@@ -47,23 +45,14 @@ const Login = (props) => {
         }
 
         if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
-
             SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
             setIsSignupSubmit(false);
             setIsLogin(true);
-            //transeferRegistrationToken();
-            // let authData = props.signupData;
-            //  console.log(authData);
-            /* Session.setSessionData(authData.result.data);
-            SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
-            SetSassion(authData.result.data);
-            setIsLoginSubmit(false);
-            history.push('/') */
-        } else if (isSignupSubmit && props.signupData) {
 
+        } else if (isSignupSubmit && props.signupData) {
             setIsSignupSubmit(false);
             ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
-            // transeferRegistrationToken();
+
         }
     }, [props.loginData, props.signupData])
 
@@ -131,27 +120,6 @@ const Login = (props) => {
         }
     }
 
-    const userSignup = () => {
-        // event.preventDefault();
-
-        //Loader(true);
-        //setIsSignupSubmit(true);
-        //console.log(signupUserName);
-        //console.log(signupEmail);
-        //console.log(walletAddress);
-        //console.log(signupPassword);
-
-        /*  return null;
-         props._doSignup({
-             userName: signupUserName,
-             email: signupEmail,
-             wallet: walletAddress,
-             password: signupPassword
-         }); */
-
-    }
-
-
     const signingMetamask = () => {
 
         const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
@@ -181,14 +149,14 @@ const Login = (props) => {
 
     }
 
-    const forgetPassword = (event) => {
-        event.preventDefault();
-        history.push('/auth/import-token');
-    }
-
     const home = (event) => {
         event.preventDefault();
         history.push('/');
+    }
+
+    const registrationpage = (event) => {
+        event.preventDefault();
+        history.push('/auth/signup');
     }
 
     const connectMetamask = (event) => {
@@ -204,9 +172,6 @@ const Login = (props) => {
             return null;
         }
     }
-
-
-
 
     async function getAccount() {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -231,190 +196,87 @@ const Login = (props) => {
     }
 
     return (
+
+        /*  <div className="lgn-registration-wrapper"  >
+             <div className="lgn-rgn-g-wrapper">
+                 <div className="lgn-rgn-left">
+                     <a href="#" className="lgn-logo"><img className="img-fluid w-100" src="img/lgn-logo.png" alt="" /></a>
+                     <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
+                     <div class="twin-btn d-flex align-items-center justify-content-between">
+                         <a href="/" onClick={(event) => { doLogin(event) }} class="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
+                     </div>
+                     <br /><br />
+                     <div className="ask-user"><b style={{ color: "black" }}>Don't have an Account? </b>
+                         <a href="/" className="theme-color" onClick={(event) => { registrationpage(event) }} >Register Now</a>
+                         <br />
+                         <b style={{ color: "black" }}>Visit Upsocial ? </b>&nbsp;
+                         <a href="/" className="theme-color" onClick={(event) => { home(event) }} >Home</a>
+                     </div>
+                 </div>
+                 <div className="lgn-rgn-right">
+ 
+                     <div class="twin-btn d-flex align-items-center">
+                         <img style={{ height: "450px", width: "450px" }} src="img/connect_metamask.png" />
+                     </div>
+                 </div>
+             </div>
+ 
+         </div> */
+
+
         <div className="login-wrapper">
             <div className="access-top-part">
-                {!isLogin ?
 
-                    <div className="registration-part" id="register-content">
-                        <div className="registration-title text-center" hidden>
-                            <h6>Register</h6>
-                            <button className="close-registraion-screen" onClick={() => { setIsLogin(true) }}>
-                                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M16.0001 29.3333C23.3639 29.3333 29.3334 23.3638 29.3334 16C29.3334 8.63616 23.3639 2.66663 16.0001 2.66663C8.63628 2.66663 2.66675 8.63616 2.66675 16C2.66675 23.3638 8.63628 29.3333 16.0001 29.3333Z"
-                                        stroke="#AFB9C2" strokeWidth="2.66667" strokeLinecap="round"
-                                        strokeLinejoin="round" />
-                                    <path d="M20 12L12 20" stroke="#AFB9C2" strokeWidth="2.66667" strokeLinecap="round"
-                                        strokeLinejoin="round" />
-                                    <path d="M12 12L20 20" stroke="#AFB9C2" strokeWidth="2.66667" strokeLinecap="round"
-                                        strokeLinejoin="round" />
-                                </svg>
-
-                            </button>
+                <div className="login-part" id="login-content">
+                    <br /><br /> <br /><br />
+                    <form action="#" className="login-g-wrapper">
+                        <div className="login-left">
+                            <h3><img style={{ height: "35px", width: "auto" }} src="img/Upsocial_logo.png" /></h3><br /><br />
+                            <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
+                            <div class="twin-btn d-flex align-items-center justify-content-between">
+                                <a href="#" onClick={(event) => { doLogin(event) }} class="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
+                            </div>
+                            <br /><br />
+                            <div className="ask-user"><b style={{ color: "black" }}>Don't have an Account? </b>
+                                <a href="/" className="theme-color" onClick={(event) => { registrationpage(event) }} /* onClick={(event) => { event.preventDefault(); setIsLogin(false) }} */>Register Now</a>
+                                <br />
+                                <b style={{ color: "black" }}>Visit Upsocial ? </b>&nbsp;
+                                <a href="/" className="theme-color" onClick={(event) => { home(event) }} >Home</a>
+                            </div>
                         </div>
-                        <form action="#" className="login-g-wrapper">
-                            <div className="login-left">
+                        <div className="login-right">
+                            {/*  <img style={{ height: "500px", width: "300px" }} src="img/connect_metamask.png" /> */}
 
-                                <h6>UPSOCIAL !</h6>
-                                <h1>WELCOME </h1>
-                                <h1 className="opacity-one-times">WELCOME </h1>
-                                <h1 className="opacity-two-times">WELCOME </h1>
-                                <h5>Sign up to be a
-                                    BETA USER and claim your 100 UPST <br />
-                                   
-                                    Please follow these steps to start posting on UpSocial<br/>
-                                    <a href="/" className="theme-color" onClick={(event) => { forgetPassword(event) }} target="_blank">Import Token ?</a><br />
-                                    <a href="https://www.youtube.com/watch?v=PrWt6oQaay0" className="theme-color"  target="_blank">Install MetaMask Wallet ?</a><br />
-                                    <a href="https://www.youtube.com/watch?v=eK0FszE-vyc" className="theme-color"  target="_blank">Connect Metamask To Binance TestNet ?</a><br />
-                                    </h5>
-                               {/*  <p hidden>Free your mind and get paid for creating content, driving traffic and referring friends.
-                                    A place to have open conversations and bring people together.</p> */}
-                            </div>
-                            <div className="login-right">
-                                {/* <div className="input-wrapper">
-                                    <label htmlFor=""> Name</label>
-                                    <input type="text" name="firstName" className="form-control input-sm"
-                                        onChange={(event) => { setSignupFirstName(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('firstName')} />
-                                    {validator.current.message('firstName', signupFirstName, 'required')}
-                                </div> */}
-                                {/* <div className="input-wrapper">
-                                    <label htmlFor="">Last Name</label>
-                                    <input type="text" name="lastName" className="form-control input-sm"
-                                        onChange={(event) => { setSignupLastName(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('lastName')} />
-                                    {validator.current.message('lastName', signupLastName, 'required')}
-                                </div> */}
-                                <div className="input-wrapper">
-                                    <label htmlFor="">Username</label>
-                                    <input type="text" name="userName" className="form-control input-sm"
-                                        onChange={(event) => { setSignupUserName(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('userName')} />
-                                    {validator.current.message('userName', signupUserName, 'required')}
-                                </div>
-
-                                <div className="input-wrapper">
-                                    <label htmlFor="">Email</label>
-                                    <input type="email" name="email" className="form-control input-sm"
-                                        onChange={(event) => { setSignupEmail(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('email')} />
-                                    {validator.current.message('email', signupEmail, 'required|email')}
-                                </div>
-                                {/*  <div className="input-wrapper">
-                                    <label htmlFor="">Password</label>
-                                    <input type="password" name="password" className="form-control input-sm"
-                                        onChange={(event) => { setSignupPassword(event.target.value) }}
-                                        onBlur={() => validator.current.showMessageFor('password')} />
-                                    {validator.current.message('password', signupPassword, 'required')}
-                                </div> */}
-
-                                {/* <div className="input-wrapper">
-                                    <label htmlFor="">Connect Wallet</label>
-                                    {walletAddress === null ?
-                                        <a href="#" onClick={(event) => { connectMetamask(event) }} >  <svg xmlns="http://www.w3.org/2000/svg" style={{ color: 'black' }} width="30px" height="30px" fill="currentColor" className="bi bi-wallet2" viewBox="0 0 16 16">
-                                            <path d="M12.136.326A1.5 1.5 0 0 1 14 1.78V3h.5A1.5 1.5 0 0 1 16 4.5v9a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 13.5v-9a1.5 1.5 0 0 1 1.432-1.499L12.136.326zM5.562 3H13V1.78a.5.5 0 0 0-.621-.484L5.562 3zM1.5 4a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-13z" />
-                                        </svg></a>
-                                        : <input type="text" className="form-control input-sm" value={walletAddress} />}
-                                </div> */}
-                                <div className="text-right">
-                                    <button
-
-                                        disabled={!(signupEmail && signupUserName)}
-
-                                        type="submit" onClick={(event) => { connectMetamask(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button>
-
-                                </div>
-
-
-
-
-                            </div>
-                            <div className="login-left flex">
-                                <div className="ask-user">Already have an Account ? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(true) }}>Login
-                                    Now</a>
-                                </div>
+                            <div class="twin-btn d-flex align-items-center">
+                                <img style={{ height: "450px", width: "450px" }} src="img/connect_metamask.png" />
                             </div>
 
-                            <div className="login-right">
-                                <div className="text-right">
-                                    {/*  <button
+                        </div>
+                        {/* <div className="login-left flex">
 
-                                        disabled={!(walletAddress && signupEmail && signupPassword && signupUserName)}
-
-                                        type="submit" onClick={(event) => { userSignup(event) }} className="btn gradient-bg-one radius-30 register">Register Now</button> */}
-
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    :
-                    <div className="login-part" id="login-content">
-                        <form action="#" className="login-g-wrapper">
-                            <div className="login-left">
-                                <h6>Hi There!</h6>
-                                <h1>WELCOME BACK</h1>
-                                <h1 className="opacity-one-times">WELCOME BACK</h1>
-                                <h1 className="opacity-two-times">WELCOME BACK</h1>
-                            </div>
-                            <div className="login-right">
-
-                                <div className="text-right"><br /><br /><br />
-                                    <button
-
-                                        /*  disabled={!(signupEmail && signupUserName)} */
-
-                                        type="submit" onClick={(event) => { doLogin(event) }} className="btn gradient-bg-one radius-30 register">Connect To Metamask</button>
-
-                                </div>
-                                {/* <div className="input-wrapper">
-                                    <label htmlFor="">Email</label>
-                                    <input type="text" name="email"
-
-
-                                        className="form-control"
-                                        onChange={(event) => { setEmail(event.target.value) }}
-                                        onBlur={() => validatorLogin.current.showMessageFor('email')} />
-                                    {validatorLogin.current.message('email', email, 'required|email')}
-                                </div> */}
-
-                                {/*  <div className="input-wrapper">
-                                    <label htmlFor="">Password</label>
-                                    <input type="password" name="password" className="form-control"
-                                        onChange={(event) => { setPassword(event.target.value) }}
-                                        onBlur={() => validatorLogin.current.showMessageFor('password')} />
-                                    {validatorLogin.current.message('password', password, 'required')}
-                                </div> */}
-                            </div>
-                            <div className="login-left flex">
-                                <div className="ask-user">Don't have an Account? <a href="/" className="theme-color" onClick={(event) => { event.preventDefault(); setIsLogin(false) }}>Register Now</a>
-                                    <br /><br />
-                                    Visit Upsocial ? &nbsp;
-                                    <a href="/" className="theme-color" onClick={(event) => { home(event) }}>Home</a>
-
-                                </div>
-
-
-
-                            </div>
-
-                            <div className="login-right">
-                                {/* <div className="twin-btn d-flex align-items-center justify-content-between">
-
-                                    <button type="submit" disabled={!(email && password)} className="btn gradient-bg-one radius-30 login" onClick={(event) => { doLogin(event) }}>Login Now</button>
-                                    <button type="submit" className="btn gradient-bg-one radius-30 login" onClick={(event) => { forgetPassword(event) }}>Forgot Password</button>
-
-                                </div> */}
-                            </div>
-                        </form>
-                    </div>
-                }
+                    </div> */}
+                        {/* <div className="login-right">
+                    </div> */}
+                    </form>
+                </div>
             </div>
-            <div className="access-bottom-part">
-                <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color" target="_blank">Terms</a> and
-                    that you have read our <a href="https://upsocial.network/privacy-policy/" className="link theme-color" target="_blank">Privacy Policy</a> and <a href="https://upsocial.network/privacy-policy/"
-                        target="_blank" className="link theme-color">Content Policy</a>.</div>
-            </div>
+            {/* <div className="access-bottom-part">
+            <div className="policy-link">By signing up, you agree to our <a href="https://upsocial.network/terms-of-service/" className="link theme-color" target="_blank">Terms</a> and
+                that you have read our <a href="https://upsocial.network/privacy-policy/" className="link theme-color" target="_blank">Privacy Policy</a> and <a href="https://upsocial.network/privacy-policy/"
+                    target="_blank" className="link theme-color">Content Policy</a>.</div>
+        </div> */}
         </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
