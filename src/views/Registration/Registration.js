@@ -105,6 +105,38 @@ const Regitration = (props) => {
 
     }
 
+    const addTokenInMetamask = (event) => {
+        event.preventDefault();
+        const tokenAddress = '0x5818209Fb829311B438431cB1111dA7a3d9B04FB';
+        const tokenSymbol = 'UPST';
+        const tokenDecimals = 18;
+        const tokenImage = 'http://68.183.245.212:8080/Upsocial/fav.ico';
+
+        try {
+            // wasAdded is a boolean. Like any RPC method, an error may be thrown.
+            const wasAdded = window.ethereum.request({
+                method: 'wallet_watchAsset',
+                params: {
+                    type: 'ERC20', // Initially only supports ERC20, but eventually more!
+                    options: {
+                        address: tokenAddress, // The address that the token is at.
+                        symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+                        decimals: tokenDecimals, // The number of decimals in the token
+                        image: tokenImage, // A string url of the token logo
+                    },
+                },
+            });
+
+            if (wasAdded) {
+                console.log('Thanks for your interest!');
+            } else {
+                console.log('Your loss!');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
 
     return (
@@ -116,20 +148,11 @@ const Regitration = (props) => {
                     <div className="lgn-left-ttl-content">
                         <h3>Sign Up to be a <span className="text-uppercase color-red">Beta User</span><span
                             className="small-to-compare">and claim your 100 UPST</span></h3>
-                        <p>Please follow these steps to start <br /> posting on UpSocial.</p>
+                        <b><p><span className="color-red">Please watch these 3 very short videos</span> and follow <br />along to start  posting on UpSocial Network </p></b>
                     </div>
 
                     <ul className="rgn-others-links">
-                        <li className="d-block">
-                            <a href="https://www.youtube.com/watch?v=PrWt6oQaay0" target="_blank" className="shadow-10">
-                                <div className="rgn-singlelinks-g">
-                                    <div className="rgn-single-icon">
-                                        <img className="img-fluid" src="img/import-token.png" alt="" />
-                                    </div>
-                                    <p>Import Token?</p>
-                                </div>
-                            </a>
-                        </li>
+
 
                         <li className="d-block">
                             <a href="https://www.youtube.com/watch?v=PrWt6oQaay0" target="_blank" className="shadow-10">
@@ -137,7 +160,7 @@ const Regitration = (props) => {
                                     <div className="rgn-single-icon">
                                         <img className="img-fluid" src="img/install-metamask.png" alt="" />
                                     </div>
-                                    <p>Install <br /> MeatMask Wallet?</p>
+                                    <p>Install <br /> MetaMask Wallet?</p>
 
                                     <span className="ply-btn"><i className="far fa-play-circle"></i></span>
                                 </div>
@@ -151,6 +174,29 @@ const Regitration = (props) => {
                                     </div>
                                     <p>Connect MetaMask <br /> To Binance TestNet?</p>
                                     <span className="ply-btn"><i className="far fa-play-circle"></i></span>
+                                </div>
+                            </a>
+                        </li>
+
+                        {/* <li className="d-block">
+                            <a href="https://www.youtube.com/watch?v=tUtC2qiglFs" target="_blank" className="shadow-10">
+                                <div className="rgn-singlelinks-g">
+                                    <div className="rgn-single-icon">
+                                        <img className="img-fluid" src="img/import-token.png" alt="" />
+                                    </div>
+                                    <p>Add UpSocial Tokens To MetaMask</p>
+                                    <span className="ply-btn"><i className="far fa-play-circle"></i></span>
+                                </div>
+                            </a>
+                        </li> */}
+                        <li className="d-block">
+                            <a href="#" onClick={(event) => { addTokenInMetamask(event) }} className="shadow-10">
+                                <div className="rgn-singlelinks-g">
+                                    <div className="rgn-single-icon">
+                                        <img className="img-fluid" src="img/import-token.png" alt="" />
+                                    </div>
+                                    <p>Add UpSocial Tokens To MetaMask</p>
+                                   {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
                                 </div>
                             </a>
                         </li>
@@ -176,6 +222,7 @@ const Regitration = (props) => {
 
                         <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { connectMetamask(event) }}>Register Now</button>
                         <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
+                        <b hidden><p style={{ fontWeight: "500" }}>Token Address <span className="color-red">0x5818209Fb829311B438431cB1111dA7a3d9B04FB </span></p></b>
                     </form>
                 </div>
             </div>
