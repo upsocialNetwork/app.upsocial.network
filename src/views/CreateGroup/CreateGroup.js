@@ -7,7 +7,6 @@ import { useHistory } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
 //import $ from 'jquery';
-//import $ from 'jquery';
 import Web3 from 'web3';
 const Community = (props) => {
 
