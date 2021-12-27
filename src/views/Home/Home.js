@@ -17,11 +17,12 @@ const Home = (props) => {
     const loadFunc = (page) => {
         if (page > 5) return false
         let isLogin = Session.getSessionData();
-        if (isLogin == null) {
-            gePopularPost(page)
-        } else {
-            geTimeLinePost(page)
-        }
+        // if (isLogin == null) {
+        //     gePopularPost(page)
+        // } else {
+        //     geTimeLinePost(page)
+        // }
+        gePopularPost(page);
     }
 
     const gePopularPost = (page) => {

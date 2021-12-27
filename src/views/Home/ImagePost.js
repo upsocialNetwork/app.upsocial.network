@@ -235,11 +235,12 @@ const ImagePost = (props) => {
 
                                     <a href="/" onClick={(event) => { pageDetails(event) }} className="post-img"   >
                                         <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
-                                            style={{
-                                                width: '100%',
-                                                maxHeight: '100vh',
-                                                objectFit: "cover",
-                                            }}
+                                            // style={{
+                                            //     width: '100%',
+                                            //     maxHeight: '100vh',
+                                            //     objectFit: "cover",
+                                            // }}
+                                            height="380px"
                                         />
                                     </a>
 
@@ -261,10 +262,11 @@ const ImagePost = (props) => {
                                         videoSrc={"https://ipfs.io/ipfs/" + element.data}
                                         style={{
                                             width: '100%',
-                                            height: '100%',
-                                            objectFit: "cover",
+                                            height: '380px',
+                                            // objectFit: "cover",
                                             
                                         }}
+                                        height="380px"
                                         /*  style={{
                                              width: '100%',
                                              height: '30%',
@@ -311,8 +313,8 @@ const ImagePost = (props) => {
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <audio controls width="100%" height="100%" >
-                                            <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
+                                        <audio controls width="100%" height="400px" >
+                                            <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" height="400px" />
                                         </audio>
 
 
