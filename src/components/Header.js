@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { colorModeToggle, Loader, SuccessToast, SetSassion } from './../utils/common';
 import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
 //import { useLocation } from "react-router-dom";
 import Session from './../utils/session';
 import { ErrorToast } from './../utils/common';
 import $ from 'jquery';
 import httpClient from '../services/http';
+import { getNotifications } from '../views/Notification/action';
 //import { convertCompilerOptionsFromJson } from 'typescript';
 
 
@@ -17,7 +19,9 @@ const Header = (props) => {
     let [walletAddress, setWalletAddress] = useState('');
     let [walletBalance, setWalletBalance] = useState('');
     const [userDetails, setUserDetails] = useState('');
-    let [notification, setNotification] = useState('');
+    // let [notification, setNotification] = useState('');
+    const notification = useSelector(state => state.notification.notificationData);
+    const dispatch = useDispatch();
     // let [param, setParam] = useState('');
 
     useEffect(() => {
@@ -30,8 +34,13 @@ const Header = (props) => {
             //setWalletAddress(user_details.wallet);
             //setWalletBalance(user_details.walletBalance);
         }
-        myNotification();
+        
     }, [])
+
+    useEffect(() => {
+        myNotification();
+    }, [notification])
+
     useEffect(() => {
         setUserDetails(props.session);
     }, [props.session])
@@ -171,22 +180,23 @@ const Header = (props) => {
 
     const myNotification = () => {
 
-        httpClient.call("get-notification", null, { method: 'GET' }).then(function (response) {
-            if (response.success) {
+        // httpClient.call("get-notification", null, { method: 'GET' }).then(function (response) {
+        //     if (response.success) {
 
-                //console.log(response.result.data);
-                setNotification(response.result.data);
-                // console.log(response);
-                //SuccessToast(response.result.message);
+        //         //console.log(response.result.data);
+        //         setNotification(response.result.data);
+        //         // console.log(response);
+        //         //SuccessToast(response.result.message);
 
-            }
-            else {
-                // ErrorToast(response.result.message);
-            }
+        //     }
+        //     else {
+        //         // ErrorToast(response.result.message);
+        //     }
 
-        }, function (error) {
-            console.log(error);
-        })
+        // }, function (error) {
+        //     console.log(error);
+        // })
+        dispatch(getNotifications())
 
     }
 
