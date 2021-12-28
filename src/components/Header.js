@@ -37,9 +37,13 @@ const Header = (props) => {
         
     }, [])
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     myNotification();
+    // }, [notification])
+
+    const notificationHandler = () => {
         myNotification();
-    }, [notification])
+    }
 
     useEffect(() => {
         setUserDetails(props.session);
@@ -402,7 +406,7 @@ const Header = (props) => {
                                             className="fal fa-search"></i></a>
                                     </li>
 
-                                    <li className="ms-3" ><a href="/" onClick={(event) => navigate(event)} id="notificationDropdown" data-bs-toggle="dropdown"
+                                    <li className="ms-3" ><a href="/" onClick={notificationHandler} id="notificationDropdown" data-bs-toggle="dropdown"
                                         aria-expanded="false" /* className="notification new-state" */>
 
 
