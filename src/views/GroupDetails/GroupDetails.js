@@ -201,7 +201,7 @@ const CreateGroupJoin = (props) => {
 
                             </div>
                             <h5>
-                                <a href="#" onClick={(event) => { navigate(event) }} className="d-inline-block">{result && result.name}
+                                <a href="#" onClick={(event) => { navigate(event) }} className="d-inline-block" style={{ wordWrap: "break-word", width: "400px", marginBottom: "15px" }}>{result && result.name}
                                 </a>
                             </h5><br /> <span>{result.members && result.members.length ? result.members.length : 0} Members</span><br />
 

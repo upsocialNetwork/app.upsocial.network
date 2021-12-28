@@ -857,7 +857,7 @@ const PostDetails = (props) => {
                                 {element != null ? <>
 
                                     <div className="post-content max-520">
-                                        <p > <a href="/" onClick={(event) => { navigate(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit" }}>
+                                        <p > <a href="/" onClick={(event) => { navigate(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit", wordWrap: "break-word", width: "100%" }}>
                                             {element.name}
                                         </a> </p>
                                     </div>

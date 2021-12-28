@@ -122,7 +122,7 @@ const GroupList = (props) => {
                                             </a>
                                             <h6><a href="#"
                                                 onClick={(event) => { groupDetails(event, element.id) }}
-                                            >r/{element.name}</a> <span>{element.members.length} Members</span> </h6>
+                                            >r/{element.name.slice(0,40)}</a> <span>{element.members.length} Members</span> </h6>
                                         </div>
                                         {/*  <div className="one-line-relevent-description">
                                             <p>{element.description}</p>

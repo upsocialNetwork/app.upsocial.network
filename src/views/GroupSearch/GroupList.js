@@ -118,7 +118,7 @@ const GroupList = (props) => {
 
                                             </a>
                                             <h6><a href="#"
-                                                onClick={(event) => { groupDetails(event, element.id) }}
+                                                onClick={(event) => { groupDetails(event, element.id) }} style={{ wordWrap: 'break-word', width: "400px" }}
                                             >r/{element.name}</a> <span>{element.members.length} Members</span> </h6>
                                         </div>
                                         {/*  <div className="one-line-relevent-description">

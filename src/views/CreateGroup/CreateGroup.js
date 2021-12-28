@@ -280,7 +280,7 @@ const Community = (props) => {
 
                         <div className="user-name-change-input">
                             <input type="text" className="form-control" placeholder=""
-                                maxLength="25"
+                                maxLength="300"
                                 onChange={(event) => { setName(event.target.value) }}
 
                             />

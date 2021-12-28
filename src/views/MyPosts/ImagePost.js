@@ -211,7 +211,7 @@ const ImagePost = (props) => {
                 </div>
                 <div className="post-content-wrapper">
                     <div className="post-content max-520">
-                        <p > <a href="/" onClick={(event) => { pageDetails(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit" }}>
+                        <p > <a href="/" onClick={(event) => { pageDetails(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit", wordWrap: "break-word", width: "100%" }}>
                             {element.name}
                         </a> </p>
                     </div>
