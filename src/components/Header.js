@@ -29,12 +29,14 @@ const Header = (props) => {
         setIsLoggedIn(loginState)
         const user_details = Session.getSessionData();
         if (user_details !== null) {
+            //console.log(user_details);
+            //console.log(user_details.id);
             userDetailsFetch(user_details.id);
             setUserDetails(user_details);
             //setWalletAddress(user_details.wallet);
             //setWalletBalance(user_details.walletBalance);
         }
-        
+
     }, [])
 
     // useEffect(() => {
@@ -51,6 +53,7 @@ const Header = (props) => {
 
     useEffect(() => {
         if (props.session !== null) {
+
             userDetailsFetch(props.session.id);
         }
     })
@@ -65,19 +68,26 @@ const Header = (props) => {
 
     const userDetailsFetch = (id) => {
 
-        httpClient.call("get-member-details/" + id, null, { method: 'GET' }).then(function (response) {
-            if (response.success) {
-                // console.log(response);
-                setWalletAddress(response.result.data.wallet);
-                setWalletBalance(response.result.data.walletBalance);
-            }
-            else {
-                // ErrorToast(response.result.message);
-            }
+       // console.log(id);
 
-        }, function (error) {
-            console.log(error);
-        })
+        if (id === null || id === undefined) {
+
+        }
+        else {
+            httpClient.call("get-member-details/" + id, null, { method: 'GET' }).then(function (response) {
+                if (response.success) {
+                    // console.log(response);
+                    setWalletAddress(response.result.data.wallet);
+                    setWalletBalance(response.result.data.walletBalance);
+                }
+                else {
+                    // ErrorToast(response.result.message);
+                }
+
+            }, function (error) {
+                console.log(error);
+            })
+        }
     }
 
     const overLayToggle = (event) => {
@@ -236,7 +246,7 @@ const Header = (props) => {
     const redeemToken = (event) => {
 
         event.preventDefault();
-        console.log("redeem calling" + walletBalance);
+      //  console.log("redeem calling" + walletBalance);
 
         if (walletBalance <= 0) {
             ErrorToast("Insufficient balance");
