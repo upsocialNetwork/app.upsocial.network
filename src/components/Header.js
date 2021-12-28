@@ -461,7 +461,7 @@ const Header = (props) => {
 
                                                                                 }
                                                                             </div>
-                                                                            <div className="gp-text">{element.message}</div>
+                                                                            <div className="gp-text" style={{ width: 250, wordWrap: "break-word" }}>{element.message}</div>
 
                                                                         </div>);
                                                                 })

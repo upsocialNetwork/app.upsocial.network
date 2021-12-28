@@ -870,16 +870,17 @@ textarea { overflow: auto; }
 .all-messages {
 	padding: 0 15px;
   }
-  .single-group.single-message {
+  .single-group {
 	padding: 10px 0;
 	border: 0;
-	grid-template-columns: 40px auto 30px;
-	grid-gap: 24px;
+	/* grid-template-columns: 40px 80px;
+	grid-gap: 24px; */
 }
 .single-group.single-message .gp-text span {
 	color: var(--gray-7a7a);
 	display: block;
 	line-height: 1.2;
+	word-wrap: break-word;
 }
 .all-messages .input-group {
 	margin-bottom: 10px;
