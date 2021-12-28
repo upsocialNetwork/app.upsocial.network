@@ -44,6 +44,7 @@ const ImagePost = (props) => {
 
     const history = useHistory();
     let element = props.postData;
+    const elementData = element.data.slice(0, 700) + "..."
     //console.log(element);
     let [userData, setUserData] = useState();
 
@@ -330,7 +331,7 @@ const ImagePost = (props) => {
 
                                     <div className="post-content max-520"  >
                                         <ReactQuill readOnly={true}
-                                            theme="" value={element.data} />
+                                            theme="" value={elementData} />
                                         {/*       <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div>
                                    */}  </div>
 
