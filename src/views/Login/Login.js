@@ -224,7 +224,7 @@ const Login = (props) => {
          </div> */
 
 
-        <div className="login-wrapper">
+        <div className="login-wrapper text-center">
             <div className="access-top-part">
 
                 <div className="login-part" id="login-content">
@@ -233,7 +233,7 @@ const Login = (props) => {
                         <div className="login-left">
                             <h3><img style={{ height: "35px", width: "auto" }} src="img/Upsocial_logo.png" /></h3><br /><br />
                             <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
-                            <div class="twin-btn d-flex align-items-center justify-content-between">
+                            <div>
                                 <a href="#" onClick={(event) => { doLogin(event) }} class="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
                             </div>
                             <br /><br />
