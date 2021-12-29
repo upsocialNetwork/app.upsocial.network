@@ -6,6 +6,8 @@ import httpClient from '../../services/http';
 import { useHistory } from "react-router-dom";
 import { Loader, ErrorToast, SuccessToast, SetSassion } from '../../utils/common';
 import Session from '../../utils/session';
+import Select from 'react-select'
+import { options } from './options'
 const EditProfile = (props) => {
     const history = useHistory();
     const [value, setDate] = useState(new Date());
@@ -67,8 +69,8 @@ const EditProfile = (props) => {
             "country": country
             // "dateOfBirth": date
         }
-
-        //console.log(formData);
+ 
+        console.log(formData)
         //return null;
 
         httpClient.call('profile-update', formData, { method: 'PUT' }).then(function (response) {
@@ -237,7 +239,22 @@ const EditProfile = (props) => {
                                     <p>Country:</p>
                                 </div>
                                 <div className="pf-lr-part">
-                                    <select value={country} className="form-select select2" aria-label="Default select example" onChange={(event) => { setCountry(event.target.value) }}>
+                                    <Select 
+                                        className="basic-single"
+                                        classNamePrefix="Open this select Country"
+                                        defaultValue="Open this select Country"
+                                        // placeholder="Open this select Country"
+                                        isDisabled={false}
+                                        isLoading={false}
+                                        isClearable={false}
+                                        isRtl={false}
+                                        isSearchable={true}
+                                        name="country"
+                                        options={options}
+                                        // value={country}
+                                        onChange={(e) => setCountry(e.value)}
+                                        />
+                                    {/* <select value={country} className="form-select select2" aria-label="Default select example" onChange={(event) => { setCountry(event.target.value) }}>
                                         <option defaultValue>Open this select Country</option>
 
                                         <option value="Afganistan">Afghanistan</option>
@@ -486,7 +503,7 @@ const EditProfile = (props) => {
                                         <option value="Zaire">Zaire</option>
                                         <option value="Zambia">Zambia</option>
                                         <option value="Zimbabwe">Zimbabwe</option>
-                                    </select>
+                                    </select> */}
                                 </div>
                             </div>
                             <div className="customize-pf-g-wrap">
