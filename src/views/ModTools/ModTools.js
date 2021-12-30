@@ -11,9 +11,7 @@ import Select from 'react-select'
 
 
 const ModTools = (props) => {
-    const options = [
-        { value: 0, label: "Select Account" }
-    ]
+    const [options, setOptions] = useState([{ value: 0, label: "Select Account" }])
     const history = useHistory();
     const location = useLocation();
     let [data, setData] = useState('');
@@ -24,17 +22,17 @@ const ModTools = (props) => {
     let [member, setMember] = useState('');
     const params = useParams();
 
-    useEffect(() => {
-        if (location === null) {
-            history.push("/auth/login");
-        }
-        setGroupId(params.id);
-        getGroupDetails(params.id);
-        setData(location.state.detail);
-        // getMembersList(params.id);
+    // useEffect(() => {
+    //     if (location === null) {
+    //         history.push("/auth/login");
+    //     }
+    //     setGroupId(params.id);
+    //     getGroupDetails(params.id);
+    //     setData(location.state.detail);
+    //     // getMembersList(params.id);
 
 
-    }, []);
+    // }, []);
 
     useEffect(() => {
         if (location === null) {
@@ -135,83 +133,91 @@ const ModTools = (props) => {
                 //console.log(data);
                 let rs = response && response.result.data ? response.result.data : [];
                 //console.log(rs);
-                document.getElementById("transfer-ownership").innerHTML = "";
-                var x = document.getElementById("transfer-ownership");
-                var option = document.createElement("option");
-                option.text = "Select Account";
-                x.add(option);
+                // document.getElementById("transfer-ownership").innerHTML = "";
+                // var x = document.getElementById("transfer-ownership");
+                // var option = document.createElement("option");
+                // option.text = "Select Account";
+                // x.add(option);
 
 
-                document.getElementById("member-owner").innerHTML = "";
-                var x1 = document.getElementById("member-owner");
-                var option1 = document.createElement("option");
-                option1.text = "Select Account";
-                x1.add(option1);
+                // document.getElementById("member-owner").innerHTML = "";
+                // var x1 = document.getElementById("member-owner");
+                // var option1 = document.createElement("option");
+                // option1.text = "Select Account";
+                // x1.add(option1);
 
-                document.getElementById("member-moderator").innerHTML = "";
-                var x2 = document.getElementById("member-moderator");
-                var option2 = document.createElement("option");
-                option2.text = "Select Account";
-                x2.add(option2);
+                // document.getElementById("member-moderator").innerHTML = "";
+                // var x2 = document.getElementById("member-moderator");
+                // var option2 = document.createElement("option");
+                // option2.text = "Select Account";
+                // x2.add(option2);
 
-                document.getElementById("members").innerHTML = "";
-                var x3 = document.getElementById("members");
-                var option3 = document.createElement("option");
-                option3.text = "Select Account";
-                x3.add(option3);
+                // document.getElementById("members").innerHTML = "";
+                // var x3 = document.getElementById("members");
+                // var option3 = document.createElement("option");
+                // option3.text = "Select Account";
+                // x3.add(option3);
 
-                var owner1 = document.getElementById('member-owner');
-                var moderator1 = document.getElementById('member-moderator');
-                var select = document.getElementById('transfer-ownership');
-                var members = document.getElementById('members');
+                // var owner1 = document.getElementById('member-owner');
+                // var moderator1 = document.getElementById('member-moderator');
+                // var select = document.getElementById('transfer-ownership');
+                // var members = document.getElementById('members');
 
-                // transfer ownership user add
+                console.log(rs);
                 for (var i = 0; i < rs.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = rs[i].user.id;
-                    opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
-                    select.appendChild(opt);
+                    setOptions((prevOption) => {
+                        const newOption = { value:rs[i].user.id, label:rs[i].user.email + " [" + rs[i].role + "] " }
+                        return [...prevOption, newOption]
+                    })
                 }
 
-                // make moderator user add
-                for (var i = 0; i < rs.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = rs[i].user.id;
-                    opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
-                    moderator1.appendChild(opt);
-                }
+                // // transfer ownership user add
+                // for (var i = 0; i < rs.length; i++) {
+                //     var opt = document.createElement('option');
+                //     opt.value = rs[i].user.id;
+                //     opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                //     select.appendChild(opt);
+                // }
 
-                // make owner user add
-                for (var i = 0; i < rs.length; i++) {
-                    var opt = document.createElement('option');
-                    opt.value = rs[i].user.id;
-                    opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
-                    owner1.appendChild(opt);
-                }
+                // // make moderator user add
+                // for (var i = 0; i < rs.length; i++) {
+                //     var opt = document.createElement('option');
+                //     opt.value = rs[i].user.id;
+                //     opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                //     moderator1.appendChild(opt);
+                // }
 
-                // remove member user add
+                // // make owner user add
+                // for (var i = 0; i < rs.length; i++) {
+                //     var opt = document.createElement('option');
+                //     opt.value = rs[i].user.id;
+                //     opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                //     owner1.appendChild(opt);
+                // }
 
-                //console.log("req role" + data.role);
-                for (var i = 0; i < rs.length; i++) {
-                    if (data.role === "MODERATOR") {
-                        if (rs[i].role === "MEMBER") {
-                            var opt = document.createElement('option');
-                            opt.value = rs[i].user.id;
-                            opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
-                            members.appendChild(opt);
-                        }
-                    }
-                    else {
-                        if (rs[i].role === "MEMBER" || rs[i].role === "MODERATOR") {
-                            //          console.log("req role 1" + rs[i].role);
-                            var opt = document.createElement('option');
-                            opt.value = rs[i].user.id;
-                            opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
-                            members.appendChild(opt);
-                        }
+                // // remove member user add
 
-                    }
-                }
+                // //console.log("req role" + data.role);
+                // for (var i = 0; i < rs.length; i++) {
+                //     if (data.role === "MODERATOR") {
+                //         if (rs[i].role === "MEMBER") {
+                //             var opt = document.createElement('option');
+                //             opt.value = rs[i].user.id;
+                //             opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                //             members.appendChild(opt);
+                //         }
+                //     }
+                //     else {
+                //         if (rs[i].role === "MEMBER" || rs[i].role === "MODERATOR") {
+                //             //          console.log("req role 1" + rs[i].role);
+                //             var opt = document.createElement('option');
+                //             opt.value = rs[i].user.id;
+                //             opt.innerHTML = rs[i].user.email + " [" + rs[i].role + "] ";
+                //             members.appendChild(opt);
+                //         }
+
+                //     }
+                // }
                 let user = Session.getSessionData();
                 if (user === null) {
                     history.push("/");
