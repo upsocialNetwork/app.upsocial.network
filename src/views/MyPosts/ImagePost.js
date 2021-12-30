@@ -42,7 +42,7 @@ const ImagePost = (props) => {
     const history = useHistory();
     let element = props.postData;
     let [userData, setUserData] = useState();
-
+    const elementData = element.data.length > 800 ? element.data.slice(0,800) + "..." : element.data;
 
     useEffect(() => {
         let user = Session.getSessionData();
@@ -230,7 +230,7 @@ const ImagePost = (props) => {
                                         <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
                                             style={{
                                                 width: '100%',
-                                                maxHeight: '100vh',
+                                                maxHeight: '380px',
                                                 objectFit: "cover",
                                             }} />
                                     </a>
@@ -253,7 +253,7 @@ const ImagePost = (props) => {
                                         videoSrc={"https://ipfs.io/ipfs/" + element.data}
                                         style={{
                                             width: '100%',
-                                            height: '100%',
+                                            height: '380px',
                                             objectFit: "cover",
                                         }}
                                         controls
@@ -297,7 +297,7 @@ const ImagePost = (props) => {
                                 return (
 
                                     <a href="/" onClick={(event) => navigate(event)} className="post-img">
-                                        <audio controls width="100%" height="100%" >
+                                        <audio controls width="100%" height="380px" >
                                             <source src={"https://ipfs.io/ipfs/" + element.data} type="audio/mpeg" />
                                         </audio>
 
@@ -314,7 +314,7 @@ const ImagePost = (props) => {
 
                                     <div className="post-content max-520" >
                                         <ReactQuill readOnly={true}
-                                            theme="" value={element.data} />
+                                            theme="" value={elementData} />
                                         {/*  <div className="preview" dangerouslySetInnerHTML={createMarkup(element.data)}></div> */}
                                     </div>
 

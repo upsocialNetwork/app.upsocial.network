@@ -70,7 +70,7 @@ const EditProfile = (props) => {
             // "dateOfBirth": date
         }
  
-        console.log(formData)
+        // console.log(formData)
         //return null;
 
         httpClient.call('profile-update', formData, { method: 'PUT' }).then(function (response) {

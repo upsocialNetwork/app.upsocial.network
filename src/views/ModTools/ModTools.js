@@ -7,10 +7,13 @@ import httpClient from '../../services/http';
 import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
 import Session from '../../utils/session';
 //import $ from 'jquery';
+import Select from 'react-select'
 
 
 const ModTools = (props) => {
-
+    const options = [
+        { value: 0, label: "Select Account" }
+    ]
     const history = useHistory();
     const location = useLocation();
     let [data, setData] = useState('');
@@ -366,7 +369,7 @@ const ModTools = (props) => {
                                     <img src="img/folder.svg" alt="" />
                                 </label> */}
                             </div>
-                            <h5><a href="#" onClick={(event) => { editGroup(event, data.id) }} className="d-inline-block">{data !== null ? data.name : null} <span
+                            <h5><a href="#" onClick={(event) => { editGroup(event, data.id) }} className="d-inline-block" style={{ wordWrap: "break-word", width: "450px" }}>{data !== null ? data.name : null} <span
                                 className="position-absolute status joined"
 
                                 style={{ display: 'none' }} id="setting-edit-group"
@@ -408,11 +411,26 @@ const ModTools = (props) => {
                                     <div className="group-permission-wrapper">
                                         {/*  <p className="like-title">Make new owner </p> */}
                                         <div className="search-input">
-                                            <select className="form-select" id="member-owner"
+                                            {/* <select className="form-select" id="member-owner"
                                                 onChange={(event) => { setOwner(event.target.value) }}
                                             >
                                                 <option value="0">Select Account</option>
-                                            </select>
+                                            </select> */}
+                                            <Select
+                                                className="basic-single"
+                                                classNamePrefix="Select Account"
+                                                defaultValue="Select Account"
+                                                // placeholder="Open this select Country"
+                                                isDisabled={false}
+                                                isLoading={false}
+                                                isClearable={false}
+                                                isRtl={false}
+                                                isSearchable={true}
+                                                name="country"
+                                                options={options}
+                                                // value={country}
+                                                onChange={(e) => setOwner(e.value)}
+                                            />
 
 
 
@@ -444,11 +462,26 @@ const ModTools = (props) => {
                                     <div className="group-permission-wrapper">
                                         {/*   <p className="like-title">Make new owner </p> */}
                                         <div className="search-input">
-                                            <select className="form-select" id="member-moderator"
+                                            {/* <select className="form-select" id="member-moderator"
                                                 onChange={(event) => { setModerator(event.target.value) }}
                                             >
                                                 <option value="0">Select Account</option>
-                                            </select>
+                                            </select> */}
+                                            <Select
+                                                className="basic-single"
+                                                classNamePrefix="Select Account"
+                                                defaultValue="Select Account"
+                                                // placeholder="Open this select Country"
+                                                isDisabled={false}
+                                                isLoading={false}
+                                                isClearable={false}
+                                                isRtl={false}
+                                                isSearchable={true}
+                                                name="country"
+                                                options={options}
+                                                // value={country}
+                                                onChange={(e) => setModerator(e.value)}
+                                            />
                                         </div>
 
                                         <div className="twin-btn type-5 d-flex align-items-center justify-content-end">
@@ -477,11 +510,26 @@ const ModTools = (props) => {
                                     <div className="group-permission-wrapper">
                                         {/*  <p className="like-title">Account address of a Member:</p> */}
                                         <div className="search-input">
-                                            <select className="form-select" id="members"
+                                            {/* <select className="form-select" id="members"
                                                 onChange={(event) => { setMember(event.target.value) }}
                                             >
                                                 <option value="0">Select Account</option>
-                                            </select>
+                                            </select> */}
+                                            <Select
+                                                className="basic-single"
+                                                classNamePrefix="Select Account"
+                                                defaultValue="Select Account"
+                                                // placeholder="Open this select Country"
+                                                isDisabled={false}
+                                                isLoading={false}
+                                                isClearable={false}
+                                                isRtl={false}
+                                                isSearchable={true}
+                                                name="country"
+                                                options={options}
+                                                // value={country}
+                                                onChange={(e) => setMember(e.value)}
+                                            />
 
                                         </div>
 
@@ -512,11 +560,26 @@ const ModTools = (props) => {
                                     <div className="group-permission-wrapper">
                                         {/* <p className="like-title">Account address of a new owner:</p> */}
                                         <div className="search-input">
-                                            <select className="form-select" id="transfer-ownership"
+                                            {/* <select className="form-select" id="transfer-ownership"
                                                 onChange={(event) => { setTransferOwner(event.target.value) }}
                                             >
                                                 <option value="0">Select Account</option>
-                                            </select>
+                                            </select> */}
+                                            <Select
+                                                className="basic-single"
+                                                classNamePrefix="Select Account"
+                                                defaultValue="Select Account"
+                                                // placeholder="Open this select Country"
+                                                isDisabled={false}
+                                                isLoading={false}
+                                                isClearable={false}
+                                                isRtl={false}
+                                                isSearchable={true}
+                                                name="country"
+                                                options={options}
+                                                // value={country}
+                                                onChange={(e) => setTransferOwner(e.value)}
+                                            />
 
                                         </div>
 
