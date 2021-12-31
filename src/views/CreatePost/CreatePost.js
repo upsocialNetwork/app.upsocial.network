@@ -58,7 +58,7 @@ const CreatePost = (props) => {
 
     let [id, setId] = useState(0);
     let [title, setTitle] = useState();
-    let [isAdult, setAdult] = useState(true);
+    let [isAdult, setAdult] = useState(false);
     let [data, setData] = useState();
     let [isText, setText] = useState(false);
     //let [selectedFile, setSelectedFile] = useState();
@@ -84,6 +84,9 @@ const CreatePost = (props) => {
                 "nsfw": isAdult
 
             };
+
+
+
             let userData = Session.getSessionData();
             Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
             window.ethereum.enable();
@@ -143,6 +146,8 @@ const CreatePost = (props) => {
                         "nsfw": isAdult
 
                     };
+
+
                     let userData = Session.getSessionData();
                     Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
                     window.ethereum.enable();
@@ -357,7 +362,7 @@ const CreatePost = (props) => {
                                                     </div>
                                                 </div>
 
-                                                
+
                                                 <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
                                                     style={{ display: 'none' }}
 
@@ -396,7 +401,7 @@ const CreatePost = (props) => {
                                         </div>
 
                                         <br />
-                                        <div className="text-content-wrap" hidden>
+                                        <div className="text-content-wrap" >
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
@@ -433,7 +438,7 @@ const CreatePost = (props) => {
  */}
 
                                         </div><br />
-                                        <div className="text-content-wrap" hidden>
+                                        <div className="text-content-wrap" >
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>

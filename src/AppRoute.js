@@ -132,7 +132,8 @@ const AuthorizeRoute = () => {
             <Route path="/mod-tools" children={() => {
               return (
                 <ModToollLayout>
-                  <Route exact path="/mod-tools/:id" component={ModTools}></Route>
+                  {/* <Route exact path="/mod-tools/:id" component={ModTools}></Route> */}
+                  <Route exact path="/mod-tools/:name" component={ModTools}></Route>
                 </ModToollLayout>
               )
             }}>
@@ -145,12 +146,15 @@ const AuthorizeRoute = () => {
                   <Route exact path="/search-result/:search" component={Search}></Route>
                   <Route exact path="/create-group" component={Community}></Route>
                   <Route exact path="/edit-group/:groupId" component={EditGroup}></Route>
-                  <Route exact path="/group/details/:id" component={GroupDetails}></Route>
+                  {/*  <Route exact path="/group/details/:id" component={GroupDetails}></Route>
+                  */} <Route exact path="/group/details/:name" component={GroupDetails}></Route>
                   <Route exact path="/create-post" component={CreatePost}></Route>
                   <Route exact path="/edit-post/:postid" component={EditPost}></Route>
-                  <Route exact path="/create-group-post/:id" component={CreateGroupPost}></Route>
+                  {/* <Route exact path="/create-group-post/:id" component={CreateGroupPost}></Route> */}
+                  <Route exact path="/create-group-post/:name" component={CreateGroupPost}></Route>
                   {/*    <Route exact path="/group/top-groups" component={TopGroupSearch}></Route> */}
-                  <Route exact path="/post-details/:postid" component={PostDetails}></Route>
+                  <Route exact path="/post-details/:name" component={PostDetails}></Route>
+                 {/*  <Route exact path="/post-details/:postid" component={PostDetails}></Route> */}
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
 

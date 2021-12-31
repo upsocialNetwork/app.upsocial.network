@@ -11,7 +11,7 @@ import HoverVideoPlayer from 'react-hover-video-player';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 import $ from 'jquery';
-
+import { Icon } from '@iconify/react';
 // tech 
 import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -140,7 +140,8 @@ const PostDetails = (props) => {
     var dislikeCount = 0;
 
     useEffect(() => {
-        getPostDetails(params.postid);
+        var id = sessionStorage.getItem("POSTDETAILSID");
+        getPostDetails(id);
     }, []);
 
 
@@ -1001,6 +1002,9 @@ const PostDetails = (props) => {
                                                     <path fillRule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z" />
                                                 </svg></button></li>
                                                 <li hidden><button onClick={(event) => { savedPost(event, element.id) }}  ><img src="img/badge.svg" alt="" /></button></li>
+                                                {
+                                                    element.nsfw == true ? <li ><Icon icon="uil:18-plus" color="#ff416c" width="20" height="20" /> </li> : null
+                                                }
                                             </ul>
                                         </div>
 

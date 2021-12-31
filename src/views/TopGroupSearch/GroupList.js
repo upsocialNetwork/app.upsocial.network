@@ -13,7 +13,7 @@ const GroupList = (props) => {
 
     // console.log(props.groupsList);
 
-    const groupDetails = (event, id) => {
+    const groupDetails = (event, id, name) => {
         event.preventDefault();
 
 
@@ -21,10 +21,19 @@ const GroupList = (props) => {
         if (isLogin === false) {
             history.push("/auth/login");
         } else {
-            history.push({
-                pathname: '/group/details/'+id,
-                state: { detail: id }
-            });
+
+
+            name = name.replace(/ /g, "_");
+
+            sessionStorage.setItem("GETGROUPDETAILS", id);
+            history.push('/group/details/' + name);
+
+
+
+            /*  history.push({
+                 pathname: '/group/details/'+name,
+                 state: { detail: id }
+             }); */
         }
     }
 
@@ -115,19 +124,19 @@ const GroupList = (props) => {
                                         <div className="elementory-avater-wrap">
 
                                             <a href="#" className="elemetory-avater"
-                                                onClick={(event) => { groupDetails(event, element.id) }}
+                                                onClick={(event) => { groupDetails(event, element.id, element.name) }}
                                             >
                                                 {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
 
                                             </a>
                                             <h6><a href="#"
-                                                onClick={(event) => { groupDetails(event, element.id) }}
-                                            >r/{element.name.slice(0,40)}</a> <span>{element.members.length} Members</span> </h6>
+                                                onClick={(event) => { groupDetails(event, element.id, element.name) }}
+                                            >r/{element.name.slice(0, 40)}</a> <span>{element.members.length} Members</span> </h6>
                                         </div>
                                         {/*  <div className="one-line-relevent-description">
                                             <p>{element.description}</p>
                                         </div> */}
-                                        <a href="#" onClick={(event) => { groupDetails(event, element.id) }} className="btn primary-bg proxima-bold join">
+                                        <a href="#" onClick={(event) => { groupDetails(event, element.id, element.name) }} className="btn primary-bg proxima-bold join">
                                             {/*  {element.joined ? <>Leave</> : <>Join</>} */} View
                                         </a>
                                     </div>

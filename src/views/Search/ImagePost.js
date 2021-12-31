@@ -75,7 +75,7 @@ const ImagePost = (props) => {
     }
 
 
-    const pageDetails = (event) => {
+    const pageDetails = (event,name) => {
         event.preventDefault();
         const id = element.id;
         let user = Session.getSessionData();
@@ -84,7 +84,11 @@ const ImagePost = (props) => {
             history.push('/auth/login');
         }
         else {
-            history.push('/post-details/' + id);
+
+
+               name = name.replace(/ /g, "_");
+            sessionStorage.setItem("POSTDETAILSID", id);
+            history.push('/post-details/' + name);
         }
     }
 
@@ -214,7 +218,7 @@ const ImagePost = (props) => {
                 <div className="post-content-wrapper">
 
                     <div className="post-content max-520">
-                        <p > <a href="/" onClick={(event) => { pageDetails(event) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit", wordWrap: "break-word", width: "100%" }}>
+                        <p > <a href="/" onClick={(event) => { pageDetails(event,element.name) }} style={{ fontSize: "20px", color: "inherit", textDecoration: "inherit", wordWrap: "break-word", width: "100%" }}>
                             {element.name}
                         </a> </p>
                     </div>
@@ -229,7 +233,7 @@ const ImagePost = (props) => {
 
                                 return (
 
-                                    <a href="/" onClick={(event) => pageDetails(event)} className="post-img" >
+                                    <a href="/" onClick={(event) => pageDetails(event,element.name)} className="post-img" >
                                         <img src={"https://ipfs.io/ipfs/" + element.data} alt=""
                                             style={{
                                                 width: '100%',

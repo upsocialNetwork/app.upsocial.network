@@ -160,6 +160,7 @@ const GroupRecord = (props) => {
 
     const history = useHistory();
     let element = props.postData;
+    // console.log(element);
 
     //console.log(element);
     const navigate = (event) => {
@@ -167,7 +168,7 @@ const GroupRecord = (props) => {
     }
 
 
-    const groupDetails = (event, id) => {
+    const groupDetails = (event, id, name) => {
         event.preventDefault();
 
         let isLogin = Session.isLoggedIn();
@@ -175,7 +176,11 @@ const GroupRecord = (props) => {
 
             history.push("/auth/login");
         } else {
-            history.push('/group/details/' + id);
+
+            name = name.replace(/ /g, "_");
+
+            sessionStorage.setItem("GETGROUPDETAILS", id);
+            history.push('/group/details/' + name);
         }
 
     }
@@ -186,14 +191,14 @@ const GroupRecord = (props) => {
             <div className="elementory-avater-wrap">
 
                 <a href="#" className="elemetory-avater"
-                    onClick={(event) => { groupDetails(event, element.id) }}
+                    onClick={(event) => { groupDetails(event, element.id, element.name) }}
                 >
                     {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
 
                 </a>
                 <h6><a href="#"
-                    onClick={(event) => { groupDetails(event, element.id) }}
-                >r/{element.name.slice(0,20)}</a> <span>{element.members.length} Members</span> </h6>
+                    onClick={(event) => { groupDetails(event, element.id, element.name) }}
+                >r/{element.name.slice(0, 20)}</a> <span>{element.members.length} Members</span> </h6>
 
             </div>
         </div>

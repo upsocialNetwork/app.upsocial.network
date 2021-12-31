@@ -11,13 +11,17 @@ const GroupList = (props) => {
 
     //console.log(groupListDat);
 
-    const groupDetails = (event, id) => {
+    const groupDetails = (event, id, name) => {
         event.preventDefault();
-        history.push({
-            pathname: '/group/details/'+id,
-            state: { detail: id }
-        });
+        name = name.replace(/ /g, "_");
 
+        sessionStorage.setItem("GETGROUPDETAILS", id);
+        history.push('/group/details/' + name);
+
+        /*  history.push({
+                 pathname: '/group/details/'+id,
+                 state: { detail: id }
+             }); */
     }
 
     const navigate = (event) => {
@@ -112,13 +116,13 @@ const GroupList = (props) => {
                                         <div className="elementory-avater-wrap">
 
                                             <a href="#" className="elemetory-avater"
-                                                onClick={(event) => { groupDetails(event, element.id) }}
+                                                onClick={(event) => { groupDetails(event, element.id, element.name) }}
                                             >
                                                 {element.image ? <img src={"https://ipfs.io/ipfs/" + element.image} alt="" /> : <img src="img/dol-1.png" alt="" />}
 
                                             </a>
                                             <h6><a href="#"
-                                                onClick={(event) => { groupDetails(event, element.id) }} style={{ wordWrap: 'break-word', width: "400px" }}
+                                                onClick={(event) => { groupDetails(event, element.id, element.name) }} style={{ wordWrap: 'break-word', width: "400px" }}
                                             >r/{element.name}</a> <span>{element.members.length} Members</span> </h6>
                                         </div>
                                         {/*  <div className="one-line-relevent-description">

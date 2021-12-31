@@ -38,14 +38,18 @@ const ModTools = (props) => {
         if (location === null) {
             history.push("/auth/login");
         }
-        setGroupId(params.id);
-        getGroupDetails(params.id);
+
+        var id = sessionStorage.getItem("GETMODTOOLGROUPDETAILS");
+      //  console.log(id);
+
+        setGroupId(id);
+        getGroupDetails(id);
         setData(location.state.detail);
         //getMembersList(params.id);
 
 
 
-    }, [params.id]);
+    }, [sessionStorage.getItem("GETMODTOOLGROUPDETAILS")]);
 
     const navigate = (event) => {
         event.preventDefault();
@@ -105,7 +109,7 @@ const ModTools = (props) => {
                     }
 
                 }
-                getMembersList(params.id);
+                getMembersList(sessionStorage.getItem("GETMODTOOLGROUPDETAILS"));
             }
             else {
 
@@ -163,10 +167,10 @@ const ModTools = (props) => {
                 // var select = document.getElementById('transfer-ownership');
                 // var members = document.getElementById('members');
 
-                console.log(rs);
+               // console.log(rs);
                 for (var i = 0; i < rs.length; i++) {
                     setOptions((prevOption) => {
-                        const newOption = { value:rs[i].user.id, label:rs[i].user.email + " [" + rs[i].role + "] " }
+                        const newOption = { value: rs[i].user.id, label: rs[i].user.email + " [" + rs[i].role + "] " }
                         return [...prevOption, newOption]
                     })
                 }
@@ -245,7 +249,7 @@ const ModTools = (props) => {
 
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push('/group/details/' + params.id);
+                history.push('/group/details/' + sessionStorage.getItem("GETMODTOOLGROUPDETAILS"));
 
             }
             else {
@@ -270,7 +274,7 @@ const ModTools = (props) => {
 
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push('/group/details/' + params.id);
+                history.push('/group/details/' + sessionStorage.getItem("GETMODTOOLGROUPDETAILS"));
 
             }
             else {
@@ -295,7 +299,7 @@ const ModTools = (props) => {
 
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push('/group/details/' + params.id);
+                history.push('/group/details/' + sessionStorage.getItem("GETMODTOOLGROUPDETAILS"));
 
             }
             else {
@@ -319,7 +323,7 @@ const ModTools = (props) => {
             Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push('/group/details/' + params.id);
+                history.push('/group/details/' + sessionStorage.getItem("GETMODTOOLGROUPDETAILS"));
             }
             else {
                 ErrorToast(response.result.message);

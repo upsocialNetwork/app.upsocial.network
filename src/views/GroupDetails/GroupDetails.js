@@ -18,39 +18,50 @@ const CreateGroupJoin = (props) => {
     const params = useParams();
 
     useEffect(() => {
-        if (!params.id) {
+        if (!params.name) {
             history.push("/auth/login");
         } else {
-            getGroupDetails(params.id);
+
+            var id = sessionStorage.getItem("GETGROUPDETAILS");
+            getGroupDetails(id);
         }
     }, []);
 
     useEffect(() => {
-        if (!params.id) {
+        if (!params.name) {
             history.push("/auth/login");
         } else {
-            getGroupDetails(params.id);
+            var id = sessionStorage.getItem("GETGROUPDETAILS");
+            getGroupDetails(id);
         }
-    }, [params.id]);
+    }, [sessionStorage.getItem("GETGROUPDETAILS")]);
 
-    const createPost = (event, id) => {
+    const createPost = (event, id, name) => {
         event.preventDefault();
-        history.push('/create-group-post/' + id);
+        name = name.replace(/ /g, "_");
+        sessionStorage.setItem("CREATEGROUPPOSTID", id);
+        sessionStorage.setItem("CREATEGROUPPOSTNAME", name);
+       
+        history.push('/create-group-post/' + name);
     }
 
     const modTools = (event) => {
         event.preventDefault();
         let dt = details && details.result && details.result.data ? details.result.data : [];
+
+        var name = result.name.replace(/ /g, "_");
+        sessionStorage.setItem("GETMODTOOLGROUPDETAILS", dt.id);
+        // history.push('/mod-tools/' + name);
+
+
+
+
         history.push({
-            pathname: '/mod-tools/' + dt.id,
+            pathname: '/mod-tools/' + name,
             /*  search: '?id=' + dt.id + '',*/
             state: { detail: dt }
         });
     }
-
-
-
-
 
     const joinOrLeaveGroup = (event, groupid, type) => {
         Loader(true);
@@ -114,6 +125,7 @@ const CreateGroupJoin = (props) => {
                 getGroupPosts(1, groupid);
                 setDetails(response)
                 let result = response && response.result && response.result.data ? response.result.data : [];
+                // console.log(result);
                 let user = Session.getSessionData();
                 // console.log(response);
                 if (user.id === response.result.data.owner.id) {
@@ -245,19 +257,19 @@ const CreateGroupJoin = (props) => {
                             </div>
                             <div className="input-wrapper">
                                 <input className="form-control bg-gray-f6ff shadow-gray-inset-15" type="text"
-                                    placeholder="Create Post" onClick={(event) => { createPost(event, result && result.id) }} />
+                                    placeholder="Create Post" onClick={(event) => { createPost(event, result && result.id, result && result.name) }} />
                             </div>
                         </div>
 
                         <ul className="p-curd-right plc-2 max-520 justify-content-end">
                             <li><button>
-                                <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
+                                <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id, result && result.name) }} />
                                     <img src="img/c-1.svg" alt="" />
                                 </label>
                             </button>
                             </li>
                             <li><button>
-                                <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id) }} />
+                                <label className="upload upload-photo"><input type="file" onClick={(event) => { createPost(event, result && result.id, result && result.name) }} />
                                     <img src="img/c-2.svg" alt="" />
                                 </label></button></li>
                             {/*   <li><button><img src="img/c-3.svg" alt="" /></button></li> */}

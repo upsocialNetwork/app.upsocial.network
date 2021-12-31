@@ -49,7 +49,11 @@ const CreateGroupPost = (props) => {
 
 
     useEffect(() => {
-        setGroupId(params.id);
+
+
+
+
+        setGroupId(sessionStorage.getItem("CREATEGROUPPOSTID"));
         let userData = Session.isLoggedIn();
         if (!userData) {
             history.push('/auth/login');
@@ -59,7 +63,7 @@ const CreateGroupPost = (props) => {
 
     let [groupId, setGroupId] = useState();
     let [title, setTitle] = useState();
-    let [isAdult, setAdult] = useState(true);
+    let [isAdult, setAdult] = useState(false);
     let [data, setData] = useState();
     let [isText, setText] = useState(false);
     let [id, setId] = useState(0);
@@ -111,7 +115,10 @@ const CreateGroupPost = (props) => {
                         Loader(false);
                         if (response.success) {
                             SuccessToast(response.result.message);
-                            history.push('/group/details/' + groupId);
+                            sessionStorage.setItem("GETGROUPDETAILS", groupId);
+                            history.push('/group/details/' + sessionStorage.getItem("CREATEGROUPPOSTNAME"));
+
+
                         }
                         else {
                             ErrorToast(response.result.message);
@@ -135,7 +142,7 @@ const CreateGroupPost = (props) => {
             httpClient.call('upload-media', formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
                     //SuccessToast(response.result.message);
-                   // console.log(response);
+                    // console.log(response);
                     setId(response.result.data.id);
                     fd = {
                         "group": {
@@ -173,7 +180,8 @@ const CreateGroupPost = (props) => {
                                 Loader(false);
                                 if (response.success) {
                                     SuccessToast(response.result.message);
-                                    history.push('/group/details/' + groupId);
+                                    sessionStorage.setItem("GETGROUPDETAILS", groupId);
+                                    history.push('/group/details/' + sessionStorage.getItem("CREATEGROUPPOSTNAME"));
                                 }
                                 else {
                                     ErrorToast(response.result.message);
@@ -384,7 +392,7 @@ const CreateGroupPost = (props) => {
                                         </div>
 
                                         <br />
-                                        <div className="text-content-wrap" hidden>
+                                        <div className="text-content-wrap" >
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
@@ -424,7 +432,7 @@ const CreateGroupPost = (props) => {
 
 
                                         </div><br />
-                                        <div className="text-content-wrap" hidden>
+                                        <div className="text-content-wrap" >
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
