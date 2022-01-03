@@ -336,41 +336,22 @@ const CreatePost = (props) => {
                         </ul>
 
 
-                        <div className="tg-grid-wrapper">
+                        <div className="tg-grid">
                             <div className="tab-content" id="createPost">
                                 <div className="tab-pane fade show active" id="link" role="tabpanel"
                                     aria-labelledby="nav-link-tab">
                                     <div className="tb-content">
-                                        <div className="tg-g-left text-content-wrap">
-                                            <div class="input-wrapper type-2">
-                                                <label for="">Username</label>
-                                                <div class="two-in-input">
-                                                    <select name="#" id="#" class="selection">
-                                                        <option value="">Subupsocial</option>
-                                                        <option value="">other 2</option>
-                                                        <option value="">Subupsocial</option>
-                                                    </select>
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Select Subupsocial" />
-                                                </div>
-                                            </div>
-                                            <div className="input-wrapper type-2">
-                                                <label for="">Title</label>
-                                                <input type="text" className="form-control" placeholder="Add title"
+                                        <div className="text-content-wrap">
+                                            <div className="post-title-eidit">
+                                                <input type="text" className="form-control" placeholder="Title"
                                                     maxLength="300"
                                                     onChange={(event) => { setTitle(event.target.value) }}
-                                                />
-                                            </div>
-                                            <div className="input-wrapper type-2">
-                                                <label for="">URL</label>
-                                                <input type="text" className="form-control" placeholder="Enter URL"
-                                                    maxLength="300"
-                                                // onChange={(event) => { setTitle(event.target.value) }}
+
                                                 />
                                             </div>
 
 
-                                            {/* <div className="text-editor-wrapper">
+                                            <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
                                                     <div className="user-name-change-input">
@@ -393,7 +374,7 @@ const CreatePost = (props) => {
                                                     <source src="" type="audio/mpeg" />
                                                 </audio>
 
-                                            </div> */}
+                                            </div>
 
 
 
@@ -420,13 +401,13 @@ const CreatePost = (props) => {
                                         </div>
 
                                         <br />
-                                        {/* <div className="text-content-wrap" >
+                                        <div className="text-content-wrap" >
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
                                                 <span className="checkmark"></span>
                                             </label>
-                                        </div> */}
+                                        </div>
 
                                     </div>
                                 </div>
@@ -457,19 +438,19 @@ const CreatePost = (props) => {
  */}
 
                                         </div><br />
-                                        {/* <div className="text-content-wrap" >
+                                        <div className="text-content-wrap" >
 
                                             <label className="radioBox checkBox">
                                                 <p><span className="nsfw">NSFW</span></p>
                                                 <input type="checkbox" name="checkbox" onChange={() => { setAdult(!isAdult) }} defaultChecked={isAdult} />
                                                 <span className="checkmark"></span>
                                             </label>
-                                        </div> */}
+                                        </div>
 
                                     </div>
                                 </div>
                             </div>
-                            <div className="tg-g-right">
+                            {/* <div className="tg-g-right">
                                 <div className="input-wrapper type-2">
                                     <label htmlFor="">Attach File</label>
                                     <div className="drag-and-drop-div">
@@ -480,27 +461,25 @@ const CreatePost = (props) => {
                                         </label>
                                     </div>
                                 </div>
-                            </div>
-
+                            </div> */}
                         </div>
 
                         <div className="cmn-rw in-create-post-filed">
                             <label htmlFor="check-1" className="check-box">
-                                <input id="check-1" type="checkbox" />
+                                {/* <input id="check-1" type="checkbox" />
                                 <div className="checkbox"><img src="img/checkbox.png" alt="" />
                                     <img className="check-ok" src="img/check-ok.png" alt="" />
                                 </div>
-                                <p>Send replies to my inbox</p>
+                                <p>Send replies to my inbox</p> */}
                             </label>
 
                             <div className="twin-btn d-flex align-items-center justify-content-between">
-                                <a href="#" class="btn style-2 transparent-bg proxima-bold">Cancel</a>
+
                                 <button type="submit" className="btn primary-bg ms-3 proxima-bold" disabled={!(title && data
                                 )}
                                     onClick={(event) => { savePost(event) }}
                                 >Post Now</button>
                             </div>
-
                         </div>
                     </div>
                 </form>
