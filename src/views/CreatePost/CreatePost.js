@@ -33,7 +33,7 @@ const CreatePost = (props) => {
 
     const convertContentToHTML = () => {
         let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-        setConvertedContent(currentContentAsHTML);
+        setData(currentContentAsHTML);
     }
 
     const createMarkup = (html) => {
@@ -73,7 +73,7 @@ const CreatePost = (props) => {
         Loader(true);
         event.preventDefault();
         let fd = {};
-
+        // console.log(data);
         if (isText) {
             fd = {
                 "type": "text",
@@ -430,7 +430,7 @@ const CreatePost = (props) => {
                                             </div> */}
                                             <div style={{ border: "1px solid lightgray", borderRadius: 10, padding: '2px', minHeight: '300px' }}>
                                                 <Editor
-                                                    onChange={(editorState) => { setData(editorState) }}
+                                                    // onChange={(editorState) => { setData(editorState) }}
                                                     editorState={editorState}
                                                     onEditorStateChange={handleEditorChange}
                                                     wrapperClassName="wrapper-class"
