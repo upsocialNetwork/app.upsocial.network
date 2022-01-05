@@ -11,18 +11,17 @@ import Session from '../../utils/session';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 
-
 //
 // tech 
-/* import { EditorState } from 'draft-js';
+import { EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import { convertToHTML } from 'draft-convert';
 import DOMPurify from 'dompurify';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'; */
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const CreatePost = (props) => {
 
-    /* const [editorState, setEditorState] = useState(
+    const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty(),
     );
     const [convertedContent, setConvertedContent] = useState(null);
@@ -42,7 +41,7 @@ const CreatePost = (props) => {
         return {
             __html: DOMPurify.sanitize(html)
         }
-    } */
+    }
 
 
     //
@@ -351,7 +350,7 @@ const CreatePost = (props) => {
                                             </div>
 
 
-                                            <div className="text-editor-wrapper">
+                                            {/* <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
                                                     <div className="user-name-change-input">
@@ -360,21 +359,12 @@ const CreatePost = (props) => {
                                                             onChange={(event) => { convertFile(event.target.files[0]) }}
                                                         />
                                                     </div>
-                                                </div>
+                                                </div> */}
 
 
-                                                <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
-                                                    style={{ display: 'none' }}
 
-                                                />
-                                                <video controls width="100%" height="300px" id="video-prev" style={{ display: 'none' }} >
-                                                    <source src="" type="video/MP4" />
-                                                </video>
-                                                <audio controls id="audio-prev" width="100%" height="300px" style={{ display: 'none' }}>
-                                                    <source src="" type="audio/mpeg" />
-                                                </audio>
 
-                                            </div>
+                                            {/* </div> */}
 
 
 
@@ -382,7 +372,7 @@ const CreatePost = (props) => {
 
 
 
-                                            {/*  <div className="text-editor-wrapper">
+                                            <div className="text-editor-wrapper">
                                                 <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
                                                     <div className="drag-and-drop-div">
@@ -396,7 +386,20 @@ const CreatePost = (props) => {
                                                         </label>
                                                     </div>
                                                 </div>
-                                            </div> */}
+
+                                                <div style={{ marginTop: 30 }}>
+                                                    <img src="img/dol-1.png" alt="" id="image-prev" width="100%" height="300px"
+                                                        style={{ display: 'none' }}
+
+                                                    />
+                                                    <video controls width="100%" height="300px" id="video-prev" style={{ display: 'none' }} >
+                                                        <source src="" type="video/MP4" />
+                                                    </video>
+                                                    <audio controls id="audio-prev" width="100%" height="300px" style={{ display: 'none' }}>
+                                                        <source src="" type="audio/mpeg" />
+                                                    </audio>
+                                                </div>
+                                            </div>
 
                                         </div>
 
@@ -419,12 +422,13 @@ const CreatePost = (props) => {
                                                     maxLength="300" onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>
-                                            <div className="text-editor-wrapper">
+                                            {/* <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
                                                     <ReactQuill onChange={(value) => { setData(value) }} />
                                                 </div>
-                                            </div>
-                                            {/* <div style={{ border: "1px solid gray", padding: '2px', minHeight: '300px' }}>
+                                                
+                                            </div> */}
+                                            <div style={{ border: "1px solid lightgray", borderRadius: 10, padding: '2px', minHeight: '300px' }}>
                                                 <Editor
                                                     onChange={(editorState) => { setData(editorState) }}
                                                     editorState={editorState}
@@ -435,7 +439,7 @@ const CreatePost = (props) => {
                                                 />
                                             </div>
                                             <div hidden className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
- */}
+
 
                                         </div><br />
                                         <div className="text-content-wrap" >
