@@ -11,18 +11,41 @@ const GroupList = (props) => {
 
     //console.log(groupListDat);
 
-    const groupDetails = (event, id, name) => {
+    /* const groupDetails = (event, id, name) => {
         event.preventDefault();
         name = name.replace(/ /g, "_");
 
         sessionStorage.setItem("GETGROUPDETAILS", id);
         history.push('/group/details/' + name);
 
-        /*  history.push({
-                 pathname: '/group/details/'+id,
+       
+    } */
+
+    const groupDetails = (event, id, name) => {
+        event.preventDefault();
+
+
+        let isLogin = Session.isLoggedIn();
+        if (isLogin === false) {
+            history.push("/auth/login");
+        } else {
+
+
+            name = name.replace(/ /g, "_");
+
+            sessionStorage.setItem("GETGROUPDETAILS", id);
+            history.push('/group/details/' + name);
+
+
+
+            /*  history.push({
+                 pathname: '/group/details/'+name,
                  state: { detail: id }
              }); */
+        }
     }
+
+
 
     const navigate = (event) => {
         event.preventDefault();
@@ -128,8 +151,8 @@ const GroupList = (props) => {
                                         {/*  <div className="one-line-relevent-description">
                                         <p>{element.description}</p>
                                     </div> */}
-                                        <a href="#" onClick={(event) => { joinOrLeaveGroup(event, element.id, element.joined) }} className="btn primary-bg proxima-bold join">
-                                            {element.joined ? <>Leave</> : <>Join</>}
+                                        <a href="#" onClick={(event) => { groupDetails(event, element.id, element.name) }} className="btn primary-bg proxima-bold join">
+                                            {/*  {element.joined ? <>Leave</> : <>Join</>} */} Vist Now
                                         </a>
                                     </div>)
                             })

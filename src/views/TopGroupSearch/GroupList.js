@@ -137,7 +137,7 @@ const GroupList = (props) => {
                                             <p>{element.description}</p>
                                         </div> */}
                                         <a href="#" onClick={(event) => { groupDetails(event, element.id, element.name) }} className="btn primary-bg proxima-bold join">
-                                            {/*  {element.joined ? <>Leave</> : <>Join</>} */} View
+                                            {/*  {element.joined ? <>Leave</> : <>Join</>} */} Vist Now
                                         </a>
                                     </div>
                                 )
