@@ -19,6 +19,7 @@ import Home from './views/Home';
 import Layout from './views/Layout';
 import ModToolLayout from './views/Layout/ModToolLayout';
 import Login from './views/Login';
+import MainLogin from './views/Login/MainLogin';
 import ModTools from './views/ModTools';
 import MyPosts from './views/MyPosts';
 import Notification from './views/Notification/Notification';
@@ -107,7 +108,7 @@ const AuthorizeRoute = () => {
             <Route path="/auth" children={() => {
               return (
                 <LoginLayout>
-                  <Route path="/auth/login" component={Login} ></Route>
+                  <Route path="/auth/login" component={MainLogin} ></Route>
                   <Route path="/auth/signup" component={Registration} ></Route>
                   <Route path="/auth/import-token" component={ForgetPassword} ></Route>
                 </LoginLayout>
@@ -154,7 +155,7 @@ const AuthorizeRoute = () => {
                   <Route exact path="/create-group-post/:name" component={CreateGroupPost}></Route>
                   {/*    <Route exact path="/group/top-groups" component={TopGroupSearch}></Route> */}
                   <Route exact path="/post-details/:name" component={PostDetails}></Route>
-                 {/*  <Route exact path="/post-details/:postid" component={PostDetails}></Route> */}
+                  {/*  <Route exact path="/post-details/:postid" component={PostDetails}></Route> */}
                   {/*  <Route exact path="/search-group-result" component={GroupSearch}></Route> */}
                 </FullLayout>
 

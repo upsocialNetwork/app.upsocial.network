@@ -6,6 +6,10 @@ import { useHistory } from "react-router-dom";
 import Web3 from 'web3';
 import Contractcustom from "../../utils/contract";
 import detectEthereumProvider from '@metamask/detect-provider'
+import {
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 
 const Login = (props) => {
 
@@ -29,129 +33,129 @@ const Login = (props) => {
         event.preventDefault()
     }
 
-    useEffect(() => {
-        Loader(props.requestProcess);
-        if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
-            let authData = props.loginData;
-            Session.setSessionData(authData.result.data);
-            SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
-            SetSassion(authData.result.data);
-            setIsLoginSubmit(false);
-            history.push('/')
-        } else if (isLoginSubmit && props.loginData) {
+    // useEffect(() => {
+    //     Loader(props.requestProcess);
+    //     if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
+    //         let authData = props.loginData;
+    //         Session.setSessionData(authData.result.data);
+    //         SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
+    //         SetSassion(authData.result.data);
+    //         setIsLoginSubmit(false);
+    //         history.push('/')
+    //     } else if (isLoginSubmit && props.loginData) {
 
-            setIsLoginSubmit(false);
-            ErrorToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
-        }
+    //         setIsLoginSubmit(false);
+    //         ErrorToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
+    //     }
 
-        if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
-            SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
-            setIsSignupSubmit(false);
-            setIsLogin(true);
+    //     if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
+    //         SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+    //         setIsSignupSubmit(false);
+    //         setIsLogin(true);
 
-        } else if (isSignupSubmit && props.signupData) {
-            setIsSignupSubmit(false);
-            ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+    //     } else if (isSignupSubmit && props.signupData) {
+    //         setIsSignupSubmit(false);
+    //         ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
 
-        }
-    }, [props.loginData, props.signupData])
+    //     }
+    // }, [props.loginData, props.signupData])
 
-    useEffect(() => {
-        let isLoggedIn = Session.isLoggedIn();
-        if (isLoggedIn) {
-            history.push('/')
-        }
-    })
+    // useEffect(() => {
+    //     let isLoggedIn = Session.isLoggedIn();
+    //     if (isLoggedIn) {
+    //         history.push('/')
+    //     }
+    // })
 
 
-    const transeferRegistrationToken = () => {
-        console.log("calling for false token");
-        // code 1
-        var Contract = require('web3-eth-contract');
-        Contract.setProvider(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+    // const transeferRegistrationToken = () => {
+    //     console.log("calling for false token");
+    //     // code 1
+    //     var Contract = require('web3-eth-contract');
+    //     Contract.setProvider(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
 
-        window.ethereum.enable();
-        var contract = new Contract(Contractcustom.contract_abi, Contractcustom.contract_address);
-        contract.methods.transfer("0x1d987C54473298677b1Dde9611DE8025B8C4c5E0", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
-            .then(function (receipt) {
-                console.log(receipt);
-                return null;
-                let transaction = {
-                    "_blockNumber": receipt.blockNumber,
-                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                    "_from": receipt.from,
-                    "_gasUsed": receipt.gasUsed,
-                    "_status": receipt.status,
-                    "_to": receipt.to,
-                    "_transactionHash": receipt.transactionHash,
-                    "_transactionIndex": receipt.transactionIndex,
-                    "_blockHash": receipt.blockHash,
-                    "_contractAddress": Contract.contract_address
-                }
-            }, function (error) {
-                Loader(false);
-                ErrorToast(error.message);
-                console.log(error);
-            });
+    //     window.ethereum.enable();
+    //     var contract = new Contract(Contractcustom.contract_abi, Contractcustom.contract_address);
+    //     contract.methods.transfer("0x1d987C54473298677b1Dde9611DE8025B8C4c5E0", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
+    //         .then(function (receipt) {
+    //             console.log(receipt);
+    //             return null;
+    //             let transaction = {
+    //                 "_blockNumber": receipt.blockNumber,
+    //                 "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+    //                 "_from": receipt.from,
+    //                 "_gasUsed": receipt.gasUsed,
+    //                 "_status": receipt.status,
+    //                 "_to": receipt.to,
+    //                 "_transactionHash": receipt.transactionHash,
+    //                 "_transactionIndex": receipt.transactionIndex,
+    //                 "_blockHash": receipt.blockHash,
+    //                 "_contractAddress": Contract.contract_address
+    //             }
+    //         }, function (error) {
+    //             Loader(false);
+    //             ErrorToast(error.message);
+    //             console.log(error);
+    //         });
 
-    }
+    // }
 
-    const doLogin = (event) => {
+    // const doLogin = (event) => {
 
-        event.preventDefault();
-        if (typeof window.ethereum !== 'undefined') {
+    //     event.preventDefault();
+    //     if (typeof window.ethereum !== 'undefined') {
 
-            console.log('MetaMask is installed!');
-            const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-            var account = web3.currentProvider.selectedAddress
-            if (account === null) {
-                getLoginAccount();
-                // ErrorToast("Please unlock metamask");
-                return null;
-            }
-            Loader(true);
-            setIsLoginSubmit(true);
-            props._doLogin({ wallet: account });
-        }
-        else {
-            ErrorToast("MetaMask is not installed!");
-            console.log('MetaMask is not installed!');
-            return null;
-        }
-    }
+    //         console.log('MetaMask is installed!');
+    //         const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+    //         var account = web3.currentProvider.selectedAddress
+    //         if (account === null) {
+    //             getLoginAccount();
+    //             // ErrorToast("Please unlock metamask");
+    //             return null;
+    //         }
+    //         Loader(true);
+    //         setIsLoginSubmit(true);
+    //         props._doLogin({ wallet: account });
+    //     }
+    //     else {
+    //         ErrorToast("MetaMask is not installed!");
+    //         console.log('MetaMask is not installed!');
+    //         return null;
+    //     }
+    // }
 
-    const signingMetamask = () => {
+    // const signingMetamask = () => {
 
-        const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-        var account = web3.currentProvider.selectedAddress
-        web3.eth.personal.sign("Sign this message to prove you have access to this wallet and we will sign you in.This won't cost you any Ether", account, "test password!").then(
-            function (res) {
-                console.log("true");
-                console.log(res);
+    //     const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+    //     var account = web3.currentProvider.selectedAddress
+    //     web3.eth.personal.sign("Sign this message to prove you have access to this wallet and we will sign you in.This won't cost you any Ether", account, "test password!").then(
+    //         function (res) {
+    //             console.log("true");
+    //             console.log(res);
 
-                if (account === null) {
-                    ErrorToast("Please unlock metamask");
-                    return null;
-                }
-                Loader(true);
-                setIsSignupSubmit(true);
-                console.log("calling api");
-                props._doSignup({
-                    userName: signupUserName,
-                    email: signupEmail,
-                    wallet: account,
-                });
-            }, function (error) {
-                console.log("error signing process");
-                console.log("false");
-                console.log(error);
-            });
+    //             if (account === null) {
+    //                 ErrorToast("Please unlock metamask");
+    //                 return null;
+    //             }
+    //             Loader(true);
+    //             setIsSignupSubmit(true);
+    //             console.log("calling api");
+    //             props._doSignup({
+    //                 userName: signupUserName,
+    //                 email: signupEmail,
+    //                 wallet: account,
+    //             });
+    //         }, function (error) {
+    //             console.log("error signing process");
+    //             console.log("false");
+    //             console.log(error);
+    //         });
 
-    }
+    // }
 
     const home = (event) => {
         event.preventDefault();
-        history.push('/');
+        // history.push('/');
     }
 
     const registrationpage = (event) => {
@@ -159,41 +163,55 @@ const Login = (props) => {
         history.push('/auth/signup');
     }
 
-    const connectMetamask = (event) => {
-        event.preventDefault();
-        if (typeof window.ethereum !== 'undefined') {
-            console.log('MetaMask is installed!');
-            getAccount();
-        }
-        else {
-            ErrorToast("MetaMask is not installed!");
-            console.log('MetaMask is not installed!');
-            //  setMatamask(false);
-            return null;
-        }
-    }
+    // const connectMetamask = (event) => {
+    //     event.preventDefault();
+    //     if (typeof window.ethereum !== 'undefined') {
+    //         console.log('MetaMask is installed!');
+    //         getAccount();
+    //     }
+    //     else {
+    //         ErrorToast("MetaMask is not installed!");
+    //         console.log('MetaMask is not installed!');
+    //         //  setMatamask(false);
+    //         return null;
+    //     }
+    // }
 
-    async function getAccount() {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
-        if (account == null) {
-            setWalletAddress(null);
-            console.log("NO wallet");
-        }
-        else {
-            sessionStorage.setItem("walletno", account);
-            setWalletAddress(account);
-            console.log("Wallet No", account);
-            signingMetamask();
-        }
-    }
+    // async function getAccount() {
+    //     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    //     const account = accounts[0];
+    //     if (account == null) {
+    //         setWalletAddress(null);
+    //         console.log("NO wallet");
+    //     }
+    //     else {
+    //         sessionStorage.setItem("walletno", account);
+    //         setWalletAddress(account);
+    //         console.log("Wallet No", account);
+    //         signingMetamask();
+    //     }
+    // }
 
-    async function getLoginAccount() {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
-        console.log(account);
-        return account;
-    }
+    // async function getLoginAccount() {
+    //     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    //     const account = accounts[0];
+    //     console.log(account);
+    //     return account;
+    // }
+
+    const wallet = useWallet();
+    const { connection } = useConnection();
+    const { publicKey } = useWallet();
+    useEffect(() => {
+        //   console.log(wallet)
+        if (wallet?.publicKey) {
+            // console.log(wallet.publicKey.toString());
+            let user = {
+                walletAddress: wallet.publicKey.toString()
+            }
+            console.log(user)
+        }
+    }, [wallet.publicKey])
 
     return (
 
@@ -229,12 +247,13 @@ const Login = (props) => {
 
                 <div className="login-part" id="login-content">
                     <br /><br /> <br /><br />
-                    <form action="#" className="login-g-wrapper">
+                    <div className="login-g-wrapper">
                         <div className="login-left">
                             <h3><img style={{ height: "35px", width: "auto" }} src="img/Upsocial_logo.png" /></h3><br /><br />
                             <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
                             <div>
-                                <a href="#" onClick={(event) => { doLogin(event) }} class="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
+                                {/* <a href="#" onClick={(event) => { doLogin(event) }} class="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a> */}
+                                <WalletMultiButton logo="https://corestarter.com/assets/img/logo.png" />
                             </div>
                             <br /><br />
                             <div className="ask-user"><b style={{ color: "black" }}>Don't have an Account? </b>
@@ -257,7 +276,7 @@ const Login = (props) => {
                     </div> */}
                         {/* <div className="login-right">
                     </div> */}
-                    </form>
+                    </div>
                 </div>
             </div>
             {/* <div className="access-bottom-part">
