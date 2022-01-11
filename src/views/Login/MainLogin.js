@@ -18,6 +18,7 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
 import Login from './Login'
+import Regitration from '../Registration/Registration';
 
 // Default styles that can be overridden by your app
 require('@solana/wallet-adapter-react-ui/styles.css');
@@ -79,6 +80,7 @@ function MainLogin() {
 
                         <>
                             <Login />
+                         
                         </>
                     </WalletModalProvider>
                 </WalletProvider>

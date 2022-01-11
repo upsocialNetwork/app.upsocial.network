@@ -6,6 +6,11 @@ import { useHistory } from "react-router-dom";
 import Web3 from 'web3';
 import Contractcustom from "../../utils/contract";
 import httpClient from '../../services/http';
+import detectEthereumProvider from '@metamask/detect-provider'
+import {
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 const Regitration = (props) => {
 
 
@@ -37,19 +42,20 @@ const Regitration = (props) => {
 
     const connectMetamask = (event) => {
         event.preventDefault();
-        if (typeof window.ethereum !== 'undefined') {
-            console.log('MetaMask is installed!');
-            getAccount();
-        }
-        else {
-            ErrorToast("MetaMask is not installed!");
-            console.log('MetaMask is not installed!');
-            //  setMatamask(false);
-            return null;
-        }
+        signingMetamask();
+        /*  if (typeof window.ethereum !== 'undefined') {
+             console.log('MetaMask is installed!');
+             getAccount();
+         }
+         else {
+             ErrorToast("MetaMask is not installed!");
+             console.log('MetaMask is not installed!');
+             //  setMatamask(false);
+             return null;
+         } */
     }
 
-    async function getAccount() {
+    /* async function getAccount() {
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         const account = accounts[0];
         if (account == null) {
@@ -62,49 +68,49 @@ const Regitration = (props) => {
             console.log("Wallet No", account);
             signingMetamask();
         }
+    } */
+
+
+    const signingMetamask = (account) => {
+
+        // const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+        // var account = web3.currentProvider.selectedAddress
+        /*    web3.eth.personal.sign("Sign this message to prove you have access to this wallet and we will sign you in.This won't cost you any Ether", account, "test password!").then(
+               function (res) { */
+        if (account === null) {
+            ErrorToast("Please select wallet");
+            return null;
+        }
+        Loader(true);
+        let formData = {
+            userName: signupUserName,
+            email: signupEmail,
+            wallet: account,
+        };
+
+        httpClient.call('signup', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success == true) {
+                SuccessToast(response.result.message);
+                history.push('/auth/login');
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+
+        /* }, function (error) {
+            console.log("error signing process");
+            console.log("false");
+            console.log(error);
+        }); */
+
     }
 
-
-    const signingMetamask = () => {
-
-        const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-        var account = web3.currentProvider.selectedAddress
-        web3.eth.personal.sign("Sign this message to prove you have access to this wallet and we will sign you in.This won't cost you any Ether", account, "test password!").then(
-            function (res) {
-                if (account === null) {
-                    ErrorToast("Please unlock metamask");
-                    return null;
-                }
-                Loader(true);
-                let formData = {
-                    userName: signupUserName,
-                    email: signupEmail,
-                    wallet: account,
-                };
-
-                httpClient.call('signup', formData, { method: 'POST' }).then(function (response) {
-                    Loader(false);
-                    if (response.success == true) {
-                        SuccessToast(response.result.message);
-                        history.push('/auth/login');
-
-                    }
-                    else {
-                        ErrorToast(response.result.message);
-                    }
-                }, function (error) {
-                    Loader(false);
-                    console.log(error);
-                })
-
-            }, function (error) {
-                console.log("error signing process");
-                console.log("false");
-                console.log(error);
-            });
-
-    }
-
+    /*
     const addTokenInMetamask = (event) => {
         event.preventDefault();
         const tokenAddress = '0x5818209Fb829311B438431cB1111dA7a3d9B04FB';
@@ -137,7 +143,7 @@ const Regitration = (props) => {
         }
     }
 
-
+*/
 
     return (
 
@@ -190,13 +196,13 @@ const Regitration = (props) => {
                             </a>
                         </li> */}
                         <li className="d-block">
-                            <a href="#" onClick={(event) => { addTokenInMetamask(event) }} className="shadow-10">
+                            <a href="https://www.youtube.com/watch?v=tUtC2qiglFs" target="_blank"/* onClick={(event) => { addTokenInMetamask(event) }}  */ className="shadow-10">
                                 <div className="rgn-singlelinks-g">
                                     <div className="rgn-single-icon">
                                         <img className="img-fluid" src="img/import-token.png" alt="" />
                                     </div>
                                     <p>Add UpSocial Tokens To MetaMask</p>
-                                   {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
+                                    <span className="ply-btn"><i className="far fa-play-circle"></i></span>
                                 </div>
                             </a>
                         </li>
@@ -219,9 +225,9 @@ const Regitration = (props) => {
                                 onBlur={() => validator.current.showMessageFor('email')} />
                             {validator.current.message('email', signupEmail, 'required|email')}
                         </div>
-
-                        <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { connectMetamask(event) }}>Register Now</button>
-                        <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
+                        <WalletMultiButton className="btn design-10" /* logo="https://corestarter.com/assets/img/logo.png" */ />
+                        {/*   <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { connectMetamask(event) }}>Register Now</button>
+                       */}  <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
                         <b hidden><p style={{ fontWeight: "500" }}>Token Address <span className="color-red">0x5818209Fb829311B438431cB1111dA7a3d9B04FB </span></p></b>
                     </form>
                 </div>

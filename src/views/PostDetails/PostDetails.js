@@ -287,7 +287,7 @@ const PostDetails = (props) => {
                         Loader(false);
                         setCommentMessage('')
                         document.getElementById('comment-1-button').click()
-                        getPostDetails(params.postid);
+                        getPostDetails(response.result.data.post.id);
                     }
                     else {
                         ErrorToast(response.result.message);
@@ -360,7 +360,7 @@ const PostDetails = (props) => {
                         Loader(false);
                         setCommentMessage('')
                         document.getElementById('comment-1-button').click()
-                        getPostDetails(params.postid);
+                        getPostDetails(response.result.data.post.id);
                     }
                     else {
                         ErrorToast(response.result.message);

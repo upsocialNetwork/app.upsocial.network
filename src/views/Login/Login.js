@@ -10,6 +10,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import httpClient from '../../services/http';
 
 const Login = (props) => {
 
@@ -29,9 +30,107 @@ const Login = (props) => {
     let [isSignupSubmit, setIsSignupSubmit] = useState(false)
     let [isLogin, setIsLogin] = useState(true)
     let [walletAddress, setWalletAddress] = useState(null);
+
+    // connectivity with solana code
+
+
     const navigate = (event) => {
         event.preventDefault()
     }
+
+    const home = (event) => {
+        event.preventDefault();
+        // history.push('/');
+    }
+
+    const registrationpage = (event) => {
+        event.preventDefault();
+        history.push('/auth/signup');
+    }
+
+    const wallet = useWallet();
+    const { connection } = useConnection();
+    const { publicKey } = useWallet();
+    useEffect(() => {
+        //   console.log(wallet)
+        if (wallet?.publicKey) {
+            // console.log(wallet.publicKey.toString());
+            let user = {
+                walletAddress: wallet.publicKey.toString()
+
+            }
+            console.log(wallet.publicKey.toString());
+            console.log(user)
+            doLogin(user.walletAddress);
+        }
+    }, [wallet.publicKey])
+
+
+    const doLogin = (walletAddress) => {
+        Loader(true);
+        console.log("wallet login block calling");
+        if (wallet === null) {
+            //  getLoginAccount();
+            ErrorToast("Please connect to wallet");
+            Loader(false);
+            return null;
+        }
+
+        let formData = {
+            "wallet": walletAddress
+        }
+        Loader(false);
+        httpClient.call("signin", formData, { method: 'POST' }).then(function (response) {
+
+            if (response.success) {
+                let authData = response;
+                Session.setSessionData(authData.result.data);
+                SuccessToast(response && response.result && response.result.message ? response.result.message : "");
+                SetSassion(authData.result.data);
+                setIsLoginSubmit(false);
+                history.push('/')
+            }
+            else {
+                
+                ErrorToast(response && response.result && response.result.message ? response.result.message : "");
+
+            }
+        }, function (error) {
+            ErrorToast(error.result.message);
+            //  console.log('MetaMask is not installed!');
+            return null;
+        });
+    }
+
+    /* useEffect(() => {
+        Loader(props.requestProcess);
+        if (isLoginSubmit && props.loginData && props.loginData.statuscode === 200 && props.loginData.success) {
+            let authData = props.loginData;
+            Session.setSessionData(authData.result.data);
+            SuccessToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
+            SetSassion(authData.result.data);
+            setIsLoginSubmit(false);
+            history.push('/')
+        } else if (isLoginSubmit && props.loginData) {
+
+            setIsLoginSubmit(false);
+            ErrorToast(props.loginData && props.loginData.result && props.loginData.result.message ? props.loginData.result.message : "");
+        }
+
+        if (isSignupSubmit && props.signupData && props.signupData.statuscode === 200 && props.signupData.success) {
+            SuccessToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+            setIsSignupSubmit(false);
+            setIsLogin(true);
+
+        } else if (isSignupSubmit && props.signupData) {
+            setIsSignupSubmit(false);
+            ErrorToast(props.signupData && props.signupData.result && props.signupData.result.message ? props.signupData.result.message : "");
+
+        }
+    }, [props.loginData, props.signupData]) */
+
+
+    // Metmask with binance code
 
     // useEffect(() => {
     //     Loader(props.requestProcess);
@@ -68,37 +167,7 @@ const Login = (props) => {
     // })
 
 
-    // const transeferRegistrationToken = () => {
-    //     console.log("calling for false token");
-    //     // code 1
-    //     var Contract = require('web3-eth-contract');
-    //     Contract.setProvider(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
 
-    //     window.ethereum.enable();
-    //     var contract = new Contract(Contractcustom.contract_abi, Contractcustom.contract_address);
-    //     contract.methods.transfer("0x1d987C54473298677b1Dde9611DE8025B8C4c5E0", "100000000000000000000").send({ from: "0x33fbfEA30c6d70b468daa48220DcF920404DC4eA" })
-    //         .then(function (receipt) {
-    //             console.log(receipt);
-    //             return null;
-    //             let transaction = {
-    //                 "_blockNumber": receipt.blockNumber,
-    //                 "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-    //                 "_from": receipt.from,
-    //                 "_gasUsed": receipt.gasUsed,
-    //                 "_status": receipt.status,
-    //                 "_to": receipt.to,
-    //                 "_transactionHash": receipt.transactionHash,
-    //                 "_transactionIndex": receipt.transactionIndex,
-    //                 "_blockHash": receipt.blockHash,
-    //                 "_contractAddress": Contract.contract_address
-    //             }
-    //         }, function (error) {
-    //             Loader(false);
-    //             ErrorToast(error.message);
-    //             console.log(error);
-    //         });
-
-    // }
 
     // const doLogin = (event) => {
 
@@ -153,15 +222,7 @@ const Login = (props) => {
 
     // }
 
-    const home = (event) => {
-        event.preventDefault();
-        // history.push('/');
-    }
 
-    const registrationpage = (event) => {
-        event.preventDefault();
-        history.push('/auth/signup');
-    }
 
     // const connectMetamask = (event) => {
     //     event.preventDefault();
@@ -199,19 +260,7 @@ const Login = (props) => {
     //     return account;
     // }
 
-    const wallet = useWallet();
-    const { connection } = useConnection();
-    const { publicKey } = useWallet();
-    useEffect(() => {
-        //   console.log(wallet)
-        if (wallet?.publicKey) {
-            // console.log(wallet.publicKey.toString());
-            let user = {
-                walletAddress: wallet.publicKey.toString()
-            }
-            console.log(user)
-        }
-    }, [wallet.publicKey])
+
 
     return (
 
@@ -232,13 +281,13 @@ const Login = (props) => {
                      </div>
                  </div>
                  <div className="lgn-rgn-right">
- 
+     
                      <div class="twin-btn d-flex align-items-center">
                          <img style={{ height: "450px", width: "450px" }} src="img/connect_metamask.png" />
                      </div>
                  </div>
              </div>
- 
+     
          </div> */
 
 
@@ -253,7 +302,7 @@ const Login = (props) => {
                             <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
                             <div>
                                 {/* <a href="#" onClick={(event) => { doLogin(event) }} class="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a> */}
-                                <WalletMultiButton logo="https://corestarter.com/assets/img/logo.png" />
+                                <WalletMultiButton /* logo="https://corestarter.com/assets/img/logo.png" */ className="btn design-10" />
                             </div>
                             <br /><br />
                             <div className="ask-user"><b style={{ color: "black" }}>Don't have an Account? </b>
@@ -266,7 +315,7 @@ const Login = (props) => {
                         <div className="login-right">
                             {/*  <img style={{ height: "500px", width: "300px" }} src="img/connect_metamask.png" /> */}
 
-                            <div class="twin-btn d-flex align-items-center">
+                            <div className="twin-btn d-flex align-items-center">
                                 <img style={{ height: "450px", width: "450px" }} src="img/connect_metamask.png" />
                             </div>
 

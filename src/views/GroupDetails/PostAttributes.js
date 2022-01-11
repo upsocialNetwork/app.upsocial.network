@@ -161,7 +161,7 @@ const PostAttributes = (props) => {
 
 
 
-    const pageDetails = (event) => {
+    const pageDetails = (event,name) => {
 
         event.preventDefault();
         const id = element.id;
@@ -170,10 +170,15 @@ const PostAttributes = (props) => {
             history.push('/auth/login');
         }
         else {
-            history.push({
+         /*    history.push({
                 pathname: '/post-details/' + id,
                 state: { detail: id }
-            });
+            }); */
+
+            
+            name = name.replace(/ /g, "_");
+            sessionStorage.setItem("POSTDETAILSID", id);
+            history.push('/post-details/' + name);
         }
     }
 
@@ -421,7 +426,7 @@ const PostAttributes = (props) => {
                 </ul>
                 <ul className="p-curd-right">
                     <li><span style={{ color: '#FF416C' }}>{element.commentCount}</span> &nbsp;<button data-bs-toggle="collapse" data-bs-target="#comment-1"
-                        onClick={(event) => { pageDetails(event) }}
+                        onClick={(event) => { pageDetails(event,element.name) }}
                     ><img src="img/sms.svg" alt="" /></button></li>
 
                     {userData !== null ?
