@@ -181,6 +181,21 @@ const Regitration = (props) => {
         }
     }
 
+    const { connection } = useConnection();
+    const { publicKey } = useWallet();
+    const wallet = useWallet();
+
+    useEffect(() => {
+
+        (async () => {
+            if (wallet?.publicKey) {
+                console.log("hit");
+                console.log(publicKey);
+
+            }
+        })();
+    }, [wallet.publicKey]);
+
 
     return (
 
@@ -216,7 +231,7 @@ const Regitration = (props) => {
                                         <img className="img-fluid" src="img/meta-to-binance.png" alt="" />
                                     </div>
                                     <p>Connect MetaMask <br /> To Binance TestNet?</p>
-                                   {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
+                                    {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
                                 </div>
                             </a>
                         </li>
@@ -239,14 +254,14 @@ const Regitration = (props) => {
                                         <img className="img-fluid" src="img/import-token.png" alt="" />
                                     </div>
                                     <p>Add UpSocial Tokens To MetaMask</p>
-                                   {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
+                                    {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
                                 </div>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div className="lgn-rgn-right">
-                    <form action="#" className="rgn-form">
+                    <div className="rgn-form">
                         <h1>Welcome!</h1>
                         <div className="input-inside">
                             <input className="form-control design-10 shadow-10" type="text" placeholder="Username"
@@ -262,11 +277,11 @@ const Regitration = (props) => {
                                 onBlur={() => validator.current.showMessageFor('email')} />
                             {validator.current.message('email', signupEmail, 'required|email')}
                         </div>
-                        {/* <WalletMultiButton className="btn design-10"  logo="https://corestarter.com/assets/img/logo.png"  /> */}
+                        <WalletMultiButton className="btn design-10" logo="https://corestarter.com/assets/img/logo.png" />
                         <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { connectMetamask(event) }}>Register Now</button>
                         <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
                         <b hidden><p style={{ fontWeight: "500" }}>Token Address <span className="color-red">0x5818209Fb829311B438431cB1111dA7a3d9B04FB </span></p></b>
-                    </form>
+                    </div>
                 </div>
             </div>
 
