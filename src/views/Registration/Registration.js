@@ -190,11 +190,38 @@ const Regitration = (props) => {
         (async () => {
             if (wallet?.publicKey) {
                 console.log("hit");
-                console.log(publicKey);
+                console.log(publicKey.toString());
+                setWalletAddress(publicKey.toString());
 
             }
         })();
     }, [wallet.publicKey]);
+
+
+    const signingSolana = (event) => {
+        event.preventDefault();
+        Loader(true);
+        let formData = {
+            userName: signupUserName,
+            email: signupEmail,
+            wallet: walletAddress,
+        };
+
+        httpClient.call('signup', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success == true) {
+                SuccessToast(response.result.message);
+                history.push('/auth/login');
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            console.log(error);
+        })
+
+    }
 
 
     return (
@@ -277,8 +304,8 @@ const Regitration = (props) => {
                                 onBlur={() => validator.current.showMessageFor('email')} />
                             {validator.current.message('email', signupEmail, 'required|email')}
                         </div>
-                        <WalletMultiButton className="btn design-10" logo="https://corestarter.com/assets/img/logo.png" />
-                        <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { connectMetamask(event) }}>Register Now</button>
+                        <WalletMultiButton className="btn design-10" logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" />
+                        <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
                         <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
                         <b hidden><p style={{ fontWeight: "500" }}>Token Address <span className="color-red">0x5818209Fb829311B438431cB1111dA7a3d9B04FB </span></p></b>
                     </div>

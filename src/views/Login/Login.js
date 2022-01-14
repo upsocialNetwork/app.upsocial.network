@@ -52,59 +52,63 @@ const Login = (props) => {
     const { connection } = useConnection();
     const { publicKey } = useWallet();
 
-    /*
-     useEffect(() => {
-          console.log(wallet)
-         if (wallet?.publicKey) {
+
+    useEffect(() => {
+        console.log(wallet)
+        if (wallet?.publicKey) {
             console.log(wallet.publicKey.toString());
-             let user = {
-                 walletAddress: wallet.publicKey.toString()
- 
-             }
-             console.log(wallet.publicKey.toString());
-             console.log(user)
-             doLogin(user.walletAddress);
-         }
-     }, [wallet.publicKey])
- 
- 
-     const doLogin = (walletAddress) => {
-         Loader(true);
-         console.log("wallet login block calling");
-         if (wallet === null) {
-             getLoginAccount();
-             ErrorToast("Please connect to wallet");
-             Loader(false);
-             return null;
-         }
- 
-         let formData = {
-             "wallet": walletAddress
-         }
-         Loader(false);
-         httpClient.call("signin", formData, { method: 'POST' }).then(function (response) {
- 
-             if (response.success) {
-                 let authData = response;
-                 Session.setSessionData(authData.result.data);
-                 SuccessToast(response && response.result && response.result.message ? response.result.message : "");
-                 SetSassion(authData.result.data);
-                 setIsLoginSubmit(false);
-                 history.push('/')
-             }
-             else {
- 
-                 ErrorToast(response && response.result && response.result.message ? response.result.message : "");
- 
-             }
-         }, function (error) {
-             ErrorToast(error.result.message);
-             console.log('MetaMask is not installed!');
-             return null;
-         });
-     }
- 
-     */
+            let user = {
+                walletAddress: wallet.publicKey.toString()
+
+            }
+
+            if (wallet.publicKey.toString() !== null) {
+                console.log(wallet.publicKey.toString());
+                console.log(user)
+                doSignin(user.walletAddress);
+            }
+
+        }
+    }, [wallet.publicKey])
+
+
+    const doSignin = (walletAddress) => {
+        Loader(true);
+        console.log("wallet login block calling");
+        if (walletAddress === null) {
+            getLoginAccount();
+            ErrorToast("Please connect to wallet");
+            Loader(false);
+            return null;
+        }
+
+        let formData = {
+            "wallet": walletAddress
+        }
+        Loader(false);
+        httpClient.call("signin", formData, { method: 'POST' }).then(function (response) {
+
+            if (response.success) {
+                let authData = response;
+                Session.setSessionData(authData.result.data);
+                SuccessToast(response && response.result && response.result.message ? response.result.message : "");
+                SetSassion(authData.result.data);
+                setIsLoginSubmit(false);
+                history.push('/')
+            }
+            else {
+
+                ErrorToast(response && response.result && response.result.message ? response.result.message : "");
+
+            }
+        }, function (error) {
+            ErrorToast(error.result.message);
+            console.log('MetaMask is not installed!');
+            return null;
+        });
+    }
+
+
 
     /* useEffect(() => {
         Loader(props.requestProcess);
@@ -375,8 +379,8 @@ const Login = (props) => {
                             <h3><img style={{ height: "35px", width: "auto" }} src="img/Upsocial_logo.png" /></h3><br /><br />
                             <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
                             <div>
-                                <a href="#" onClick={(event) => { doLogin(event) }} className="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
-                                {/*      <WalletMultiButton  logo="https://corestarter.com/assets/img/logo.png"  className="btn design-10" /> */}
+                                {/*   <a href="#" onClick={(event) => { doLogin(event) }} className="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
+                                */}       <WalletMultiButton logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" className="btn design-10" />
                             </div>
                             <br /><br />
                             <div className="ask-user"><b style={{ color: "black" }}>Don't have an Account? </b>
