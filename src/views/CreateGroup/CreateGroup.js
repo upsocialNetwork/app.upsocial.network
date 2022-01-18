@@ -32,7 +32,7 @@ const serumCmn = require("@project-serum/common");
 const prgId = new anchor.web3.PublicKey("AeMuiVsa2oNGf7tnpb2dcY9wj791svsgHGiQXzscCvVT");
 
 let mint = new anchor.web3.PublicKey("FZjx1MYgGoPWaDCZhsLRhb1tKYkMHmfHSDV6Di5qv2wN");
-let god = null;
+let god = new anchor.web3.PublicKey("2DAWEZ5FEo8qaMJXbMxXvLv2r9F1m1EVc2qMCLQRPVp5");
 let registrarKey = new anchor.web3.PublicKey("7xyAFmkmiNABzBHAhgpJGTwrct9gugNpN2gYctHCn5vp");
 let rewardVault = new anchor.web3.PublicKey("62rXYgV5H6teuSbNZz55MmX34zdZgBSE3n3873iTN6Xd");
 let registrarSigner = new anchor.web3.PublicKey("J6eSbGh8KBCUdshxpFZMb1zeRBzMnRTZ85pkRWqCHrqd");
@@ -45,7 +45,8 @@ const decimalVal = new anchor.BN(1000000000);
 const Community = (props) => {
 
 
-    const walletObj = useSelector(state => state.wallet)
+    const wallet = useSelector(state => state.wallet);
+    let mainwallet = null;
     const history = useHistory();
     let [name, setName] = useState(null);
     let [type, setType] = useState(null);
@@ -58,6 +59,8 @@ const Community = (props) => {
         if (!userData) {
             history.push('/auth/login');
         }
+        console.log(wallet.walletObj);
+        mainwallet = wallet.walletObj;
 
         /*  const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
          console.log(web3);
@@ -184,27 +187,44 @@ const Community = (props) => {
     // init deposit
     const initDepositToTreasury = async () => {
 
-        console.log(walletObj)
-        let wallet = sessionStorage.getItem("fullwallet");
+        console.log(mainwallet);
+        // let wallet = sessionStorage.getItem("fullwallet");
 
-        console.log("god wallet " + wallet.toString());
-        console.log(wallet);
+        //  console.log("god wallet " + wallet.toString());
+        //console.log(wallet);
         let opts = {
             preflightCommitment: 'recent',
             commitment: 'recent',
         };
         let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
-        let provider = new Provider(connection, wallet, opts);
+        let provider = new Provider(connection, mainwallet, opts);
         const registry = new Program(idl, prgId, provider);
-        console.log("god treasury= " + wallet);
+        console.log("before token account");
+        console.log(provider);
+        console.log(provider.wallet.publicKey.toString());
+
+        let receiverIdoToken = await Token.getAssociatedTokenAddress(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            mint,
+            provider.wallet.publicKey
+        );
+        console.log("after token account");
+
+
+        //  const receiverAccount = await provider.connection.getAccountInfo(receiverIdoToken);
+
+        console.log(receiverIdoToken.toString());
+        console.log("god treasury= " + provider.wallet.publicKey.toString());
         console.log("treasury= " + treasuryVault);
-        console.log("provider= " + provider.toString());
-        const depositAmount = new anchor.BN(50 * decimalVal);
+        console.log("provider= " + provider.wallet.publicKey.toString());
+        //console.log(provider.wallet.publicKey);
+        const depositAmount = new anchor.BN(1 * decimalVal);
         let txn = await registry.rpc.depositTreasury(depositAmount, {
             accounts: {
                 registrar: registrarKey,
                 treasuryVault: treasuryVault,
-                depositor: provider.wallet.publicKey,
+                depositor: receiverIdoToken,
                 depositorAuthority: provider.wallet.publicKey,
                 tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID,
             },

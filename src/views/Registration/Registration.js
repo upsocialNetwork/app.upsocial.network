@@ -233,7 +233,11 @@ const Regitration = (props) => {
 
 
     const signingSolana = (event) => {
+
         event.preventDefault();
+
+        createTokenActIfNotExist();
+        return null;
         Loader(true);
         let formData = {
             userName: signupUserName,
@@ -276,6 +280,8 @@ const Regitration = (props) => {
         let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
         let provider = new Provider(connection, fullWallet, opts);
         const registry = new Program(idl, prgId, provider);
+        console.log(provider);
+        console.log("------------------------");
 
         let receiverIdoToken = await Token.getAssociatedTokenAddress(
             ASSOCIATED_TOKEN_PROGRAM_ID,

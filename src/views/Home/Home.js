@@ -5,12 +5,13 @@ import CreatePostForm from './CreatePostForm';
 import PostList from './PostList';
 import InfiniteScroll from 'react-infinite-scroller';
 
+import { useSelector } from 'react-redux';
 
 
 const Home = (props) => {
 
 
-
+    const wallet = useSelector(state => state.wallet)
     let pt = props.postData;
     Loader(props.requestProcess);
 
@@ -32,6 +33,9 @@ const Home = (props) => {
         props._getTimlinePost(page);
     }
     useEffect(() => {
+
+        console.log("-----home wallet calling-----");
+        console.log(wallet);
 
         let isLogin = Session.getSessionData();
         if (isLogin == null) {

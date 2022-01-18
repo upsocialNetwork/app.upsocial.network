@@ -95,14 +95,6 @@ const Login = (props) => {
 
             if (response.success) {
                 let authData = response;
-                //console.log(authData.result.data);
-                //const userData = authData.result.data;
-                // userData["fullWallet"] = wallet;
-                console.log("---------------1---------------");
-                sessionStorage.setItem("full_wallet", JSON.stringify(wallet));
-                let getFromItem = sessionStorage.getItem("full_wallet");
-                console.log(JSON.parse(getFromItem));
-                console.log("---------------end---------------");
                 Session.setSessionData(authData.result.data);
                 SuccessToast(response && response.result && response.result.message ? response.result.message : "");
                 SetSassion(authData.result.data);
