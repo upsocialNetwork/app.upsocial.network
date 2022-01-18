@@ -51,28 +51,30 @@ const Login = (props) => {
     const wallet = useWallet();
     const { connection } = useConnection();
     const { publicKey } = useWallet();
+    // let fullWallet = null;
 
 
     useEffect(() => {
         console.log(wallet)
         if (wallet?.publicKey) {
-            console.log(wallet.publicKey.toString());
+            // console.log(wallet.publicKey.toString());
+
             let user = {
                 walletAddress: wallet.publicKey.toString()
 
             }
+            // setFullWallet(wallet);
+            //console.log("fullwallet:");
+            //console.log(wallet);
+            doSignin(user.walletAddress);
 
-            if (wallet.publicKey.toString() !== null) {
-                console.log(wallet.publicKey.toString());
-                console.log(user)
-                doSignin(user.walletAddress);
-            }
 
         }
     }, [wallet.publicKey])
 
 
     const doSignin = (walletAddress) => {
+
         Loader(true);
         console.log("wallet login block calling");
         if (walletAddress === null) {
@@ -90,6 +92,14 @@ const Login = (props) => {
 
             if (response.success) {
                 let authData = response;
+                //console.log(authData.result.data);
+                //const userData = authData.result.data;
+                // userData["fullWallet"] = wallet;
+                console.log("---------------1---------------");
+                sessionStorage.setItem("full_wallet", JSON.stringify(wallet));
+                let getFromItem = sessionStorage.getItem("full_wallet");
+                console.log(JSON.parse(getFromItem));
+                console.log("---------------end---------------");
                 Session.setSessionData(authData.result.data);
                 SuccessToast(response && response.result && response.result.message ? response.result.message : "");
                 SetSassion(authData.result.data);

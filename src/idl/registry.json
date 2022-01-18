@@ -1,0 +1,324 @@
+{
+    "version": "0.0.0",
+    "name": "registry",
+    "instructions": [
+      {
+        "name": "initialize",
+        "accounts": [
+          {
+            "name": "registrar",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "rewardVault",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "rent",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "poolMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "nonce",
+            "type": "u8"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "withdraw",
+        "accounts": [
+          {
+            "name": "registrar",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "userVault",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "rewardVault",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "poolMint",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "registrarSigner",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": []
+      },
+      {
+        "name": "depositReward",
+        "accounts": [
+          {
+            "name": "registrar",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "rewardVault",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "depositor",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "depositorAuthority",
+            "isMut": false,
+            "isSigner": true
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "sptAmount",
+            "type": "u64"
+          }
+        ]
+      },
+      {
+        "name": "depositTreasury",
+        "accounts": [
+          {
+            "name": "registrar",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "treasuryVault",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "depositor",
+            "isMut": true,
+            "isSigner": false
+          },
+          {
+            "name": "depositorAuthority",
+            "isMut": false,
+            "isSigner": false
+          },
+          {
+            "name": "tokenProgram",
+            "isMut": false,
+            "isSigner": false
+          }
+        ],
+        "args": [
+          {
+            "name": "sptAmount",
+            "type": "u64"
+          }
+        ]
+      }
+    ],
+    "accounts": [
+      {
+        "name": "Registrar",
+        "type": {
+          "kind": "struct",
+          "fields": [
+            {
+              "name": "authority",
+              "type": "publicKey"
+            },
+            {
+              "name": "rewardVault",
+              "type": "publicKey"
+            },
+            {
+              "name": "nonce",
+              "type": "u8"
+            },
+            {
+              "name": "amount",
+              "type": "u64"
+            },
+            {
+              "name": "poolMint",
+              "type": "publicKey"
+            }
+          ]
+        }
+      }
+    ],
+    "errors": [
+      {
+        "code": 300,
+        "name": "RewardQAlreadyInitialized",
+        "msg": "The given reward queue has already been initialized."
+      },
+      {
+        "code": 301,
+        "name": "InvalidNonce",
+        "msg": "The nonce given doesn't derive a valid program address."
+      },
+      {
+        "code": 302,
+        "name": "InvalidPoolMintAuthority",
+        "msg": "Invalid pool mint authority"
+      },
+      {
+        "code": 303,
+        "name": "InvalidMemberSigner",
+        "msg": "Member signer doesn't match the derived address."
+      },
+      {
+        "code": 304,
+        "name": "InvalidVaultDeposit",
+        "msg": "The given vault owner must match the signing depositor."
+      },
+      {
+        "code": 305,
+        "name": "InvalidDepositor",
+        "msg": "The signing depositor doesn't match either of the balance accounts"
+      },
+      {
+        "code": 306,
+        "name": "InvalidVault",
+        "msg": "The vault given does not match the vault expected."
+      },
+      {
+        "code": 307,
+        "name": "InvalidVaultOwner",
+        "msg": "Invalid vault owner."
+      },
+      {
+        "code": 308,
+        "name": "Unknown",
+        "msg": "An unknown error has occured."
+      },
+      {
+        "code": 309,
+        "name": "UnstakeTimelock",
+        "msg": "The unstake timelock has not yet expired."
+      },
+      {
+        "code": 310,
+        "name": "InsufficientReward",
+        "msg": "Reward vendors must have at least one token unit per pool token"
+      },
+      {
+        "code": 311,
+        "name": "InvalidExpiry",
+        "msg": "There is no amount for reward"
+      },
+      {
+        "code": 312,
+        "name": "VendorExpired",
+        "msg": "The reward vendor has been expired."
+      },
+      {
+        "code": 313,
+        "name": "CursorAlreadyProcessed",
+        "msg": "This reward has already been processed."
+      },
+      {
+        "code": 314,
+        "name": "NotStakedDuringDrop",
+        "msg": "The account was not staked at the time of this reward."
+      },
+      {
+        "code": 315,
+        "name": "VendorNotYetExpired",
+        "msg": "The vendor is not yet eligible for expiry."
+      },
+      {
+        "code": 316,
+        "name": "RewardsNeedsProcessing",
+        "msg": "Please collect your reward before otherwise using the program."
+      },
+      {
+        "code": 317,
+        "name": "ExpectedLockedVendor",
+        "msg": "Locked reward vendor expected but an unlocked vendor was given."
+      },
+      {
+        "code": 318,
+        "name": "ExpectedUnlockedVendor",
+        "msg": "Unlocked reward vendor expected but a locked vendor was given."
+      },
+      {
+        "code": 319,
+        "name": "InvalidVestingSigner",
+        "msg": "Locked deposit from an invalid deposit authority."
+      },
+      {
+        "code": 320,
+        "name": "UnrealizedReward",
+        "msg": "Locked rewards cannot be realized until one unstaked all tokens."
+      },
+      {
+        "code": 321,
+        "name": "InvalidBeneficiary",
+        "msg": "The beneficiary doesn't match."
+      },
+      {
+        "code": 322,
+        "name": "InvalidRealizorMetadata",
+        "msg": "The given member account does not match the realizor metadata."
+      },
+      {
+        "code": 323,
+        "name": "InvalidVestingSchedule",
+        "msg": "Invalid vesting schedule for the locked reward."
+      },
+      {
+        "code": 324,
+        "name": "InvalidProgramAuthority",
+        "msg": "Please specify the correct authority for this program."
+      },
+      {
+        "code": 325,
+        "name": "InvalidMint",
+        "msg": "Invalid mint supplied"
+      },
+      {
+        "code": 326,
+        "name": "InsufficientAmount",
+        "msg": "There is no amount for reward."
+      }
+    ]
+  }

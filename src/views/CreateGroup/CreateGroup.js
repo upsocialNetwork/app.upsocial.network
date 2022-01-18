@@ -8,12 +8,46 @@ import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
 //import $ from 'jquery';
 import Web3 from 'web3';
+
+
+// solana code
+import {
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import appConfig from '../../config';
+import {
+    getAssociatedTokenAddress,
+    createAssociatedTokenAccount,
+} from '@project-serum/associated-token';
+import { Program, Provider, BN } from '@project-serum/anchor';
+import { Connection, PublicKey } from '@solana/web3.js';
+import idl from '../../idl/registry';
+import { Token, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+const TokenInstructions = require("@project-serum/serum").TokenInstructions;
+const anchor = require("@project-serum/anchor");
+// const utils = require('../../services/utils');
+const serumCmn = require("@project-serum/common");
+
+const prgId = new anchor.web3.PublicKey("AeMuiVsa2oNGf7tnpb2dcY9wj791svsgHGiQXzscCvVT");
+
+let mint = new anchor.web3.PublicKey("FZjx1MYgGoPWaDCZhsLRhb1tKYkMHmfHSDV6Di5qv2wN");
+let god = null;
+let registrarKey = new anchor.web3.PublicKey("7xyAFmkmiNABzBHAhgpJGTwrct9gugNpN2gYctHCn5vp");
+let rewardVault = new anchor.web3.PublicKey("62rXYgV5H6teuSbNZz55MmX34zdZgBSE3n3873iTN6Xd");
+let registrarSigner = new anchor.web3.PublicKey("J6eSbGh8KBCUdshxpFZMb1zeRBzMnRTZ85pkRWqCHrqd");
+let poolMint = new anchor.web3.PublicKey("5aH5PiVrXfy4hv9xGwjZsYfMGHfk6rX8SusFjbomM8a8");
+let treasuryVault = new anchor.web3.PublicKey("Ece61k12xyNWCcHHDS33w4rSE7RWgFQJepfZdmtPvrmz");
+let TOKEN_DECIMAL_OFFSET = new anchor.BN(1000_000_000);
+const decimalVal = new anchor.BN(1000000000);
+
+
 const Community = (props) => {
 
 
 
     const history = useHistory();
-    let [name, setName] = useState(null);   
+    let [name, setName] = useState(null);
     let [type, setType] = useState(null);
     let [isAdult, setAdult] = useState(true);
     let [about, setAbout] = useState(null);
@@ -37,6 +71,11 @@ const Community = (props) => {
         event.preventDefault();
     } */
     const createGroup = (event) => {
+
+        event.preventDefault();
+        initDepositToTreasury();
+        return;
+
         Loader(true);
         let userData = Session.getSessionData();
         if (userData.wallet === null) {
@@ -47,73 +86,92 @@ const Community = (props) => {
         let formData = {
             "name": name
         }
-
-
         event.preventDefault();
         httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
-            if (response.success === true) 
-            {
+            if (response.success === true) {
                 let userData = Session.getSessionData();
 
-                console.log(userData.wallet);
-                console.log(Contract.contract_address);
+
                 console.log(userData.wallet);
 
+
+
+
+                // console.log(Contract.contract_address);
                 //const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
                 //Web3 = new Web3(new Web3.providers.HttpProvider(Contract.RPCURL));
-                Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
+
+                /* Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
                 window.ethereum.enable();
                 const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
                 NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
-                    .then(function (receipt) {
-                        console.log(receipt);
+                    .then(function (receipt) 
+                    { */
+                // set formData
+                // console.log(receipt);
+                let formData = {
+                    "name": name,
+                    "description": about,
+                    "type": type,
+                    "nsfw": isAdult,
+                    "image": image,
+                }
+
+                console.log(formData);
+                return null;
+                /* let formData = {
+                    "name": name,
+                    "description": about,
+                    "type": type,
+                    "nsfw": isAdult,
+                    "image": image,
+                    "transaction": {
+                        "_blockNumber": receipt.blockNumber,
+                        "_cumulativeGasUsed": receipt.cumulativeGasUsed,
+                        "_from": receipt.from,
+                        "_gasUsed": receipt.gasUsed,
+                        "_status": receipt.status,
+                        "_to": receipt.to,
+                        "_transactionHash": receipt.transactionHash,
+                        "_transactionIndex": receipt.transactionIndex,
+                        "_blockHash": receipt.blockHash,
+                        "_contractAddress": Contract.contract_address
+                    }
+                } */
+                httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
+                    Loader(false);
+                    if (response.success) {
+                        SuccessToast(response.result.message);
+                        history.push("/user/my-groups");
+                    }
+                    else {
+                        ErrorToast(response.result.message);
+                    }
+
+                    // finish code
 
 
+                }, function (error) {
+                    console.log(error);
+                    Loader(false);
+                    ErrorToast(error.message);
+                })
+                /* }, function (error) {
+                    console.log(error);
+                    Loader(false);
+                    ErrorToast(error.message);
+                }); */
 
-                        let formData = {
-                            "name": name,
-                            "description": about,
-                            "type": type,
-                            "nsfw": isAdult,
-                            "image": image,
-                            "transaction": {
-                                "_blockNumber": receipt.blockNumber,
-                                "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                                "_from": receipt.from,
-                                "_gasUsed": receipt.gasUsed,
-                                "_status": receipt.status,
-                                "_to": receipt.to,
-                                "_transactionHash": receipt.transactionHash,
-                                "_transactionIndex": receipt.transactionIndex,
-                                "_blockHash": receipt.blockHash,
-                                "_contractAddress": Contract.contract_address
-                            }
-                        }
-                        httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
-                            Loader(false);
-                            if (response.success) {
-                                SuccessToast(response.result.message);
-                                history.push("/user/my-groups");
-                            }
-                            else {
-                                ErrorToast(response.result.message);
-                            }
 
-                        }, function (error) {
-                            console.log(error);
-                            Loader(false);
-                            ErrorToast(error.message);
-                        })
-                    }, function (error) {
-                        console.log(error);
-                        Loader(false);
-                        ErrorToast(error.message);
-                    });
             }
             else {
                 Loader(false);
                 ErrorToast(response.result.message);
             }
+
+
+
+
         }, function (error) {
             Loader(false);
             ErrorToast(error.message);
@@ -121,6 +179,38 @@ const Community = (props) => {
         })
 
     }
+
+
+    // init deposit
+    const initDepositToTreasury = async () => {
+
+
+
+        let wallet = sessionStorage.getItem("fullwallet");
+        console.log("god wallet " + wallet.toString());
+        console.log(wallet);
+        let opts = {
+            preflightCommitment: 'recent',
+            commitment: 'recent',
+        };
+        let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
+        let provider = new Provider(connection, wallet, opts);
+        const registry = new Program(idl, prgId, provider);
+        console.log("god treasury= " + wallet);
+        console.log("treasury= " + treasuryVault);
+        console.log("provider= " + provider.toString());
+        const depositAmount = new anchor.BN(50 * decimalVal);
+        let txn = await registry.rpc.depositTreasury(depositAmount, {
+            accounts: {
+                registrar: registrarKey,
+                treasuryVault: treasuryVault,
+                depositor: provider.wallet.publicKey,
+                depositorAuthority: provider.wallet.publicKey,
+                tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID,
+            },
+        });
+        console.log("Txn infomation " + txn.toString());
+    };
 
     /* let checkGroupName = function (name) {
 
@@ -363,7 +453,7 @@ const Community = (props) => {
                                 {/* <a href="#" className="btn style-2 transparent-bg proxima-bold">Cancel</a> */}
                                 <button type="submit" onClick={(event) => { createGroup(event) }} className="btn primary-bg ms-3 proxima-bold"
 
-                                    disabled={!(name && type && image && about)}
+                                /*  disabled={!(name && type && image && about)} */
                                 >Create Group</button>
                             </div>
                         </div>

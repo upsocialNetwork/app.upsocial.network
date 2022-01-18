@@ -17,7 +17,7 @@ import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
-import Login from './Login'
+import Header from './Header'
 import Regitration from '../Registration/Registration';
 
 // Default styles that can be overridden by your app
@@ -75,11 +75,11 @@ function MainLogin() {
     return (
         <>
             <ConnectionProvider endpoint={endpoint}>
-                <WalletProvider wallets={wallets} /* autoConnect */>
+                <WalletProvider wallets={wallets} autoConnect>
                     <WalletModalProvider >
 
                         <>
-                            <Login />
+                           <Header/>
                          
                         </>
                     </WalletModalProvider>

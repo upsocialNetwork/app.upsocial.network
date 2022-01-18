@@ -6,18 +6,48 @@ import { useHistory } from "react-router-dom";
 import Web3 from 'web3';
 import Contractcustom from "../../utils/contract";
 import httpClient from '../../services/http';
-import detectEthereumProvider from '@metamask/detect-provider'
+import detectEthereumProvider from '@metamask/detect-provider';
+
+
 import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import appConfig from '../../config';
+import {
+    getAssociatedTokenAddress,
+    createAssociatedTokenAccount,
+} from '@project-serum/associated-token';
+import { Program, Provider, BN } from '@project-serum/anchor';
+import { Connection, PublicKey } from '@solana/web3.js';
+import idl from '../../idl/registry';
+import { Token, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+const TokenInstructions = require("@project-serum/serum").TokenInstructions;
+const anchor = require("@project-serum/anchor");
+// const utils = require('../../services/utils');
+const serumCmn = require("@project-serum/common");
+
+const prgId = new anchor.web3.PublicKey("AeMuiVsa2oNGf7tnpb2dcY9wj791svsgHGiQXzscCvVT");
+
+let mint = new anchor.web3.PublicKey("FZjx1MYgGoPWaDCZhsLRhb1tKYkMHmfHSDV6Di5qv2wN");
+let god = null;
+let registrarKey = new anchor.web3.PublicKey("7xyAFmkmiNABzBHAhgpJGTwrct9gugNpN2gYctHCn5vp");
+let rewardVault = new anchor.web3.PublicKey("62rXYgV5H6teuSbNZz55MmX34zdZgBSE3n3873iTN6Xd");
+let registrarSigner = new anchor.web3.PublicKey("J6eSbGh8KBCUdshxpFZMb1zeRBzMnRTZ85pkRWqCHrqd");
+let poolMint = new anchor.web3.PublicKey("5aH5PiVrXfy4hv9xGwjZsYfMGHfk6rX8SusFjbomM8a8");
+let treasuryVault = new anchor.web3.PublicKey("Ece61k12xyNWCcHHDS33w4rSE7RWgFQJepfZdmtPvrmz");
+let TOKEN_DECIMAL_OFFSET = new anchor.BN(1000_000_000);
+
+
 const Regitration = (props) => {
+
+    // const assert = require("assert");
+
 
 
     const history = useHistory();
     const validatorLogin = useRef(new SimpleReactValidator());
     const validator = useRef(new SimpleReactValidator());
-
 
     let [email, setEmail] = useState('')
     let [password, setPassword] = useState('')
@@ -192,6 +222,7 @@ const Regitration = (props) => {
                 console.log("hit");
                 console.log(publicKey.toString());
                 setWalletAddress(publicKey.toString());
+                setFullWallet(wallet);
 
             }
         })();
@@ -207,11 +238,17 @@ const Regitration = (props) => {
             wallet: walletAddress,
         };
 
+
         httpClient.call('signup', formData, { method: 'POST' }).then(function (response) {
             Loader(false);
             if (response.success == true) {
                 SuccessToast(response.result.message);
-                history.push('/auth/login');
+
+                createTokenActIfNotExist();
+
+                //  
+
+
             }
             else {
                 ErrorToast(response.result.message);
@@ -220,6 +257,93 @@ const Regitration = (props) => {
             Loader(false);
             console.log(error);
         })
+
+    }
+
+
+    let [memberAccount, setMemberAccount] = useState(null);
+    let [fullWallet, setFullWallet] = useState(null);
+
+    // create token 
+    const createTokenActIfNotExist = async () => {
+        let opts = {
+            preflightCommitment: 'recent',
+            commitment: 'recent',
+        };
+        let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
+        let provider = new Provider(connection, fullWallet, opts);
+        const registry = new Program(idl, prgId, provider);
+
+        let receiverIdoToken = await Token.getAssociatedTokenAddress(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            mint,
+            provider.wallet.publicKey
+        );
+
+        const receiverAccount = await provider.connection.getAccountInfo(receiverIdoToken);
+
+
+        if (receiverAccount === null) {
+            console.log("new receiverAccount: ");
+            let newTokenAccIx = await createAssociatedTokenAccount(
+                provider.wallet.publicKey,
+                provider.wallet.publicKey,
+                mint,
+            )
+            let newTokenAccTx = new anchor.web3.Transaction().add(newTokenAccIx);
+
+            const signature = await provider.send(newTokenAccTx);
+            console.log('SIGNATURE-create', signature);
+
+            god = await Token.getAssociatedTokenAddress(
+                ASSOCIATED_TOKEN_PROGRAM_ID,
+                TOKEN_PROGRAM_ID,
+                mint,
+                provider.wallet.publicKey
+            );
+            console.log("new receiverIdoToken: " + receiverIdoToken);
+
+            initWithdraw();
+        }
+        else {
+            god = receiverIdoToken;
+            initWithdraw();
+        }
+    }
+
+
+    // withdraw
+    const initWithdraw = async () => {
+
+        let opts = {
+            preflightCommitment: 'recent',
+            commitment: 'recent',
+        };
+        let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
+        let provider = new Provider(connection, fullWallet, opts);
+        const registry = new Program(idl, prgId, provider);
+
+        console.log("god withdraw = " + god);
+        const txn = await registry.rpc.withdraw({
+            accounts: {
+                registrar: registrarKey,
+                userVault: god,
+                poolMint: poolMint,
+                rewardVault: rewardVault,
+                tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID,
+                registrarSigner,
+            }
+        });
+        console.log("txn = " + txn.toString());
+        history.push('/auth/login');
+
+        // const tokenAct = await serumCmn.getTokenAccount(
+        //     provider,
+        //     god
+        // );
+
+        // console.log("tokenAct = " + tokenAct.amount);
 
     }
 
