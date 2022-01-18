@@ -11,10 +11,12 @@ import {
 } from '@solana/wallet-adapter-react-ui';
 import { useWallet, useConnection } from '@solana/wallet-adapter-react';
 import httpClient from '../../services/http';
+import { useDispatch } from 'react-redux';
+import { AddWalletObject } from '../Registration/action';
 
 const Login = (props) => {
 
-
+    const dispatch = useDispatch();
     const history = useHistory();
     const validatorLogin = useRef(new SimpleReactValidator());
     const validator = useRef(new SimpleReactValidator());
@@ -58,6 +60,7 @@ const Login = (props) => {
         console.log(wallet)
         if (wallet?.publicKey) {
             // console.log(wallet.publicKey.toString());
+            dispatch(AddWalletObject(wallet));
 
             let user = {
                 walletAddress: wallet.publicKey.toString()

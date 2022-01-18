@@ -7,6 +7,7 @@ import Web3 from 'web3';
 import Contractcustom from "../../utils/contract";
 import httpClient from '../../services/http';
 import detectEthereumProvider from '@metamask/detect-provider';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 import {
@@ -22,6 +23,7 @@ import { Program, Provider, BN } from '@project-serum/anchor';
 import { Connection, PublicKey } from '@solana/web3.js';
 import idl from '../../idl/registry';
 import { Token, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import { AddWalletObject } from './action';
 const TokenInstructions = require("@project-serum/serum").TokenInstructions;
 const anchor = require("@project-serum/anchor");
 // const utils = require('../../services/utils');
@@ -44,7 +46,7 @@ const Regitration = (props) => {
     // const assert = require("assert");
 
 
-
+    const dispatch = useDispatch();
     const history = useHistory();
     const validatorLogin = useRef(new SimpleReactValidator());
     const validator = useRef(new SimpleReactValidator());
@@ -223,6 +225,7 @@ const Regitration = (props) => {
                 console.log(publicKey.toString());
                 setWalletAddress(publicKey.toString());
                 setFullWallet(wallet);
+                dispatch(AddWalletObject(wallet))
 
             }
         })();

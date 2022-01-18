@@ -9,7 +9,7 @@ import httpClient from '../../services/http';
 //import $ from 'jquery';
 import Web3 from 'web3';
 
-
+import { useSelector } from 'react-redux';
 // solana code
 import {
     WalletMultiButton
@@ -45,7 +45,7 @@ const decimalVal = new anchor.BN(1000000000);
 const Community = (props) => {
 
 
-
+    const walletObj = useSelector(state => state.wallet)
     const history = useHistory();
     let [name, setName] = useState(null);
     let [type, setType] = useState(null);
@@ -184,9 +184,9 @@ const Community = (props) => {
     // init deposit
     const initDepositToTreasury = async () => {
 
-
-
+        console.log(walletObj)
         let wallet = sessionStorage.getItem("fullwallet");
+
         console.log("god wallet " + wallet.toString());
         console.log(wallet);
         let opts = {

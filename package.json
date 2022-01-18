@@ -4,12 +4,12 @@
   "private": true,
   "homepage": "/",
   "dependencies": {
+    "@metamask/detect-provider": "^1.2.0",
     "@project-serum/anchor": "^0.11.1",
     "@project-serum/associated-token": "^0.1.1",
     "@project-serum/common": "0.0.1-beta.3",
     "@project-serum/serum": "^0.13.55",
     "@project-serum/sol-wallet-adapter": "^0.2.5",
-    "@metamask/detect-provider": "^1.2.0",
     "@solana/wallet-adapter-base": "^0.6.0",
     "@solana/wallet-adapter-react": "^0.12.5",
     "@solana/wallet-adapter-react-ui": "^0.5.1",

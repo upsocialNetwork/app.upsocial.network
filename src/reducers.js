@@ -11,7 +11,8 @@ import topCommunitySearch from './views/TopGroupSearch/reducer';
 import groupPost from './views/CreateGroupPost/reducer';
 import myPost from './views/MyPosts/reducer';
 import userPost from './views/UserView/reducer';
-import notification from "./views/Notification/reducer"
+import notification from "./views/Notification/reducer";
+import wallet from './views/Registration/reducer'
 
 
 
@@ -90,7 +91,8 @@ const reducers = combineReducers({
   groupPost,
   myPost,
   userPost,
-  notification
+  notification,
+  wallet
 });
 
 
