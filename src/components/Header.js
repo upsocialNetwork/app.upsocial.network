@@ -321,11 +321,11 @@ const Header = (props) => {
                                         </li>
                                         :
 
-                                        <li className="list-group-item d-flex justify-content-between align-items-center">
+                                        <li  className="list-group-item d-flex justify-content-between align-items-center">
 
-                                            Wallet Address<br />{walletAddress}<br /> <br /> Wallet Balance<br />$ {walletBalance} <br /><br /><br /><a href="#"
+                                            Wallet Address<br />{walletAddress}<br /> {/* <br /> Wallet Balance<br />$ {walletBalance} <br /><br /><br /><a href="#"
                                                 style={{ color: '#FF416C' }} onClick={(event) => redeemToken(event)}
-                                            > Redeem</a>
+                                            > Redeem</a> */}
                                         </li>
                                     }
 

@@ -1,58 +1,50 @@
 import { useEffect, useState } from 'react';
-import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
-//import PostList from './../Home/PostList';
 import ReactQuill from 'react-quill'; // ES6
 import 'react-quill/dist/quill.snow.css';
 import httpClient from '../../services/http';
 import { useHistory, useParams } from 'react-router-dom';
 import Session from '../../utils/session';
-//import { useLocation } from "react-router-dom";
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
-
-// tech 
-//import { EditorState } from 'draft-js';
-//import { Editor } from 'react-draft-wysiwyg';
-//import { convertToHTML } from 'draft-convert';
-//import DOMPurify from 'dompurify';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+// solana code
+import { useSelector } from 'react-redux';
+import {
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import appConfig from '../../config';
+import {
+    getAssociatedTokenAddress,
+    createAssociatedTokenAccount,
+} from '@project-serum/associated-token';
+import { Program, Provider, BN } from '@project-serum/anchor';
+import { Connection, PublicKey } from '@solana/web3.js';
+import idl from '../../idl/registry';
+import { Token, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import { Loader, ErrorToast, SuccessToast } from '../../utils/common';
+const TokenInstructions = require("@project-serum/serum").TokenInstructions;
+const anchor = require("@project-serum/anchor");
+const serumCmn = require("@project-serum/common");
+const prgId = new anchor.web3.PublicKey("AeMuiVsa2oNGf7tnpb2dcY9wj791svsgHGiQXzscCvVT");
+let mint = new anchor.web3.PublicKey("FZjx1MYgGoPWaDCZhsLRhb1tKYkMHmfHSDV6Di5qv2wN");
+let god = new anchor.web3.PublicKey("2DAWEZ5FEo8qaMJXbMxXvLv2r9F1m1EVc2qMCLQRPVp5");
+let registrarKey = new anchor.web3.PublicKey("7xyAFmkmiNABzBHAhgpJGTwrct9gugNpN2gYctHCn5vp");
+let rewardVault = new anchor.web3.PublicKey("62rXYgV5H6teuSbNZz55MmX34zdZgBSE3n3873iTN6Xd");
+let registrarSigner = new anchor.web3.PublicKey("J6eSbGh8KBCUdshxpFZMb1zeRBzMnRTZ85pkRWqCHrqd");
+let poolMint = new anchor.web3.PublicKey("5aH5PiVrXfy4hv9xGwjZsYfMGHfk6rX8SusFjbomM8a8");
+let treasuryVault = new anchor.web3.PublicKey("Ece61k12xyNWCcHHDS33w4rSE7RWgFQJepfZdmtPvrmz");
+let TOKEN_DECIMAL_OFFSET = new anchor.BN(1000_000_000);
+const decimalVal = new anchor.BN(1000000000);
 
 const CreateGroupPost = (props) => {
 
-    /* const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty(),
-    ); */
-    //const [convertedContent, setConvertedContent] = useState(null);
-
-    /*  const handleEditorChange = (state) => {
-         setEditorState(state);
-         convertContentToHTML();
-     } */
-
-    /* const convertContentToHTML = () => {
-        let currentContentAsHTML = convertToHTML(editorState.getCurrentContent());
-        setConvertedContent(currentContentAsHTML);
-    } */
-
-    /* const createMarkup = (html) => {
-
-        return {
-            __html: DOMPurify.sanitize(html)
-        }
-    } */
-
-    //
+    const wallet = useSelector(state => state.wallet);
+    let mainwallet = null;
 
     const history = useHistory();
-    //const location = useLocation();
     const params = useParams();
-
-
     useEffect(() => {
-
-
-
-
         setGroupId(sessionStorage.getItem("CREATEGROUPPOSTID"));
         let userData = Session.isLoggedIn();
         if (!userData) {
@@ -66,137 +58,30 @@ const CreateGroupPost = (props) => {
     let [isAdult, setAdult] = useState(false);
     let [data, setData] = useState();
     let [isText, setText] = useState(false);
-    let [id, setId] = useState(0);
+    let [id, setId] = useState();
     let [dataType, setDataType] = useState();
     let [postType, setPostType] = useState();
-
-
-
 
     const savePost = (event) => {
         Loader(true);
         event.preventDefault();
-        let fd = {};
-
         if (isText) {
-            fd = {
-                "group": {
-                    "id": groupId
-                },
-                "type": "text",
-                "name": title,
-                "data": data,
-                "dataType": ".txt",
-                "nsfw": isAdult
 
-            };
-            let userData = Session.getSessionData();
-            Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-            window.ethereum.enable();
-            const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-            console.log(NameContract);
-            NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
-                .then(function (receipt) {
-                    console.log(receipt);
-                    let transaction = {
-                        "_blockNumber": receipt.blockNumber,
-                        "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                        "_from": receipt.from,
-                        "_gasUsed": receipt.gasUsed,
-                        "_status": receipt.status,
-                        "_to": receipt.to,
-                        "_transactionHash": receipt.transactionHash,
-                        "_transactionIndex": receipt.transactionIndex,
-                        "_blockHash": receipt.blockHash,
-                        "_contractAddress": Contract.contract_address
-                    }
-                    fd['transaction'] = transaction;
-                    httpClient.call('upload-group-post', fd, { method: 'POST' }).then(function (response) {
-                        Loader(false);
-                        if (response.success) {
-                            SuccessToast(response.result.message);
-                            sessionStorage.setItem("GETGROUPDETAILS", groupId);
-                            history.push('/group/details/' + sessionStorage.getItem("CREATEGROUPPOSTNAME"));
-
-
-                        }
-                        else {
-                            ErrorToast(response.result.message);
-                        }
-                    }, function (error) {
-                        Loader(false);
-                        ErrorToast(error.message);
-                    })
-
-                }, function (error) {
-                    Loader(false);
-                    ErrorToast(error.message);
-                    console.log(error);
-                });
-
+            console.log("text block calling");
+            initDepositToTreasury(0);
         }
         else {
 
+            console.log("image block calling");
             const formData = new FormData();
             formData.append('file', data);
             httpClient.call('upload-media', formData, { method: 'POST' }).then(function (response) {
                 if (response.success) {
-                    //SuccessToast(response.result.message);
-                    // console.log(response);
-                    setId(response.result.data.id);
-                    fd = {
-                        "group": {
-                            "id": groupId
-                        },
-                        "id": response.result.data.id,
-                        "type": postType,
-                        "name": title,
-                        "dataType": dataType,
-                        "nsfw": isAdult
-
-                    };
-                    let userData = Session.getSessionData();
-                    Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-                    window.ethereum.enable();
-                    const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-                    console.log(NameContract);
-                    NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
-                        .then(function (receipt) {
-                            console.log(receipt);
-                            let transaction = {
-                                "_blockNumber": receipt.blockNumber,
-                                "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                                "_from": receipt.from,
-                                "_gasUsed": receipt.gasUsed,
-                                "_status": receipt.status,
-                                "_to": receipt.to,
-                                "_transactionHash": receipt.transactionHash,
-                                "_transactionIndex": receipt.transactionIndex,
-                                "_blockHash": receipt.blockHash,
-                                "_contractAddress": Contract.contract_address
-                            }
-                            fd['transaction'] = transaction;
-                            httpClient.call('upload-post', fd, { method: 'POST' }).then(function (response) {
-                                Loader(false);
-                                if (response.success) {
-                                    SuccessToast(response.result.message);
-                                    sessionStorage.setItem("GETGROUPDETAILS", groupId);
-                                    history.push('/group/details/' + sessionStorage.getItem("CREATEGROUPPOSTNAME"));
-                                }
-                                else {
-                                    ErrorToast(response.result.message);
-                                }
-
-                            }, function (error) {
-                                Loader(false);
-                                ErrorToast(error.message);
-                            })
-                        }, function (error) {
-                            Loader(false);
-                            ErrorToast(error.message);
-                            console.log(error);
-                        });
-
+                    let userData = response.result.data;
+                    console.log(userData)
+                    setId(userData.id);
+                    setText(false);
+                    initDepositToTreasury(userData.id);
                 }
                 else {
                     Loader(false);
@@ -207,6 +92,122 @@ const CreateGroupPost = (props) => {
                 ErrorToast(error.message);
             })
         }
+    }
+
+    const initDepositToTreasury = async (postid) => {
+        console.log(mainwallet);
+        console.log(wallet);
+        mainwallet = wallet.walletObj;
+        let opts = {
+            preflightCommitment: 'recent',
+            commitment: 'recent',
+        };
+        let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
+        let provider = new Provider(connection, mainwallet, opts);
+        const registry = new Program(idl, prgId, provider);
+        console.log("before token account");
+        console.log(provider);
+        console.log(provider.wallet.publicKey.toString());
+
+        let receiverIdoToken = await Token.getAssociatedTokenAddress(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            mint,
+            provider.wallet.publicKey
+        );
+        console.log("after token account");
+
+
+        console.log(receiverIdoToken.toString());
+        console.log("god treasury= " + provider.wallet.publicKey.toString());
+        console.log("treasury= " + treasuryVault);
+        console.log("provider= " + provider.wallet.publicKey.toString());
+        const depositAmount = new anchor.BN(1 * decimalVal);
+        let txn = await registry.rpc.depositTreasury(depositAmount, {
+            accounts: {
+                registrar: registrarKey,
+                treasuryVault: treasuryVault,
+                depositor: receiverIdoToken,
+                depositorAuthority: provider.wallet.publicKey,
+                tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID,
+            },
+        });
+        console.log("Txn infomation " + txn.toString());
+
+        if (txn.toString() !== null) {
+
+            if (isText == true) {
+                console.log("text block calling 1");
+                uploadGroupPost();
+            }
+            else {
+                console.log("image block calling 2");
+                console.log("id is" + postid);
+                uploadPost(postid);
+            }
+        }
+    };
+
+
+    const uploadGroupPost = () => {
+
+        let fd = {
+            "group": {
+                "id": groupId
+            },
+            "type": "text",
+            "name": title,
+            "data": data,
+            "dataType": ".txt",
+            "nsfw": isAdult
+
+        };
+        httpClient.call('upload-group-post', fd, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                sessionStorage.setItem("GETGROUPDETAILS", groupId);
+                history.push('/group/details/' + sessionStorage.getItem("CREATEGROUPPOSTNAME"));
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            ErrorToast(error.message);
+        })
+    }
+
+    const uploadPost = (postid) => {
+
+        let fd = {
+            "group": {
+                "id": groupId
+            },
+            "id": postid,
+            "type": postType,
+            "name": title,
+            "dataType": dataType,
+            "nsfw": isAdult
+
+        };
+
+        httpClient.call('upload-post', fd, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                sessionStorage.setItem("GETGROUPDETAILS", groupId);
+                history.push('/group/details/' + sessionStorage.getItem("CREATEGROUPPOSTNAME"));
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+
+        }, function (error) {
+            Loader(false);
+            ErrorToast(error.message);
+        })
+
     }
 
     const convertFileToBase64 = (data) => {

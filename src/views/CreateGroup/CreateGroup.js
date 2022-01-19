@@ -6,11 +6,9 @@ import Contract from "../../utils/contract"
 import { useHistory } from "react-router-dom";
 import ReactQuill from 'react-quill'; // ES6
 import httpClient from '../../services/http';
-//import $ from 'jquery';
 import Web3 from 'web3';
-
-import { useSelector } from 'react-redux';
 // solana code
+import { useSelector } from 'react-redux';
 import {
     WalletMultiButton
 } from '@solana/wallet-adapter-react-ui';
@@ -26,11 +24,8 @@ import idl from '../../idl/registry';
 import { Token, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 const TokenInstructions = require("@project-serum/serum").TokenInstructions;
 const anchor = require("@project-serum/anchor");
-// const utils = require('../../services/utils');
 const serumCmn = require("@project-serum/common");
-
 const prgId = new anchor.web3.PublicKey("AeMuiVsa2oNGf7tnpb2dcY9wj791svsgHGiQXzscCvVT");
-
 let mint = new anchor.web3.PublicKey("FZjx1MYgGoPWaDCZhsLRhb1tKYkMHmfHSDV6Di5qv2wN");
 let god = new anchor.web3.PublicKey("2DAWEZ5FEo8qaMJXbMxXvLv2r9F1m1EVc2qMCLQRPVp5");
 let registrarKey = new anchor.web3.PublicKey("7xyAFmkmiNABzBHAhgpJGTwrct9gugNpN2gYctHCn5vp");
@@ -59,139 +54,36 @@ const Community = (props) => {
         if (!userData) {
             history.push('/auth/login');
         }
-        console.log(wallet.walletObj);
-        mainwallet = wallet.walletObj;
-
-        /*  const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-         console.log(web3);
-         var Contract = require('web3-eth-contract');
-         var contract = new Contract(Contract.contract_abi, Contract.contract_address);
-         console.log(contract); */
-
     }, []);
 
-    /* const navigate = (event) => {
+    async function createGroup(event) {
         event.preventDefault();
-    } */
-    const createGroup = (event) => {
-
-        event.preventDefault();
-        initDepositToTreasury();
-        return;
-
+        console.log("calling method");
         Loader(true);
-        let userData = Session.getSessionData();
-        if (userData.wallet === null) {
-            Loader(false);
-            ErrorToast("Wallet not connectd");
-            return null;
-        }
         let formData = {
             "name": name
         }
         event.preventDefault();
         httpClient.call('check-group-name', formData, { method: 'POST' }).then(function (response) {
             if (response.success === true) {
-                let userData = Session.getSessionData();
 
-
-                console.log(userData.wallet);
-
-
-
-
-                // console.log(Contract.contract_address);
-                //const web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-                //Web3 = new Web3(new Web3.providers.HttpProvider(Contract.RPCURL));
-
-                /* Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-                window.ethereum.enable();
-                const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-                NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
-                    .then(function (receipt) 
-                    { */
-                // set formData
-                // console.log(receipt);
-                let formData = {
-                    "name": name,
-                    "description": about,
-                    "type": type,
-                    "nsfw": isAdult,
-                    "image": image,
-                }
-
-                console.log(formData);
-                return null;
-                /* let formData = {
-                    "name": name,
-                    "description": about,
-                    "type": type,
-                    "nsfw": isAdult,
-                    "image": image,
-                    "transaction": {
-                        "_blockNumber": receipt.blockNumber,
-                        "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                        "_from": receipt.from,
-                        "_gasUsed": receipt.gasUsed,
-                        "_status": receipt.status,
-                        "_to": receipt.to,
-                        "_transactionHash": receipt.transactionHash,
-                        "_transactionIndex": receipt.transactionIndex,
-                        "_blockHash": receipt.blockHash,
-                        "_contractAddress": Contract.contract_address
-                    }
-                } */
-                httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
-                    Loader(false);
-                    if (response.success) {
-                        SuccessToast(response.result.message);
-                        history.push("/user/my-groups");
-                    }
-                    else {
-                        ErrorToast(response.result.message);
-                    }
-
-                    // finish code
-
-
-                }, function (error) {
-                    console.log(error);
-                    Loader(false);
-                    ErrorToast(error.message);
-                })
-                /* }, function (error) {
-                    console.log(error);
-                    Loader(false);
-                    ErrorToast(error.message);
-                }); */
-
-
+                initDepositToTreasury();
             }
             else {
                 Loader(false);
                 ErrorToast(response.result.message);
             }
-
-
-
-
         }, function (error) {
             Loader(false);
             ErrorToast(error.message);
             console.log(error);
         })
-
     }
 
-
-    // init deposit
     const initDepositToTreasury = async () => {
-
         console.log(mainwallet);
-        // let wallet = sessionStorage.getItem("fullwallet");
-
-        //  console.log("god wallet " + wallet.toString());
-        //console.log(wallet);
+        console.log(wallet);
+        mainwallet = wallet.walletObj;
         let opts = {
             preflightCommitment: 'recent',
             commitment: 'recent',
@@ -212,13 +104,10 @@ const Community = (props) => {
         console.log("after token account");
 
 
-        //  const receiverAccount = await provider.connection.getAccountInfo(receiverIdoToken);
-
         console.log(receiverIdoToken.toString());
         console.log("god treasury= " + provider.wallet.publicKey.toString());
         console.log("treasury= " + treasuryVault);
         console.log("provider= " + provider.wallet.publicKey.toString());
-        //console.log(provider.wallet.publicKey);
         const depositAmount = new anchor.BN(1 * decimalVal);
         let txn = await registry.rpc.depositTreasury(depositAmount, {
             accounts: {
@@ -230,109 +119,41 @@ const Community = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
+
+        if (txn.toString() !== null) {
+            saveGroupData();
+        }
     };
 
-    /* let checkGroupName = function (name) {
 
-        let formData1 = {
-            "name": name
-        };
+
+    const saveGroupData = () => {
         let formData = {
             "name": name,
             "description": about,
             "type": type,
             "nsfw": isAdult,
-            "image": image
+            "image": image,
         }
 
-
-
-        httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
-            if (response.success == true) {
-
-                return true;
-                let userData = Session.getSessionData();
-                let smartContractResult = Contract.transfer(userData.wallet);
-                console.log(smartContractResult.status);
-                let formData = {
-                    "name": name,
-                    "description": about,
-                    "type": type,
-                    "nsfw": isAdult,
-                    "image": image
-                }
-                if (smartContractResult.status === true) {
-                    httpClient.call("create-group", formData, { method: 'POST' }).then(function (response) {
-                        Loader(false);
-                        SuccessToast(response.result.message);
-                        history.push('/user/my-groups')
-                    }, function (error) {
-                        Loader(false);
-                        console.log(error);
-                    })
-
-                }
-                else {
-                    Loader(false);
-                    console.log(smartContractResult);
-                }
-
+        httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+                history.push("/user/my-groups");
             }
             else {
-                Loader(false);
                 ErrorToast(response.result.message);
-                return false;
             }
         }, function (error) {
-            Loader(false);
             console.log(error);
-        })
-
-    } */
-
-    /* const checkGroupName = (name) => {
-        let formData1 = {
-            "name": name
-        };
-        httpClient.call('check-group-name', formData1, { method: 'POST' }).then(function (response) {
-            if (response.success == true) {
-                let userData = Session.getSessionData();
-                let smartContractResult = Contract.transfer(userData.wallet);
-                console.log(smartContractResult.status);
-                let formData = {
-                    "name": name,
-                    "description": about,
-                    "type": type,
-                    "nsfw": isAdult,
-                    "image": image
-                }
-                if (smartContractResult.status === true) {
-                    httpClient.call("create-group", formData, { method: 'POST' }).then(function (response) {
-                        Loader(false);
-                        SuccessToast(response.result.message);
-                        history.push('/user/my-groups')
-                    }, function (error) {
-                        Loader(false);
-                        console.log(error);
-                    })
-
-                }
-                else {
-                    Loader(false);
-                    console.log(smartContractResult);
-                }
-
-            }
-            else {
-                Loader(false);
-                ErrorToast(response.result.message);
-
-            }
-        }, function (error) {
             Loader(false);
-            console.log(error);
+            ErrorToast(error.message);
         })
-    } */
+    }
+
+
+
 
 
     const convertFileToBase64 = (data) => {
@@ -473,7 +294,7 @@ const Community = (props) => {
                                 {/* <a href="#" className="btn style-2 transparent-bg proxima-bold">Cancel</a> */}
                                 <button type="submit" onClick={(event) => { createGroup(event) }} className="btn primary-bg ms-3 proxima-bold"
 
-                                /*  disabled={!(name && type && image && about)} */
+                                    disabled={!(name && type && image && about)}
                                 >Create Group</button>
                             </div>
                         </div>

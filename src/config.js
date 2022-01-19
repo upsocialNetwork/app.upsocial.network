@@ -22,7 +22,6 @@
   'REGISTRAR_SIGNER': '2ayTvCYU9RVHgrfituQgCCGN7EZyn7skEbBbhTTgG9Dx',
   'REWARD_VAULT': 'GJi9A9WForLoUGC3dgovRrk5XKZsnuYRgBUxpNymhCCJ'
 } */
-
 let appConfig = {
   'APP_ENV': 'Local',
   'APP_PUBLIC_URL': '',

@@ -159,7 +159,7 @@ const PostAttributes = (props) => {
 
 
 
-    const pageDetails = (event,name) => {
+    const pageDetails = (event, name) => {
 
         event.preventDefault();
         const id = element.id;
@@ -174,7 +174,7 @@ const PostAttributes = (props) => {
             }); */
 
 
-            
+
             name = name.replace(/ /g, "_");
             sessionStorage.setItem("POSTDETAILSID", id);
             history.push('/post-details/' + name);
@@ -229,6 +229,25 @@ const PostAttributes = (props) => {
         formData = {
             "postId": postId
         }
+
+        httpClient.call('promote-post', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                SuccessToast(response.result.message);
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+
+        }, function (error) {
+            Loader(false);
+            ErrorToast(error.message);
+        })
+
+
+        /*
+
+
         httpClient.call('check-promote-post', formData, { method: 'POST' }).then(function (response) {
             if (response.success == true) {
                 let userData = Session.getSessionData();
@@ -281,6 +300,8 @@ const PostAttributes = (props) => {
             ErrorToast(error.message);
             console.log(error);
         })
+
+        */
     }
 
 
@@ -293,6 +314,11 @@ const PostAttributes = (props) => {
             ErrorToast("Invalid value");
             return false;
         }
+        $("#transfertokenvalue").val(0);
+        document.getElementById('modal-closed').click();
+
+        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
+        return null;
 
         Loader(true);
         event.preventDefault();
@@ -422,8 +448,8 @@ const PostAttributes = (props) => {
 
                 </ul>
                 <ul className="p-curd-right">
-                    <li><span  style={{ color: '#FF416C' }}>{element.commentCount}</span> &nbsp;<button data-bs-toggle="collapse" data-bs-target="#comment-1"
-                        onClick={(event) => { pageDetails(event,element.name) }}
+                    <li><span style={{ color: '#FF416C' }}>{element.commentCount}</span> &nbsp;<button data-bs-toggle="collapse" data-bs-target="#comment-1"
+                        onClick={(event) => { pageDetails(event, element.name) }}
                     ><img src="img/sms.svg" alt="" /></button></li>
 
                     {userData !== null ?
