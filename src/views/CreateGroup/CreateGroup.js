@@ -119,21 +119,23 @@ const Community = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
+        let transactionHash=txn.toString();
 
         if (txn.toString() !== null) {
-            saveGroupData();
+            saveGroupData(transactionHash);
         }
     };
 
 
 
-    const saveGroupData = () => {
+    const saveGroupData = (transactionHash) => {
         let formData = {
             "name": name,
             "description": about,
             "type": type,
             "nsfw": isAdult,
             "image": image,
+            "transactionHash":transactionHash
         }
 
         httpClient.call('create-group', formData, { method: 'POST' }).then(function (response) {

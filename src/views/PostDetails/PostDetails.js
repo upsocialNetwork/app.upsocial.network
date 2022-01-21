@@ -344,27 +344,29 @@ const PostDetails = (props) => {
         });
         console.log("Txn infomation " + txn.toString());
 
+        let transactionHash=txn.toString();
         if (txn.toString() !== null) {
 
             if (parentid === null || parentid === 0) {
                 console.log("text block calling 1");
-                uploadParentComment(postid);
+                uploadParentComment(postid,transactionHash);
             }
             else {
                 console.log("image block calling 2");
                 console.log("id is" + postid);
-                uploadChildComment(parentid, postid);
+                uploadChildComment(parentid, postid,transactionHash);
             }
         }
     };
 
 
-    const uploadParentComment = (postid) => {
+    const uploadParentComment = (postid,transactionHash) => {
 
         let formData = {
             "data": commentMessage,
             "parentId": 0,
-            "postId": postid
+            "postId": postid,
+            "transactionHash":transactionHash
         }
 
         httpClient.call('upload-comment', formData, { method: 'POST' }).then(function (response) {
@@ -385,12 +387,13 @@ const PostDetails = (props) => {
         })
     }
 
-    const uploadChildComment = (parentid, postid) => {
+    const uploadChildComment = (parentid, postid,transactionHash) => {
 
         let formData = {
             "data": commentMessage,
             "parentId": parentid,
-            "postId": postid
+            "postId": postid,
+            "transactionHash":transactionHash
         }
 
         httpClient.call('upload-comment', formData, { method: 'POST' }).then(function (response) {

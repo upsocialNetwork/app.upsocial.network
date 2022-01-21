@@ -236,8 +236,8 @@ const Regitration = (props) => {
 
         event.preventDefault();
 
-        createTokenActIfNotExist();
-        return null;
+        // createTokenActIfNotExist();
+        // return null;
         Loader(true);
         let formData = {
             userName: signupUserName,

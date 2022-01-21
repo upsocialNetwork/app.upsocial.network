@@ -7,13 +7,48 @@ import $ from 'jquery';
 import Contract from "../../utils/contract";
 import Web3 from 'web3';
 import { Icon } from '@iconify/react';
+
+// solana dependency
+import { useSelector } from 'react-redux';
+import {
+    WalletMultiButton
+} from '@solana/wallet-adapter-react-ui';
+import { useWallet, useConnection } from '@solana/wallet-adapter-react';
+import appConfig from '../../config';
+import {
+    getAssociatedTokenAddress,
+    createAssociatedTokenAccount,
+} from '@project-serum/associated-token';
+import { Program, Provider, BN } from '@project-serum/anchor';
+import { Connection, PublicKey } from '@solana/web3.js';
+import idl from '../../idl/registry';
+import { Token, ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+const TokenInstructions = require("@project-serum/serum").TokenInstructions;
+const anchor = require("@project-serum/anchor");
+const serumCmn = require("@project-serum/common");
+const prgId = new anchor.web3.PublicKey("AeMuiVsa2oNGf7tnpb2dcY9wj791svsgHGiQXzscCvVT");
+let mint = new anchor.web3.PublicKey("FZjx1MYgGoPWaDCZhsLRhb1tKYkMHmfHSDV6Di5qv2wN");
+let god = new anchor.web3.PublicKey("2DAWEZ5FEo8qaMJXbMxXvLv2r9F1m1EVc2qMCLQRPVp5");
+let registrarKey = new anchor.web3.PublicKey("7xyAFmkmiNABzBHAhgpJGTwrct9gugNpN2gYctHCn5vp");
+let rewardVault = new anchor.web3.PublicKey("62rXYgV5H6teuSbNZz55MmX34zdZgBSE3n3873iTN6Xd");
+let registrarSigner = new anchor.web3.PublicKey("J6eSbGh8KBCUdshxpFZMb1zeRBzMnRTZ85pkRWqCHrqd");
+let poolMint = new anchor.web3.PublicKey("5aH5PiVrXfy4hv9xGwjZsYfMGHfk6rX8SusFjbomM8a8");
+let treasuryVault = new anchor.web3.PublicKey("Ece61k12xyNWCcHHDS33w4rSE7RWgFQJepfZdmtPvrmz");
+let TOKEN_DECIMAL_OFFSET = new anchor.BN(1000_000_000);
+const decimalVal = new anchor.BN(1000000000);
+
+
 const PostAttributes = (props) => {
+
+
+    // solana
+    const wallet = useSelector(state => state.wallet);
+    let mainwallet = null;
 
     const history = useHistory();
     let element = props.postData;
     let [transferTokenValue, setTransferTokenValue] = useState(null);
-
-
+    let [isPromoted, setPromoted] = useState(false);
     let [isLike, setIsLike] = useState(false);
     let [isDisLike, setIsDisLike] = useState(false);
     let [likesCount, setLikesCount] = useState(0);
@@ -214,6 +249,7 @@ const PostAttributes = (props) => {
 
 
     const promotePost = (event, postId) => {
+        console.log("--save promote post 0 -");
         Loader(true);
         event.preventDefault();
         //console.log(postId);
@@ -224,12 +260,33 @@ const PostAttributes = (props) => {
             return null;
         }
 
-        let formData = {};
-
-        formData = {
+        let formData = {
             "postId": postId
         }
 
+        httpClient.call('check-promote-post', formData, { method: 'POST' }).then(function (response) {
+            if (response.success == true) {
+                initDepositToTreasury(postId, 0 , true);
+            }
+            else {
+                Loader(false);
+                ErrorToast(response.result.message);
+            }
+
+        }, function (error) {
+            Loader(false);
+            ErrorToast(error.message);
+            console.log(error);
+        })
+    }
+
+
+    const savePromotePostData = (postId, transactionHash) => {
+        console.log("--save promote post 2 -");
+        let formData = {
+            "postId": postId,
+            "transactionHash": transactionHash
+        }
         httpClient.call('promote-post', formData, { method: 'POST' }).then(function (response) {
             Loader(false);
             if (response.success) {
@@ -244,135 +301,114 @@ const PostAttributes = (props) => {
             ErrorToast(error.message);
         })
 
-
-
-        /*
-                
-                httpClient.call('check-promote-post', formData, { method: 'POST' }).then(function (response) {
-                    if (response.success == true) {
-                        let userData = Session.getSessionData();
-                        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-                       
-                        window.ethereum.enable();
-                        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-                        console.log(NameContract);
-                        NameContract.methods.transfer(Contract.upsocial_wallet, "1000000000000000000").send({ from: userData.wallet })
-                            .then(function (receipt) {
-                                console.log(receipt);
-                                let transaction = {
-                                    "_blockNumber": receipt.blockNumber,
-                                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                                    "_from": receipt.from,
-                                    "_gasUsed": receipt.gasUsed,
-                                    "_status": receipt.status,
-                                    "_to": receipt.to,
-                                    "_transactionHash": receipt.transactionHash,
-                                    "_transactionIndex": receipt.transactionIndex,
-                                    "_blockHash": receipt.blockHash,
-                                    "_contractAddress": Contract.contract_address
-                                }
-                                formData['transaction'] = transaction;
-                                httpClient.call('promote-post', formData, { method: 'POST' }).then(function (response) {
-                                    Loader(false);
-                                    if (response.success) {
-                                        SuccessToast(response.result.message);
-                                    }
-                                    else {
-                                        ErrorToast(response.result.message);
-                                    }
-        
-                                }, function (error) {
-                                    Loader(false);
-                                    ErrorToast(error.message);
-                                })
-                            }, function (error) {
-                                Loader(false);
-                                ErrorToast(error.message);
-                                console.log(error);
-                            });
-                    }
-                    else {
-                        Loader(false);
-                        ErrorToast(response.result.message);
-                    }
-        
-                    
-    }, function (error) {
-        Loader(false);
-        ErrorToast(error.message);
-        console.log(error);
-    })*/
     }
 
-
     const giveAward = (event, postId) => {
+
+        Loader(true);
         event.preventDefault();
         let token = $("#transfertokenvalue").val();
-
-
         if (token <= 0) {
             ErrorToast("Invalid value");
             return false;
         }
-        $("#transfertokenvalue").val(0);
-        document.getElementById('modal-closed').click();
+        setPromoted(false);
+        initDepositToTreasury(postId, token,false);
+    }
 
-        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
-        return null;
-
-        Loader(true);
-        event.preventDefault();
+    const saveGiveRewardData = (postId, transactionHash) => {
+        let token = $("#transfertokenvalue").val();
         let formData = {};
         formData =
         {
             "postId": postId,
-            "tokens": token
+            "tokens": token,
+            "transactionHash": transactionHash
         }
 
-        let userData = Session.getSessionData();
-        Web3 = new Web3(Web3.givenProvider || "https://data-seed-prebsc-1-s1.binance.org:8545");
-        //Web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
-        window.ethereum.enable();
-        const NameContract = new Web3.eth.Contract(Contract.contract_abi, Contract.contract_address);
-        console.log(NameContract);
-        NameContract.methods.transfer(Contract.upsocial_wallet, (token * 1000000000000000000).toString()).send({ from: userData.wallet })
-            .then(function (receipt) {
-                console.log(receipt);
-                let transaction = {
-                    "_blockNumber": receipt.blockNumber,
-                    "_cumulativeGasUsed": receipt.cumulativeGasUsed,
-                    "_from": receipt.from,
-                    "_gasUsed": receipt.gasUsed,
-                    "_status": receipt.status,
-                    "_to": receipt.to,
-                    "_transactionHash": receipt.transactionHash,
-                    "_transactionIndex": receipt.transactionIndex,
-                    "_blockHash": receipt.blockHash,
-                    "_contractAddress": Contract.contract_address
-                }
-                formData['transaction'] = transaction;
-                httpClient.call('give-reward', formData, { method: 'POST' }).then(function (response) {
-                    Loader(false);
-                    if (response.success) {
-                        $("#transfertokenvalue").val(0);
-                        SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
-                        document.getElementById('modal-closed').click();
-                    }
-                    else {
-                        ErrorToast(response.result.message);
-                    }
-
-                }, function (error) {
-                    Loader(false);
-                    ErrorToast(error.message);
-                })
-            }, function (error) {
-                Loader(false);
-                ErrorToast(error.message);
-                console.log(error);
-            });
-
+        httpClient.call('give-reward', formData, { method: 'POST' }).then(function (response) {
+            Loader(false);
+            if (response.success) {
+                $("#transfertokenvalue").val(0);
+                SuccessToast("Sending " + token + " USN to creator, please wait a moment.");
+                document.getElementById('modal-closed').click();
+            }
+            else {
+                ErrorToast(response.result.message);
+            }
+        }, function (error) {
+            Loader(false);
+            ErrorToast(error.message);
+            console.log(error);
+        });
     }
+
+
+
+
+    const initDepositToTreasury = async (postId, token,isStatus) => {
+        //console.log(mainwallet);
+        // console.log(wallet);
+        mainwallet = wallet.walletObj;
+        let opts = {
+            preflightCommitment: 'recent',
+            commitment: 'recent',
+        };
+        let connection = new Connection("https://api.devnet.solana.com", opts.preflightCommitment);
+        let provider = new Provider(connection, mainwallet, opts);
+        const registry = new Program(idl, prgId, provider);
+        //console.log("before token account");
+        // console.log(provider);
+        // console.log(provider.wallet.publicKey.toString());
+
+        let receiverIdoToken = await Token.getAssociatedTokenAddress(
+            ASSOCIATED_TOKEN_PROGRAM_ID,
+            TOKEN_PROGRAM_ID,
+            mint,
+            provider.wallet.publicKey
+        );
+        // console.log("after token account");
+
+
+        //  console.log(receiverIdoToken.toString());
+        //  console.log("god treasury= " + provider.wallet.publicKey.toString());
+        //  console.log("treasury= " + treasuryVault);
+        //  console.log("provider= " + provider.wallet.publicKey.toString());
+
+        let amt = 1;
+        if (token <= 0) {
+            amt = 1;
+        }
+        else {
+            amt = token;
+        }
+
+        const depositAmount = new anchor.BN(amt * decimalVal);
+        let txn = await registry.rpc.depositTreasury(depositAmount, {
+            accounts: {
+                registrar: registrarKey,
+                treasuryVault: treasuryVault,
+                depositor: receiverIdoToken,
+                depositorAuthority: provider.wallet.publicKey,
+                tokenProgram: TokenInstructions.TOKEN_PROGRAM_ID,
+            },
+        });
+        // console.log("Txn infomation " + txn.toString());
+        let transactionHash = txn.toString();
+
+        if (txn.toString() !== null) {
+
+
+            if (isStatus) {
+                console.log("--save promote post 1 -");
+                savePromotePostData(postId, transactionHash);
+            }
+            else {
+                console.log("--save reward post 1 -");
+                saveGiveRewardData(postId, transactionHash);
+            }
+        }
+    };
 
 
     return (

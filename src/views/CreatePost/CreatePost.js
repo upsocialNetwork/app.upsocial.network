@@ -164,29 +164,31 @@ const CreatePost = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
+        let transactionHash=txn.toString();
 
         if (txn.toString() !== null) {
 
             if (isText == true) {
                 console.log("text block calling 1");
-                uploadTimelinePost();
+                uploadTimelinePost(transactionHash);
             }
             else {
                 console.log("image block calling 2");
                 console.log("id is" + postid);
-                uploadPost(postid);
+                uploadPost(postid,transactionHash);
             }
         }
     };
 
 
-    const uploadTimelinePost = () => {
+    const uploadTimelinePost = (transactionHash) => {
         let fd = {
             "type": "text",
             "name": title,
             "data": data,
             "dataType": ".txt",
-            "nsfw": isAdult
+            "nsfw": isAdult,
+            "transactionHash":transactionHash
 
         };
         httpClient.call('upload-timline-post', fd, { method: 'POST' }).then(function (response) {
@@ -204,14 +206,15 @@ const CreatePost = (props) => {
         })
     }
 
-    const uploadPost = (postid) => {
+    const uploadPost = (postid,transactionHash) => {
 
         let fd = {
             "id": postid,
             "type": postType,
             "name": title,
             "dataType": dataType,
-            "nsfw": isAdult
+            "nsfw": isAdult,
+            "transactionHash":transactionHash
 
         };
 

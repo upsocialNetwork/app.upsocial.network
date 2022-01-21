@@ -139,18 +139,20 @@ const EditGroup = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
+        let transactionHash=txn.toString();
         if (txn.toString() !== null) {
-            updateGroupData();
+            updateGroupData(transactionHash);
         }
     };
-    const updateGroupData = () => {
+    const updateGroupData = (transactionHash) => {
         let formData = {
             "id": id,
             "name": name,
             "description": about,
             "type": type,
             "nsfw": isAdult,
-            "image": image
+            "image": image,
+            "transactionHash":transactionHash
         }
         httpClient.call('update-group', formData, { method: 'PUT' }).then(function (response) {
             Loader(false);

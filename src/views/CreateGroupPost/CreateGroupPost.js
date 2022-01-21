@@ -133,23 +133,24 @@ const CreateGroupPost = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
+        let transactionHash=txn.toString();
 
         if (txn.toString() !== null) {
 
             if (isText == true) {
                 console.log("text block calling 1");
-                uploadGroupPost();
+                uploadGroupPost(transactionHash);
             }
             else {
                 console.log("image block calling 2");
                 console.log("id is" + postid);
-                uploadPost(postid);
+                uploadPost(postid,transactionHash);
             }
         }
     };
 
 
-    const uploadGroupPost = () => {
+    const uploadGroupPost = (transactionHash) => {
 
         let fd = {
             "group": {
@@ -159,7 +160,8 @@ const CreateGroupPost = (props) => {
             "name": title,
             "data": data,
             "dataType": ".txt",
-            "nsfw": isAdult
+            "nsfw": isAdult,
+            "transactionHash":transactionHash
 
         };
         httpClient.call('upload-group-post', fd, { method: 'POST' }).then(function (response) {
@@ -178,7 +180,7 @@ const CreateGroupPost = (props) => {
         })
     }
 
-    const uploadPost = (postid) => {
+    const uploadPost = (postid,transactionHash) => {
 
         let fd = {
             "group": {
@@ -188,7 +190,8 @@ const CreateGroupPost = (props) => {
             "type": postType,
             "name": title,
             "dataType": dataType,
-            "nsfw": isAdult
+            "nsfw": isAdult,
+            "transactionHash":transactionHash
 
         };
 
