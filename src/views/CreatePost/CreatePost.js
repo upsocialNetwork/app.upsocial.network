@@ -164,7 +164,7 @@ const CreatePost = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
-        let transactionHash=txn.toString();
+        let transactionHash = txn.toString();
 
         if (txn.toString() !== null) {
 
@@ -175,7 +175,7 @@ const CreatePost = (props) => {
             else {
                 console.log("image block calling 2");
                 console.log("id is" + postid);
-                uploadPost(postid,transactionHash);
+                uploadPost(postid, transactionHash);
             }
         }
     };
@@ -188,7 +188,7 @@ const CreatePost = (props) => {
             "data": data,
             "dataType": ".txt",
             "nsfw": isAdult,
-            "transactionHash":transactionHash
+            "transactionHash": transactionHash
 
         };
         httpClient.call('upload-timline-post', fd, { method: 'POST' }).then(function (response) {
@@ -206,7 +206,7 @@ const CreatePost = (props) => {
         })
     }
 
-    const uploadPost = (postid,transactionHash) => {
+    const uploadPost = (postid, transactionHash) => {
 
         let fd = {
             "id": postid,
@@ -214,7 +214,7 @@ const CreatePost = (props) => {
             "name": title,
             "dataType": dataType,
             "nsfw": isAdult,
-            "transactionHash":transactionHash
+            "transactionHash": transactionHash
 
         };
 
@@ -456,13 +456,13 @@ const CreatePost = (props) => {
                                                     maxLength="300" onChange={(event) => { setTitle(event.target.value) }}
                                                 />
                                             </div>
-                                            {/* <div className="text-editor-wrapper">
+                                            <div className="text-editor-wrapper">
                                                 <div id="txtEditor">
                                                     <ReactQuill onChange={(value) => { setData(value) }} />
                                                 </div>
-                                                
-                                            </div> */}
-                                            <div style={{ border: "1px solid lightgray", borderRadius: 10, padding: '2px', minHeight: '300px' }}>
+
+                                            </div>
+                                            {/* <div style={{ border: "1px solid lightgray", borderRadius: 10, padding: '2px', minHeight: '300px' }}>
                                                 <Editor
                                                     // onChange={(editorState) => { setData(editorState) }}
                                                     editorState={editorState}
@@ -471,7 +471,7 @@ const CreatePost = (props) => {
                                                     editorClassName="editor-class"
                                                     toolbarClassName="toolbar-class"
                                                 />
-                                            </div>
+                                            </div> */}
                                             <div hidden className="preview" dangerouslySetInnerHTML={createMarkup(convertedContent)}></div>
 
 
