@@ -133,7 +133,7 @@ const CreateGroupPost = (props) => {
             },
         });
         console.log("Txn infomation " + txn.toString());
-        let transactionHash=txn.toString();
+        let transactionHash = txn.toString();
 
         if (txn.toString() !== null) {
 
@@ -144,7 +144,7 @@ const CreateGroupPost = (props) => {
             else {
                 console.log("image block calling 2");
                 console.log("id is" + postid);
-                uploadPost(postid,transactionHash);
+                uploadPost(postid, transactionHash);
             }
         }
     };
@@ -161,7 +161,7 @@ const CreateGroupPost = (props) => {
             "data": data,
             "dataType": ".txt",
             "nsfw": isAdult,
-            "transactionHash":transactionHash
+            "transactionHash": transactionHash
 
         };
         httpClient.call('upload-group-post', fd, { method: 'POST' }).then(function (response) {
@@ -180,7 +180,7 @@ const CreateGroupPost = (props) => {
         })
     }
 
-    const uploadPost = (postid,transactionHash) => {
+    const uploadPost = (postid, transactionHash) => {
 
         let fd = {
             "group": {
@@ -191,7 +191,7 @@ const CreateGroupPost = (props) => {
             "name": title,
             "dataType": dataType,
             "nsfw": isAdult,
-            "transactionHash":transactionHash
+            "transactionHash": transactionHash
 
         };
 
@@ -347,13 +347,29 @@ const CreateGroupPost = (props) => {
 
 
                                             <div className="text-editor-wrapper">
-                                                <div className="input-wrapper type-2">
+                                                {/* <div className="input-wrapper type-2">
                                                     <label htmlFor="">Attach File</label>
                                                     <div className="user-name-change-input">
                                                         <input className="file" type="file" name="file"
 
                                                             onChange={(event) => { convertFile(event.target.files[0]) }}
                                                         />
+                                                    </div>
+                                                </div> */}
+
+                                                <div className="text-editor-wrapper">
+                                                    <div className="input-wrapper type-2">
+                                                        <label htmlFor="">Attach File</label>
+                                                        <div className="drag-and-drop-div">
+                                                            <img src="img/drag-and-drop.png" alt="" />
+                                                            <label htmlFor="drag" className="drag-and-drop">
+                                                                <input type="file" name="file" id="drag"
+
+                                                                    onChange={(event) => { convertFile(event.target.files[0]) }}
+                                                                />
+                                                                Choose File
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
 
@@ -377,21 +393,7 @@ const CreateGroupPost = (props) => {
 
 
 
-                                            {/*  <div className="text-editor-wrapper">
-                                            <div className="input-wrapper type-2">
-                                                <label htmlFor="">Attach File</label>
-                                                <div className="drag-and-drop-div">
-                                                    <img src="img/drag-and-drop.png" alt="" />
-                                                    <label htmlFor="drag" className="drag-and-drop">
-                                                        <input type="file" name="file" id="drag"
 
-                                                            onChange={(event) => { convertFile(event.target.files[0]) }}
-                                                        />
-                                                        Choose File
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div> */}
 
                                         </div>
 
