@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { SuccessToast, SetSassion } from '../../utils/common';
 import Header from '../../components/Header';
+import SecondaryMainHeader from '../../components/SecondaryMainHeader';
 import LeftSideBar from '../../components/LeftSideBar';
 import RightSideBar from '../RightSideBar';
 import Footer from '../../components/Footer';
@@ -38,6 +39,9 @@ const Layout = (props) => {
   return (
     <section>
       <Header {...props} _signOut={() => { signOut() }} />
+      <div hidden className='text-center'>
+        <SecondaryMainHeader />
+      </div>
       <LeftSideBar {...props} />
       <div className="route-container container">{props.children ? props.children : 'Loading...'}</div>
       <RightSideBar {...props} />

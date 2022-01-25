@@ -56,6 +56,7 @@
     "react-select-country-list": "^2.2.3",
     "react-simple-snackbar": "^1.1.11",
     "redux-act": "^1.8.0",
+    "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "save": "^2.4.0",
     "select2": "^4.1.0-rc.0",
