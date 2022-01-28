@@ -383,9 +383,11 @@ const Login = (props) => {
                         <div className="login-left">
                             <h3><img style={{ height: "35px", width: "auto" }} src="img/Upsocial_logo.png" /></h3><br /><br />
                             <h1 style={{ color: "black" }}><b >Welcome Back !</b></h1><br /><br />
-                            <div>
+                            <div className='d-flex justify-content-center'>
                                 {/*   <a href="#" onClick={(event) => { doLogin(event) }} className="btn style-2 forgot-password">Connect To Metamask  &nbsp;&nbsp;&nbsp;&nbsp;<img src="img/meta.png" style={{ height: "30px", width: "30px" }} /></a>
-                                */}       <WalletMultiButton logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" className="btn design-10" />
+                                */}
+                                <div>
+                                    <WalletMultiButton logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" className="btn design-10" /></div>
                             </div>
                             <br /><br />
                             <div className="ask-user"><b style={{ color: "black" }}>Don't have an Account? </b>

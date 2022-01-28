@@ -438,10 +438,17 @@ const Regitration = (props) => {
                             {validator.current.message('email', signupEmail, 'required|email')}
                         </div>
 
-                       
-                            <WalletMultiButton className="btn design-10"  logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" />
-                            <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
-                       
+
+                        <div className='d-flex justify-content-center align-items-center' style={{ gap: "10px" }}>
+                            <div>
+                                <WalletMultiButton className="btn design-10" logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" />
+                            </div>
+                            <div>
+                                <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
+                            </div>
+                        </div>
+
+
                         <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
                         <b hidden><p style={{ fontWeight: "500" }}>Token Address <span className="color-red">0x5818209Fb829311B438431cB1111dA7a3d9B04FB </span></p></b>
                     </div>
