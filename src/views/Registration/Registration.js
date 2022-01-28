@@ -241,7 +241,7 @@ const Regitration = (props) => {
         Loader(true);
         let formData = {
             userName: signupUserName,
-            email: signupEmail,
+           /*  email: signupEmail, */
             wallet: walletAddress,
         };
 
@@ -431,12 +431,12 @@ const Regitration = (props) => {
                             {validator.current.message('userName', signupUserName, 'required')}
                         </div>
 
-                        <div className="input-inside">
+                        {/* <div className="input-inside">
                             <input className="form-control design-10 shadow-10" type="text" placeholder="Email"
                                 onChange={(event) => { setSignupEmail(event.target.value) }}
                                 onBlur={() => validator.current.showMessageFor('email')} />
                             {validator.current.message('email', signupEmail, 'required|email')}
-                        </div>
+                        </div> */}
 
 
                         <div className='d-flex justify-content-center align-items-center' style={{ gap: "10px" }}>
@@ -444,7 +444,7 @@ const Regitration = (props) => {
                                 <WalletMultiButton className="btn design-10" logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" />
                             </div>
                             <div>
-                                <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
+                                <button type="submit" className="btn design-10" disabled={!(/* signupEmail && */ signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
                             </div>
                         </div>
 

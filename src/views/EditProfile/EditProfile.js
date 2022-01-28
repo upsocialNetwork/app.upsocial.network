@@ -200,7 +200,7 @@ const EditProfile = (props) => {
                                     <p>Email:</p>
                                 </div>
                                 <div className="pf-lr-part">
-                                    <input type="email" className="form-control" placeholder="User Name" value={email}
+                                    <input type="email" className="form-control" placeholder="Email" value={email}
                                         required
                                     />
                                 </div>
