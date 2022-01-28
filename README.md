@@ -18,4 +18,4 @@ For steps on local deployment, development, and code contribution, please see [C
 
 ## Deployments
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/c9b8ce26-2fd7-497f-8aaf-51d1fea5291d/deploy-status)](https://app.netlify.com/sites/unruffled-snyder-b2165b/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/c9b8ce26-2fd7-497f-8aaf-51d1fea5291d/deploy-status)](https://app.netlify.com/sites/unruffled-snyder-b2165b/deploys) 

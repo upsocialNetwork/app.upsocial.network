@@ -384,17 +384,17 @@ const Regitration = (props) => {
                                 </div>
                             </a>
                         </li>
-                        <li className="d-block">
-                            <a href="#" /* target="_blank" */ onClick={(event) => { addPolygonTestnetNetwork(event) }} className="shadow-10">
+                        {/* <li className="d-block" >
+                            <a href="#"  onClick={(event) => { addPolygonTestnetNetwork(event) }} className="shadow-10">
                                 <div className="rgn-singlelinks-g">
                                     <div className="rgn-single-icon">
                                         <img className="img-fluid" src="img/meta-to-binance.png" alt="" />
                                     </div>
-                                    <p>Connect MetaMask <br /> To Binance TestNet?</p>
-                                    {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
+                                    <p>Connect Solana <br /> To TestNet?</p>
+                                    
                                 </div>
                             </a>
-                        </li>
+                        </li> */}
 
                         {/* <li className="d-block">
                             <a href="https://www.youtube.com/watch?v=tUtC2qiglFs" target="_blank" className="shadow-10">
@@ -407,17 +407,17 @@ const Regitration = (props) => {
                                 </div>
                             </a>
                         </li> */}
-                        <li className="d-block">
-                            <a href="#" /* target="_blank" */ onClick={(event) => { addTokenInMetamask(event) }} className="shadow-10">
+                        {/* <li className="d-block" >
+                            <a href="#"  onClick={(event) => { addTokenInMetamask(event) }} className="shadow-10">
                                 <div className="rgn-singlelinks-g">
                                     <div className="rgn-single-icon">
                                         <img className="img-fluid" src="img/import-token.png" alt="" />
                                     </div>
                                     <p>Add UpSocial Tokens To MetaMask</p>
-                                    {/*  <span className="ply-btn"><i className="far fa-play-circle"></i></span> */}
+                                    
                                 </div>
                             </a>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
                 <div className="lgn-rgn-right">
@@ -437,8 +437,11 @@ const Regitration = (props) => {
                                 onBlur={() => validator.current.showMessageFor('email')} />
                             {validator.current.message('email', signupEmail, 'required|email')}
                         </div>
-                        <WalletMultiButton className="btn design-10" logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" />
-                        <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
+
+                       
+                            <WalletMultiButton className="btn design-10"  logo="https://scontent.fbom19-1.fna.fbcdn.net/v/t39.30808-6/240833546_146369280983379_5424852521300066332_n.png?_nc_cat=103&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=wJLQUV80qbIAX8iQNmk&_nc_ht=scontent.fbom19-1.fna&oh=00_AT_lJ4wNCAoG-rz4FjBDMknXzTbsJDaaRN2QNNGQozLWLA&oe=61E67C72" />
+                            <button type="submit" className="btn design-10" disabled={!(signupEmail && signupUserName)} onClick={(event) => { signingSolana(event) }}>Register Now</button>
+                       
                         <p className="alternative">Already have an Account? <a href="#" onClick={(event) => { loginPage(event) }}  >Login Now</a></p>
                         <b hidden><p style={{ fontWeight: "500" }}>Token Address <span className="color-red">0x5818209Fb829311B438431cB1111dA7a3d9B04FB </span></p></b>
                     </div>
